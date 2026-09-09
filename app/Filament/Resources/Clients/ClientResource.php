@@ -33,6 +33,8 @@ class ClientResource extends Resource
                 ->disk('public')
                 ->directory('clients')
                 ->maxSize(8192)
+                ->saveUploadedFileUsing(fn($file) => app(\App\Services\ImageProcessingService::class)
+                    ->processAndStore($file, 'clients', maxWidth: 500, quality: 90, preserveTransparency: true))
                 ->columnSpanFull(),
 
             TextInput::make('name')

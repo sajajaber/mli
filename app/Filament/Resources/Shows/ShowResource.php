@@ -52,12 +52,25 @@ class ShowResource extends Resource
                         ->label('Title (Arabic)')
                         ->required()
                         ->maxLength(255)
-                        ->extraInputAttributes(['dir' => 'rtl']),
+                        ->extraInputAttributes(['dir' => 'rtl'])
+                        ->live(onBlur: true)
+                        ->afterStateUpdated(function (callable $get, callable $set) {
+                            $flags = $get('ai_flags') ?? [];
+                            $flags['title_ar'] = false;
+                            $set('ai_flags', $flags);
+                        }),
 
-                    Textarea::make('description_en')
-                        ->label('Description (English)')
+                    Textarea::make('description_ar')
+                        ->label('Description (Arabic)')
                         ->rows(4)
-                        ->columnSpan(1),
+                        ->extraInputAttributes(['dir' => 'rtl'])
+                        ->columnSpan(1)
+                        ->live(onBlur: true)
+                        ->afterStateUpdated(function (callable $get, callable $set) {
+                            $flags = $get('ai_flags') ?? [];
+                            $flags['description_ar'] = false;
+                            $set('ai_flags', $flags);
+                        }),
 
                     Textarea::make('description_ar')
                         ->label('Description (Arabic)')
@@ -65,14 +78,42 @@ class ShowResource extends Resource
                         ->extraInputAttributes(['dir' => 'rtl'])
                         ->columnSpan(1),
 
-                    // Placeholder for now — wired to Gemini in a later step.
                     \Filament\Schemas\Components\Actions::make([
-                        \Filament\Actions\Action::make('ai_translate_description')
-                            ->label('AI-generate Arabic description from English')
+                        \Filament\Actions\Action::make('ai_translate')
+                            ->label('AI-generate Arabic (title + description)')
                             ->icon(Heroicon::OutlinedSparkles)
                             ->action(function (callable $get, callable $set) {
-                                // TODO: call Gemini translation service here
-                                // $set('description_ar', $translated);
+                                try {
+                                    $translated = app(\App\Services\GeminiTranslationService::class)->translateFields([
+                                        'title' => $get('title_en'),
+                                        'description' => $get('description_en'),
+                                    ]);
+
+                                    $flags = $get('ai_flags') ?? [];
+
+                                    if (isset($translated['title'])) {
+                                        $set('title_ar', $translated['title']);
+                                        $flags['title_ar'] = true;
+                                    }
+
+                                    if (isset($translated['description'])) {
+                                        $set('description_ar', $translated['description']);
+                                        $flags['description_ar'] = true;
+                                    }
+
+                                    $set('ai_flags', $flags);
+
+                                    \Filament\Notifications\Notification::make()
+                                        ->title('Arabic translation generated')
+                                        ->success()
+                                        ->send();
+                                } catch (\Throwable $e) {
+                                    \Filament\Notifications\Notification::make()
+                                        ->title('Translation failed')
+                                        ->body($e->getMessage())
+                                        ->danger()
+                                        ->send();
+                                }
                             }),
                     ])->columnSpanFull(),
                 ]),
@@ -106,7 +147,9 @@ class ShowResource extends Resource
                         ->disk('public')
                         ->directory('shows')
                         ->imageEditor()
-                        ->maxSize(8192) // 8MB raw upload ceiling; compression handled server-side
+                        ->maxSize(8192)
+                        ->saveUploadedFileUsing(fn($file) => app(\App\Services\ImageProcessingService::class)
+                            ->processAndStore($file, 'shows', maxWidth: 1600, quality: 85))
                         ->columnSpanFull(),
 
                     TextInput::make('cover_image_alt')

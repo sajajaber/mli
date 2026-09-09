@@ -119,6 +119,8 @@ class NewsResource extends Resource
                         ->directory('news')
                         ->imageEditor()
                         ->maxSize(8192)
+                        ->saveUploadedFileUsing(fn($file) => app(\App\Services\ImageProcessingService::class)
+                            ->processAndStore($file, 'news', maxWidth: 1600, quality: 85))
                         ->columnSpanFull(),
 
                     TextInput::make('featured_image_alt')

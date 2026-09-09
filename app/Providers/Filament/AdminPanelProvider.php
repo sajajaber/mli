@@ -18,9 +18,17 @@ use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Models\Show;
+use App\Observers\ShowObserver;
 
 class AdminPanelProvider extends PanelProvider
 {
+
+    public function boot(): void
+    {
+        Show::observe(ShowObserver::class);
+    }
+    
     public function panel(Panel $panel): Panel
     {
         return $panel
@@ -38,8 +46,9 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
+                \App\Filament\Widgets\MliStatsOverview::class,
+                \App\Filament\Widgets\RecentContent::class,
+                \App\Filament\Widgets\RecentNews::class,
             ])
             ->middleware([
                 EncryptCookies::class,
