@@ -27,6 +27,8 @@ class HomeController extends Controller
             ->limit(6)
             ->get();
 
-        return view('home', compact('shows', 'mediaNews', 'mliNews'));
+        $aboutPage = \App\Models\Page::published();
+
+        return view('home', compact('shows', 'mediaNews', 'mliNews', 'aboutPage'));
     }
 }
