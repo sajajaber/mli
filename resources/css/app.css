@@ -1,9 +1,56 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+[x-cloak] {
+    display: none !important;
+}
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: "Readex Pro", ui-sans-serif, system-ui, sans-serif;
+
+    --color-navy-950: #0a1628;
+    --color-navy-800: #14274e;
+    --color-blue-600: #2c5aa0;
+    --color-blue-500: #3b6fbe;
+    --color-silver-200: #d8dce3;
+    --color-silver-100: #e8eaee;
+    --color-paper-50: #f6f7f9;
+    --color-gold-500: #c9a84c;
+    --color-gold-400: #d9be6e;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-paper-50 text-navy-950 antialiased;
+    }
+
+    html[dir="rtl"] body {
+        font-feature-settings: "kern" 1;
+    }
+}
+
+/* Film-reel marquee — the signature hero element */
+@keyframes reel-scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.reel-track {
+    animation: reel-scroll 45s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reel-track {
+        animation: none;
+    }
+    html {
+        scroll-behavior: auto;
+    }
 }

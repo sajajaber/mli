@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Shows;
 use App\Filament\Resources\Shows\Pages\CreateShow;
 use App\Filament\Resources\Shows\Pages\EditShow;
 use App\Filament\Resources\Shows\Pages\ListShows;
-use App\Models\Category;
 use App\Models\Show;
 use BackedEnum;
 use Filament\Forms\Components\DateTimePicker;
@@ -42,71 +41,226 @@ class ShowResource extends Resource
                         ->required()
                         ->maxLength(255)
                         ->live(onBlur: true)
-                        ->afterStateUpdated(function (string $state, callable $set, string $operation) {
-                            if ($operation === 'create') {
+                        ->afterStateUpdated(function (
+                            string $state,
+                            callable $get,
+                            callable $set
+                        ) {
+                            // Auto-fill slug only when empty.
+                            if (blank($get('slug'))) {
                                 $set('slug', Str::slug($state));
                             }
+
+                            $flags = $get('ai_flags') ?? [];
+                            $flags['title_en'] = false;
+                            $set('ai_flags', $flags);
                         }),
 
                     TextInput::make('title_ar')
                         ->label('Title (Arabic)')
                         ->required()
                         ->maxLength(255)
-                        ->extraInputAttributes(['dir' => 'rtl'])
+                        ->extraInputAttributes([
+                            'dir' => 'rtl',
+                        ])
                         ->live(onBlur: true)
-                        ->afterStateUpdated(function (callable $get, callable $set) {
+                        ->afterStateUpdated(function (
+                            callable $get,
+                            callable $set
+                        ) {
                             $flags = $get('ai_flags') ?? [];
                             $flags['title_ar'] = false;
                             $set('ai_flags', $flags);
                         }),
 
-                    Textarea::make('description_ar')
-                        ->label('Description (Arabic)')
+                    Textarea::make('description_en')
+                        ->label('Description (English)')
                         ->rows(4)
-                        ->extraInputAttributes(['dir' => 'rtl'])
                         ->columnSpan(1)
                         ->live(onBlur: true)
-                        ->afterStateUpdated(function (callable $get, callable $set) {
+                        ->afterStateUpdated(function (
+                            callable $get,
+                            callable $set
+                        ) {
                             $flags = $get('ai_flags') ?? [];
-                            $flags['description_ar'] = false;
+                            $flags['description_en'] = false;
                             $set('ai_flags', $flags);
                         }),
 
                     Textarea::make('description_ar')
                         ->label('Description (Arabic)')
                         ->rows(4)
-                        ->extraInputAttributes(['dir' => 'rtl'])
-                        ->columnSpan(1),
+                        ->extraInputAttributes([
+                            'dir' => 'rtl',
+                        ])
+                        ->columnSpan(1)
+                        ->live(onBlur: true)
+                        ->afterStateUpdated(function (
+                            callable $get,
+                            callable $set
+                        ) {
+                            $flags = $get('ai_flags') ?? [];
+                            $flags['description_ar'] = false;
+                            $set('ai_flags', $flags);
+                        }),
 
                     \Filament\Schemas\Components\Actions::make([
                         \Filament\Actions\Action::make('ai_translate')
-                            ->label('AI-generate Arabic (title + description)')
+                            ->label('AI Translate (EN ⇄ AR)')
                             ->icon(Heroicon::OutlinedSparkles)
-                            ->action(function (callable $get, callable $set) {
+                            ->action(function (
+                                callable $get,
+                                callable $set
+                            ) {
+                                $titleEn = $get('title_en');
+                                $titleAr = $get('title_ar');
+
+                                /*
+                                 * Decide translation direction.
+                                 *
+                                 * If English exists, translate EN → AR.
+                                 * Otherwise, translate AR → EN.
+                                 */
+                                $direction = filled($titleEn)
+                                    ? 'en_to_ar'
+                                    : 'ar_to_en';
+
+                                if (
+                                    blank($titleEn) &&
+                                    blank($titleAr)
+                                ) {
+                                    \Filament\Notifications\Notification::make()
+                                        ->title('Nothing to translate')
+                                        ->body(
+                                            'Fill in the English or Arabic title first.'
+                                        )
+                                        ->warning()
+                                        ->send();
+
+                                    return;
+                                }
+
                                 try {
-                                    $translated = app(\App\Services\GeminiTranslationService::class)->translateFields([
-                                        'title' => $get('title_en'),
-                                        'description' => $get('description_en'),
-                                    ]);
+                                    /*
+                                     * Build the source fields.
+                                     */
+                                    if ($direction === 'en_to_ar') {
+                                        $sourceFields = [
+                                            'title' => $titleEn,
+                                            'description' => $get(
+                                                'description_en'
+                                            ),
+                                        ];
+                                    } else {
+                                        $sourceFields = [
+                                            'title' => $titleAr,
+                                            'description' => $get(
+                                                'description_ar'
+                                            ),
+                                        ];
+                                    }
+
+                                    /*
+                                     * Call the translation service.
+                                     */
+                                    $translated = app(
+                                        \App\Services\GeminiTranslationService::class
+                                    )->translateFields(
+                                        $sourceFields,
+                                        $direction
+                                    );
 
                                     $flags = $get('ai_flags') ?? [];
 
-                                    if (isset($translated['title'])) {
-                                        $set('title_ar', $translated['title']);
-                                        $flags['title_ar'] = true;
+                                    /*
+                                     * English → Arabic
+                                     */
+                                    if ($direction === 'en_to_ar') {
+                                        if (
+                                            isset($translated['title']) &&
+                                            filled($translated['title'])
+                                        ) {
+                                            $set(
+                                                'title_ar',
+                                                $translated['title']
+                                            );
+
+                                            $flags['title_ar'] = true;
+                                        }
+
+                                        if (
+                                            isset($translated['description']) &&
+                                            filled($translated['description'])
+                                        ) {
+                                            $set(
+                                                'description_ar',
+                                                $translated['description']
+                                            );
+
+                                            $flags['description_ar'] = true;
+                                        }
                                     }
 
-                                    if (isset($translated['description'])) {
-                                        $set('description_ar', $translated['description']);
-                                        $flags['description_ar'] = true;
+                                    /*
+                                     * Arabic → English
+                                     */
+                                    else {
+                                        if (
+                                            isset($translated['title']) &&
+                                            filled($translated['title'])
+                                        ) {
+                                            $translatedTitle =
+                                                $translated['title'];
+
+                                            $set(
+                                                'title_en',
+                                                $translatedTitle
+                                            );
+
+                                            /*
+                                             * FIX:
+                                             *
+                                             * $state does NOT exist inside
+                                             * this Action callback.
+                                             *
+                                             * Use the translated English title
+                                             * instead.
+                                             */
+                                            if (blank($get('slug'))) {
+                                                $set(
+                                                    'slug',
+                                                    Str::slug(
+                                                        $translatedTitle
+                                                    )
+                                                );
+                                            }
+
+                                            $flags['title_en'] = true;
+                                        }
+
+                                        if (
+                                            isset($translated['description']) &&
+                                            filled($translated['description'])
+                                        ) {
+                                            $set(
+                                                'description_en',
+                                                $translated['description']
+                                            );
+
+                                            $flags['description_en'] = true;
+                                        }
                                     }
 
+                                    /*
+                                     * Update AI flags once.
+                                     */
                                     $set('ai_flags', $flags);
 
                                     \Filament\Notifications\Notification::make()
-                                        ->title('Arabic translation generated')
+                                        ->title('Translation generated')
                                         ->success()
                                         ->send();
+
                                 } catch (\Throwable $e) {
                                     \Filament\Notifications\Notification::make()
                                         ->title('Translation failed')
@@ -132,13 +286,17 @@ class ShowResource extends Resource
                         ->required()
                         ->maxLength(255)
                         ->unique(ignoreRecord: true)
-                        ->helperText('Auto-filled from English title.'),
+                        ->helperText(
+                            'Auto-filled from English title.'
+                        ),
 
                     TextInput::make('vimeo_url')
                         ->label('Vimeo Trailer URL')
                         ->url()
                         ->maxLength(255)
-                        ->placeholder('https://vimeo.com/123456789')
+                        ->placeholder(
+                            'https://vimeo.com/123456789'
+                        )
                         ->columnSpanFull(),
 
                     FileUpload::make('cover_image_path')
@@ -148,14 +306,24 @@ class ShowResource extends Resource
                         ->directory('shows')
                         ->imageEditor()
                         ->maxSize(8192)
-                        ->saveUploadedFileUsing(fn($file) => app(\App\Services\ImageProcessingService::class)
-                            ->processAndStore($file, 'shows', maxWidth: 1600, quality: 85))
+                        ->saveUploadedFileUsing(
+                            fn ($file) => app(
+                                \App\Services\ImageProcessingService::class
+                            )->processAndStore(
+                                $file,
+                                'shows',
+                                maxWidth: 1600,
+                                quality: 85
+                            )
+                        )
                         ->columnSpanFull(),
 
                     TextInput::make('cover_image_alt')
                         ->label('Cover Image Alt Text')
                         ->maxLength(255)
-                        ->helperText('Describe the image for accessibility & SEO.')
+                        ->helperText(
+                            'Describe the image for accessibility & SEO.'
+                        )
                         ->columnSpanFull(),
                 ]),
 
@@ -175,8 +343,14 @@ class ShowResource extends Resource
                     DateTimePicker::make('published_at')
                         ->label('Publish At')
                         ->native(false)
-                        ->visible(fn(callable $get) => $get('status') === 'scheduled')
-                        ->required(fn(callable $get) => $get('status') === 'scheduled'),
+                        ->visible(
+                            fn (callable $get) =>
+                                $get('status') === 'scheduled'
+                        )
+                        ->required(
+                            fn (callable $get) =>
+                                $get('status') === 'scheduled'
+                        ),
 
                     TextInput::make('sort_order')
                         ->numeric()
@@ -205,11 +379,13 @@ class ShowResource extends Resource
 
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn(string $state) => match ($state) {
-                        'draft' => 'gray',
-                        'scheduled' => 'warning',
-                        'published' => 'success',
-                    }),
+                    ->color(
+                        fn (string $state) => match ($state) {
+                            'draft' => 'gray',
+                            'scheduled' => 'warning',
+                            'published' => 'success',
+                        }
+                    ),
 
                 TextColumn::make('published_at')
                     ->dateTime()
@@ -218,7 +394,9 @@ class ShowResource extends Resource
 
                 TextColumn::make('sort_order')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(
+                        isToggledHiddenByDefault: true
+                    ),
             ])
             ->defaultSort('sort_order')
             ->filters([
@@ -228,8 +406,12 @@ class ShowResource extends Resource
                         'scheduled' => 'Scheduled',
                         'published' => 'Published',
                     ]),
+
                 SelectFilter::make('category_id')
-                    ->relationship('category', 'name_en')
+                    ->relationship(
+                        'category',
+                        'name_en'
+                    )
                     ->label('Category'),
             ])
             ->recordActions([
