@@ -36,7 +36,7 @@ class EditSiteContent extends EditRecord
             SiteContent::query()
                 ->where('key', $record->key)
                 ->where('status', 'published')
-                ->whereKeyNot($record->getKey())
+                ->where('id', '!=', $record->getKey())
                 ->update(['status' => 'draft']);
 
             $data['published_at'] = $data['published_at'] ?? now();
