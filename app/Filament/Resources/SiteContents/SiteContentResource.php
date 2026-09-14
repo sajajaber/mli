@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\SiteContents;
 
-use App\Filament\Resources\SiteContents\Pages\CreateSiteContent;
 use App\Filament\Resources\SiteContents\Pages\EditSiteContent;
 use App\Filament\Resources\SiteContents\Pages\ListSiteContents;
 use App\Models\SiteContent;
@@ -34,9 +33,8 @@ class SiteContentResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Content Identity')
-                ->description('A reusable piece of website content, not a standalone page.')
-                ->columns(2)
+            Section::make('Content')
+                ->description('Edit predefined website content. The website structure and section order are managed by the developer.')
                 ->components([
                     TextInput::make('title_en')
                         ->label('Title (English)')
@@ -48,10 +46,7 @@ class SiteContentResource extends Resource
                         ->required()
                         ->maxLength(255)
                         ->extraInputAttributes(['dir' => 'rtl']),
-                ]),
 
-            Section::make('Content')
-                ->components([
                     RichEditor::make('content_en')
                         ->label('Content (English)')
                         ->toolbarButtons([
@@ -79,7 +74,6 @@ class SiteContentResource extends Resource
                             'scheduled' => 'Scheduled',
                             'published' => 'Published',
                         ])
-                        ->default('draft')
                         ->required()
                         ->live(),
 
@@ -97,7 +91,7 @@ class SiteContentResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('title_en')->label('Content')->searchable()->sortable(),
-                TextColumn::make('key')->label('Key')->searchable(),
+                TextColumn::make('key')->label('Section')->searchable(),
                 TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state) => match ($state) {
@@ -116,12 +110,6 @@ class SiteContentResource extends Resource
             ])
             ->recordActions([
                 \Filament\Actions\EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
-            ])
-            ->toolbarActions([
-                \Filament\Actions\BulkActionGroup::make([
-                    \Filament\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
     }
 
@@ -129,7 +117,6 @@ class SiteContentResource extends Resource
     {
         return [
             'index' => ListSiteContents::route('/'),
-            'create' => CreateSiteContent::route('/create'),
             'edit' => EditSiteContent::route('/{record}/edit'),
         ];
     }
