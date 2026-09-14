@@ -9,9 +9,14 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('site_contents', function (Blueprint $table) {
-            $table->unsignedInteger('version')->default(1)->after('key');
-        });
+        // The first migration attempt may have added this column before
+        // failing while changing the old unique index, so make this step
+        // safe to retry.
+        if (!Schema::hasColumn('site_contents', 'version')) {
+            Schema::table('site_contents', function (Blueprint $table) {
+                $table->unsignedInteger('version')->default(1)->after('key');
+            });
+        }
 
         // The original unique index came from the old `slug` column and may
         // still be named `pages_slug_unique` after the table/column rename.
@@ -27,17 +32,30 @@ return new class extends Migration
             }
         }
 
-        Schema::table('site_contents', function (Blueprint $table) {
-            $table->unique(['key', 'version']);
-        });
+        $versionIndexes = DB::select("SHOW INDEX FROM `site_contents` WHERE `Key_name` = 'site_contents_key_version_unique'");
+
+        if (empty($versionIndexes)) {
+            Schema::table('site_contents', function (Blueprint $table) {
+                $table->unique(['key', 'version']);
+            });
+        }
     }
 
     public function down(): void
     {
-        Schema::table('site_contents', function (Blueprint $table) {
-            $table->dropUnique(['key', 'version']);
-            $table->dropColumn('version');
-        });
+        $versionIndexes = DB::select("SHOW INDEX FROM `site_contents` WHERE `Key_name` = 'site_contents_key_version_unique'");
+
+        if (!empty($versionIndexes)) {
+            Schema::table('site_contents', function (Blueprint $table) {
+                $table->dropUnique('site_contents_key_version_unique');
+            });
+        }
+
+        if (Schema::hasColumn('site_contents', 'version')) {
+            Schema::table('site_contents', function (Blueprint $table) {
+                $table->dropColumn('version');
+            });
+        }
 
         Schema::table('site_contents', function (Blueprint $table) {
             $table->unique('key');
