@@ -29,7 +29,7 @@ class PublishScheduledContent extends Command
                     SiteContent::query()
                         ->where('key', $item->key)
                         ->where('status', 'published')
-                        ->whereKeyNot($item->getKey())
+                        ->where('id', '!=', $item->getKey())
                         ->update(['status' => 'draft']);
                 }
 
