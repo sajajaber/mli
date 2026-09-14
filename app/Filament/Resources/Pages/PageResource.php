@@ -81,15 +81,6 @@ class PageResource extends Resource
                             'redo',
                         ])
                         ->columnSpanFull(),
-
-                    \Filament\Schemas\Components\Actions::make([
-                        \Filament\Actions\Action::make('ai_translate_content')
-                            ->label('AI-generate Arabic content from English')
-                            ->icon(Heroicon::OutlinedSparkles)
-                            ->action(function (callable $get, callable $set) {
-                                // TODO: call Gemini translation service here
-                            }),
-                    ])->columnSpanFull(),
                 ]),
 
             Section::make('Publishing')
