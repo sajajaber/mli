@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Show;
 use App\Models\News;
+use App\Models\Show;
+use App\Models\SiteContent;
 
 class HomeController extends Controller
 {
@@ -27,7 +28,9 @@ class HomeController extends Controller
             ->limit(6)
             ->get();
 
-        $aboutPage = \App\Models\Page::published();
+        $aboutPage = SiteContent::published()
+            ->forKey('about_us')
+            ->first();
 
         return view('home', compact('shows', 'mediaNews', 'mliNews', 'aboutPage'));
     }
