@@ -32,7 +32,9 @@ class SiteContent extends Model
 
     public function scopePublished(Builder $query): Builder
     {
-        return $query->where('status', 'published');
+        return $query
+            ->where('status', 'published')
+            ->orderByDesc('version');
     }
 
     public function scopeForKey(Builder $query, string $key): Builder
