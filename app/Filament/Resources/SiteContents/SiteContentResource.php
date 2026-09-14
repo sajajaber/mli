@@ -66,6 +66,7 @@ class SiteContentResource extends Resource
                 ]),
 
             Section::make('Publishing')
+                ->description('Published content stays live while you prepare a new draft. Publishing a draft replaces the current live version.')
                 ->columns(2)
                 ->components([
                     Select::make('status')
@@ -86,6 +87,16 @@ class SiteContentResource extends Resource
         ]);
     }
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()
+            ->whereIn('id', function ($query) {
+                $query->selectRaw('MAX(id)')
+                    ->from('site_contents')
+                    ->groupBy('key');
+            });
+    }
+
     public static function table(Table $table): Table
     {
         return $table
@@ -93,6 +104,7 @@ class SiteContentResource extends Resource
             ->columns([
                 TextColumn::make('title_en')->label('Content')->searchable()->sortable(),
                 TextColumn::make('key')->label('Section')->searchable(),
+                TextColumn::make('version')->label('Version'),
                 TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state) => match ($state) {
