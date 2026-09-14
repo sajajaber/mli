@@ -89,6 +89,7 @@ class SiteContentResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->paginated(false)
             ->columns([
                 TextColumn::make('title_en')->label('Content')->searchable()->sortable(),
                 TextColumn::make('key')->label('Section')->searchable(),
