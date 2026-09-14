@@ -50,9 +50,6 @@ class ShowForm
                     ->default(null),
                 TextInput::make('meta_description_ar')
                     ->default(null),
-                Textarea::make('ai_flags')
-                    ->default(null)
-                    ->columnSpanFull(),
                 TextInput::make('sort_order')
                     ->required()
                     ->numeric()
