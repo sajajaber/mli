@@ -2,11 +2,11 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\Show;
-use App\Models\News;
-use App\Models\Page;
 use App\Models\Client;
+use App\Models\News;
 use App\Models\Person;
+use App\Models\Show;
+use App\Models\SiteContent;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -16,16 +16,16 @@ class MliStatsOverview extends BaseWidget
     {
         $draftCount = Show::where('status', 'draft')->count()
             + News::where('status', 'draft')->count()
-            + Page::where('status', 'draft')->count();
+            + SiteContent::where('status', 'draft')->count();
 
         $scheduledCount = Show::where('status', 'scheduled')->count()
             + News::where('status', 'scheduled')->count()
-            + Page::where('status', 'scheduled')->count();
+            + SiteContent::where('status', 'scheduled')->count();
 
         $nextScheduled = collect([
             Show::where('status', 'scheduled')->min('published_at'),
             News::where('status', 'scheduled')->min('published_at'),
-            Page::where('status', 'scheduled')->min('published_at'),
+            SiteContent::where('status', 'scheduled')->min('published_at'),
         ])
             ->filter()
             ->sort()
