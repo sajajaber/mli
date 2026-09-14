@@ -41,16 +41,14 @@ class NewsResource extends Resource
                         ->required()
                         ->maxLength(255)
                         ->live(onBlur: true)
-                        ->afterStateUpdated(function (string $state, callable $set, string $operation) {
+                        ->afterStateUpdated(function (string $state, callable $get, callable $set, string $operation) {
                             if ($operation === 'create') {
                                 $set('slug', Str::slug($state));
                             }
 
-                            $flags = $set('ai_flags', function (callable $get) {
-                                $current = $get('ai_flags') ?? [];
-                                $current['title_en'] = false;
-                                return $current;
-                            });
+                            $flags = $get('ai_flags') ?? [];
+                            $flags['title_en'] = false;
+                            $set('ai_flags', $flags);
                         }),
 
                     TextInput::make('title_ar')
@@ -127,17 +125,15 @@ class NewsResource extends Resource
                                 $direction = filled($titleEn) ? 'en_to_ar' : 'ar_to_en';
 
                                 try {
-                                    if ($direction === 'en_to_ar') {
-                                        $sourceFields = [
+                                    $sourceFields = $direction === 'en_to_ar'
+                                        ? [
                                             'title' => $titleEn,
                                             'body' => $get('body_en'),
-                                        ];
-                                    } else {
-                                        $sourceFields = [
+                                        ]
+                                        : [
                                             'title' => $titleAr,
                                             'body' => $get('body_ar'),
                                         ];
-                                    }
 
                                     $sourceFields = array_filter(
                                         $sourceFields,
