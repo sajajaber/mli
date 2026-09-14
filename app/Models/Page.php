@@ -22,12 +22,10 @@ class Page extends Model
         'meta_title_ar',
         'meta_description_en',
         'meta_description_ar',
-        'ai_flags',
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
-        'ai_flags' => 'array',
     ];
 
     public function scopePublished(Builder $query): Builder
