@@ -100,6 +100,8 @@ class GeminiTranslationService
         return <<<PROMPT
 You are a professional translator for Media Link International (MLI), a Beirut-based Arabic TV and content distribution company. {$languageInstruction} The content is for a media/broadcast audience — preserve tone and meaning, do not add commentary.
 
+Some values may contain HTML produced by a rich-text editor. When a value contains HTML, translate only the human-readable text and preserve the existing HTML tags, nesting, links, and formatting structure. Do not add, remove, or invent HTML markup. Plain-text values must remain plain text.
+
 Return ONLY a valid JSON object with the exact same keys, containing the translations as values. No markdown, no explanation, no extra text.
 
 Input:
