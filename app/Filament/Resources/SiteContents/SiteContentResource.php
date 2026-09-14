@@ -38,13 +38,6 @@ class SiteContentResource extends Resource
                 ->description('A reusable piece of website content, not a standalone page.')
                 ->columns(2)
                 ->components([
-                    TextInput::make('key')
-                        ->label('Content Key')
-                        ->required()
-                        ->maxLength(255)
-                        ->unique(ignoreRecord: true)
-                        ->helperText('Use a stable key such as about_us, contact_us, footer, or privacy_policy.'),
-
                     TextInput::make('title_en')
                         ->label('Title (English)')
                         ->required()
