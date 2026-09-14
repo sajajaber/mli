@@ -41,8 +41,33 @@ class SiteContent extends Model
 
     protected static function booted(): void
     {
-        static::creating(fn (SiteContent $content) => $content->applyAutoMeta());
+        static::creating(function (SiteContent $content) {
+            if (blank($content->key)) {
+                $content->key = static::generateKey($content->title_en);
+            }
+
+            $content->applyAutoMeta();
+        });
+
         static::updating(fn (SiteContent $content) => $content->applyAutoMeta());
+    }
+
+    protected static function generateKey(?string $title): string
+    {
+        $base = Str::of($title ?: 'site_content')
+            ->slug('_')
+            ->value();
+
+        $base = $base ?: 'site_content';
+        $key = $base;
+        $suffix = 2;
+
+        while (static::withTrashed()->where('key', $key)->exists()) {
+            $key = $base . '_' . $suffix;
+            $suffix++;
+        }
+
+        return $key;
     }
 
     protected function applyAutoMeta(): void
