@@ -25,6 +25,14 @@ class PublishScheduledContent extends Command
                 ->get();
 
             foreach ($due as $item) {
+                if ($item instanceof SiteContent) {
+                    SiteContent::query()
+                        ->where('key', $item->key)
+                        ->where('status', 'published')
+                        ->whereKeyNot($item->getKey())
+                        ->update(['status' => 'draft']);
+                }
+
                 $item->update(['status' => 'published']);
                 $totalPublished++;
 
