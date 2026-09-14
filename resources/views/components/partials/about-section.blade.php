@@ -1,13 +1,13 @@
-@props(['page'])
+@props(['content'])
 
 <section id="about" class="bg-navy-950 py-24 text-white">
     <div class="mx-auto grid max-w-6xl gap-16 px-6 lg:grid-cols-2">
         <div>
             <h2 class="text-3xl font-medium">
-                {{ app()->getLocale() === 'ar' ? ($page->title_ar ?? 'من نحن') : ($page->title_en ?? 'About Us') }}
+                {{ app()->getLocale() === 'ar' ? ($content->title_ar ?? 'من نحن') : ($content->title_en ?? 'About Us') }}
             </h2>
             <div class="prose prose-invert mt-6 max-w-none text-silver-200">
-                {!! app()->getLocale() === 'ar' ? ($page->content_ar ?? '') : ($page->content_en ?? '') !!}
+                {!! app()->getLocale() === 'ar' ? ($content->content_ar ?? '') : ($content->content_en ?? '') !!}
             </div>
         </div>
 
