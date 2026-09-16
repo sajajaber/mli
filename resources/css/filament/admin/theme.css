@@ -5,13 +5,9 @@
     --mli-light-blue: #dceafa;
     --mli-gold: #d6b52f;
     --mli-light-gold: #f5e8a8;
-    --mli-gray-blue: #7187a8;
 }
 
-.fi-sidebar {
-    background-color: var(--mli-navy) !important;
-}
-
+.fi-sidebar,
 .fi-sidebar-header {
     background-color: var(--mli-navy) !important;
 }
@@ -44,12 +40,9 @@
     --tw-ring-color: var(--mli-blue) !important;
 }
 
-.fi-ta-header-cell {
-    color: var(--mli-navy) !important;
-}
-
 .fi-header-heading,
-.fi-section-header-heading {
+.fi-section-header-heading,
+.fi-ta-header-cell {
     color: var(--mli-navy) !important;
 }
 
