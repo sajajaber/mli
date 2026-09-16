@@ -80,11 +80,12 @@
     color: var(--mli-blue) !important;
 }
 
-.dark .fi-sidebar-item-active .fi-sidebar-item-label {
-    color: #ffffff !important;
-}
-
-.dark .fi-sidebar-item-active .fi-sidebar-item-icon {
+/* Dark mode: navy text (#173b73) becomes white. */
+.dark .fi-sidebar .fi-sidebar-item-label,
+.dark .fi-sidebar .fi-sidebar-item-active .fi-sidebar-item-label,
+.dark .fi-header-heading,
+.dark .fi-section-header-heading,
+.dark .fi-ta-header-cell {
     color: #ffffff !important;
 }
 
