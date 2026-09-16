@@ -84,6 +84,10 @@
     color: #ffffff !important;
 }
 
+.dark .fi-sidebar-item-active .fi-sidebar-item-icon {
+    color: #ffffff !important;
+}
+
 .fi-btn-primary {
     background-color: var(--mli-blue) !important;
 }
