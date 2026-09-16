@@ -18,10 +18,10 @@
 
 .dark {
     --mli-sidebar-bg: #111827;
-    --mli-sidebar-text: #e5edf7;
-    --mli-sidebar-icon: #9fc2ed;
+    --mli-sidebar-text: #e8f0fb;
+    --mli-sidebar-icon: #b7d2f3;
     --mli-sidebar-hover: rgba(220, 234, 250, 0.08);
-    --mli-sidebar-group: #9fc2ed;
+    --mli-sidebar-group: #b7d2f3;
     --mli-sidebar-border: rgba(220, 234, 250, 0.10);
     --mli-sidebar-active: #2a4165;
 }
@@ -82,10 +82,6 @@
 
 .dark .fi-sidebar-item-active .fi-sidebar-item-label {
     color: #ffffff !important;
-}
-
-.dark .fi-sidebar-item-active {
-    box-shadow: inset 3px 0 0 var(--mli-gold) !important;
 }
 
 .fi-btn-primary {
