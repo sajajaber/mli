@@ -17,13 +17,14 @@
 }
 
 .dark {
-    --mli-sidebar-bg: #111827;
+    --mli-navy: #202e4c;
+    --mli-sidebar-bg: #202e4c;
     --mli-sidebar-text: #e8f0fb;
     --mli-sidebar-icon: #b7d2f3;
     --mli-sidebar-hover: rgba(220, 234, 250, 0.08);
     --mli-sidebar-group: #b7d2f3;
     --mli-sidebar-border: rgba(220, 234, 250, 0.10);
-    --mli-sidebar-active: #2a4165;
+    --mli-sidebar-active: #314360;
 }
 
 .fi-sidebar,
@@ -80,7 +81,6 @@
     color: var(--mli-blue) !important;
 }
 
-/* Dark mode: navy text (#173b73) becomes white. */
 .dark .fi-sidebar .fi-sidebar-item-label,
 .dark .fi-sidebar .fi-sidebar-item-active .fi-sidebar-item-label,
 .dark .fi-header-heading,
