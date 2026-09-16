@@ -1,8 +1,8 @@
 @import '../../../../vendor/filament/filament/resources/css/theme.css';
 
-/* MLI Admin Theme — color-only branding */
 :root {
     --mli-navy: #173b73;
+    --mli-navy-dark: #102d59;
     --mli-blue: #2f6fbd;
     --mli-light-blue: #dceafa;
     --mli-gold: #d6b52f;
@@ -14,9 +14,36 @@
     background-color: var(--mli-navy) !important;
 }
 
-.fi-sidebar-item-label,
+.fi-sidebar {
+    border-inline-end-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.fi-sidebar-header {
+    border-bottom-color: rgba(255, 255, 255, 0.10) !important;
+}
+
+.fi-sidebar-group-label {
+    color: var(--mli-light-blue) !important;
+}
+
+.fi-sidebar-item-label {
+    color: rgba(255, 255, 255, 0.88) !important;
+}
+
 .fi-sidebar-item-icon {
+    color: rgba(255, 255, 255, 0.72) !important;
+}
+
+.fi-sidebar-item:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.fi-sidebar-item:hover .fi-sidebar-item-label {
     color: #fff !important;
+}
+
+.fi-sidebar-item:hover .fi-sidebar-item-icon {
+    color: var(--mli-light-gold) !important;
 }
 
 .fi-sidebar-item-active {
@@ -26,6 +53,14 @@
 .fi-sidebar-item-active .fi-sidebar-item-label,
 .fi-sidebar-item-active .fi-sidebar-item-icon {
     color: var(--mli-navy) !important;
+}
+
+.fi-sidebar-item-active .fi-sidebar-item-icon {
+    color: var(--mli-blue) !important;
+}
+
+.fi-sidebar-item-active:hover {
+    background-color: var(--mli-gold) !important;
 }
 
 .fi-btn-primary {
@@ -46,8 +81,4 @@
 .fi-section-header-heading,
 .fi-ta-header-cell {
     color: var(--mli-navy) !important;
-}
-
-.fi-sidebar-group-label {
-    color: var(--mli-light-blue) !important;
 }
