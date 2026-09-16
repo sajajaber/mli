@@ -48,10 +48,6 @@
     color: var(--mli-navy) !important;
 }
 
-.fi-badge {
-    border-color: var(--mli-light-blue);
-}
-
 .fi-header-heading,
 .fi-section-header-heading {
     color: var(--mli-navy) !important;
