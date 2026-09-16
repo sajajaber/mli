@@ -7,51 +7,70 @@
     --mli-light-blue: #dceafa;
     --mli-gold: #d6b52f;
     --mli-light-gold: #f5e8a8;
+
+    --mli-sidebar-bg: #ffffff;
+    --mli-sidebar-text: var(--mli-navy);
+    --mli-sidebar-icon: var(--mli-blue);
+    --mli-sidebar-hover: rgba(23, 59, 115, 0.06);
+    --mli-sidebar-border: rgba(23, 59, 115, 0.10);
+    --mli-sidebar-group: var(--mli-blue);
+}
+
+.dark {
+    --mli-sidebar-bg: var(--mli-navy);
+    --mli-sidebar-text: rgba(255, 255, 255, 0.90);
+    --mli-sidebar-icon: rgba(255, 255, 255, 0.75);
+    --mli-sidebar-hover: rgba(255, 255, 255, 0.08);
+    --mli-sidebar-border: rgba(255, 255, 255, 0.10);
+    --mli-sidebar-group: var(--mli-light-blue);
 }
 
 .fi-sidebar,
 .fi-sidebar-header {
-    background-color: var(--mli-navy) !important;
+    background-color: var(--mli-sidebar-bg) !important;
 }
 
 .fi-sidebar {
-    border-inline-end-color: rgba(255, 255, 255, 0.08) !important;
+    border-inline-end-color: var(--mli-sidebar-border) !important;
 }
 
 .fi-sidebar-header {
-    border-bottom-color: rgba(255, 255, 255, 0.10) !important;
+    border-bottom-color: var(--mli-sidebar-border) !important;
 }
 
 .fi-sidebar-group-label {
-    color: var(--mli-light-blue) !important;
+    color: var(--mli-sidebar-group) !important;
 }
 
 .fi-sidebar-item-label {
-    color: rgba(255, 255, 255, 0.88) !important;
+    color: var(--mli-sidebar-text) !important;
 }
 
 .fi-sidebar-item-icon {
-    color: rgba(255, 255, 255, 0.72) !important;
+    color: var(--mli-sidebar-icon) !important;
 }
 
 .fi-sidebar-item:hover {
-    background-color: rgba(255, 255, 255, 0.08) !important;
+    background-color: var(--mli-sidebar-hover) !important;
 }
 
 .fi-sidebar-item:hover .fi-sidebar-item-label {
+    color: var(--mli-navy) !important;
+}
+
+.dark .fi-sidebar-item:hover .fi-sidebar-item-label {
     color: #fff !important;
 }
 
 .fi-sidebar-item:hover .fi-sidebar-item-icon {
-    color: var(--mli-light-gold) !important;
+    color: var(--mli-gold) !important;
 }
 
 .fi-sidebar-item-active {
     background-color: var(--mli-light-gold) !important;
 }
 
-.fi-sidebar-item-active .fi-sidebar-item-label,
-.fi-sidebar-item-active .fi-sidebar-item-icon {
+.fi-sidebar-item-active .fi-sidebar-item-label {
     color: var(--mli-navy) !important;
 }
 
