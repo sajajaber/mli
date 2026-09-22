@@ -45,10 +45,6 @@ class NewsResource extends Resource
                             if ($operation === 'create') {
                                 $set('slug', Str::slug($state));
                             }
-
-                            $flags = $get('ai_flags') ?? [];
-                            $flags['title_en'] = false;
-                            $set('ai_flags', $flags);
                         }),
 
                     TextInput::make('title_ar')
@@ -57,11 +53,6 @@ class NewsResource extends Resource
                         ->maxLength(255)
                         ->extraInputAttributes(['dir' => 'rtl'])
                         ->live(onBlur: true)
-                        ->afterStateUpdated(function (callable $get, callable $set) {
-                            $flags = $get('ai_flags') ?? [];
-                            $flags['title_ar'] = false;
-                            $set('ai_flags', $flags);
-                        }),
 
                     RichEditor::make('body_en')
                         ->label('Body (English)')
@@ -77,9 +68,6 @@ class NewsResource extends Resource
                         ])
                         ->live(onBlur: true)
                         ->afterStateUpdated(function (callable $get, callable $set) {
-                            $flags = $get('ai_flags') ?? [];
-                            $flags['body_en'] = false;
-                            $set('ai_flags', $flags);
                         })
                         ->columnSpanFull(),
 
@@ -98,102 +86,8 @@ class NewsResource extends Resource
                         ])
                         ->live(onBlur: true)
                         ->afterStateUpdated(function (callable $get, callable $set) {
-                            $flags = $get('ai_flags') ?? [];
-                            $flags['body_ar'] = false;
-                            $set('ai_flags', $flags);
                         })
-                        ->columnSpanFull(),
-
-                    \Filament\Schemas\Components\Actions::make([
-                        \Filament\Actions\Action::make('ai_translate')
-                            ->label('AI Translate (EN ⇄ AR)')
-                            ->icon(Heroicon::OutlinedSparkles)
-                            ->action(function (callable $get, callable $set) {
-                                $titleEn = $get('title_en');
-                                $titleAr = $get('title_ar');
-
-                                if (blank($titleEn) && blank($titleAr)) {
-                                    \Filament\Notifications\Notification::make()
-                                        ->title('Nothing to translate')
-                                        ->body('Fill in the English or Arabic title first.')
-                                        ->warning()
-                                        ->send();
-
-                                    return;
-                                }
-
-                                $direction = filled($titleEn) ? 'en_to_ar' : 'ar_to_en';
-
-                                try {
-                                    $sourceFields = $direction === 'en_to_ar'
-                                        ? [
-                                            'title' => $titleEn,
-                                            'body' => $get('body_en'),
-                                        ]
-                                        : [
-                                            'title' => $titleAr,
-                                            'body' => $get('body_ar'),
-                                        ];
-
-                                    $sourceFields = array_filter(
-                                        $sourceFields,
-                                        fn ($value) => filled($value)
-                                    );
-
-                                    $translated = app(\App\Services\GeminiTranslationService::class)
-                                        ->translateFields($sourceFields, $direction);
-
-                                    $flags = $get('ai_flags') ?? [];
-
-                                    if ($direction === 'en_to_ar') {
-                                        if (isset($translated['title']) && filled($translated['title'])) {
-                                            $set('title_ar', $translated['title']);
-                                            $flags['title_ar'] = true;
-                                        }
-
-                                        if (isset($translated['body']) && filled($translated['body'])) {
-                                            $set('body_ar', $translated['body']);
-                                            $flags['body_ar'] = true;
-                                        }
-                                    } else {
-                                        if (isset($translated['title']) && filled($translated['title'])) {
-                                            $translatedTitle = $translated['title'];
-                                            $set('title_en', $translatedTitle);
-
-                                            if (blank($get('slug'))) {
-                                                $set('slug', Str::slug($translatedTitle));
-                                            }
-
-                                            $flags['title_en'] = true;
-                                        }
-
-                                        if (isset($translated['body']) && filled($translated['body'])) {
-                                            $set('body_en', $translated['body']);
-                                            $flags['body_en'] = true;
-                                        }
-                                    }
-
-                                    $set('ai_flags', $flags);
-
-                                    \Filament\Notifications\Notification::make()
-                                        ->title('Translation generated')
-                                        ->body($direction === 'en_to_ar'
-                                            ? 'Arabic title and available body content have been generated.'
-                                            : 'English title and available body content have been generated.')
-                                        ->success()
-                                        ->send();
-                                } catch (\Throwable $e) {
-                                    report($e);
-
-                                    \Filament\Notifications\Notification::make()
-                                        ->title('Translation failed')
-                                        ->body($e->getMessage())
-                                        ->danger()
-                                        ->send();
-                                }
-                            }),
-                    ])->columnSpanFull(),
-                ]),
+                        ->columnSpanFull(),                ]),
 
             Section::make('Classification & Media')
                 ->columns(2)
