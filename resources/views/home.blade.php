@@ -8,7 +8,13 @@
         <div class="mli-contact__giant" aria-hidden="true">MLI</div>
         <div class="container mli-contact__inner" data-reveal="up">
             <span class="mli-contact__index">06 / CONTACT</span>
-            <h2>{{ app()->getLocale() === 'ar' ? 'لديك قصة؟<br><em>لنحرّكها.</em>' : 'Have a story?<br><em>Let’s move it.</em>' }}</h2>
+            <h2>
+                @if(app()->getLocale() === 'ar')
+                    لديك قصة؟ <em>لنحرّكها.</em>
+                @else
+                    Have a story? <em>Let’s move it.</em>
+                @endif
+            </h2>
             <a href="mailto:info@mli.com" class="mli-contact__link">
                 <span>{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Start a conversation' }}</span>
                 <b>↗</b>
