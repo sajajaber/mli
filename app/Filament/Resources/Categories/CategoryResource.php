@@ -30,6 +30,13 @@ class CategoryResource extends Resource
                 ->label('Name (English)')
                 ->required()
                 ->maxLength(255)
+                ->unique(
+                    ignoreRecord: true,
+                    modifyRuleUsing: fn (\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
+                )
+                ->validationMessages([
+                    'unique' => 'A category with this English name already exists.',
+                ])
                 ->live(onBlur: true)
                 ->afterStateUpdated(function (string $state, callable $set, string $operation) {
                     // Only auto-fill slug while creating, never overwrite on edit
@@ -42,6 +49,13 @@ class CategoryResource extends Resource
                 ->label('Name (Arabic)')
                 ->required()
                 ->maxLength(255)
+                ->unique(
+                    ignoreRecord: true,
+                    modifyRuleUsing: fn (\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
+                )
+                ->validationMessages([
+                    'unique' => 'A category with this Arabic name already exists.',
+                ])
                 ->extraInputAttributes(['dir' => 'rtl']),
 
             TextInput::make('slug')
