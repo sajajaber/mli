@@ -29,13 +29,11 @@ class Show extends Model
         'meta_title_ar',
         'meta_description_en',
         'meta_description_ar',
-        'ai_flags',
         'sort_order',
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
-        'ai_flags' => 'array',
     ];
 
     // --- Relationships ---
