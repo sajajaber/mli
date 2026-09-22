@@ -83,8 +83,6 @@ class NewsResource extends Resource
                             'redo',
                         ])
                         ->live(onBlur: true)
-                        ->afterStateUpdated(function (callable $get, callable $set) {
-                        })
                         ->columnSpanFull(),                ]),
 
             Section::make('Classification & Media')
