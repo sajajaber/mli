@@ -1,4 +1,4 @@
-@props(['content'])
+@props(['content', 'stats'])
 
 <section id="about" class="bg-navy-950 py-24 text-white">
     <div class="mx-auto grid max-w-6xl gap-16 px-6 lg:grid-cols-2">
@@ -19,13 +19,13 @@
                 </p>
             </div>
             <div>
-                <p class="text-4xl font-medium text-gold-500">{{ \App\Models\Show::published()->count() }}+</p>
+                <p class="text-4xl font-medium text-gold-500">{{ $stats['shows'] }}+</p>
                 <p class="mt-1 text-sm text-silver-200">
                     {{ app()->getLocale() === 'ar' ? 'عمل موزع' : 'Titles distributed' }}
                 </p>
             </div>
             <div>
-                <p class="text-4xl font-medium text-gold-500">{{ \App\Models\Client::count() }}+</p>
+                <p class="text-4xl font-medium text-gold-500">{{ $stats['clients'] }}+</p>
                 <p class="mt-1 text-sm text-silver-200">
                     {{ app()->getLocale() === 'ar' ? 'عملاء وشركاء' : 'Clients & partners' }}
                 </p>
