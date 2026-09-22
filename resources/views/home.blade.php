@@ -10,7 +10,7 @@
                 <p class="eyebrow">{{ app()->getLocale() === 'ar' ? 'لنبقى على تواصل' : 'Let’s connect' }}</p>
                 <h2>{{ app()->getLocale() === 'ar' ? 'لديكم قصة؟<br>لنتحدث.' : 'Have a story?<br>Let’s talk.' }}</h2>
             </div>
-            <a href="mailto:info@mli.example" class="button button--light">{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Get in touch' }} ↗</a>
+            <a href="#about" class="button button--light">{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Get in touch' }} ↗</a>
         </div>
     </section>
 </x-layouts.public>
