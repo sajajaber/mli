@@ -52,7 +52,7 @@ class NewsResource extends Resource
                         ->required()
                         ->maxLength(255)
                         ->extraInputAttributes(['dir' => 'rtl'])
-                        ->live(onBlur: true)
+                        ->live(onBlur: true),
 
                     RichEditor::make('body_en')
                         ->label('Body (English)')
@@ -67,8 +67,6 @@ class NewsResource extends Resource
                             'redo',
                         ])
                         ->live(onBlur: true)
-                        ->afterStateUpdated(function (callable $get, callable $set) {
-                        })
                         ->columnSpanFull(),
 
                     RichEditor::make('body_ar')
