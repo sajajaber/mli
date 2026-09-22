@@ -1,41 +1,20 @@
 @props(['content', 'stats'])
 
-<section id="about" class="bg-navy-950 py-24 text-white">
-    <div class="mx-auto grid max-w-6xl gap-16 px-6 lg:grid-cols-2">
-        <div>
-            <h2 class="text-3xl font-medium">
-                {{ app()->getLocale() === 'ar' ? ($content->title_ar ?? 'من نحن') : ($content->title_en ?? 'About Us') }}
-            </h2>
-            <div class="prose prose-invert mt-6 max-w-none text-silver-200">
+<section id="about" class="section section--navy">
+    <div class="container about-layout">
+        <div class="about-copy" data-reveal="left">
+            <p class="eyebrow">{{ app()->getLocale() === 'ar' ? 'من نحن' : 'Who we are' }}</p>
+            <h2>{{ app()->getLocale() === 'ar' ? ($content->title_ar ?? 'من نحن') : ($content->title_en ?? 'About MLI') }}</h2>
+            <div class="rich-copy">
                 {!! app()->getLocale() === 'ar' ? ($content->content_ar ?? '') : ($content->content_en ?? '') !!}
             </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-8 self-center">
-            <div>
-                <p class="text-4xl font-medium text-gold-500">20+</p>
-                <p class="mt-1 text-sm text-silver-200">
-                    {{ app()->getLocale() === 'ar' ? 'سنوات من الخبرة' : 'Years of experience' }}
-                </p>
-            </div>
-            <div>
-                <p class="text-4xl font-medium text-gold-500">{{ $stats['shows'] }}+</p>
-                <p class="mt-1 text-sm text-silver-200">
-                    {{ app()->getLocale() === 'ar' ? 'عمل موزع' : 'Titles distributed' }}
-                </p>
-            </div>
-            <div>
-                <p class="text-4xl font-medium text-gold-500">{{ $stats['clients'] }}+</p>
-                <p class="mt-1 text-sm text-silver-200">
-                    {{ app()->getLocale() === 'ar' ? 'عملاء وشركاء' : 'Clients & partners' }}
-                </p>
-            </div>
-            <div>
-                <p class="text-4xl font-medium text-gold-500">3</p>
-                <p class="mt-1 text-sm text-silver-200">
-                    {{ app()->getLocale() === 'ar' ? 'مناطق التوزيع' : 'Distribution regions' }}
-                </p>
-            </div>
+        <div class="stats-grid" data-reveal="right">
+            <div class="stat"><strong>20<span>+</span></strong><small>{{ app()->getLocale() === 'ar' ? 'سنوات من الخبرة' : 'Years of experience' }}</small></div>
+            <div class="stat"><strong>{{ $stats['shows'] }}<span>+</span></strong><small>{{ app()->getLocale() === 'ar' ? 'عمل موزع' : 'Titles distributed' }}</small></div>
+            <div class="stat"><strong>{{ $stats['clients'] }}<span>+</span></strong><small>{{ app()->getLocale() === 'ar' ? 'عملاء وشركاء' : 'Clients & partners' }}</small></div>
+            <div class="stat"><strong>3</strong><small>{{ app()->getLocale() === 'ar' ? 'مناطق توزيع' : 'Distribution regions' }}</small></div>
         </div>
     </div>
 </section>
