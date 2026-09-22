@@ -16,27 +16,27 @@
         <div class="mli-opening__copy" data-reveal="left">
             <p class="mli-opening__eyebrow">
                 <i></i>
-                {{ app()->getLocale() === 'ar' ? 'إشارة من بيروت' : 'A signal from Beirut' }}
+                {{ app()->getLocale() === 'ar' ? 'تنوع. جودة. توافر.' : 'Variety. Quality. Availability.' }}
             </p>
 
             <h1 id="hero-title">
                 @if(app()->getLocale() === 'ar')
-                    نحرك<br><em>الحكايات.</em>
+                    <span class="mli-opening__word">تنوع.</span><br><span class="mli-opening__word">جودة.</span><br><span class="mli-opening__word">توافر.</span>
                 @else
-                    We move<br><em>stories.</em>
+                    <span class="mli-opening__word">Variety.</span><br><span class="mli-opening__word">Quality.</span><br><span class="mli-opening__word">Availability.</span>
                 @endif
             </h1>
 
             <p class="mli-opening__statement">
                 @if(app()->getLocale() === 'ar')
-                    محتوى عربي يصل إلى العالم — من شاشة إلى أخرى، ومن قصة إلى جمهور جديد.
+                    مكتبة مبنية على ثلاثة أركان: تنوع الخيارات، جودة المحتوى، وتوافره للجمهور.
                 @else
-                    Arabic stories moving from one screen to another, and from one audience to the next.
+                    A catalogue built around three things: breadth of choice, a commitment to quality, and content ready when audiences need it.
                 @endif
             </p>
 
             <a href="{{ route('shows.index') }}" class="mli-opening__enter">
-                <span>{{ app()->getLocale() === 'ar' ? 'ادخل إلى المكتبة' : 'Enter the library' }}</span>
+                <span>{{ app()->getLocale() === 'ar' ? 'اكتشف المكتبة' : 'Explore the library' }}</span>
                 <b>↗</b>
             </a>
         </div>
