@@ -4,13 +4,19 @@
     <x-partials.about-section :content="$aboutPage" :stats="$aboutStats" />
     <x-partials.news-section :media-news="$mediaNews" :mli-news="$mliNews" />
 
-    <section id="contact" class="contact-section">
-        <div class="container contact-section__inner" data-reveal="up">
-            <div>
-                <p class="eyebrow">{{ app()->getLocale() === 'ar' ? 'لنبقى على تواصل' : 'Let’s connect' }}</p>
-                <h2>{{ app()->getLocale() === 'ar' ? 'لديكم قصة؟<br>لنتحدث.' : 'Have a story?<br>Let’s talk.' }}</h2>
-            </div>
-            <a href="#about" class="button button--light">{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Get in touch' }} ↗</a>
+    <section id="contact" class="mli-contact">
+        <div class="mli-contact__giant" aria-hidden="true">MLI</div>
+        <div class="container mli-contact__inner" data-reveal="up">
+            <span class="mli-contact__index">06 / CONTACT</span>
+            <h2>{{ app()->getLocale() === 'ar' ? 'لديك قصة؟<br><em>لنحرّكها.</em>' : 'Have a story?<br><em>Let’s move it.</em>' }}</h2>
+            <a href="mailto:info@mli.com" class="mli-contact__link">
+                <span>{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Start a conversation' }}</span>
+                <b>↗</b>
+            </a>
+        </div>
+        <div class="mli-contact__footer container">
+            <span>BEIRUT / DUBAI / THE WORLD</span>
+            <span>MEDIA LINK INTERNATIONAL</span>
         </div>
     </section>
 </x-layouts.public>
