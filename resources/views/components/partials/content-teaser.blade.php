@@ -4,9 +4,9 @@
     <div class="mli-catalogue__intro container" data-reveal="up">
         <div>
             <span class="mli-catalogue__index">02 / THE LIBRARY</span>
-            <h2>{{ app()->getLocale() === 'ar' ? 'كل قصة لها جمهور.' : 'Every story<br>has an audience.' }}</h2>
+            <h2>{{ app()->getLocale() === 'ar' ? 'تنوع.<br>جودة.<br>توافر.' : 'Variety.<br>Quality.<br>Availability.' }}</h2>
         </div>
-        <p>{{ app()->getLocale() === 'ar' ? 'نقتني، ندبلج، نترجم ونوزع محتوى عربيًا مصممًا لعبور الحدود.' : 'We acquire, dub, subtitle and distribute Arabic content built to travel beyond borders.' }}</p>
+        <p>{{ app()->getLocale() === 'ar' ? 'ثلاثة مبادئ تشكل مكتبتنا — تنوع واسع، جودة مختارة بعناية، ومحتوى متاح للشركاء والجمهور.' : 'Three principles shape the library — a wide range of titles, carefully selected quality, and content ready for partners and audiences.' }}</p>
     </div>
 
     <div class="mli-catalogue__rail" aria-label="{{ app()->getLocale() === 'ar' ? 'مكتبة البرامج' : 'Show library' }}">
