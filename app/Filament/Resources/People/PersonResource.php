@@ -37,7 +37,7 @@ class PersonResource extends Resource
                 ->imageEditor()
                 ->maxSize(8192)
                 ->saveUploadedFileUsing(fn($file) => app(\App\Services\ImageProcessingService::class)
-                    ->processAndStore($file, 'people', maxWidth: 800, quality: 85))
+                    ->processAndStore($file, 'people', maxWidth: 800, quality: 85, field: 'photo_path'))
                 ->columnSpanFull(),
 
             TextInput::make('name')
