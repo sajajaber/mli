@@ -59,13 +59,13 @@ class ShowResource extends Resource
                         ->extraInputAttributes([
                             'dir' => 'rtl',
                         ])
-                        ->live(onBlur: true)
+                        ->live(onBlur: true),
 
                     Textarea::make('description_en')
                         ->label('Description (English)')
                         ->rows(4)
                         ->columnSpan(1)
-                        ->live(onBlur: true)
+                        ->live(onBlur: true),
 
                     Textarea::make('description_ar')
                         ->label('Description (Arabic)')
@@ -74,7 +74,8 @@ class ShowResource extends Resource
                             'dir' => 'rtl',
                         ])
                         ->columnSpan(1)
-                        ->live(onBlur: true)                ]),
+                        ->live(onBlur: true),
+                ]),
 
             Section::make('Classification & Media')
                 ->columns(2)
