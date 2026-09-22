@@ -2546,3 +2546,22 @@ html[dir="rtl"] .mli-about__map-caption {
     .mli-catalogue-card,
     .mli-catalogue-card img { transition:none; }
 }
+
+/* Three-word MLI brand statement */
+.mli-opening__word {
+    display:inline-block;
+    transform-origin:left center;
+}
+.mli-opening__word:nth-child(1) { color:#F5F2EB; }
+.mli-opening__word:nth-child(2) { color:#C8D9E6; margin-left:.08em; }
+.mli-opening__word:nth-child(3) { color:#F5F2EB; margin-left:.16em; }
+
+.mli-catalogue h2 {
+    font-style:italic;
+}
+.mli-catalogue h2 br + * { color:#567C8D; }
+
+@media (max-width:700px) {
+    .mli-opening__word:nth-child(2),
+    .mli-opening__word:nth-child(3) { margin-left:0; }
+}
