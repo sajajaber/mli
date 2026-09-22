@@ -30,10 +30,7 @@ class CategoryResource extends Resource
                 ->label('Name (English)')
                 ->required()
                 ->maxLength(255)
-                ->unique(
-                    ignoreRecord: true,
-                    modifyRuleUsing: fn (\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
-                )
+                ->unique(ignoreRecord: true)
                 ->validationMessages([
                     'unique' => 'A category with this English name already exists.',
                 ])
