@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Cache;
 
 class MliStatsOverview extends BaseWidget
 {
+    protected static bool $isLazy = false;
     protected function getStats(): array
     {
         $metrics = Cache::remember(
