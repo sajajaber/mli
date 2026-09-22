@@ -16,6 +16,6 @@
 <body>
     @include('partials.nav')
     <main>{{ $slot }}</main>
-    @include('partials.footer')
+    @include('partials.footer-blade')
 </body>
 </html>
