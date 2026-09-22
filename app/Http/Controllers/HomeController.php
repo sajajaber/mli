@@ -1,11 +1,11 @@
 <?php
 
-namespace AppHttpControllers;
+namespace App\Http\Controllers;
 
-use AppModelsClient;
-use AppModelsNews;
-use AppModelsShow;
-use AppModelsSiteContent;
+use App\Models\Client;
+use App\Models\News;
+use App\Models\Show;
+use App\Models\SiteContent;
 
 class HomeController extends Controller
 {
