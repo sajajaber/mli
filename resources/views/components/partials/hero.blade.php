@@ -1,52 +1,56 @@
 @props(['shows'])
 
-<section class="hero" aria-labelledby="hero-title">
-    <div class="hero__glow hero__glow--one"></div>
-    <div class="hero__glow hero__glow--two"></div>
+<section class="mli-stage" aria-labelledby="hero-title">
+    <div class="mli-stage__grid" aria-hidden="true"></div>
+    <div class="mli-stage__orb mli-stage__orb--a"></div>
+    <div class="mli-stage__orb mli-stage__orb--b"></div>
 
-    <div class="hero__inner">
-        <div class="hero__copy" data-reveal="up">
-            <p class="eyebrow">{{ app()->getLocale() === 'ar' ? 'ميديا لينك إنترناشونال' : 'Media Link International' }}</p>
+    <div class="mli-stage__topline">
+        <span>MLI / MEDIA LINK INTERNATIONAL</span>
+        <span>CONTENT DISTRIBUTION / 2026</span>
+    </div>
+
+    <div class="mli-stage__inner">
+        <div class="mli-stage__copy" data-reveal="up">
+            <p class="mli-stage__index">01 — THE SIGNAL</p>
             <h1 id="hero-title">
                 @if(app()->getLocale() === 'ar')
-                    محتوى عربي.<br><em>بصوت عالمي.</em>
+                    محتوى عربي.<br><span>بصوت عالمي.</span>
                 @else
-                    Arabic content.<br><em>Global reach.</em>
+                    Arabic content.<br><span>with global reach.</span>
                 @endif
             </h1>
-            <p class="hero__description">
+            <p class="mli-stage__intro">
                 @if(app()->getLocale() === 'ar')
-                    ننتج ونوزّع محتوى عربيًا أصيلًا يصل إلى الجماهير والأسواق في المنطقة وحول العالم.
+                    نصنع ونوزّع القصص العربية التي تعبر الحدود.
                 @else
-                    We produce and distribute authentic Arabic content for audiences and markets across the region and around the world.
+                    We create and distribute Arabic stories that travel beyond borders.
                 @endif
             </p>
-            <div class="hero__actions">
-                <a href="{{ route('shows.index') }}" class="button button--gold">
-                    {{ app()->getLocale() === 'ar' ? 'استكشف أعمالنا' : 'Explore our work' }}
-                    <span aria-hidden="true">↗</span>
-                </a>
-                <a href="#about" class="button button--ghost">
-                    {{ app()->getLocale() === 'ar' ? 'تعرف علينا' : 'Discover MLI' }}
-                </a>
-            </div>
+            <a href="{{ route('shows.index') }}" class="mli-stage__link">
+                {{ app()->getLocale() === 'ar' ? 'اكتشف أعمالنا' : 'Explore the work' }}
+                <span>↗</span>
+            </a>
         </div>
 
-        <div class="hero__visual" data-reveal="scale">
-            @foreach($shows->take(5) as $index => $show)
-                <a href="{{ route('shows.index') }}" class="hero-card hero-card--{{ $index + 1 }}" aria-label="{{ app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en }}">
-                    @if($show->cover_image_url)
-                        <img src="{{ $show->cover_image_url }}" alt="{{ $show->cover_image_alt ?? (app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en) }}" loading="{{ $index === 0 ? 'eager' : 'lazy' }}">
-                    @endif
-                    <span class="hero-card__shade"></span>
-                    <span class="hero-card__label">{{ app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en }}</span>
-                </a>
-            @endforeach
+        <div class="mli-reel" data-reveal="scale" aria-label="{{ app()->getLocale() === 'ar' ? 'مختارات من برامج MLI' : 'Selected MLI shows' }}">
+            <div class="mli-reel__track">
+                @foreach($shows->take(5) as $index => $show)
+                    <a href="{{ route('shows.index') }}" class="mli-reel__frame mli-reel__frame--{{ $index + 1 }}">
+                        @if($show->cover_image_url)
+                            <img src="{{ $show->cover_image_url }}" alt="{{ $show->cover_image_alt ?? (app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en) }}" loading="{{ $index === 0 ? 'eager' : 'lazy' }}">
+                        @endif
+                        <span class="mli-reel__frame-number">0{{ $index + 1 }}</span>
+                        <span class="mli-reel__frame-title">{{ app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en }}</span>
+                    </a>
+                @endforeach
+            </div>
         </div>
     </div>
 
-    <div class="hero__bottom">
-        <span>{{ app()->getLocale() === 'ar' ? 'اكتشف قصصًا جديدة' : 'Discover new stories' }}</span>
-        <a href="#content" aria-label="{{ app()->getLocale() === 'ar' ? 'انتقل إلى المحتوى' : 'Scroll to content' }}"><span class="scroll-line"></span>↓</a>
+    <div class="mli-stage__ticker" aria-hidden="true">
+        <div class="mli-stage__ticker-track">
+            <span>ORIGINAL STORIES</span><b>✦</b><span>ARABIC VOICES</span><b>✦</b><span>GLOBAL DISTRIBUTION</span><b>✦</b><span>ORIGINAL STORIES</span><b>✦</b><span>ARABIC VOICES</span><b>✦</b><span>GLOBAL DISTRIBUTION</span><b>✦</b>
+        </div>
     </div>
 </section>
