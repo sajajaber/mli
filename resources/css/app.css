@@ -1710,3 +1710,355 @@ body {
 @media (prefers-reduced-motion: reduce) {
     .mli-stage__ticker-track { animation:none; }
 }
+
+/* =========================================================
+   MLI ABOUT — GLOBAL DISTRIBUTION STORY
+   ========================================================= */
+
+.mli-about {
+    position: relative;
+    min-height: 760px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 78% 48%, rgba(157,223,211,.08), transparent 28%),
+        radial-gradient(circle at 12% 90%, rgba(255,201,60,.07), transparent 24%),
+        var(--mli-ink);
+    color: #fff;
+}
+
+.mli-about__inner {
+    position: relative;
+    min-height: 760px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.02fr) minmax(420px, .98fr);
+    align-items: center;
+    gap: clamp(30px, 5vw, 90px);
+    padding-top: 92px;
+    padding-bottom: 76px;
+}
+
+.mli-about__copy {
+    position: relative;
+    z-index: 2;
+}
+
+.mli-about__kicker {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    color: var(--mli-aqua);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+}
+
+.mli-about__kicker i {
+    display: block;
+    width: 58px;
+    height: 1px;
+    background: var(--mli-aqua);
+}
+
+.mli-about__title {
+    max-width: 760px;
+    margin: 25px 0 0;
+    color: #fff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(48px, 5.6vw, 88px);
+    font-weight: 400;
+    line-height: .96;
+    letter-spacing: -.055em;
+}
+
+.mli-about__description {
+    max-width: 690px;
+    margin-top: 30px;
+    color: rgba(255,255,255,.74);
+    font-size: 14px;
+    line-height: 1.85;
+}
+
+.mli-about__description p {
+    margin: 0;
+}
+
+.mli-about__stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    max-width: 760px;
+    margin-top: 42px;
+    border-top: 1px solid rgba(157,223,211,.38);
+}
+
+.mli-about__stat {
+    min-height: 112px;
+    padding: 19px 22px 0 0;
+    border-right: 1px solid rgba(157,223,211,.32);
+}
+
+.mli-about__stat + .mli-about__stat {
+    padding-left: 22px;
+}
+
+.mli-about__stat:last-child {
+    border-right: 0;
+}
+
+.mli-about__stat strong {
+    display: block;
+    color: var(--mli-aqua);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(38px, 4vw, 62px);
+    font-weight: 400;
+    line-height: .95;
+}
+
+.mli-about__stat strong span {
+    color: var(--mli-signal);
+    font-size: .62em;
+}
+
+.mli-about__stat small {
+    display: block;
+    max-width: 125px;
+    margin-top: 12px;
+    color: rgba(255,255,255,.76);
+    font-size: 9px;
+    line-height: 1.45;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+}
+
+.mli-about__scroll {
+    position: absolute;
+    left: -38px;
+    bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255,255,255,.7);
+}
+
+.mli-about__scroll span {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: .22em;
+}
+
+.mli-about__scroll b {
+    color: var(--mli-signal);
+    font-size: 25px;
+    font-weight: 400;
+}
+
+.mli-about__map-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 620px;
+    justify-self: end;
+    aspect-ratio: 1.12;
+}
+
+.mli-about__map-glow {
+    position: absolute;
+    width: 44%;
+    aspect-ratio: 1;
+    left: 48%;
+    top: 47%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: rgba(157,223,211,.12);
+    filter: blur(30px);
+}
+
+.mli-about__map {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.mli-about__world path {
+    fill: rgba(80, 104, 176, .20);
+    stroke: rgba(157,223,211,.08);
+    stroke-width: 1;
+}
+
+.mli-about__routes path {
+    fill: none;
+    stroke: var(--mli-aqua);
+    stroke-width: 1.8;
+    opacity: .9;
+}
+
+.mli-about__route-dashes path {
+    fill: none;
+    stroke: var(--mli-aqua);
+    stroke-width: 1;
+    stroke-dasharray: 5 8;
+    opacity: .55;
+}
+
+.mli-about__hub-ring {
+    fill: none;
+    stroke: rgba(255,201,60,.25);
+    stroke-width: 1;
+}
+
+.mli-about__hub-ring--inner {
+    stroke: rgba(255,201,60,.55);
+}
+
+.mli-about__hub {
+    fill: var(--mli-signal);
+    stroke: #fff;
+    stroke-width: 3;
+    filter: drop-shadow(0 0 10px rgba(255,201,60,.75));
+}
+
+.mli-about__nodes circle {
+    fill: var(--mli-signal);
+    stroke: rgba(255,255,255,.7);
+    stroke-width: 2;
+    filter: drop-shadow(0 0 7px rgba(255,201,60,.65));
+}
+
+.mli-about__labels text {
+    fill: rgba(255,255,255,.88);
+    font-family: Inter, Arial, sans-serif;
+    font-size: 11px;
+}
+
+.mli-about__labels .arabic {
+    fill: var(--mli-aqua);
+    font-family: "Readex Pro", Arial, sans-serif;
+    font-size: 9px;
+}
+
+.mli-about__labels .hub-label {
+    fill: #fff;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.mli-about__map-caption {
+    position: absolute;
+    right: 0;
+    bottom: 3%;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    color: rgba(255,255,255,.76);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: .22em;
+}
+
+.mli-about__map-caption i {
+    display: block;
+    width: 95px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(157,223,211,.7), transparent);
+}
+
+html[dir="rtl"] .mli-about__title,
+html[dir="rtl"] .mli-about__description,
+html[dir="rtl"] .mli-about__kicker {
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-about__kicker {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .mli-about__scroll {
+    left: auto;
+    right: -38px;
+}
+
+html[dir="rtl"] .mli-about__map-caption {
+    right: auto;
+    left: 0;
+}
+
+@media (max-width: 1100px) {
+    .mli-about__inner {
+        grid-template-columns: 1fr .9fr;
+        gap: 25px;
+    }
+
+    .mli-about__stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mli-about__stat:nth-child(2) {
+        border-right: 0;
+    }
+
+    .mli-about__stat:nth-child(n+3) {
+        border-top: 1px solid rgba(157,223,211,.28);
+        padding-top: 18px;
+    }
+}
+
+@media (max-width: 800px) {
+    .mli-about,
+    .mli-about__inner {
+        min-height: auto;
+    }
+
+    .mli-about__inner {
+        grid-template-columns: 1fr;
+        padding-top: 110px;
+        padding-bottom: 55px;
+    }
+
+    .mli-about__map-wrap {
+        max-width: 680px;
+        width: 100%;
+        margin: 5px auto 0;
+    }
+
+    .mli-about__scroll {
+        display: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .mli-about__title {
+        font-size: clamp(42px, 12vw, 64px);
+    }
+
+    .mli-about__description {
+        font-size: 12px;
+        line-height: 1.8;
+    }
+
+    .mli-about__stats {
+        grid-template-columns: repeat(2, 1fr);
+        margin-top: 30px;
+    }
+
+    .mli-about__stat {
+        min-height: 100px;
+        padding-right: 15px;
+    }
+
+    .mli-about__stat + .mli-about__stat {
+        padding-left: 15px;
+    }
+
+    .mli-about__map-wrap {
+        margin-top: 15px;
+        aspect-ratio: .95;
+    }
+
+    .mli-about__map-caption {
+        font-size: 7px;
+    }
+}
