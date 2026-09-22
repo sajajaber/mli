@@ -40,6 +40,13 @@ class ShowResource extends Resource
                         ->label('Title (English)')
                         ->required()
                         ->maxLength(255)
+                        ->unique(
+                            ignoreRecord: true,
+                            modifyRuleUsing: fn (\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
+                        )
+                        ->validationMessages([
+                            'unique' => 'A show with this English title already exists.',
+                        ])
                         ->live(onBlur: true)
                         ->afterStateUpdated(function (
                             string $state,
@@ -56,6 +63,13 @@ class ShowResource extends Resource
                         ->label('Title (Arabic)')
                         ->required()
                         ->maxLength(255)
+                        ->unique(
+                            ignoreRecord: true,
+                            modifyRuleUsing: fn (\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
+                        )
+                        ->validationMessages([
+                            'unique' => 'A show with this Arabic title already exists.',
+                        ])
                         ->extraInputAttributes([
                             'dir' => 'rtl',
                         ])
