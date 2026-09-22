@@ -21,9 +21,9 @@
 
             <h1 id="hero-title">
                 @if(app()->getLocale() === 'ar')
-                    <span class="mli-opening__word">تنوع.</span><br><span class="mli-opening__word">جودة.</span><br><span class="mli-opening__word">توافر.</span>
+                    <span class="mli-opening__word">تنوع.</span> <span class="mli-opening__word">جودة.</span> <span class="mli-opening__word">توافر.</span>
                 @else
-                    <span class="mli-opening__word">Variety.</span><br><span class="mli-opening__word">Quality.</span><br><span class="mli-opening__word">Availability.</span>
+                    <span class="mli-opening__word">Variety.</span> <span class="mli-opening__word">Quality.</span> <span class="mli-opening__word">Availability.</span>
                 @endif
             </h1>
 
