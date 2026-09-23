@@ -4561,3 +4561,18 @@ html[dir="rtl"] .mli-about__map-caption {
         animation: none;
     }
 }
+
+
+/* =========================================================
+   HOMEPAGE SECTION COLOR ORDER
+   Hero → Beige News → Navy About → Beige People → Blue Library
+   ========================================================= */
+
+.mli-news-section {
+    background: #f5f2eb;
+    color: #2f4156;
+}
+
+.mli-catalogue--light {
+    background: #c8d9e6;
+}
