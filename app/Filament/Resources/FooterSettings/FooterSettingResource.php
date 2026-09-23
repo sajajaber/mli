@@ -68,9 +68,9 @@ class FooterSettingResource extends Resource
                         ->rows(4)
                         ->helperText('Use a new line for each address line.'),
 
-                    Textarea::make('map_url')
+                    TextInput::make('map_url')
                         ->label('Google Maps URL')
-                        ->rows(2)
+                        ->maxLength(2048)
                         ->helperText('Paste the full Google Maps link.')
                         ->url(),
                 ]),
@@ -113,7 +113,7 @@ class FooterSettingResource extends Resource
                     ->since(),
             ])
             ->recordActions([
-                \Filament\Actions\EditAction::make(),
+                \\Filament\\Actions\\EditAction::make(),
             ]);
     }
 
