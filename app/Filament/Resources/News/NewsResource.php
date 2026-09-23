@@ -13,6 +13,8 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -198,6 +200,49 @@ class NewsResource extends Resource
                     ]),
             ])
             ->recordActions([
+                Action::make('publish')
+                    ->label('Publish')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->visible(fn (News $record) => $record->status !== 'published')
+                    ->action(function (News $record): void {
+                        $record->update([
+                            'status' => 'published',
+                            'published_at' => now(),
+                        ]);
+
+                        Notification::make()
+                            ->success()
+                            ->title('Published')
+                            ->body('The news article is now live on the website.')
+                            ->send();
+                    }),
+
+                Action::make('schedule')
+                    ->label('Schedule')
+                    ->color('warning')
+                    ->visible(fn (News $record) => $record->status !== 'published')
+                    ->form([
+                        DateTimePicker::make('published_at')
+                            ->label('Publish date & time')
+                            ->native(false)
+                            ->seconds(false)
+                            ->required()
+                            ->minDate(now()),
+                    ])
+                    ->action(function (News $record, array $data): void {
+                        $record->update([
+                            'status' => 'scheduled',
+                            'published_at' => $data['published_at'],
+                        ]);
+
+                        Notification::make()
+                            ->success()
+                            ->title('Publication scheduled')
+                            ->body('The article will go live automatically at the scheduled time.')
+                            ->send();
+                    }),
+
                 \Filament\Actions\EditAction::make(),
                 \Filament\Actions\DeleteAction::make(),
             ])
