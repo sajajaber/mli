@@ -4296,3 +4296,42 @@ html[dir="rtl"] .mli-about__map-caption {
         font-size: 16px;
     }
 }
+
+
+/* =========================================================
+   FOOTER — TYPOGRAPHY ALIGNMENT
+   ========================================================= */
+
+.mli-footer {
+    font-family: "Readex Pro", ui-sans-serif, system-ui, sans-serif;
+}
+
+.mli-footer-tagline {
+    font-family: Georgia, "Times New Roman", "Readex Pro", sans-serif;
+    font-size: clamp(24px, 2.2vw, 34px);
+    line-height: 0.95;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+}
+
+.mli-footer-description {
+    font-family: "Readex Pro", ui-sans-serif, system-ui, sans-serif;
+}
+
+.mli-footer-link,
+.mli-footer-office address,
+.mli-footer-map-link,
+.mli-footer-copyright,
+.mli-footer-bottom-links a {
+    font-family: "Readex Pro", ui-sans-serif, system-ui, sans-serif;
+}
+
+.mli-footer-label {
+    font-family: "Readex Pro", ui-sans-serif, system-ui, sans-serif;
+}
+
+@media (max-width: 560px) {
+    .mli-footer-tagline {
+        font-size: 27px;
+    }
+}
