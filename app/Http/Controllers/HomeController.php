@@ -43,7 +43,7 @@ class HomeController extends Controller
                 'media_service_4',
             ])
             ->get()
-            ->sortBy(fn ($item) => (int) str($item->key)->afterLast('_'))
+            ->sortBy(fn ($item) => intval((string) str($item->key)->afterLast('_')))
             ->values();
 
         $mediaNews = News::published()
@@ -76,7 +76,6 @@ class HomeController extends Controller
             'mliNews' => $mliNews,
             'aboutPage' => $aboutPage,
             'aboutStats' => $aboutStats,
-            'mediaServices' => $mediaServices,
         ]);
     }
 }
