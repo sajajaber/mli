@@ -3358,3 +3358,302 @@ html[dir="rtl"] .mli-about__map-caption {
     opacity: 0.85;
     transform: translateY(-1px);
 }
+
+
+/* =========================================================
+   DATABASE-DRIVEN HOMEPAGE SECTIONS
+   ========================================================= */
+
+.mli-new-releases {
+    padding: 130px 0 100px;
+    background: #ffffff;
+    color: #2f4156;
+}
+
+.mli-new-releases__heading,
+.mli-services__heading,
+.mli-people__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 40px;
+    margin-bottom: 55px;
+}
+
+.mli-new-releases__index,
+.mli-services__index,
+.mli-people__index {
+    display: block;
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: .2em;
+}
+
+.mli-new-releases h2,
+.mli-services h2,
+.mli-people h2 {
+    margin-top: 17px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(52px, 7vw, 100px);
+    line-height: .84;
+    font-weight: 400;
+    letter-spacing: -.065em;
+}
+
+.mli-new-releases__count {
+    font-size: 10px;
+    font-weight: 800;
+    opacity: .45;
+}
+
+.mli-new-releases__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.mli-release-card {
+    display: block;
+    color: inherit;
+}
+
+.mli-release-card__image {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #c8d9e6;
+}
+
+.mli-release-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .7s ease;
+}
+
+.mli-release-card:hover .mli-release-card__image img {
+    transform: scale(1.05);
+}
+
+.mli-release-card__image > span {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 5px 7px;
+    background: #ffffff;
+    font-size: 7px;
+    font-weight: 900;
+}
+
+.mli-release-card__body {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 15px;
+}
+
+.mli-release-card h3 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 23px;
+    line-height: 1;
+    font-weight: 400;
+}
+
+.mli-release-card small {
+    display: block;
+    margin-top: 7px;
+    color: #567c8d;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+}
+
+.mli-release-card__body b {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.mli-services {
+    color: #ffffff;
+}
+
+.mli-services__heading > p {
+    max-width: 340px;
+    color: rgba(255,255,255,.58);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.mli-services__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-top: 1px solid rgba(255,255,255,.18);
+    border-left: 1px solid rgba(255,255,255,.18);
+}
+
+.mli-service-card {
+    position: relative;
+    min-height: 270px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid rgba(255,255,255,.18);
+    border-bottom: 1px solid rgba(255,255,255,.18);
+    transition: background .3s ease, transform .3s ease;
+}
+
+.mli-service-card:hover {
+    background: rgba(200,217,230,.08);
+    transform: translateY(-4px);
+}
+
+.mli-service-card__number {
+    color: #c8d9e6;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .16em;
+}
+
+.mli-service-card h3 {
+    max-width: 520px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(28px, 3vw, 46px);
+    line-height: .95;
+    font-weight: 400;
+}
+
+.mli-service-card__content {
+    max-width: 540px;
+    margin-top: 18px;
+    color: rgba(255,255,255,.62);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.mli-service-card__arrow {
+    position: absolute;
+    right: 28px;
+    bottom: 24px;
+    color: #c8d9e6;
+    font-size: 22px;
+}
+
+.mli-people {
+    background: #f5f2eb;
+    color: #2f4156;
+}
+
+.mli-people__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px 18px;
+}
+
+.mli-person-card__photo {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #c8d9e6;
+}
+
+.mli-person-card__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .6s ease;
+}
+
+.mli-person-card:hover img {
+    transform: scale(1.04);
+}
+
+.mli-person-card__photo > span {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 7px;
+    background: #f5f2eb;
+    font-size: 7px;
+    font-weight: 900;
+}
+
+.mli-person-card h3 {
+    margin-top: 14px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 400;
+}
+
+.mli-person-card p {
+    margin-top: 7px;
+    color: #567c8d;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+}
+
+.mli-content-empty {
+    padding: 28px 0;
+    border-top: 1px solid rgba(47,65,86,.18);
+    border-bottom: 1px solid rgba(47,65,86,.18);
+    color: rgba(47,65,86,.55);
+    font-size: 12px;
+}
+
+.mli-content-empty--dark {
+    grid-column: 1 / -1;
+    color: rgba(255,255,255,.55);
+    border-color: rgba(255,255,255,.18);
+}
+
+@media (max-width: 900px) {
+    .mli-new-releases__grid,
+    .mli-people__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mli-services__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .mli-new-releases,
+    .mli-services,
+    .mli-people {
+        padding: 90px 0 70px;
+    }
+
+    .mli-new-releases__heading,
+    .mli-services__heading,
+    .mli-people__heading {
+        align-items: start;
+        flex-direction: column;
+        gap: 25px;
+        margin-bottom: 38px;
+    }
+
+    .mli-new-releases h2,
+    .mli-services h2,
+    .mli-people h2 {
+        font-size: clamp(50px, 15vw, 78px);
+    }
+
+    .mli-new-releases__grid,
+    .mli-people__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 22px 12px;
+    }
+
+    .mli-release-card h3,
+    .mli-person-card h3 {
+        font-size: 18px;
+    }
+
+    .mli-service-card {
+        min-height: 230px;
+        padding: 22px;
+    }
+}
