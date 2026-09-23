@@ -12,11 +12,13 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -150,6 +152,11 @@ class ShowResource extends Resource
             Section::make('Publishing')
                 ->columns(2)
                 ->components([
+                    Toggle::make('is_new_release')
+                        ->label('New Release')
+                        ->helperText('Show this title in the homepage New Releases section.')
+                        ->default(false),
+
                     Select::make('status')
                         ->options([
                             'draft' => 'Draft',
@@ -197,6 +204,10 @@ class ShowResource extends Resource
                     ->label('Category')
                     ->sortable(),
 
+                IconColumn::make('is_new_release')
+                    ->label('New Release')
+                    ->boolean(),
+
                 TextColumn::make('status')
                     ->badge()
                     ->color(
@@ -220,6 +231,13 @@ class ShowResource extends Resource
             ])
             ->defaultSort('sort_order')
             ->filters([
+                SelectFilter::make('is_new_release')
+                    ->label('New Release')
+                    ->options([
+                        '1' => 'Yes',
+                        '0' => 'No',
+                    ]),
+
                 SelectFilter::make('status')
                     ->options([
                         'draft' => 'Draft',
