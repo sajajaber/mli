@@ -2,7 +2,7 @@
     <x-partials.hero :shows="$shows" />
     <x-partials.content-teaser :shows="$shows" />
     <x-partials.new-releases :releases="$newReleases" />
-    <x-partials.about-section :content="$aboutPage" :stats="$aboutStats" />
+    <x-partials.about-section :content="$aboutPage" :stats="$aboutStats" :services="$mediaServices" />
     <x-partials.key-people :people="$people" />
     <x-partials.news-section :media-news="$mediaNews" :mli-news="$mliNews" />
 
