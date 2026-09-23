@@ -124,23 +124,6 @@
                 <button type="button" @click="next()" aria-label="{{ app()->getLocale() === 'ar' ? 'البرنامج التالي' : 'Next show' }}">→</button>
             </div>
 
-            <div class="mli-opening__reel" x-show="shows.length > 1">
-                <template x-for="(show, slideIndex) in shows.slice(0, 6)" :key="slideIndex">
-                    <button
-                        type="button"
-                        class="mli-opening__thumb"
-                        :class="{ 'is-active': index === slideIndex }"
-                        @click="goTo(slideIndex)"
-                        :aria-label="show.title"
-                        :aria-current="index === slideIndex ? 'true' : 'false'"
-                    >
-                        <span x-text="String(slideIndex + 1).padStart(2, '0')"></span>
-                        <template x-if="show.image">
-                            <img :src="show.image" alt="" loading="lazy">
-                        </template>
-                    </button>
-                </template>
-            </div>
         </div>
     </div>
 </section>
