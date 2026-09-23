@@ -1,4 +1,4 @@
-@props(['content', 'stats'])
+@props(['content', 'stats', 'services' => collect()])
 
 <section id="about" class="section section--navy mli-about">
     <div class="container mli-about__inner">
@@ -111,6 +111,32 @@
             <div class="mli-about__map-caption">
                 <span>{{ app()->getLocale() === 'ar' ? 'من بيروت إلى العالم' : 'FROM BEIRUT / TO THE WORLD' }}</span>
                 <i aria-hidden="true"></i>
+            </div>
+        </div>
+
+        <div class="mli-about-services" data-reveal="up">
+            <div class="mli-about-services__heading">
+                <span>MEDIA</span>
+                <h3>{{ app()->getLocale() === 'ar' ? 'خدماتنا' : 'What we do' }}</h3>
+            </div>
+
+            <div class="mli-about-services__list">
+                @forelse($services as $index => $service)
+                    <article class="mli-about-service">
+                        <span class="mli-about-service__number">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                        <div>
+                            <h4>{{ app()->getLocale() === 'ar' ? $service->title_ar : $service->title_en }}</h4>
+                            @if(app()->getLocale() === 'ar' ? $service->content_ar : $service->content_en)
+                                <div class="mli-about-service__description">
+                                    {!! app()->getLocale() === 'ar' ? $service->content_ar : $service->content_en !!}
+                                </div>
+                            @endif
+                        </div>
+                        <span class="mli-about-service__arrow">↗</span>
+                    </article>
+                @empty
+                    <p class="mli-content-empty">{{ app()->getLocale() === 'ar' ? 'لا توجد خدمات منشورة حاليًا.' : 'No media services published yet.' }}</p>
+                @endforelse
             </div>
         </div>
     </div>
