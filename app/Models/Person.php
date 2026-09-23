@@ -16,7 +16,9 @@ class Person extends Model
     protected $fillable = [
         'photo_path',
         'name',
+        'name_ar',
         'role_title',
+        'role_title_ar',
         'sort_order',
         'is_active',
     ];
