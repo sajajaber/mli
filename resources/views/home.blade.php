@@ -15,7 +15,7 @@
                     Have a story? <em>Let’s move it.</em>
                 @endif
             </h2>
-            <a href="mailto:info@mli.com" class="mli-contact__link">
+            <a href="mailto:info@mli-lb.com" class="mli-contact__link">
                 <span>{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Start a conversation' }}</span>
                 <b>↗</b>
             </a>
