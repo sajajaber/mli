@@ -3657,3 +3657,73 @@ html[dir="rtl"] .mli-about__map-caption {
         padding: 22px;
     }
 }
+
+/* Media services within About */
+.mli-about-services {
+    margin-top: 100px;
+    padding-top: 45px;
+    border-top: 1px solid rgba(47,65,86,.18);
+}
+.mli-about-services__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 30px;
+    margin-bottom: 32px;
+}
+.mli-about-services__heading > span {
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: .2em;
+}
+.mli-about-services__heading h3 {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(42px, 5vw, 70px);
+    line-height: .9;
+    font-weight: 400;
+    letter-spacing: -.05em;
+}
+.mli-about-services__list {
+    border-top: 1px solid rgba(47,65,86,.18);
+}
+.mli-about-service {
+    display: grid;
+    grid-template-columns: 55px 1fr 30px;
+    gap: 20px;
+    align-items: start;
+    padding: 27px 0;
+    border-bottom: 1px solid rgba(47,65,86,.18);
+    transition: padding .3s ease;
+}
+.mli-about-service:hover {
+    padding-left: 12px;
+}
+.mli-about-service__number {
+    color: #567c8d;
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: .12em;
+}
+.mli-about-service h4 {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(25px, 2.4vw, 38px);
+    line-height: 1;
+    font-weight: 400;
+}
+.mli-about-service__description {
+    max-width: 650px;
+    margin-top: 12px;
+    color: rgba(47,65,86,.62);
+    font-size: 11px;
+    line-height: 1.8;
+}
+.mli-about-service__arrow {
+    font-size: 19px;
+}
+@media (max-width: 640px) {
+    .mli-about-services { margin-top: 70px; }
+    .mli-about-services__heading { align-items: flex-start; flex-direction: column; }
+    .mli-about-service { grid-template-columns: 35px 1fr 20px; gap: 10px; }
+}
