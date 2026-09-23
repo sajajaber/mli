@@ -5204,3 +5204,69 @@ body {
         transition: none;
     }
 }
+
+
+/* =========================================================
+   FINAL HERO HEIGHT — EXACTLY ONE VIEWPORT
+   ========================================================= */
+
+.mli-opening {
+    height: 100svh;
+    min-height: 0;
+    max-height: 100svh;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.mli-opening__inner {
+    height: 100%;
+    min-height: 0;
+    box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+    .mli-opening {
+        height: 100svh;
+        min-height: 0;
+        max-height: 100svh;
+    }
+
+    .mli-opening__inner {
+        height: 100%;
+        min-height: 0;
+        padding: 112px 0 86px;
+        grid-template-rows: auto minmax(0, 1fr);
+        gap: 24px;
+    }
+
+    .mli-opening__feature {
+        min-height: 0;
+        height: 100%;
+    }
+
+    .mli-opening__poster {
+        height: 100%;
+        min-height: 0;
+        max-height: 100%;
+    }
+}
+
+@media (max-width: 560px) {
+    .mli-opening__inner {
+        padding-top: 100px;
+        padding-bottom: 78px;
+        gap: 18px;
+    }
+
+    .mli-opening h1 {
+        font-size: clamp(54px, 16vw, 82px);
+    }
+
+    .mli-opening__statement {
+        margin-top: 18px;
+    }
+
+    .mli-opening__enter {
+        margin-top: 20px;
+    }
+}
