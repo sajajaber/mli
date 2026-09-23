@@ -20,3 +20,27 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 Alpine.start();
+
+document.addEventListener("DOMContentLoaded", () => {
+    const sections = document.querySelectorAll("main > section:not(:first-child)");
+
+    if (!sections.length) return;
+
+    if ("IntersectionObserver" in window) {
+        const sectionObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("mli-section-visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.08,
+            rootMargin: "0px 0px -50px 0px",
+        });
+
+        sections.forEach((section) => sectionObserver.observe(section));
+    } else {
+        sections.forEach((section) => section.classList.add("mli-section-visible"));
+    }
+});
