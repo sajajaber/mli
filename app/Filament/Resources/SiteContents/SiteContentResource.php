@@ -11,6 +11,8 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -122,6 +124,55 @@ class SiteContentResource extends Resource
                 ]),
             ])
             ->recordActions([
+                Action::make('publish')
+                    ->label('Publish')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->visible(fn (SiteContent $record) => $record->status !== 'published')
+                    ->action(function (SiteContent $record): void {
+                        SiteContent::query()
+                            ->where('key', $record->key)
+                            ->where('status', 'published')
+                            ->where('id', '!=', $record->getKey())
+                            ->update(['status' => 'draft']);
+
+                        $record->update([
+                            'status' => 'published',
+                            'published_at' => now(),
+                        ]);
+
+                        Notification::make()
+                            ->success()
+                            ->title('Published')
+                            ->body('This site content is now live on the website.')
+                            ->send();
+                    }),
+
+                Action::make('schedule')
+                    ->label('Schedule')
+                    ->color('warning')
+                    ->visible(fn (SiteContent $record) => $record->status !== 'published')
+                    ->form([
+                        DateTimePicker::make('published_at')
+                            ->label('Publish date & time')
+                            ->native(false)
+                            ->seconds(false)
+                            ->required()
+                            ->minDate(now()),
+                    ])
+                    ->action(function (SiteContent $record, array $data): void {
+                        $record->update([
+                            'status' => 'scheduled',
+                            'published_at' => $data['published_at'],
+                        ]);
+
+                        Notification::make()
+                            ->success()
+                            ->title('Publication scheduled')
+                            ->body('This content will replace the current live version automatically at the scheduled time.')
+                            ->send();
+                    }),
+
                 \Filament\Actions\EditAction::make(),
             ]);
     }
