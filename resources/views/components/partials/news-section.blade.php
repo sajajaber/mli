@@ -1,6 +1,6 @@
 @props(['mediaNews', 'mliNews'])
 
-<section id="news" class="section section--light">
+<section id="news" class="section section--light mli-news-section">
     <div class="container">
         <div class="section-heading" data-reveal="up">
             <div>
