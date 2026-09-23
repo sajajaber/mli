@@ -21,15 +21,6 @@ class HomeController extends Controller
             ->limit(12)
             ->get();
 
-        $newReleases = Show::published()
-            ->where('is_new_release', true)
-            ->whereNotNull('cover_image_path')
-            ->with('category')
-            ->orderBy('sort_order')
-            ->latest('published_at')
-            ->limit(8)
-            ->get();
-
         $people = Person::active()
             ->orderBy('sort_order')
             ->orderBy('id')
@@ -69,7 +60,6 @@ class HomeController extends Controller
 
         return view('home', [
             'shows' => $shows,
-            'newReleases' => $newReleases,
             'people' => $people,
             'mediaServices' => $mediaServices,
             'mediaNews' => $mediaNews,
