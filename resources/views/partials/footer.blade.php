@@ -4,7 +4,7 @@
             <div class="mli-footer-brand">
                 <a href="{{ route('home') }}" class="mli-footer-logo" aria-label="Media Link International">
                     <img
-                        src="{{ Vite::asset('resources/assets/images/mli-logo.png') }}"
+                        src="{{ Vite::asset('resources/assets/images/mli-logo.jpeg') }}"
                         alt="Media Link International">
                 </a>
 
