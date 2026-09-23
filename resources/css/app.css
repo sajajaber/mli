@@ -3730,3 +3730,170 @@ html[dir="rtl"] .mli-about__map-caption {
 
 /* Compact contact footer */
 .mli-contact { min-height: auto; }
+
+
+/* =========================================================
+   WHAT WE DO / MEDIA SERVICES — DARK ABOUT TREATMENT
+   ========================================================= */
+
+.mli-about-services {
+    margin-top: 110px;
+    padding-top: 55px;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.mli-about-services__heading {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    align-items: end;
+    gap: 30px;
+    margin-bottom: 38px;
+}
+
+.mli-about-services__heading > span {
+    color: #c8d9e6;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding-bottom: 9px;
+}
+
+.mli-about-services__heading h3 {
+    margin: 0;
+    color: #ffffff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(52px, 6vw, 88px);
+    line-height: 0.84;
+    font-weight: 400;
+    letter-spacing: -0.06em;
+}
+
+.mli-about-services__list {
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.mli-about-service {
+    position: relative;
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr) 42px;
+    gap: 24px;
+    align-items: start;
+    padding: 30px 18px 30px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    overflow: hidden;
+    transition:
+        padding 0.35s ease,
+        background-color 0.35s ease;
+}
+
+.mli-about-service::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: #c8d9e6;
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: transform 0.35s ease;
+}
+
+.mli-about-service:hover {
+    padding-left: 18px;
+    background: rgba(200, 217, 230, 0.055);
+}
+
+.mli-about-service:hover::before {
+    transform: scaleY(1);
+}
+
+.mli-about-service__number {
+    padding-top: 7px;
+    color: #9ddfd3;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+}
+
+.mli-about-service h4 {
+    margin: 0;
+    color: #ffffff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(30px, 3vw, 48px);
+    line-height: 0.95;
+    font-weight: 400;
+    letter-spacing: -0.035em;
+}
+
+.mli-about-service__description {
+    max-width: 680px;
+    margin-top: 12px;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.mli-about-service__arrow {
+    justify-self: end;
+    color: #c8d9e6;
+    font-size: 25px;
+    font-weight: 300;
+    line-height: 1;
+    transform: translateY(3px);
+    transition:
+        transform 0.3s ease,
+        color 0.3s ease;
+}
+
+.mli-about-service:hover .mli-about-service__arrow {
+    color: #9ddfd3;
+    transform: translate(4px, -1px);
+}
+
+.mli-about-services .mli-content-empty {
+    color: rgba(255, 255, 255, 0.55);
+    border-color: rgba(255, 255, 255, 0.16);
+}
+
+@media (max-width: 760px) {
+    .mli-about-services {
+        margin-top: 80px;
+        padding-top: 42px;
+    }
+
+    .mli-about-services__heading {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 28px;
+    }
+
+    .mli-about-services__heading > span {
+        padding-bottom: 0;
+    }
+
+    .mli-about-services__heading h3 {
+        font-size: clamp(48px, 15vw, 76px);
+    }
+
+    .mli-about-service {
+        grid-template-columns: 38px minmax(0, 1fr) 28px;
+        gap: 12px;
+        padding: 23px 8px 23px 0;
+    }
+
+    .mli-about-service:hover {
+        padding-left: 10px;
+    }
+
+    .mli-about-service h4 {
+        font-size: clamp(25px, 8vw, 38px);
+    }
+
+    .mli-about-service__description {
+        font-size: 11px;
+    }
+
+    .mli-about-service__arrow {
+        font-size: 21px;
+    }
+}
