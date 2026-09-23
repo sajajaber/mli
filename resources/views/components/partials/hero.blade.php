@@ -59,13 +59,6 @@
     tabindex="0"
 >
     <div class="mli-opening__grain" aria-hidden="true"></div>
-    <div class="mli-opening__line mli-opening__line--top" aria-hidden="true"></div>
-    <div class="mli-opening__line mli-opening__line--side" aria-hidden="true"></div>
-
-    <div class="mli-opening__meta">
-        <span>MEDIA LINK INTERNATIONAL</span>
-        <span>BEIRUT / 33.8938° N</span>
-    </div>
 
     <div class="mli-opening__number" aria-hidden="true">01</div>
 
