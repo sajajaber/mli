@@ -24,6 +24,7 @@ class Show extends Model
         'cover_image_alt',
         'vimeo_url',
         'status',
+        'is_new_release',
         'published_at',
         'meta_title_en',
         'meta_title_ar',
@@ -34,6 +35,7 @@ class Show extends Model
 
     protected $casts = [
         'published_at' => 'datetime',
+        'is_new_release' => 'boolean',
     ];
 
     // --- Relationships ---
