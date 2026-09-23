@@ -2,7 +2,7 @@
     <div class="mli-nav__inner">
         <a href="{{ route('home') }}" class="brand-lockup" aria-label="Media Link International">
             <img
-                src="{{ Vite::asset('resources/assets/images/mli-logo.png') }}"
+                src="{{ Vite::asset('resources/assets/images/mli-logo.jpeg') }}"
                 alt="Media Link International"
                 class="site-logo">
         </a>
