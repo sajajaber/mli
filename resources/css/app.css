@@ -4576,3 +4576,190 @@ html[dir="rtl"] .mli-about__map-caption {
 .mli-catalogue--light {
     background: #c8d9e6;
 }
+
+
+/* =========================================================
+   THE LIBRARY — HORIZONTAL SHOW MARQUEE
+   ========================================================= */
+
+.mli-library-marquee {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-top: 1px solid rgba(47, 65, 86, 0.22);
+    border-bottom: 1px solid rgba(47, 65, 86, 0.22);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.mli-library-marquee::before,
+.mli-library-marquee::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+    width: 110px;
+    pointer-events: none;
+}
+
+.mli-library-marquee::before {
+    left: 0;
+    background: linear-gradient(90deg, #c8d9e6 0%, rgba(200, 217, 230, 0) 100%);
+}
+
+.mli-library-marquee::after {
+    right: 0;
+    background: linear-gradient(270deg, #c8d9e6 0%, rgba(200, 217, 230, 0) 100%);
+}
+
+.mli-library-marquee__viewport {
+    overflow: hidden;
+}
+
+.mli-library-marquee__track {
+    display: flex;
+    width: max-content;
+    animation: mli-library-scroll 42s linear infinite;
+    will-change: transform;
+}
+
+.mli-library-marquee:hover .mli-library-marquee__track {
+    animation-play-state: paused;
+}
+
+.mli-library-marquee__item {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    min-width: 340px;
+    padding: 22px 24px;
+    color: #2f4156;
+    border-right: 1px solid rgba(47, 65, 86, 0.18);
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease;
+}
+
+.mli-library-marquee__item:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.mli-library-marquee__number {
+    flex: 0 0 auto;
+    color: #567c8d;
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+}
+
+.mli-library-marquee__thumb {
+    flex: 0 0 auto;
+    width: 54px;
+    height: 68px;
+    overflow: hidden;
+    background: #567c8d;
+}
+
+.mli-library-marquee__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.mli-library-marquee__item:hover .mli-library-marquee__thumb img {
+    transform: scale(1.06);
+}
+
+.mli-library-marquee__copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.mli-library-marquee__copy strong {
+    max-width: 190px;
+    overflow: hidden;
+    color: #2f4156;
+    font-family: Georgia, "Times New Roman", sans-serif;
+    font-size: clamp(20px, 2vw, 28px);
+    line-height: 0.92;
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mli-library-marquee__copy small {
+    color: #567c8d;
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.mli-library-marquee__arrow {
+    margin-left: auto;
+    color: #567c8d;
+    font-size: 18px;
+    transition:
+        transform 0.3s ease,
+        color 0.3s ease;
+}
+
+.mli-library-marquee__item:hover .mli-library-marquee__arrow {
+    color: #2f4156;
+    transform: translate(4px, -3px);
+}
+
+.mli-library-marquee__divider {
+    margin-left: 8px;
+    color: rgba(47, 65, 86, 0.28);
+    font-size: 14px;
+}
+
+@keyframes mli-library-scroll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 700px) {
+    .mli-library-marquee::before,
+    .mli-library-marquee::after {
+        width: 55px;
+    }
+
+    .mli-library-marquee__track {
+        animation-duration: 34s;
+    }
+
+    .mli-library-marquee__item {
+        min-width: 280px;
+        gap: 12px;
+        padding: 17px 16px;
+    }
+
+    .mli-library-marquee__thumb {
+        width: 44px;
+        height: 56px;
+    }
+
+    .mli-library-marquee__copy strong {
+        max-width: 155px;
+        font-size: 20px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mli-library-marquee__track {
+        animation: none;
+    }
+}
