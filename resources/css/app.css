@@ -4218,3 +4218,20 @@ html[dir="rtl"] .mli-about__map-caption {
         transform: none;
     }
 }
+
+
+/* Integrate What We Do across the full About content width */
+.mli-about-services {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-left: 0;
+    transform: none;
+    align-self: stretch;
+}
+
+@media (max-width: 760px) {
+    .mli-about-services {
+        grid-column: 1;
+        width: 100%;
+    }
+}
