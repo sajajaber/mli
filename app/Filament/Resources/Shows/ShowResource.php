@@ -134,8 +134,7 @@ class ShowResource extends Resource
                                 $file,
                                 'shows',
                                 maxWidth: 1600,
-                                quality: 85,
-                                field: 'cover_image_path',
+                                quality: 85
                             )
                         )
                         ->columnSpanFull(),
