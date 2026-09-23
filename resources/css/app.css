@@ -5291,3 +5291,25 @@ body {
         transform: none;
     }
 }
+
+
+/* =========================================================
+   HERO CAROUSEL — IMAGE + SHOW TITLE ONLY
+   ========================================================= */
+
+.mli-opening__reel {
+    display: none !important;
+}
+
+.mli-opening__poster-copy {
+    left: 28px;
+    right: 28px;
+    bottom: 28px;
+    gap: 10px;
+}
+
+.mli-opening__poster-copy strong {
+    max-width: min(760px, 92%);
+    text-wrap: balance;
+    text-shadow: 0 3px 22px rgba(0, 0, 0, 0.32);
+}
