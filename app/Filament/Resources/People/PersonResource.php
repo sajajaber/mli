@@ -41,12 +41,23 @@ class PersonResource extends Resource
                 ->columnSpanFull(),
 
             TextInput::make('name')
+                ->label('Name (English)')
                 ->required()
                 ->maxLength(255),
 
+            TextInput::make('name_ar')
+                ->label('Name (Arabic)')
+                ->maxLength(255)
+                ->extraInputAttributes(['dir' => 'rtl']),
+
             TextInput::make('role_title')
-                ->label('Role / Title')
+                ->label('Role / Title (English)')
                 ->maxLength(255),
+
+            TextInput::make('role_title_ar')
+                ->label('Role / Title (Arabic)')
+                ->maxLength(255)
+                ->extraInputAttributes(['dir' => 'rtl']),
 
             TextInput::make('sort_order')
                 ->numeric()
@@ -67,8 +78,8 @@ class PersonResource extends Resource
                     ->disk('public')
                     ->circular(),
 
-                TextColumn::make('name')->searchable()->sortable(),
-                TextColumn::make('role_title')->label('Role')->searchable(),
+                TextColumn::make('name')->label('Name (English)')->searchable()->sortable(),
+                TextColumn::make('role_title')->label('Role (English)')->searchable(),
 
                 IconColumn::make('is_active')
                     ->label('Active')
