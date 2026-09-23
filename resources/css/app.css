@@ -4235,3 +4235,64 @@ html[dir="rtl"] .mli-about__map-caption {
         width: 100%;
     }
 }
+
+
+/* =========================================================
+   FINAL SECTIONS — TYPOGRAPHY ALIGNMENT
+   ========================================================= */
+
+/* People uses the same editorial type hierarchy as the other
+   database-driven sections. */
+.mli-people__heading h2,
+.mli-person-card h3 {
+    font-family: Georgia, "Times New Roman", "Readex Pro", sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.045em;
+}
+
+.mli-people__heading h2 {
+    font-size: clamp(52px, 7vw, 100px);
+    line-height: 0.84;
+}
+
+/* News should use the same serif display face for major titles
+   and article names, while labels stay in the UI sans. */
+#news .section-heading h2 {
+    margin-top: 17px;
+    font-family: Georgia, "Times New Roman", "Readex Pro", sans-serif;
+    font-size: clamp(52px, 7vw, 100px);
+    line-height: 0.84;
+    font-weight: 400;
+    letter-spacing: -0.065em;
+}
+
+#news .news-column__head,
+#news .news-item__body > span,
+#news .empty-state {
+    font-family: "Readex Pro", ui-sans-serif, system-ui, sans-serif;
+}
+
+#news .news-item__body strong {
+    font-family: Georgia, "Times New Roman", "Readex Pro", sans-serif;
+    font-size: 18px;
+    line-height: 1.15;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+}
+
+#news .news-item__body > span {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+@media (max-width: 640px) {
+    .mli-people__heading h2,
+    #news .section-heading h2 {
+        font-size: clamp(50px, 15vw, 78px);
+    }
+
+    #news .news-item__body strong {
+        font-size: 16px;
+    }
+}
