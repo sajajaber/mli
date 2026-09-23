@@ -8,7 +8,9 @@ class FooterSetting extends Model
 {
     protected $fillable = [
         'tagline',
+        'tagline_ar',
         'description',
+        'description_ar',
         'phone_primary',
         'phone_secondary',
         'email',
