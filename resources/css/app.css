@@ -4202,3 +4202,19 @@ html[dir="rtl"] .mli-about__map-caption {
         padding-top: 95px;
     }
 }
+
+
+/* Wider What We Do strip on desktop */
+.mli-about-services {
+    width: min(1380px, calc(100vw - 64px));
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+@media (max-width: 760px) {
+    .mli-about-services {
+        width: 100%;
+        margin-left: 0;
+        transform: none;
+    }
+}
