@@ -4,7 +4,6 @@
     <div class="container">
         <div class="mli-people__heading" data-reveal="up">
             <div>
-                <span class="mli-people__index">05 / PEOPLE</span>
                 <h2>{{ app()->getLocale() === 'ar' ? 'فريقنا' : 'Key People' }}</h2>
             </div>
         </div>
@@ -17,11 +16,15 @@
                             @if($person->photo_url)
                                 <img src="{{ $person->photo_url }}" alt="{{ $person->name }}" loading="lazy">
                             @endif
-                            <span>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
                         </div>
-                        <h3>{{ $person->name }}</h3>
-                        @if($person->role_title)
-                            <p>{{ $person->role_title }}</p>
+                        <h3>{{ app()->getLocale() === 'ar' ? ($person->name_ar ?: $person->name) : $person->name }}</h3>
+                        @php
+                            $role = app()->getLocale() === 'ar'
+                                ? ($person->role_title_ar ?: $person->role_title)
+                                : $person->role_title;
+                        @endphp
+                        @if($role)
+                            <p>{{ $role }}</p>
                         @endif
                     </article>
                 @endforeach
