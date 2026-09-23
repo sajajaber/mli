@@ -9,7 +9,6 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/js/app.js",
                 "resources/css/filament/admin/theme.css",
-                "resources/assets/images/mli-logo.png",
             ],
             refresh: true,
         }),
