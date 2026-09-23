@@ -1,10 +1,6 @@
 @props(['mediaNews', 'mliNews'])
 
-<section id="news" x-data="{ openModal: null, items: [
-@foreach ($mliNews->concat($mediaNews) as $item)
-{ id: {{ $item->id }}, title: @js(app()->getLocale() === 'ar' ? $item->title_ar : $item->title_en), body: @js(app()->getLocale() === 'ar' ? $item->body_ar : $item->body_en), image: @js($item->featured_image_url), imageAlt: @js($item->featured_image_alt) },
-@endforeach
-]}" class="section section--light">
+<section id="news" class="section section--light">
     <div class="container">
         <div class="section-heading" data-reveal="up">
             <div>
@@ -15,32 +11,50 @@
 
         <div class="news-grid">
             <div class="news-column" data-reveal="left">
-                <div class="news-column__head"><span>{{ app()->getLocale() === 'ar' ? 'أخبار MLI' : 'MLI News' }}</span><i></i></div>
+                <div class="news-column__head">
+                    <span>{{ app()->getLocale() === 'ar' ? 'أخبار MLI' : 'MLI News' }}</span><i></i>
+                </div>
                 <div class="news-list">
-                    <template x-for="item in items.slice(0, {{ $mliNews->count() }})" :key="item.id">
-                        <button @click="openModal = item.id" class="news-item">
-                            <span class="news-item__image"><img :src="item.image" :alt="item.imageAlt"></span>
-                            <span class="news-item__body"><strong x-text="item.title"></strong><span>{{ app()->getLocale() === 'ar' ? 'اقرأ القصة' : 'Read story' }} ↗</span></span>
-                        </button>
-                    </template>
-                    @if($mliNews->isEmpty()) <p class="empty-state">{{ app()->getLocale() === 'ar' ? 'لا توجد أخبار حاليًا.' : 'No news yet.' }}</p> @endif
+                    @forelse($mliNews as $item)
+                        <a href="{{ route('home') }}#news" class="news-item">
+                            <span class="news-item__image">
+                                @if($item->featured_image_url)
+                                    <img src="{{ $item->featured_image_url }}" alt="{{ $item->featured_image_alt ?? '' }}" loading="lazy">
+                                @endif
+                            </span>
+                            <span class="news-item__body">
+                                <strong>{{ app()->getLocale() === 'ar' ? $item->title_ar : $item->title_en }}</strong>
+                                <span>{{ app()->getLocale() === 'ar' ? 'أخبار MLI' : 'MLI News' }} ↗</span>
+                            </span>
+                        </a>
+                    @empty
+                        <p class="empty-state">{{ app()->getLocale() === 'ar' ? 'لا توجد أخبار حاليًا.' : 'No MLI news yet.' }}</p>
+                    @endforelse
                 </div>
             </div>
 
             <div class="news-column" data-reveal="right">
-                <div class="news-column__head news-column__head--gold"><span>{{ app()->getLocale() === 'ar' ? 'أخبار الإعلام' : 'Media News' }}</span><i></i></div>
+                <div class="news-column__head news-column__head--gold">
+                    <span>{{ app()->getLocale() === 'ar' ? 'أخبار الإعلام' : 'Media News' }}</span><i></i>
+                </div>
                 <div class="news-list">
-                    <template x-for="item in items.slice({{ $mliNews->count() }})" :key="item.id">
-                        <button @click="openModal = item.id" class="news-item">
-                            <span class="news-item__image"><img :src="item.image" :alt="item.imageAlt"></span>
-                            <span class="news-item__body"><strong x-text="item.title"></strong><span>{{ app()->getLocale() === 'ar' ? 'اقرأ القصة' : 'Read story' }} ↗</span></span>
-                        </button>
-                    </template>
-                    @if($mediaNews->isEmpty()) <p class="empty-state">{{ app()->getLocale() === 'ar' ? 'لا توجد أخبار حاليًا.' : 'No news yet.' }}</p> @endif
+                    @forelse($mediaNews as $item)
+                        <a href="{{ route('home') }}#news" class="news-item">
+                            <span class="news-item__image">
+                                @if($item->featured_image_url)
+                                    <img src="{{ $item->featured_image_url }}" alt="{{ $item->featured_image_alt ?? '' }}" loading="lazy">
+                                @endif
+                            </span>
+                            <span class="news-item__body">
+                                <strong>{{ app()->getLocale() === 'ar' ? $item->title_ar : $item->title_en }}</strong>
+                                <span>{{ app()->getLocale() === 'ar' ? 'أخبار الإعلام' : 'Media News' }} ↗</span>
+                            </span>
+                        </a>
+                    @empty
+                        <p class="empty-state">{{ app()->getLocale() === 'ar' ? 'لا توجد أخبار حاليًا.' : 'No media news yet.' }}</p>
+                    @endforelse
                 </div>
             </div>
         </div>
     </div>
-
-    <x-partials.content-modal />
 </section>
