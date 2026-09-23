@@ -3730,19 +3730,3 @@ html[dir="rtl"] .mli-about__map-caption {
 
 /* Compact contact footer */
 .mli-contact { min-height: auto; }
-
-/* Consistent MLI typography */
-body, button, input, textarea, select,
-.site-nav, .mli-footer, .mli-opening, .mli-catalogue,
-.mli-new-releases, .mli-people, .mli-about-services, #news,
-#news h2, #news strong, .mli-opening h1, .mli-catalogue h2,
-.mli-new-releases h2, .mli-about-services h3, .mli-about-service h4,
-.mli-person-card h3, .mli-release-card h3 {
-    font-family: "Readex Pro", ui-sans-serif, system-ui, sans-serif !important;
-}
-.mli-opening h1, .mli-catalogue h2, .mli-new-releases h2,
-.mli-about-services h3, .mli-about-service h4,
-.mli-person-card h3, .mli-release-card h3 {
-    font-weight: 500;
-    letter-spacing: -0.035em;
-}
