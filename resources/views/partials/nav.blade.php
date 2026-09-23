@@ -1,10 +1,8 @@
 <nav x-data="{ scrolled: false, menuOpen: false }" x-init="scrolled = window.scrollY > 30; window.addEventListener('scroll', () => scrolled = window.scrollY > 30, { passive: true })" :class="scrolled ? 'mli-nav mli-nav--scrolled' : 'mli-nav'" aria-label="{{ app()->getLocale() === 'ar' ? 'التنقل الرئيسي' : 'Main navigation' }}">
     <div class="mli-nav__inner">
-        <a href="{{ route('home') }}" class="brand-lockup" aria-label="Media Link International">
-            <img
-                src="{{ Vite::asset('resources/assets/images/mli-logo.jpeg') }}"
-                alt="Media Link International"
-                class="site-logo">
+        <a href="{{ route('home') }}" class="mli-nav__brand" aria-label="Media Link International">
+            <span>MLI</span>
+            <small>MEDIA LINK<br>INTERNATIONAL</small>
         </a>
 
         <div class="mli-nav__center">

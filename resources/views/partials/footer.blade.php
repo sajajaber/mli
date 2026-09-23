@@ -1,11 +1,13 @@
 <footer class="mli-footer">
     <div class="mli-footer-container">
+
+        {{-- Main footer content --}}
         <div class="mli-footer-main">
+
+            {{-- Brand --}}
             <div class="mli-footer-brand">
                 <a href="{{ route('home') }}" class="mli-footer-logo" aria-label="Media Link International">
-                    <img
-                        src="{{ Vite::asset('resources/assets/images/mli-logo.jpeg') }}"
-                        alt="Media Link International">
+                    <img src="{{ asset('images/mli-logo.jpeg') }}" alt="Media Link International" class="site-logo">
                 </a>
 
                 <p class="mli-footer-tagline">
@@ -18,6 +20,8 @@
                 </p>
             </div>
 
+
+            {{-- Contact --}}
             <div class="mli-footer-contact">
                 <span class="mli-footer-label">CONTACT</span>
 
@@ -34,6 +38,8 @@
                 </a>
             </div>
 
+
+            {{-- Office --}}
             <div class="mli-footer-office">
                 <span class="mli-footer-label">OUR OFFICE</span>
 
@@ -53,10 +59,13 @@
                 </a>
             </div>
 
+
+            {{-- Social --}}
             <div class="mli-footer-social">
                 <span class="mli-footer-label">FOLLOW US</span>
 
                 <div class="mli-social-links">
+
                     <a
                         href="#"
                         target="_blank"
@@ -74,11 +83,16 @@
                         class="mli-social-link">
                         <span>in</span>
                     </a>
+
                 </div>
             </div>
+
         </div>
 
+
+        {{-- Footer bottom --}}
         <div class="mli-footer-bottom">
+
             <p class="mli-footer-copyright">
                 © {{ date('Y') }} Media Link International. All rights reserved.
             </p>
@@ -92,6 +106,8 @@
                     Back to top ↑
                 </a>
             </div>
+
         </div>
+
     </div>
 </footer>
