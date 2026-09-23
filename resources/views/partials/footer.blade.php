@@ -1,96 +1,103 @@
+@php
+    $footer = \App\Models\FooterSetting::current();
+@endphp
+
 <footer class="mli-footer">
     <div class="mli-footer-container">
 
-        {{-- Main footer content --}}
         <div class="mli-footer-main">
 
-            {{-- Brand --}}
             <div class="mli-footer-brand">
                 <a href="{{ route('home') }}" class="mli-footer-logo" aria-label="Media Link International">
                     <img src="{{ asset('images/mli-logo.jpeg') }}" alt="Media Link International" class="site-logo">
                 </a>
 
-                <p class="mli-footer-tagline">
-                    Media Link International
-                </p>
+                @if($footer?->tagline)
+                    <p class="mli-footer-tagline">
+                        {{ $footer->tagline }}
+                    </p>
+                @endif
 
-                <p class="mli-footer-description">
-                    Connecting stories, media and people through meaningful
-                    communication and creative experiences.
-                </p>
+                @if($footer?->description)
+                    <p class="mli-footer-description">
+                        {{ $footer->description }}
+                    </p>
+                @endif
             </div>
 
-
-            {{-- Contact --}}
             <div class="mli-footer-contact">
                 <span class="mli-footer-label">CONTACT</span>
 
-                <a href="tel:+9611395901" class="mli-footer-link">
-                    +961 1 395 901
-                </a>
+                @if($footer?->phone_primary)
+                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $footer->phone_primary) }}" class="mli-footer-link">
+                        {{ $footer->phone_primary }}
+                    </a>
+                @endif
 
-                <a href="tel:+9611395952" class="mli-footer-link">
-                    +961 1 395 952
-                </a>
+                @if($footer?->phone_secondary)
+                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $footer->phone_secondary) }}" class="mli-footer-link">
+                        {{ $footer->phone_secondary }}
+                    </a>
+                @endif
 
-                <a href="mailto:info@mli-lb.com" class="mli-footer-link">
-                    info@mli-lb.com
-                </a>
+                @if($footer?->email)
+                    <a href="mailto:{{ $footer->email }}" class="mli-footer-link">
+                        {{ $footer->email }}
+                    </a>
+                @endif
             </div>
 
-
-            {{-- Office --}}
             <div class="mli-footer-office">
                 <span class="mli-footer-label">OUR OFFICE</span>
 
-                <address>
-                    Tayouneh, Omar Bayham St.<br>
-                    Al-Nakhil Bldg, Second Floor<br>
-                    Beirut, Lebanon
-                </address>
+                @if($footer?->office_address)
+                    <address>
+                        {!! nl2br(e($footer->office_address)) !!}
+                    </address>
+                @endif
 
-                <a
-                    href="https://www.google.com/maps/search/?api=1&query=Media+Link+International+Beirut"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="mli-footer-map-link">
-                    View on Google Maps
-                    <span aria-hidden="true">↗</span>
-                </a>
+                @if($footer?->map_url)
+                    <a
+                        href="{{ $footer->map_url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="mli-footer-map-link">
+                        View on Google Maps
+                        <span aria-hidden="true">↗</span>
+                    </a>
+                @endif
             </div>
 
-
-            {{-- Social --}}
             <div class="mli-footer-social">
                 <span class="mli-footer-label">FOLLOW US</span>
 
                 <div class="mli-social-links">
+                    @if($footer?->facebook_url)
+                        <a
+                            href="{{ $footer->facebook_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Facebook"
+                            class="mli-social-link">
+                            <span>f</span>
+                        </a>
+                    @endif
 
-                    <a
-                        href="#"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Facebook"
-                        class="mli-social-link">
-                        <span>f</span>
-                    </a>
-
-                    <a
-                        href="#"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="LinkedIn"
-                        class="mli-social-link">
-                        <span>in</span>
-                    </a>
-
+                    @if($footer?->linkedin_url)
+                        <a
+                            href="{{ $footer->linkedin_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="LinkedIn"
+                            class="mli-social-link">
+                            <span>in</span>
+                        </a>
+                    @endif
                 </div>
             </div>
 
         </div>
 
-
-        {{-- Footer bottom --}}
         <div class="mli-footer-bottom">
 
             <p class="mli-footer-copyright">
@@ -98,9 +105,11 @@
             </p>
 
             <div class="mli-footer-bottom-links">
-                <a href="#">
-                    Privacy Policy
-                </a>
+                @if($footer?->privacy_policy_url)
+                    <a href="{{ $footer->privacy_policy_url }}">
+                        Privacy Policy
+                    </a>
+                @endif
 
                 <a href="#top" class="mli-back-to-top">
                     Back to top ↑
