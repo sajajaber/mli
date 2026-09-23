@@ -6,6 +6,7 @@ use App\Filament\Resources\FooterSettings\Pages\EditFooterSetting;
 use App\Filament\Resources\FooterSettings\Pages\ListFooterSettings;
 use App\Models\FooterSetting;
 use BackedEnum;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Resources\Resource;
@@ -113,7 +114,7 @@ class FooterSettingResource extends Resource
                     ->since(),
             ])
             ->recordActions([
-                \\Filament\\Actions\\EditAction::make(),
+                EditAction::make(),
             ]);
     }
 
