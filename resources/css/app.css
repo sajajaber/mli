@@ -5057,3 +5057,28 @@ html[dir="rtl"] .mli-about__map-caption {
         animation: none;
     }
 }
+
+
+/* Hero accent styling */
+.mli-opening__eyebrow {
+    color: #c5a46d;
+}
+
+.mli-opening__eyebrow i {
+    background: #c5a46d;
+}
+
+.mli-opening__enter {
+    transition:
+        color 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.mli-opening__enter:hover {
+    color: #c5a46d;
+    border-color: #c5a46d;
+}
+
+.mli-opening__enter:hover b {
+    color: #c5a46d;
+}
