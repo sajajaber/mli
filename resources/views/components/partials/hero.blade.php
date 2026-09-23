@@ -1,63 +1,78 @@
 @props(['shows'])
 
-<section class="relative overflow-hidden bg-navy-950 text-white">
-    <div class="mx-auto flex min-h-[90vh] max-w-6xl flex-col items-center justify-center px-6 text-center">
-        <h1 class="max-w-3xl text-4xl font-medium leading-tight sm:text-6xl">
-            @if(app()->getLocale() === 'ar')
-            محتوى عربي أصيل لعالم يشاهد
-            @else
-            Arabic content, distributed to the world
-            @endif
-        </h1>
+<section class="mli-opening" aria-labelledby="hero-title">
+    <div class="mli-opening__grain" aria-hidden="true"></div>
+    <div class="mli-opening__line mli-opening__line--top" aria-hidden="true"></div>
+    <div class="mli-opening__line mli-opening__line--side" aria-hidden="true"></div>
 
-        <p class="mt-6 max-w-xl text-lg text-silver-200">
-            @if(app()->getLocale() === 'ar')
-            ميديا لينك إنترناشونال — أكثر من 20 عامًا في إنتاج وتوزيع المحتوى العربي عبر الشرق الأوسط وشمال أفريقيا وجنوب شرق آسيا.
-            @else
-            Media Link International — over 20 years producing and distributing Arabic content across the Middle East, North Africa, and Southeast Asia.
-            @endif
-        </p>
-
-        <a href="{{ route('shows.index') }}"
-            class="mt-10 inline-flex items-center gap-2 rounded-full bg-gold-500 px-8 py-3 font-medium text-navy-950 transition hover:bg-gold-400">
-            @if(app()->getLocale() === 'ar')
-            استكشف أعمالنا
-            @else
-            Explore our Shows
-            @endif
-        </a>
+    <div class="mli-opening__meta">
+        <span>MEDIA LINK INTERNATIONAL</span>
+        <span>BEIRUT / 33.8938° N</span>
     </div>
 
-    {{-- Film-reel marquee: real show covers, looping horizontally --}}
-    <div class="relative border-y border-white/10 bg-navy-800 py-6">
-        <div class="absolute inset-x-0 top-0 flex justify-between px-4">
-            @for ($i = 0; $i < 40; $i++)
-                <span class="h-2 w-2 rounded-full bg-silver-200/20"></span>
-                @endfor
-        </div>
+    <div class="mli-opening__number" aria-hidden="true">01</div>
 
-        <div class="flex w-max reel-track">
-            @foreach ($shows->concat($shows) as $show)
-            <div class="mx-3 h-32 w-24 flex-shrink-0 overflow-hidden rounded-md border border-white/10 shadow-lg sm:h-40 sm:w-28">
-                @if ($show->cover_image_url)
-                <img
-                    src="{{ $show->cover_image_url }}"
-                    alt="{{ $show->cover_image_alt ?? ($locale === 'ar' ? $show->title_ar : $show->title_en) }}"
-                    class="h-full w-full object-cover"
-                    loading="lazy">
+    <div class="mli-opening__inner">
+        <div class="mli-opening__copy" data-reveal="left">
+            <p class="mli-opening__eyebrow">
+                <i></i>
+                {{ app()->getLocale() === 'ar' ? 'تنوع. جودة. توافر.' : 'Variety. Quality. Availability.' }}
+            </p>
+
+            <h1 id="hero-title">
+                @if(app()->getLocale() === 'ar')
+                    <span class="mli-opening__word">تنوع.</span> <span class="mli-opening__word">جودة.</span> <span class="mli-opening__word">توافر.</span>
                 @else
-                <div class="flex h-full w-full items-center justify-center bg-navy-950 text-xs text-silver-200/50">
-                    {{ $show->title_en }}
-                </div>
+                    <span class="mli-opening__word">Variety.</span> <span class="mli-opening__word">Quality.</span> <span class="mli-opening__word">Availability.</span>
                 @endif
-            </div>
-            @endforeach
+            </h1>
+
+            <p class="mli-opening__statement">
+                @if(app()->getLocale() === 'ar')
+                    مكتبة مبنية على ثلاثة أركان: تنوع الخيارات، جودة المحتوى، وتوافره للجمهور.
+                @else
+                    A catalogue built around three things: breadth of choice, a commitment to quality, and content ready when audiences need it.
+                @endif
+            </p>
+
+            <a href="{{ route('shows.index') }}" class="mli-opening__enter">
+                <span>{{ app()->getLocale() === 'ar' ? 'اكتشف المكتبة' : 'Explore the library' }}</span>
+                <b>↗</b>
+            </a>
         </div>
 
-        <div class="absolute inset-x-0 bottom-0 flex justify-between px-4">
-            @for ($i = 0; $i < 40; $i++)
-                <span class="h-2 w-2 rounded-full bg-silver-200/20"></span>
-                @endfor
+        <div class="mli-opening__feature" data-reveal="scale">
+            @php($featured = $shows->first())
+            @if($featured && $featured->cover_image_url)
+                <a href="{{ route('shows.index') }}" class="mli-opening__poster">
+                    <img src="{{ $featured->cover_image_url }}" alt="{{ $featured->cover_image_alt ?? (app()->getLocale() === 'ar' ? $featured->title_ar : $featured->title_en) }}">
+                    <span class="mli-opening__poster-wash"></span>
+                    <span class="mli-opening__poster-label">FEATURED / 001</span>
+                    <span class="mli-opening__poster-title">{{ app()->getLocale() === 'ar' ? $featured->title_ar : $featured->title_en }}</span>
+                    <span class="mli-opening__poster-arrow">↗</span>
+                </a>
+            @else
+                <div class="mli-opening__poster mli-opening__poster--empty">
+                    <span>MLI / 001</span>
+                </div>
+            @endif
+
+            <div class="mli-opening__reel">
+                @foreach($shows->skip(1)->take(4) as $index => $show)
+                    <a href="{{ route('shows.index') }}" title="{{ app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en }}">
+                        <span>0{{ $index + 2 }}</span>
+                        @if($show->cover_image_url)
+                            <img src="{{ $show->cover_image_url }}" alt="" loading="lazy">
+                        @endif
+                    </a>
+                @endforeach
+            </div>
         </div>
+    </div>
+
+    <div class="mli-opening__footer">
+        <span>ARABIC CONTENT / GLOBAL REACH</span>
+        <span class="mli-opening__scroll">SCROLL TO EXPLORE <b>↓</b></span>
+        <span>MLI / 2026</span>
     </div>
 </section>
