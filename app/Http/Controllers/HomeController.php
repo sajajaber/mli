@@ -17,7 +17,6 @@ class HomeController extends Controller
         // after code/dependency changes.
         $shows = Show::published()
             ->with('category')
-            ->whereNotNull('cover_image_path')
             ->latest('published_at')
             ->limit(12)
             ->get();
