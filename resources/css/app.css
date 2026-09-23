@@ -3727,3 +3727,6 @@ html[dir="rtl"] .mli-about__map-caption {
     .mli-about-services__heading { align-items: flex-start; flex-direction: column; }
     .mli-about-service { grid-template-columns: 35px 1fr 20px; gap: 10px; }
 }
+
+/* Compact contact footer */
+.mli-contact { min-height: auto; }
