@@ -12,16 +12,22 @@
                     <img src="{{ asset('images/mli-logo.jpeg') }}" alt="Media Link International" class="site-logo">
                 </a>
 
-                @if($footer?->tagline)
-                    <p class="mli-footer-tagline">
-                        {{ $footer->tagline }}
-                    </p>
+                @php
+                    $tagline = app()->getLocale() === 'ar'
+                        ? ($footer?->tagline_ar ?: $footer?->tagline)
+                        : $footer?->tagline;
+
+                    $description = app()->getLocale() === 'ar'
+                        ? ($footer?->description_ar ?: $footer?->description)
+                        : $footer?->description;
+                @endphp
+
+                @if($tagline)
+                    <p class="mli-footer-tagline">{{ $tagline }}</p>
                 @endif
 
-                @if($footer?->description)
-                    <p class="mli-footer-description">
-                        {{ $footer->description }}
-                    </p>
+                @if($description)
+                    <p class="mli-footer-description">{{ $description }}</p>
                 @endif
             </div>
 
