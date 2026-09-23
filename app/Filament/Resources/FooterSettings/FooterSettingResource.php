@@ -37,12 +37,23 @@ class FooterSettingResource extends Resource
                 ->description('Control the text shown in the footer.')
                 ->components([
                     TextInput::make('tagline')
-                        ->label('Tagline')
+                        ->label('Tagline (English)')
                         ->maxLength(255),
 
+                    TextInput::make('tagline_ar')
+                        ->label('Tagline (Arabic)')
+                        ->maxLength(255)
+                        ->extraInputAttributes(['dir' => 'rtl']),
+
                     Textarea::make('description')
-                        ->label('Description')
+                        ->label('Description (English)')
                         ->rows(4)
+                        ->columnSpanFull(),
+
+                    Textarea::make('description_ar')
+                        ->label('Description (Arabic)')
+                        ->rows(4)
+                        ->extraInputAttributes(['dir' => 'rtl'])
                         ->columnSpanFull(),
                 ]),
 
