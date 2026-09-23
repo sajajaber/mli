@@ -12,7 +12,7 @@
         </div>
 
         <div class="mli-nav__right">
-            <span class="mli-nav__status"><i></i> ON AIR</span>
+            <span class="mli-nav__status"></span>
             <a href="{{ route('lang.switch', ['locale' => app()->getLocale() === 'ar' ? 'en' : 'ar']) }}" class="mli-nav__language">{{ app()->getLocale() === 'ar' ? 'EN' : 'AR' }}</a>
             <a href="{{ route('home') }}#contact" class="mli-nav__contact">{{ app()->getLocale() === 'ar' ? 'تواصل' : 'Contact' }} ↗</a>
             <button type="button" class="mli-nav__menu" @click="menuOpen = !menuOpen" :aria-expanded="menuOpen.toString()" aria-label="{{ app()->getLocale() === 'ar' ? 'فتح القائمة' : 'Open menu' }}">

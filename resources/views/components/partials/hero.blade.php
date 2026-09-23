@@ -143,10 +143,4 @@
             </div>
         </div>
     </div>
-
-    <div class="mli-opening__footer">
-        <span>ARABIC CONTENT / GLOBAL REACH</span>
-        <span class="mli-opening__scroll">SCROLL TO EXPLORE <b>↓</b></span>
-        <span>MLI / 2026</span>
-    </div>
 </section>
