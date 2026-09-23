@@ -13,6 +13,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Notifications\Notification;
+use Filament\Actions\Action;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -252,6 +254,49 @@ class ShowResource extends Resource
                     ->label('Category'),
             ])
             ->recordActions([
+                Action::make('publish')
+                    ->label('Publish')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->visible(fn (Show $record) => $record->status !== 'published')
+                    ->action(function (Show $record): void {
+                        $record->update([
+                            'status' => 'published',
+                            'published_at' => now(),
+                        ]);
+
+                        Notification::make()
+                            ->success()
+                            ->title('Published')
+                            ->body('The show is now live on the website.')
+                            ->send();
+                    }),
+
+                Action::make('schedule')
+                    ->label('Schedule')
+                    ->color('warning')
+                    ->visible(fn (Show $record) => $record->status !== 'published')
+                    ->form([
+                        DateTimePicker::make('published_at')
+                            ->label('Publish date & time')
+                            ->native(false)
+                            ->seconds(false)
+                            ->required()
+                            ->minDate(now()),
+                    ])
+                    ->action(function (Show $record, array $data): void {
+                        $record->update([
+                            'status' => 'scheduled',
+                            'published_at' => $data['published_at'],
+                        ]);
+
+                        Notification::make()
+                            ->success()
+                            ->title('Publication scheduled')
+                            ->body('The show will go live automatically at the scheduled time.')
+                            ->send();
+                    }),
+
                 \Filament\Actions\EditAction::make(),
                 \Filament\Actions\DeleteAction::make(),
             ])
