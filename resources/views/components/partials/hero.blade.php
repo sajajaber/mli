@@ -1,6 +1,63 @@
 @props(['shows'])
 
-<section class="mli-opening" aria-labelledby="hero-title">
+@php
+    $heroShows = $shows->values();
+@endphp
+
+<section
+    class="mli-opening"
+    aria-labelledby="hero-title"
+    x-data="{
+        shows: @js($heroShows->map(fn ($show) => [
+            'title' => app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en,
+            'image' => $show->cover_image_url,
+            'alt' => $show->cover_image_alt ?? (app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en),
+            'category' => $show->category
+                ? (app()->getLocale() === 'ar' ? $show->category->name_ar : $show->category->name_en)
+                : '',
+        ])->values()),
+        index: 0,
+        timer: null,
+        interval: 5500,
+        start() {
+            this.stop();
+            if (this.shows.length > 1) {
+                this.timer = setInterval(() => this.next(), this.interval);
+            }
+        },
+        stop() {
+            if (this.timer) {
+                clearInterval(this.timer);
+                this.timer = null;
+            }
+        },
+        next() {
+            if (!this.shows.length) return;
+            this.index = (this.index + 1) % this.shows.length;
+            this.restart();
+        },
+        prev() {
+            if (!this.shows.length) return;
+            this.index = (this.index - 1 + this.shows.length) % this.shows.length;
+            this.restart();
+        },
+        goTo(index) {
+            this.index = index;
+            this.restart();
+        },
+        restart() {
+            this.start();
+        }
+    }"
+    x-init="start()"
+    @mouseenter="stop()"
+    @mouseleave="start()"
+    @focusin="stop()"
+    @focusout="start()"
+    @keydown.left.prevent="prev()"
+    @keydown.right.prevent="next()"
+    tabindex="0"
+>
     <div class="mli-opening__grain" aria-hidden="true"></div>
     <div class="mli-opening__line mli-opening__line--top" aria-hidden="true"></div>
     <div class="mli-opening__line mli-opening__line--side" aria-hidden="true"></div>
@@ -42,30 +99,54 @@
         </div>
 
         <div class="mli-opening__feature" data-reveal="scale">
-            @php($featured = $shows->first())
-            @if($featured && $featured->cover_image_url)
-                <a href="{{ route('shows.index') }}" class="mli-opening__poster">
-                    <img src="{{ $featured->cover_image_url }}" alt="{{ $featured->cover_image_alt ?? (app()->getLocale() === 'ar' ? $featured->title_ar : $featured->title_en) }}">
-                    <span class="mli-opening__poster-wash"></span>
-                    <span class="mli-opening__poster-label">FEATURED / 001</span>
-                    <span class="mli-opening__poster-title">{{ app()->getLocale() === 'ar' ? $featured->title_ar : $featured->title_en }}</span>
-                    <span class="mli-opening__poster-arrow">↗</span>
-                </a>
-            @else
-                <div class="mli-opening__poster mli-opening__poster--empty">
-                    <span>MLI / 001</span>
-                </div>
-            @endif
+            <a href="{{ route('shows.index') }}" class="mli-opening__poster" :class="{ 'mli-opening__poster--empty': !shows.length || !shows[index].image }">
+                <template x-if="shows.length && shows[index].image">
+                    <img
+                        :src="shows[index].image"
+                        :alt="shows[index].alt"
+                        class="mli-opening__poster-image"
+                    >
+                </template>
 
-            <div class="mli-opening__reel">
-                @foreach($shows->skip(1)->take(4) as $index => $show)
-                    <a href="{{ route('shows.index') }}" title="{{ app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en }}">
-                        <span>0{{ $index + 2 }}</span>
-                        @if($show->cover_image_url)
-                            <img src="{{ $show->cover_image_url }}" alt="" loading="lazy">
-                        @endif
-                    </a>
-                @endforeach
+                <span class="mli-opening__poster-wash"></span>
+                <span class="mli-opening__poster-label">
+                    SHOW / <span x-text="String(index + 1).padStart(2, '0')"></span>
+                </span>
+
+                <span class="mli-opening__poster-copy">
+                    <small x-text="shows[index]?.category || '{{ app()->getLocale() === 'ar' ? 'محتوى MLI' : 'MLI CONTENT' }}'"></small>
+                    <strong x-text="shows[index]?.title || '{{ app()->getLocale() === 'ar' ? 'لا توجد برامج منشورة' : 'No published shows yet' }}'"></strong>
+                </span>
+
+                <span class="mli-opening__poster-arrow">↗</span>
+            </a>
+
+            <div class="mli-opening__controls" x-show="shows.length > 1">
+                <button type="button" @click="prev()" aria-label="{{ app()->getLocale() === 'ar' ? 'البرنامج السابق' : 'Previous show' }}">←</button>
+                <span>
+                    <b x-text="String(index + 1).padStart(2, '0')"></b>
+                    /
+                    <span x-text="String(shows.length).padStart(2, '0')"></span>
+                </span>
+                <button type="button" @click="next()" aria-label="{{ app()->getLocale() === 'ar' ? 'البرنامج التالي' : 'Next show' }}">→</button>
+            </div>
+
+            <div class="mli-opening__reel" x-show="shows.length > 1">
+                <template x-for="(show, slideIndex) in shows.slice(0, 6)" :key="slideIndex">
+                    <button
+                        type="button"
+                        class="mli-opening__thumb"
+                        :class="{ 'is-active': index === slideIndex }"
+                        @click="goTo(slideIndex)"
+                        :aria-label="show.title"
+                        :aria-current="index === slideIndex ? 'true' : 'false'"
+                    >
+                        <span x-text="String(slideIndex + 1).padStart(2, '0')"></span>
+                        <template x-if="show.image">
+                            <img :src="show.image" alt="" loading="lazy">
+                        </template>
+                    </button>
+                </template>
             </div>
         </div>
     </div>
