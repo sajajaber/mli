@@ -4877,3 +4877,183 @@ html[dir="rtl"] .mli-about__map-caption {
 .mli-about__nodes circle {
     fill: #c5a46d;
 }
+
+
+/* =========================================================
+   CLIENTS & PARTNERS
+   ========================================================= */
+
+.mli-clients {
+    position: relative;
+    overflow: hidden;
+    padding: 115px 0 95px;
+    background: #c8d9e6;
+    color: #2f4156;
+}
+
+.mli-clients__heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(250px, 360px);
+    align-items: end;
+    gap: 60px;
+    margin-bottom: 55px;
+}
+
+.mli-clients__index {
+    display: block;
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: .2em;
+}
+
+.mli-clients__heading h2 {
+    margin-top: 17px;
+    font-family: Georgia, "Times New Roman", "Readex Pro", sans-serif;
+    font-size: clamp(52px, 7vw, 96px);
+    line-height: .84;
+    font-weight: 400;
+    letter-spacing: -.065em;
+}
+
+.mli-clients__heading p {
+    max-width: 330px;
+    margin: 0 0 4px auto;
+    color: rgba(47, 65, 86, .62);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.mli-clients__marquee {
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(47, 65, 86, .2);
+    border-bottom: 1px solid rgba(47, 65, 86, .2);
+}
+
+.mli-clients__marquee::before,
+.mli-clients__marquee::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+    width: 110px;
+    pointer-events: none;
+}
+
+.mli-clients__marquee::before {
+    left: 0;
+    background: linear-gradient(90deg, #c8d9e6, rgba(200,217,230,0));
+}
+
+.mli-clients__marquee::after {
+    right: 0;
+    background: linear-gradient(270deg, #c8d9e6, rgba(200,217,230,0));
+}
+
+.mli-clients__track {
+    display: flex;
+    width: max-content;
+    animation: mli-clients-scroll 38s linear infinite;
+    will-change: transform;
+}
+
+.mli-clients__marquee:hover .mli-clients__track {
+    animation-play-state: paused;
+}
+
+.mli-client-logo {
+    flex: 0 0 auto;
+    width: 210px;
+    height: 125px;
+    display: grid;
+    place-items: center;
+    padding: 24px 30px;
+    border-right: 1px solid rgba(47,65,86,.15);
+    background: rgba(255,255,255,.16);
+    transition: background .3s ease, transform .3s ease;
+}
+
+.mli-client-logo:hover {
+    background: rgba(255,255,255,.32);
+}
+
+.mli-client-logo img {
+    display: block;
+    max-width: 150px;
+    max-height: 62px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: saturate(.88);
+    transition: transform .35s ease;
+}
+
+.mli-client-logo:hover img {
+    transform: scale(1.05);
+}
+
+.mli-client-logo span {
+    max-width: 145px;
+    color: #2f4156;
+    font-family: Georgia, "Times New Roman", sans-serif;
+    font-size: 18px;
+    line-height: 1.05;
+    text-align: center;
+}
+
+@keyframes mli-clients-scroll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 760px) {
+    .mli-clients {
+        padding: 90px 0 70px;
+    }
+
+    .mli-clients__heading {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        margin-bottom: 38px;
+    }
+
+    .mli-clients__heading p {
+        margin-left: 0;
+    }
+
+    .mli-clients__heading h2 {
+        font-size: clamp(50px, 15vw, 78px);
+    }
+
+    .mli-client-logo {
+        width: 165px;
+        height: 105px;
+        padding: 20px;
+    }
+
+    .mli-client-logo img {
+        max-width: 125px;
+        max-height: 52px;
+    }
+
+    .mli-clients__marquee::before,
+    .mli-clients__marquee::after {
+        width: 60px;
+    }
+
+    .mli-clients__track {
+        animation-duration: 30s;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mli-clients__track {
+        animation: none;
+    }
+}
