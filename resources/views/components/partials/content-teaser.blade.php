@@ -1,6 +1,6 @@
 @props(['shows'])
 
-<section id="content" class="mli-catalogue">
+<section id="content" class="mli-catalogue mli-catalogue--light">
     <div class="mli-catalogue__intro container" data-reveal="up">
         <div>
             <span class="mli-catalogue__index">02 / THE LIBRARY</span>
