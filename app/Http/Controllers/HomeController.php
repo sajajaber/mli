@@ -77,6 +77,7 @@ class HomeController extends Controller
             'mliNews' => $mliNews,
             'aboutPage' => $aboutPage,
             'aboutStats' => $aboutStats,
+            'mediaServices' => $mediaServices,
         ]);
     }
 }
