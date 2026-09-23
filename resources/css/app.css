@@ -4763,3 +4763,110 @@ html[dir="rtl"] .mli-about__map-caption {
         animation: none;
     }
 }
+
+
+/* =========================================================
+   THE LIBRARY — LARGER EDITORIAL SHOW CARDS
+   ========================================================= */
+
+.mli-library-marquee__item {
+    position: relative;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    min-width: 210px;
+    padding: 24px 22px 28px;
+}
+
+.mli-library-marquee__number {
+    position: absolute;
+    top: 33px;
+    left: 31px;
+    z-index: 3;
+    padding: 5px 7px;
+    background: #f5f2eb;
+    color: #2f4156;
+    font-size: 8px;
+    line-height: 1;
+    letter-spacing: .12em;
+}
+
+.mli-library-marquee__thumb {
+    width: 100%;
+    height: 205px;
+}
+
+.mli-library-marquee__copy {
+    gap: 7px;
+    padding-top: 15px;
+    padding-right: 34px;
+}
+
+.mli-library-marquee__copy strong {
+    max-width: 100%;
+    overflow: visible;
+    font-size: clamp(20px, 2vw, 27px);
+    line-height: 0.95;
+    white-space: normal;
+    text-overflow: clip;
+}
+
+.mli-library-marquee__copy small {
+    font-size: 7px;
+    letter-spacing: .13em;
+}
+
+.mli-library-marquee__arrow {
+    position: absolute;
+    right: 22px;
+    bottom: 29px;
+    margin-left: 0;
+    font-size: 18px;
+}
+
+.mli-library-marquee__divider {
+    margin-left: 0;
+    position: absolute;
+    right: -7px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+}
+
+.mli-library-marquee__item:hover .mli-library-marquee__thumb img {
+    transform: scale(1.045);
+}
+
+@media (max-width: 700px) {
+    .mli-library-marquee__item {
+        min-width: 170px;
+        padding: 18px 16px 22px;
+    }
+
+    .mli-library-marquee__number {
+        top: 27px;
+        left: 23px;
+    }
+
+    .mli-library-marquee__thumb {
+        height: 165px;
+    }
+
+    .mli-library-marquee__copy {
+        padding-top: 12px;
+        padding-right: 26px;
+    }
+
+    .mli-library-marquee__copy strong {
+        font-size: 19px;
+    }
+
+    .mli-library-marquee__arrow {
+        right: 16px;
+        bottom: 23px;
+    }
+
+    .mli-library-marquee__divider {
+        right: -6px;
+    }
+}
