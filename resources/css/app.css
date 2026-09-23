@@ -5270,3 +5270,24 @@ body {
         margin-top: 20px;
     }
 }
+
+
+/* =========================================================
+   HERO POSITION — SLIGHTLY HIGHER
+   ========================================================= */
+
+.mli-opening__inner {
+    transform: translateY(-18px);
+}
+
+@media (max-width: 700px) {
+    .mli-opening__inner {
+        transform: translateY(-12px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mli-opening__inner {
+        transform: none;
+    }
+}
