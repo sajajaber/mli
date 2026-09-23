@@ -26,6 +26,11 @@ class HomeController extends Controller
             ->orderBy('id')
             ->get();
 
+        $clients = Client::query()
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
+
         $mediaServices = SiteContent::published()
             ->whereIn('key', [
                 'media_service_1',
@@ -61,6 +66,7 @@ class HomeController extends Controller
         return view('home', [
             'shows' => $shows,
             'people' => $people,
+            'clients' => $clients,
             'mediaServices' => $mediaServices,
             'mediaNews' => $mediaNews,
             'mliNews' => $mliNews,
