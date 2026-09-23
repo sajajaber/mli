@@ -4870,3 +4870,10 @@ html[dir="rtl"] .mli-about__map-caption {
         right: -6px;
     }
 }
+
+
+/* Map location dots */
+.mli-about__hub,
+.mli-about__nodes circle {
+    fill: #c5a46d;
+}
