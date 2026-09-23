@@ -10,17 +10,17 @@
 
             <h2 class="mli-about__title">
                 @if(app()->getLocale() === 'ar')
-                    بُنيت لتناسب اتساع<br>التلفزيون العربي
+                    {{ $content?->title_ar ?: 'من نحن' }}
                 @else
-                    Built for the reach of<br>Arabic television
+                    {{ $content?->title_en ?: 'About Us' }}
                 @endif
             </h2>
 
             <div class="mli-about__description">
-                @if(app()->getLocale() === 'ar')
-                    <p>على مدى أكثر من عشرين عامًا، عملت ميديا لينك إنترناشونال على اقتناء الأعمال العربية ودبلجتها وترجمتها وتوزيعها على محطات ومنصات خارج المنطقة، حاملةً القصص من استوديو في بيروت إلى شاشات في ثلاث قارات.</p>
+                @if($content)
+                    <div>{!! app()->getLocale() === 'ar' ? $content->content_ar : $content->content_en !!}</div>
                 @else
-                    <p>For over twenty years, MLI has acquired, dubbed, subtitled and placed Arabic-language titles with broadcasters and platforms well beyond the region — carrying scripts, casts and stories from a Beirut studio onto screens across three continents.</p>
+                    <p>{{ app()->getLocale() === 'ar' ? 'لا يوجد محتوى منشور حاليًا.' : 'No published About Us content yet.' }}</p>
                 @endif
             </div>
 
