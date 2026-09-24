@@ -8,8 +8,7 @@
         <div class="mli-footer-top">
             <div class="mli-footer-brand">
                 <a href="{{ route('home') }}" class="mli-footer-brandmark" aria-label="Media Link International">
-                    <span>MLI</span>
-                    <small>MEDIA LINK<br>INTERNATIONAL</small>
+                    <img src="{{ asset('images/mli-logo.png') }}" alt="Media Link International">
                 </a>
             </div>
 
