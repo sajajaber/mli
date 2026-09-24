@@ -6924,3 +6924,45 @@ html[dir="rtl"] .mli-shows-page span {
 .mli-show__details h2 {
     font-weight: 500;
 }
+
+/* SHOWS PAGE — HOMEPAGE TYPOGRAPHY + NAV */
+.mli-shows-page h1,
+.mli-shows-page h2 {
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-weight: 400 !important;
+    letter-spacing: -0.055em !important;
+}
+.mli-shows-page h1 { line-height: .9 !important; }
+.mli-shows-page h2 { line-height: .98 !important; }
+
+.mli-shows-page p,
+.mli-shows-page span,
+.mli-shows-page a {
+    font-family: "Readex Pro", ui-sans-serif, system-ui, sans-serif !important;
+}
+
+.shows-page-body .site-nav {
+    color: #2f4156 !important;
+}
+
+.shows-page-body .site-nav .nav-link,
+.shows-page-body .site-nav .language-switch,
+.shows-page-body .site-nav .brand,
+.shows-page-body .site-nav .brand__name {
+    color: #2f4156 !important;
+}
+
+.shows-page-body .site-nav .brand__mark {
+    border-color: rgba(47,65,86,.45) !important;
+}
+
+.shows-page-body .site-nav .nav-link:after {
+    background: #2f4156 !important;
+}
+
+html[dir="rtl"] .mli-shows-page h1,
+html[dir="rtl"] .mli-shows-page h2 {
+    font-family: "IBM Plex Sans Arabic", "Readex Pro", ui-sans-serif, system-ui, sans-serif !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.025em !important;
+}
