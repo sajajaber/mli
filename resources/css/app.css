@@ -5770,3 +5770,9 @@ body {
 .mli-opening__poster-image {
     object-fit: cover !important;
 }
+
+
+/* HERO — hide show title/category overlay */
+.mli-opening__poster-copy {
+    display: none !important;
+}
