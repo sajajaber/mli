@@ -9948,3 +9948,22 @@ html.mli-page-entered .mli-opening__word {
 .mli-about-service__arrow {
     display: none !important;
 }
+
+
+/* HERO IMAGES — no hover effect */
+.mli-opening__poster:hover,
+.mli-opening__poster:hover .mli-opening__poster-image,
+.mli-opening__poster:hover img {
+    transform: none !important;
+    filter: none !important;
+    box-shadow: none !important;
+}
+
+.mli-opening__poster:hover .mli-opening__poster-wash {
+    opacity: 1 !important;
+    background: linear-gradient(
+        180deg,
+        rgba(47,65,86,0) 38%,
+        rgba(47,65,86,0.9) 100%
+    ) !important;
+}
