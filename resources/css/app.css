@@ -7583,3 +7583,33 @@ html[dir="rtl"] .mli-footer-cta {
         text-align: right;
     }
 }
+
+
+/* FOOTER — USE THE REAL MLI LOGO + REDUCE EMAIL SIZE */
+.mli-footer-brandmark {
+    display: inline-flex;
+    align-items: center;
+}
+
+.mli-footer-brandmark img {
+    display: block;
+    width: min(170px, 24vw);
+    height: auto;
+    max-height: 64px;
+    object-fit: contain;
+}
+
+.mli-footer-email {
+    font-size: clamp(22px, 2.5vw, 38px);
+}
+
+@media (max-width: 700px) {
+    .mli-footer-brandmark img {
+        width: 145px;
+        max-height: 56px;
+    }
+
+    .mli-footer-email {
+        font-size: clamp(22px, 7vw, 34px);
+    }
+}
