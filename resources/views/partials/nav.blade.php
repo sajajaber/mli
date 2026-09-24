@@ -9,6 +9,7 @@
             <a href="{{ route('home') }}#content">{{ app()->getLocale() === 'ar' ? 'أعمالنا' : 'Work' }}</a>
             <a href="{{ route('home') }}#news">{{ app()->getLocale() === 'ar' ? 'الأخبار' : 'News' }}</a>
             <a href="{{ route('home') }}#about">{{ app()->getLocale() === 'ar' ? 'من نحن' : 'About' }}</a>
+            <a href="{{ route('home') }}#clients">{{ app()->getLocale() === 'ar' ? 'العملاء' : 'Clients' }}</a>
         </div>
 
         <div class="mli-nav__right">
@@ -25,6 +26,7 @@
         <a href="{{ route('home') }}#content" @click="menuOpen = false">{{ app()->getLocale() === 'ar' ? 'أعمالنا' : 'Work' }}</a>
         <a href="{{ route('home') }}#news" @click="menuOpen = false">{{ app()->getLocale() === 'ar' ? 'الأخبار' : 'News' }}</a>
         <a href="{{ route('home') }}#about" @click="menuOpen = false">{{ app()->getLocale() === 'ar' ? 'من نحن' : 'About' }}</a>
+        <a href="{{ route('home') }}#clients" @click="menuOpen = false">{{ app()->getLocale() === 'ar' ? 'العملاء' : 'Clients' }}</a>
         <a href="{{ route('home') }}#contact" @click="menuOpen = false">{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Contact' }}</a>
         <a href="{{ route('lang.switch', ['locale' => app()->getLocale() === 'ar' ? 'en' : 'ar']) }}">{{ app()->getLocale() === 'ar' ? 'English' : 'العربية' }}</a>
     </div>
