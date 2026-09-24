@@ -5631,3 +5631,106 @@ body {
         transform: none;
     }
 }
+
+
+/* =========================================================
+   HERO — ESCAPE CONTAINER / TRUE EDGE-TO-EDGE VIEWPORT
+   ========================================================= */
+
+.mli-opening {
+    position: relative !important;
+    width: 100vw !important;
+    max-width: none !important;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    max-height: 100svh !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+.mli-opening__inner {
+    position: relative !important;
+    width: 100vw !important;
+    max-width: none !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+    transform: none !important;
+}
+
+.mli-opening__feature {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100% !important;
+    margin: 0 !important;
+    z-index: 2 !important;
+}
+
+.mli-opening__poster {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+}
+
+.mli-opening__poster-image {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+}
+
+.mli-opening__copy {
+    position: absolute !important;
+    z-index: 5 !important;
+    left: clamp(24px, 6vw, 90px) !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+
+.mli-opening__controls {
+    position: absolute !important;
+    inset: 50% 0 auto 0 !important;
+    width: 100% !important;
+    height: 0 !important;
+    transform: translateY(-50%) !important;
+    z-index: 10 !important;
+    padding: 0 clamp(14px, 2.5vw, 36px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    pointer-events: none !important;
+}
+
+.mli-opening__control {
+    pointer-events: auto !important;
+}
+
+@media (max-width: 700px) {
+    .mli-opening {
+        width: 100vw !important;
+        height: 100svh !important;
+        min-height: 100svh !important;
+        max-height: 100svh !important;
+        margin-left: calc(50% - 50vw) !important;
+    }
+
+    .mli-opening__copy {
+        left: 20px !important;
+        right: 20px !important;
+    }
+}
