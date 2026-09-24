@@ -132,7 +132,6 @@
                                 </div>
                             @endif
                         </div>
-                        <span class="mli-about-service__arrow">↗</span>
                     </article>
                 @empty
                     <p class="mli-content-empty">{{ app()->getLocale() === 'ar' ? 'لا توجد خدمات منشورة حاليًا.' : 'No media services published yet.' }}</p>
