@@ -8744,3 +8744,96 @@ html[dir="rtl"] .mli-news-article__content blockquote {
         line-height: 1.9;
     }
 }
+
+
+/* NEWS LISTING — MATCH THE SHOWS PAGE SYSTEM */
+.mli-news-header {
+    background: #f5f2eb;
+}
+
+.mli-news-library {
+    padding-bottom: 120px;
+    background: #f5f2eb;
+}
+
+.mli-news-grid--shows-style {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 22px;
+    row-gap: 56px;
+    padding-top: 34px;
+}
+
+.mli-news-show-card {
+    color: #2f4156;
+    text-decoration: none;
+}
+
+.mli-news-show-card .mli-show__image {
+    aspect-ratio: 4 / 5;
+}
+
+.mli-news-show-card .mli-show__details h2 {
+    margin: 0;
+    color: #2f4156;
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: 20px;
+    line-height: 1.18 !important;
+    letter-spacing: -.025em !important;
+    font-weight: 400 !important;
+    transition: color .25s ease;
+}
+
+.mli-news-show-card .mli-show__details p {
+    margin: 6px 0 0;
+    color: #567c8d;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    line-height: 1.5;
+    text-transform: uppercase;
+}
+
+.mli-news-show-card:hover .mli-show__details h2 {
+    color: #567c8d;
+}
+
+.mli-news-show-card:focus-visible .mli-show__image {
+    outline: 2px solid #2f4156;
+    outline-offset: 4px;
+}
+
+.mli-news-show-card .mli-show__open {
+    opacity: 0;
+}
+
+html[dir="rtl"] .mli-news-show-card .mli-show__details h2 {
+    font-family: "IBM Plex Sans Arabic", "Readex Pro", ui-sans-serif, system-ui, sans-serif !important;
+    font-weight: 500 !important;
+    letter-spacing: -.025em !important;
+}
+
+@media (max-width: 900px) {
+    .mli-news-grid--shows-style {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 44px 16px;
+    }
+}
+
+@media (max-width: 640px) {
+    .mli-news-header {
+        padding: 94px 0 54px;
+    }
+
+    .mli-news-grid--shows-style {
+        gap: 34px 12px;
+        padding-top: 26px;
+    }
+
+    .mli-news-show-card .mli-show__details {
+        padding-top: 11px;
+    }
+
+    .mli-news-show-card .mli-show__details h2 {
+        font-size: 15px;
+    }
+}
