@@ -103,11 +103,9 @@
                                     >
                                 @endif
 
-                                <span class="mli-show__open" aria-hidden="true">↗</span>
-                            </span>
+                                <span class="mli-show__wash" aria-hidden="true"></span>
 
-                            <span class="mli-show__details">
-                                <span>
+                                <span class="mli-show__copy">
                                     <strong>{{ app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en }}</strong>
 
                                     @if($show->category)
@@ -115,7 +113,7 @@
                                     @endif
                                 </span>
 
-                                <span class="mli-show__dash" aria-hidden="true"></span>
+                                <span class="mli-show__open" aria-hidden="true">↗</span>
                             </span>
                         </button>
                     @endforeach
