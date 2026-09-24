@@ -9942,3 +9942,9 @@ html.mli-page-entered .mli-opening__word {
         filter: none !important;
     }
 }
+
+
+/* WHAT WE DO — remove service arrows */
+.mli-about-service__arrow {
+    display: none !important;
+}
