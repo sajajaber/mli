@@ -24,7 +24,7 @@
 
     <div x-cloak x-show="menuOpen" x-transition class="mli-mobile-menu">
         <a href="{{ route('home') }}#content" @click="menuOpen = false">{{ app()->getLocale() === 'ar' ? 'أعمالنا' : 'Work' }}</a>
-        <a href="{{ route('home') }}#news" @click="menuOpen = false">{{ app()->getLocale() === 'ar' ? 'الأخبار' : 'News' }}</a>
+        <a href="{{ route('news.index') }}" @click="menuOpen = false">{{ app()->getLocale() === 'ar' ? 'الأخبار' : 'News' }}</a>
         <a href="{{ route('home') }}#about" @click="menuOpen = false">{{ app()->getLocale() === 'ar' ? 'من نحن' : 'About' }}</a>
         <a href="{{ route('home') }}#clients" @click="menuOpen = false">{{ app()->getLocale() === 'ar' ? 'العملاء' : 'Clients' }}</a>
         <a href="{{ route('home') }}#contact" @click="menuOpen = false">{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Contact' }}</a>
