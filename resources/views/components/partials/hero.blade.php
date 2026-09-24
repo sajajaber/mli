@@ -61,7 +61,7 @@
     <div class="mli-opening__grain" aria-hidden="true"></div>
 
         <div class="mli-opening__inner">
-        <div class="mli-opening__copy" data-reveal="left">
+        <div class="mli-opening__copy">
             <p class="mli-opening__eyebrow">
                 <i></i>
                 {{ app()->getLocale() === 'ar' ? 'تنوع. جودة. توافر.' : 'Variety. Quality. Availability.' }}
