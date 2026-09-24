@@ -9219,3 +9219,71 @@ html.mli-page-entered .mli-opening__word {
     color: var(--mli-signal);
     font-size: 0.62em;
 }
+
+
+/* SHOW TITLES — keep the title visible directly on the show image */
+.mli-show__image {
+    isolation: isolate;
+}
+
+.mli-show__wash {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+        180deg,
+        rgba(47,65,86,0) 35%,
+        rgba(18,29,42,.18) 58%,
+        rgba(18,29,42,.9) 100%
+    );
+    pointer-events: none;
+}
+
+.mli-show__copy {
+    position: absolute;
+    left: 18px;
+    right: 56px;
+    bottom: 18px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    text-align: start;
+    color: #fff;
+}
+
+.mli-show__copy strong {
+    display: block;
+    color: #fff;
+    font-size: clamp(17px, 1.65vw, 23px);
+    line-height: 1.12;
+    font-weight: 500;
+    letter-spacing: -.025em;
+    text-shadow: 0 2px 18px rgba(0,0,0,.22);
+}
+
+.mli-show__copy small {
+    display: block;
+    color: rgba(255,255,255,.72);
+    font-size: 8px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+
+.mli-show__open {
+    z-index: 4;
+}
+
+@media (max-width: 640px) {
+    .mli-show__copy {
+        left: 12px;
+        right: 48px;
+        bottom: 12px;
+    }
+
+    .mli-show__copy strong {
+        font-size: 15px;
+    }
+}
