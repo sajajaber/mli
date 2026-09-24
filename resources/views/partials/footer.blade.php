@@ -1,15 +1,31 @@
 @php
     $footer = \App\Models\FooterSetting::current();
+
+    $tagline = app()->getLocale() === 'ar'
+        ? ($footer?->tagline_ar ?: $footer?->tagline)
+        : $footer?->tagline;
+
+    $description = app()->getLocale() === 'ar'
+        ? ($footer?->description_ar ?: $footer?->description)
+        : $footer?->description;
 @endphp
 
 <footer id="contact" class="mli-footer">
     <div class="mli-footer-container">
 
-        <div class="mli-footer-top">
-            <div class="mli-footer-brand">
+        <div class="mli-footer-top mli-footer-top--rebalanced">
+            <div class="mli-footer-intro">
                 <a href="{{ route('home') }}" class="mli-footer-brandmark" aria-label="Media Link International">
                     <img src="{{ asset('images/mli-logo.png') }}" alt="Media Link International">
                 </a>
+
+                @if($tagline)
+                    <p class="mli-footer-tagline">{{ $tagline }}</p>
+                @endif
+
+                @if($description)
+                    <p class="mli-footer-description">{{ $description }}</p>
+                @endif
             </div>
 
             <div class="mli-footer-cta">
@@ -26,27 +42,7 @@
             </div>
         </div>
 
-        <div class="mli-footer-grid">
-            <div class="mli-footer-column mli-footer-column--intro">
-                @php
-                    $tagline = app()->getLocale() === 'ar'
-                        ? ($footer?->tagline_ar ?: $footer?->tagline)
-                        : $footer?->tagline;
-
-                    $description = app()->getLocale() === 'ar'
-                        ? ($footer?->description_ar ?: $footer?->description)
-                        : $footer?->description;
-                @endphp
-
-                @if($tagline)
-                    <p class="mli-footer-tagline">{{ $tagline }}</p>
-                @endif
-
-                @if($description)
-                    <p class="mli-footer-description">{{ $description }}</p>
-                @endif
-            </div>
-
+        <div class="mli-footer-grid mli-footer-grid--compact">
             <div class="mli-footer-column">
                 <span class="mli-footer-label">
                     {{ app()->getLocale() === 'ar' ? 'تواصل' : 'Contact' }}
