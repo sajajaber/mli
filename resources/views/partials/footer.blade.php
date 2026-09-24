@@ -33,7 +33,7 @@
 
             <div class="mli-footer-cta">
                 <span class="mli-footer-kicker">
-                    {{ app()->getLocale() === 'ar' ? 'لنتحدث' : 'Let’s work together' }}
+                    {{ app()->getLocale() === 'ar' ? 'تعاون مع MLI' : 'Partner with MLI' }}
                 </span>
 
                 @if($footer?->email)
