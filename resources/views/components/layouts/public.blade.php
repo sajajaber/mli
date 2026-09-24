@@ -15,7 +15,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
+<body class="{{ request()->routeIs('shows.index') ? 'shows-page-body' : '' }}">
     @include('partials.nav')
     <main>{{ $slot }}</main>
     @include('partials.footer')
