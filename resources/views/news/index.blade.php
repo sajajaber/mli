@@ -1,148 +1,107 @@
-<x-layouts.public
-    :title="app()->getLocale() === 'ar' ? 'الأخبار — ميديا لينك إنترناشونال' : 'News — Media Link International'"
-    :meta-description="app()->getLocale() === 'ar'
-        ? 'آخر أخبار ميديا لينك إنترناشونال وأخبار الإعلام.'
-        : 'The latest news from Media Link International and the wider media world.'"
->
+<x-layouts.public :title="'News — Media Link International'">
     @php
         $isArabic = app()->getLocale() === 'ar';
-
-        $title = fn ($item) => $isArabic ? $item->title_ar : $item->title_en;
-        $body = fn ($item) => $isArabic ? $item->body_ar : $item->body_en;
-        $typeLabel = fn ($item) => $item->news_type === 'media_news'
-            ? ($isArabic ? 'أخبار الإعلام' : 'Media News')
-            : ($isArabic ? 'أخبار MLI' : 'MLI News');
     @endphp
 
     <main class="mli-news-page">
-        <section class="mli-news-page__header">
+        <section class="mli-shows-header mli-news-header">
             <div class="container">
-                <div class="mli-news-page__meta">
-                    <span>{{ $isArabic ? 'MLI / غرفة الأخبار' : 'MLI / NEWSROOM' }}</span>
+                <div class="mli-shows-header__meta">
+                    <span>{{ $isArabic ? 'غرفة أخبار MLI' : 'MLI / NEWSROOM' }}</span>
                     <span>{{ $news->total() }} {{ $isArabic ? 'خبراً' : 'STORIES' }}</span>
                 </div>
 
-                <div class="mli-news-page__heading">
-                    <div>
-                        <p class="mli-news-page__eyebrow">
-                            {{ $isArabic ? 'آخر المستجدات' : 'Latest updates' }}
-                        </p>
+                <div class="mli-shows-header__main">
+                    <p class="mli-shows-header__eyebrow">
+                        {{ $isArabic ? 'الأخبار' : 'The news' }}
+                    </p>
 
+                    <div>
                         <h1>
-                            {{ $isArabic ? 'قصص من عالم MLI.' : 'Stories from the world of MLI.' }}
+                            {{ $isArabic ? 'قصص تستحق أن تُروى.' : 'Stories worth knowing.' }}
                         </h1>
                     </div>
 
-                    <p class="mli-news-page__intro">
+                    <p class="mli-shows-header__copy">
                         {{ $isArabic
-                            ? 'أخبارنا، مشاريعنا، وما يحدث في عالم الإعلام والاتصال.'
-                            : 'Our work, our news, and the stories shaping media and communication.' }}
+                            ? 'آخر أخبار MLI وأخبار الإعلام والاتصال.'
+                            : 'The latest from MLI, media, and the world of communication.' }}
                     </p>
                 </div>
-
-                <nav class="mli-news-page__filters" aria-label="{{ $isArabic ? 'تصفية الأخبار' : 'Filter news' }}">
-                    <a
-                        href="{{ route('news.index') }}"
-                        class="{{ !$type ? 'is-active' : '' }}"
-                    >
-                        {{ $isArabic ? 'الكل' : 'All' }}
-                    </a>
-
-                    <a
-                        href="{{ route('news.index', ['type' => 'mli_news']) }}"
-                        class="{{ $type === 'mli_news' ? 'is-active' : '' }}"
-                    >
-                        {{ $isArabic ? 'أخبار MLI' : 'MLI News' }}
-                    </a>
-
-                    <a
-                        href="{{ route('news.index', ['type' => 'media_news']) }}"
-                        class="{{ $type === 'media_news' ? 'is-active' : '' }}"
-                    >
-                        {{ $isArabic ? 'أخبار الإعلام' : 'Media News' }}
-                    </a>
-                </nav>
             </div>
         </section>
 
-        @if($featured)
-            <section class="mli-news-featured">
-                <div class="container">
-                    <a
-                        href="{{ route('news.show', $featured->slug) }}"
-                        class="mli-news-featured__link"
-                        data-reveal="up"
-                    >
-                        <div class="mli-news-featured__image">
-                            @if($featured->featured_image_url)
-                                <img
-                                    src="{{ $featured->featured_image_url }}"
-                                    alt="{{ $featured->featured_image_alt ?? $title($featured) }}"
-                                >
-                            @endif
-                        </div>
-
-                        <div class="mli-news-featured__content">
-                            <div class="mli-news-card__meta">
-                                <span>{{ $typeLabel($featured) }}</span>
-                                <span>{{ optional($featured->published_at)->format('d.m.Y') }}</span>
-                            </div>
-
-                            <h2>{{ $title($featured) }}</h2>
-
-                            @if($body($featured))
-                                <p>{{ \Illuminate\Support\Str::limit(strip_tags($body($featured)), 180) }}</p>
-                            @endif
-
-                            <span class="mli-news-featured__read">
-                                {{ $isArabic ? 'قراءة القصة' : 'Read story' }}
-                                <b aria-hidden="true">↗</b>
-                            </span>
-                        </div>
-                    </a>
-                </div>
-            </section>
-        @endif
-
-        <section class="mli-news-library">
+        <section class="mli-shows-library mli-news-library">
             <div class="container">
-                <div class="mli-news-library__bar">
-                    <span>{{ $isArabic ? 'أحدث الأخبار' : 'Latest stories' }}</span>
+                <div class="mli-shows-filters">
+                    <span class="mli-shows-filters__label">
+                        {{ $isArabic ? 'تصفية حسب النوع' : 'Filter by type' }}
+                    </span>
+
+                    <div class="mli-shows-filters__links">
+                        <a
+                            href="{{ route('news.index') }}"
+                            class="{{ !$type ? 'is-active' : '' }}"
+                        >
+                            {{ $isArabic ? 'الكل' : 'All' }}
+                        </a>
+
+                        <a
+                            href="{{ route('news.index', ['type' => 'mli_news']) }}"
+                            class="{{ $type === 'mli_news' ? 'is-active' : '' }}"
+                        >
+                            {{ $isArabic ? 'أخبار MLI' : 'MLI News' }}
+                        </a>
+
+                        <a
+                            href="{{ route('news.index', ['type' => 'media_news']) }}"
+                            class="{{ $type === 'media_news' ? 'is-active' : '' }}"
+                        >
+                            {{ $isArabic ? 'أخبار الإعلام' : 'Media News' }}
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mli-shows-library__bar">
+                    <span>{{ $isArabic ? 'جميع الأخبار' : 'All stories' }}</span>
                     <span>{{ $news->count() }} / {{ $news->total() }}</span>
                 </div>
 
-                <div class="mli-news-grid">
+                <div class="mli-shows-grid mli-news-grid--shows-style">
                     @forelse($news as $index => $item)
                         <a
                             href="{{ route('news.show', $item->slug) }}"
-                            class="mli-news-card"
+                            class="mli-show mli-news-show-card"
                             data-reveal="up"
                             style="--reveal-delay: {{ min($index % 6, 5) * 70 }}ms"
+                            aria-label="{{ $isArabic ? 'قراءة ' : 'Read ' }}{{ $isArabic ? $item->title_ar : $item->title_en }}"
                         >
-                            <div class="mli-news-card__image">
+                            <span class="mli-show__image">
                                 @if($item->featured_image_url)
                                     <img
                                         src="{{ $item->featured_image_url }}"
-                                        alt="{{ $item->featured_image_alt ?? $title($item) }}"
+                                        alt="{{ $item->featured_image_alt ?? ($isArabic ? $item->title_ar : $item->title_en) }}"
                                         loading="lazy"
                                     >
                                 @endif
 
-                                <span class="mli-news-card__arrow" aria-hidden="true">↗</span>
-                            </div>
+                                <span class="mli-show__open" aria-hidden="true">↗</span>
+                            </span>
 
-                            <div class="mli-news-card__body">
-                                <div class="mli-news-card__meta">
-                                    <span>{{ $typeLabel($item) }}</span>
-                                    <span>{{ optional($item->published_at)->format('d.m.Y') }}</span>
-                                </div>
+                            <span class="mli-show__details">
+                                <span>
+                                    <h2>{{ $isArabic ? $item->title_ar : $item->title_en }}</h2>
+                                    <p>
+                                        {{ $item->news_type === 'media_news'
+                                            ? ($isArabic ? 'أخبار الإعلام' : 'Media News')
+                                            : ($isArabic ? 'أخبار MLI' : 'MLI News') }}
+                                        ·
+                                        {{ optional($item->published_at)->format('d.m.Y') }}
+                                    </p>
+                                </span>
 
-                                <h2>{{ $title($item) }}</h2>
-
-                                @if($body($item))
-                                    <p>{{ \Illuminate\Support\Str::limit(strip_tags($body($item)), 120) }}</p>
-                                @endif
-                            </div>
+                                <span class="mli-show__dash" aria-hidden="true"></span>
+                            </span>
                         </a>
                     @empty
                         <div class="mli-news-empty">
@@ -152,7 +111,7 @@
                 </div>
 
                 @if($news->hasPages())
-                    <div class="mli-news-pagination">
+                    <div class="mli-shows-pagination">
                         {{ $news->links() }}
                     </div>
                 @endif
