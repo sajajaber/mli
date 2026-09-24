@@ -7937,3 +7937,10 @@ html[dir="rtl"] .mli-footer-brand-copy h2 {
     font-weight: 700;
     white-space: nowrap;
 }
+
+
+/* FOOTER — REGULAR BRAND TITLE */
+.mli-footer-brand-copy h2 {
+    color: #fff;
+    font-weight: 400;
+}
