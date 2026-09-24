@@ -23,7 +23,6 @@
                                      alt="{{ $release->cover_image_alt ?? '' }}"
                                      loading="lazy">
                             @endif
-                            <span>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
                         </div>
                         <div class="mli-release-card__body">
                             <div>
