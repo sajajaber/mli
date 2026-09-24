@@ -5797,3 +5797,41 @@ body {
     box-shadow: none !important;
     border-radius: 0 !important;
 }
+
+
+/* HERO — minimal arrow controls */
+.mli-opening__control {
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 8px 4px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #fff !important;
+    font-size: 42px !important;
+    line-height: 1 !important;
+    font-weight: 300 !important;
+    transition: transform .25s ease, opacity .25s ease, color .25s ease !important;
+}
+
+.mli-opening__control:hover {
+    background: transparent !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+    color: #d7b56d !important;
+}
+
+.mli-opening__control--prev:hover {
+    transform: translateX(-5px) !important;
+}
+
+.mli-opening__control--next:hover {
+    transform: translateX(5px) !important;
+}
+
+.mli-opening__control span {
+    display: block;
+}
