@@ -26,19 +26,19 @@
 
             <div class="mli-about__stats">
                 <div class="mli-about__stat">
-                    <strong>20<span>+</span></strong>
+                    <strong><span class="mli-stat-number" data-counter="20">20</span><span class="mli-stat-suffix">+</span></strong>
                     <small>{{ app()->getLocale() === 'ar' ? 'سنوات من الخبرة' : 'Years of experience' }}</small>
                 </div>
                 <div class="mli-about__stat">
-                    <strong>{{ $stats['shows'] }}<span>+</span></strong>
+                    <strong><span class="mli-stat-number" data-counter="{{ (int) $stats['shows'] }}">{{ $stats['shows'] }}</span><span class="mli-stat-suffix">+</span></strong>
                     <small>{{ app()->getLocale() === 'ar' ? 'عمل موزع' : 'Titles distributed' }}</small>
                 </div>
                 <div class="mli-about__stat">
-                    <strong>{{ $stats['clients'] }}<span>+</span></strong>
+                    <strong><span class="mli-stat-number" data-counter="{{ (int) $stats['clients'] }}">{{ $stats['clients'] }}</span><span class="mli-stat-suffix">+</span></strong>
                     <small>{{ app()->getLocale() === 'ar' ? 'عملاء وشركاء' : 'Clients & partners' }}</small>
                 </div>
                 <div class="mli-about__stat">
-                    <strong>3</strong>
+                    <strong><span class="mli-stat-number" data-counter="3">3</span></strong>
                     <small>{{ app()->getLocale() === 'ar' ? 'مناطق التوزيع' : 'Distribution regions' }}</small>
                 </div>
             </div>
