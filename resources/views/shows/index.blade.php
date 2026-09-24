@@ -132,7 +132,12 @@
         <div
             x-cloak
             x-show="selectedShow"
-            x-transition.opacity
+            x-transition:enter="mli-show-modal-backdrop-enter"
+            x-transition:enter-start="mli-show-modal-backdrop-enter-start"
+            x-transition:enter-end="mli-show-modal-backdrop-enter-end"
+            x-transition:leave="mli-show-modal-backdrop-leave"
+            x-transition:leave-start="mli-show-modal-backdrop-leave-start"
+            x-transition:leave-end="mli-show-modal-backdrop-leave-end"
             class="mli-show-modal"
             role="dialog"
             aria-modal="true"
