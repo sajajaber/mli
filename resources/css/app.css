@@ -5787,3 +5787,13 @@ body {
         top: 57% !important;
     }
 }
+
+
+/* HERO — remove image border */
+.mli-opening__poster,
+.mli-opening__poster-image {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
