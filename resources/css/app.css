@@ -5953,3 +5953,19 @@ body {
         font-size: 48px !important;
     }
 }
+
+
+/* HERO ARROWS — guarantee clickable layer */
+.mli-opening__controls {
+    position: absolute !important;
+    z-index: 100 !important;
+    pointer-events: none !important;
+}
+
+.mli-opening__controls .mli-opening__control {
+    position: relative !important;
+    z-index: 101 !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    cursor: pointer !important;
+}
