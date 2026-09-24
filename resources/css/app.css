@@ -9942,14 +9942,3 @@ html.mli-page-entered .mli-opening__word {
         filter: none !important;
     }
 }
-
-
-/* HERO HOVER — keep the image brightness unchanged */
-.mli-opening__poster:hover .mli-opening__poster-wash {
-    opacity: 1;
-    background: linear-gradient(
-        180deg,
-        rgba(47,65,86,0) 38%,
-        rgba(47,65,86,0.9) 100%
-    );
-}
