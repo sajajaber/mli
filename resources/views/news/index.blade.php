@@ -91,7 +91,7 @@
                             <h2>{{ $title($featured) }}</h2>
 
                             @if($body($featured))
-                                <p>{{ IlluminateSupportStr::limit(strip_tags($body($featured)), 180) }}</p>
+                                <p>{{ \Illuminate\Support\Str::limit(strip_tags($body($featured)), 180) }}</p>
                             @endif
 
                             <span class="mli-news-featured__read">
@@ -140,7 +140,7 @@
                                 <h2>{{ $title($item) }}</h2>
 
                                 @if($body($item))
-                                    <p>{{ IlluminateSupportStr::limit(strip_tags($body($item)), 120) }}</p>
+                                    <p>{{ \Illuminate\Support\Str::limit(strip_tags($body($item)), 120) }}</p>
                                 @endif
                             </div>
                         </a>
