@@ -15,34 +15,19 @@ class NewsController extends Controller
             $type = null;
         }
 
-        $featuredQuery = News::published();
+        $query = News::published();
 
         if ($type) {
-            $featuredQuery->where('news_type', $type);
+            $query->where('news_type', $type);
         }
 
-        $featured = $featuredQuery
+        $news = $query
             ->latest('published_at')
             ->latest('created_at')
-            ->first();
-
-        $newsQuery = News::published();
-
-        if ($type) {
-            $newsQuery->where('news_type', $type);
-        }
-
-        if ($featured) {
-            $newsQuery->where('id', '!=', $featured->id);
-        }
-
-        $news = $newsQuery
-            ->latest('published_at')
-            ->latest('created_at')
-            ->paginate(9)
+            ->paginate(12)
             ->withQueryString();
 
-        return view('news.index', compact('news', 'featured', 'type'));
+        return view('news.index', compact('news', 'type'));
     }
 
     public function show(string $slug)
