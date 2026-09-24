@@ -1,36 +1,39 @@
-@php
-    $footer = \App\Models\FooterSetting::current();
-
-    $tagline = app()->getLocale() === 'ar'
-        ? ($footer?->tagline_ar ?: $footer?->tagline)
-        : $footer?->tagline;
-
-    $description = app()->getLocale() === 'ar'
-        ? ($footer?->description_ar ?: $footer?->description)
-        : $footer?->description;
-@endphp
-
 <footer id="contact" class="mli-footer">
     <div class="mli-footer-container">
 
-        <div class="mli-footer-header">
-            <a href="{{ route('home') }}" class="mli-footer-logo-image" aria-label="Media Link International">
-                <img src="{{ asset('images/mli-logo.jpeg') }}" alt="Media Link International">
-            </a>
+        <div class="mli-footer-top">
+            <div class="mli-footer-brand">
+                <a href="{{ route('home') }}" class="mli-footer-brandmark" aria-label="Media Link International">
+                    <span>MLI</span>
+                    <small>MEDIA LINK<br>INTERNATIONAL</small>
+                </a>
+            </div>
 
-            <div class="mli-footer-header__links">
-                <a href="{{ route('home') }}#content">{{ app()->getLocale() === 'ar' ? 'أعمالنا' : 'Work' }}</a>
-                <a href="{{ route('home') }}#news">{{ app()->getLocale() === 'ar' ? 'الأخبار' : 'News' }}</a>
-                <a href="{{ route('home') }}#about">{{ app()->getLocale() === 'ar' ? 'من نحن' : 'About' }}</a>
-                <a href="{{ route('home') }}#clients">{{ app()->getLocale() === 'ar' ? 'العملاء' : 'Clients' }}</a>
+            <div class="mli-footer-cta">
+                <span class="mli-footer-kicker">
+                    {{ app()->getLocale() === 'ar' ? 'لنتحدث' : 'Let’s work together' }}
+                </span>
+
+                @if($footer?->email)
+                    <a href="mailto:{{ $footer->email }}" class="mli-footer-email">
+                        {{ $footer->email }}
+                        <span aria-hidden="true">↗</span>
+                    </a>
+                @endif
             </div>
         </div>
 
-        <div class="mli-footer-feature">
-            <div class="mli-footer-feature__statement">
-                <span class="mli-footer-label">
-                    {{ app()->getLocale() === 'ar' ? 'ميديا لينك إنترناشونال' : 'Media Link International' }}
-                </span>
+        <div class="mli-footer-grid">
+            <div class="mli-footer-column mli-footer-column--intro">
+                @php
+                    $tagline = app()->getLocale() === 'ar'
+                        ? ($footer?->tagline_ar ?: $footer?->tagline)
+                        : $footer?->tagline;
+
+                    $description = app()->getLocale() === 'ar'
+                        ? ($footer?->description_ar ?: $footer?->description)
+                        : $footer?->description;
+                @endphp
 
                 @if($tagline)
                     <p class="mli-footer-tagline">{{ $tagline }}</p>
@@ -41,28 +44,25 @@
                 @endif
             </div>
 
-            <div class="mli-footer-feature__contact">
+            <div class="mli-footer-column">
                 <span class="mli-footer-label">
-                    {{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Start a conversation' }}
+                    {{ app()->getLocale() === 'ar' ? 'تواصل' : 'Contact' }}
                 </span>
 
-                @if($footer?->email)
-                    <a href="mailto:{{ $footer->email }}" class="mli-footer-email">
-                        {{ $footer->email }}
-                        <span aria-hidden="true">↗</span>
-                    </a>
-                @endif
-
                 @if($footer?->phone_primary)
-                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $footer->phone_primary) }}" class="mli-footer-phone">
+                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $footer->phone_primary) }}" class="mli-footer-text-link">
                         {{ $footer->phone_primary }}
                     </a>
                 @endif
-            </div>
-        </div>
 
-        <div class="mli-footer-details">
-            <div>
+                @if($footer?->phone_secondary)
+                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $footer->phone_secondary) }}" class="mli-footer-text-link">
+                        {{ $footer->phone_secondary }}
+                    </a>
+                @endif
+            </div>
+
+            <div class="mli-footer-column">
                 <span class="mli-footer-label">
                     {{ app()->getLocale() === 'ar' ? 'المكتب' : 'Office' }}
                 </span>
@@ -74,14 +74,14 @@
                 @endif
 
                 @if($footer?->map_url)
-                    <a href="{{ $footer->map_url }}" target="_blank" rel="noopener noreferrer" class="mli-footer-map">
+                    <a href="{{ $footer->map_url }}" target="_blank" rel="noopener noreferrer" class="mli-footer-text-link mli-footer-map">
                         {{ app()->getLocale() === 'ar' ? 'عرض الموقع' : 'View location' }}
                         <span aria-hidden="true">↗</span>
                     </a>
                 @endif
             </div>
 
-            <div>
+            <div class="mli-footer-column">
                 <span class="mli-footer-label">
                     {{ app()->getLocale() === 'ar' ? 'تابعنا' : 'Follow' }}
                 </span>
@@ -114,6 +114,5 @@
                 </a>
             </div>
         </div>
-
     </div>
 </footer>
