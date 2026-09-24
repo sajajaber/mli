@@ -9967,3 +9967,37 @@ html.mli-page-entered .mli-opening__word {
         rgba(47,65,86,0.9) 100%
     ) !important;
 }
+
+
+/* HERO POSTER — disable all hover effects */
+.mli-opening__poster:hover,
+.mli-opening__poster:hover img,
+.mli-opening__poster:hover .mli-opening__poster-image,
+.mli-opening__poster:hover .mli-opening__poster-wash,
+.mli-opening__poster:hover .mli-opening__poster-copy,
+.mli-opening__poster:hover .mli-opening__poster-copy strong,
+.mli-opening__poster:hover .mli-opening__poster-copy small,
+.mli-opening__poster:hover .mli-opening__poster-arrow {
+    transform: none !important;
+    filter: none !important;
+    box-shadow: none !important;
+}
+
+.mli-opening__poster:hover .mli-opening__poster-wash {
+    opacity: 1 !important;
+    background: linear-gradient(
+        180deg,
+        rgba(47,65,86,0) 38%,
+        rgba(47,65,86,.9) 100%
+    ) !important;
+}
+
+.mli-opening__poster:hover .mli-opening__poster-copy strong,
+.mli-opening__poster:hover .mli-opening__poster-copy small {
+    letter-spacing: normal !important;
+}
+
+.mli-opening__poster:hover .mli-opening__poster-arrow {
+    background: transparent !important;
+    color: inherit !important;
+}
