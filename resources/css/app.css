@@ -5835,3 +5835,57 @@ body {
 .mli-opening__control span {
     display: block;
 }
+
+
+/* FINAL HERO ARROWS — plain chevrons */
+.mli-opening__controls .mli-opening__control {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    width: 32px !important;
+    height: 64px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    outline: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-family: Arial, sans-serif !important;
+    font-size: 0 !important;
+    line-height: 1 !important;
+    opacity: .9 !important;
+    cursor: pointer !important;
+    transition: transform .25s ease, color .25s ease, opacity .25s ease !important;
+}
+
+.mli-opening__controls .mli-opening__control span {
+    display: block !important;
+    font-size: 46px !important;
+    line-height: 1 !important;
+    font-weight: 200 !important;
+    background: transparent !important;
+}
+
+.mli-opening__controls .mli-opening__control:hover,
+.mli-opening__controls .mli-opening__control:focus-visible {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    color: #d7b56d !important;
+    opacity: 1 !important;
+}
+
+.mli-opening__controls .mli-opening__control--prev:hover,
+.mli-opening__controls .mli-opening__control--prev:focus-visible {
+    transform: translateX(-6px) !important;
+}
+
+.mli-opening__controls .mli-opening__control--next:hover,
+.mli-opening__controls .mli-opening__control--next:focus-visible {
+    transform: translateX(6px) !important;
+}
