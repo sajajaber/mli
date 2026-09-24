@@ -7956,3 +7956,60 @@ html[dir="rtl"] .mli-footer-brand-copy h2 {
         gap: 18px;
     }
 }
+
+
+/* SHOW MODAL — SMOOTHER, MORE NATURAL MOTION */
+.mli-show-modal {
+    will-change: opacity;
+}
+
+.mli-show-modal-backdrop-enter,
+.mli-show-modal-backdrop-leave {
+    transition: opacity .42s cubic-bezier(.22, 1, .36, 1);
+}
+
+.mli-show-modal-backdrop-enter-start,
+.mli-show-modal-backdrop-leave-end {
+    opacity: 0;
+}
+
+.mli-show-modal-backdrop-enter-end,
+.mli-show-modal-backdrop-leave-start {
+    opacity: 1;
+}
+
+.mli-show-modal__panel {
+    will-change: transform, opacity;
+}
+
+.mli-show-modal-enter {
+    transition:
+        opacity .42s cubic-bezier(.22, 1, .36, 1),
+        transform .52s cubic-bezier(.16, 1, .3, 1);
+}
+
+.mli-show-modal-enter-start {
+    opacity: 0;
+    transform: translateY(26px) scale(.965);
+}
+
+.mli-show-modal-enter-end {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.mli-show-modal-leave {
+    transition:
+        opacity .26s cubic-bezier(.4, 0, .2, 1),
+        transform .3s cubic-bezier(.4, 0, .2, 1);
+}
+
+.mli-show-modal-leave-start {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.mli-show-modal-leave-end {
+    opacity: 0;
+    transform: translateY(12px) scale(.985);
+}
