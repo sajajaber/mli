@@ -1,15 +1,37 @@
 <x-layouts.public :title="'News — Media Link International'">
     @php
         $isArabic = app()->getLocale() === 'ar';
-        $initialType = $type ?? '';
+
+        $newsData = $news->map(fn ($item) => [
+            'id' => $item->id,
+            'slug' => $item->slug,
+            'type' => $item->news_type,
+            'title' => $isArabic ? $item->title_ar : $item->title_en,
+            'category' => $item->news_type === 'media_news'
+                ? ($isArabic ? 'أخبار الإعلام' : 'Media News')
+                : ($isArabic ? 'أخبار MLI' : 'MLI News'),
+            'date' => optional($item->published_at)->format('d.m.Y'),
+            'image' => $item->featured_image_url,
+            'alt' => $item->featured_image_alt ?? ($isArabic ? $item->title_ar : $item->title_en),
+            'url' => route('news.show', $item->slug),
+        ])->values();
+
+        $initialType = in_array($type, ['mli_news', 'media_news'], true) ? $type : '';
     @endphp
 
     <main
         class="mli-news-page"
         x-data="{
+            news: @js($newsData),
             activeType: @js($initialType),
+            get filteredNews() {
+                return this.activeType
+                    ? this.news.filter(item => item.type === this.activeType)
+                    : this.news;
+            },
             setType(type) {
                 this.activeType = type;
+
                 const url = new URL(window.location.href);
 
                 if (type) {
@@ -26,7 +48,7 @@
             <div class="container">
                 <div class="mli-shows-header__meta">
                     <span>{{ $isArabic ? 'غرفة أخبار MLI' : 'MLI / NEWSROOM' }}</span>
-                    <span>{{ $news->count() }} {{ $isArabic ? 'خبراً' : 'STORIES' }}</span>
+                    <span x-text="news.length + ' {{ $isArabic ? 'خبراً' : 'STORIES' }}'"></span>
                 </div>
 
                 <div class="mli-shows-header__main">
@@ -51,15 +73,16 @@
 
         <section class="mli-shows-library mli-news-library">
             <div class="container">
-                <div class="mli-shows-filters">
+                <div class="mli-shows-filters" role="tablist">
                     <span class="mli-shows-filters__label">
                         {{ $isArabic ? 'تصفية حسب النوع' : 'Filter by type' }}
                     </span>
 
-                    <div class="mli-shows-filters__links" role="tablist">
+                    <div class="mli-shows-filters__links">
                         <button
                             type="button"
-                            class="{{ !$initialType ? 'is-active' : '' }}"
+                            role="tab"
+                            :aria-selected="activeType === ''"
                             :class="{ 'is-active': activeType === '' }"
                             @click="setType('')"
                         >
@@ -68,7 +91,8 @@
 
                         <button
                             type="button"
-                            class="{{ $initialType === 'mli_news' ? 'is-active' : '' }}"
+                            role="tab"
+                            :aria-selected="activeType === 'mli_news'"
                             :class="{ 'is-active': activeType === 'mli_news' }"
                             @click="setType('mli_news')"
                         >
@@ -77,7 +101,8 @@
 
                         <button
                             type="button"
-                            class="{{ $initialType === 'media_news' ? 'is-active' : '' }}"
+                            role="tab"
+                            :aria-selected="activeType === 'media_news'"
                             :class="{ 'is-active': activeType === 'media_news' }"
                             @click="setType('media_news')"
                         >
@@ -87,59 +112,53 @@
                 </div>
 
                 <div class="mli-shows-library__bar">
-                    <span>{{ $isArabic ? 'جميع الأخبار' : 'All stories' }}</span>
-                    <span x-text="activeType ? $el.closest('section').querySelectorAll('.mli-news-show-card[data-type=' + activeType + ']').length + ' / ' + {{ $news->count() }} : {{ $news->count() }}"></span>
+                    <span x-text="activeType === 'mli_news'
+                        ? '{{ $isArabic ? 'أخبار MLI' : 'MLI News' }}'
+                        : activeType === 'media_news'
+                            ? '{{ $isArabic ? 'أخبار الإعلام' : 'Media News' }}'
+                            : '{{ $isArabic ? 'جميع الأخبار' : 'All stories' }}'">
+                    </span>
+
+                    <span x-text="filteredNews.length + ' / ' + news.length"></span>
                 </div>
 
                 <div class="mli-shows-grid mli-news-grid--shows-style">
-                    @forelse($news as $index => $item)
+                    <template x-for="(item, index) in filteredNews" :key="item.id">
                         <a
-                            href="{{ route('news.show', $item->slug) }}"
+                            :href="item.url"
                             class="mli-show mli-news-show-card"
-                            data-type="{{ $item->news_type }}"
-                            data-reveal="up"
-                            style="--reveal-delay: {{ min($index % 6, 5) * 70 }}ms"
-                            x-show="!activeType || activeType === '{{ $item->news_type }}'"
+                            :style="'--reveal-delay: ' + (Math.min(index % 6, 5) * 70) + 'ms'"
                             x-transition:enter="mli-news-filter-enter"
                             x-transition:enter-start="mli-news-filter-enter-start"
                             x-transition:enter-end="mli-news-filter-enter-end"
-                            x-transition:leave="mli-news-filter-leave"
-                            x-transition:leave-start="mli-news-filter-leave-start"
-                            x-transition:leave-end="mli-news-filter-leave-end"
-                            aria-label="{{ $isArabic ? 'قراءة ' : 'Read ' }}{{ $isArabic ? $item->title_ar : $item->title_en }}"
+                            :aria-label="'{{ $isArabic ? 'قراءة ' : 'Read ' }}' + item.title"
                         >
                             <span class="mli-show__image">
-                                @if($item->featured_image_url)
-                                    <img
-                                        src="{{ $item->featured_image_url }}"
-                                        alt="{{ $item->featured_image_alt ?? ($isArabic ? $item->title_ar : $item->title_en) }}"
-                                        loading="lazy"
-                                    >
-                                @endif
+                                <template x-if="item.image">
+                                    <img :src="item.image" :alt="item.alt" loading="lazy">
+                                </template>
 
                                 <span class="mli-show__open" aria-hidden="true">↗</span>
                             </span>
 
                             <span class="mli-show__details">
                                 <span>
-                                    <h2>{{ $isArabic ? $item->title_ar : $item->title_en }}</h2>
-                                    <p>
-                                        {{ $item->news_type === 'media_news'
-                                            ? ($isArabic ? 'أخبار الإعلام' : 'Media News')
-                                            : ($isArabic ? 'أخبار MLI' : 'MLI News') }}
-                                        ·
-                                        {{ optional($item->published_at)->format('d.m.Y') }}
-                                    </p>
+                                    <h2 x-text="item.title"></h2>
+                                    <p x-text="item.category + ' · ' + (item.date || '')"></p>
                                 </span>
 
                                 <span class="mli-show__dash" aria-hidden="true"></span>
                             </span>
                         </a>
-                    @empty
-                        <div class="mli-news-empty">
-                            <p>{{ $isArabic ? 'لا توجد أخبار منشورة حالياً.' : 'There are no published stories yet.' }}</p>
-                        </div>
-                    @endforelse
+                    </template>
+
+                    <div
+                        x-show="filteredNews.length === 0"
+                        x-cloak
+                        class="mli-news-empty"
+                    >
+                        <p>{{ $isArabic ? 'لا توجد أخبار منشورة حالياً.' : 'There are no published stories in this category.' }}</p>
+                    </div>
                 </div>
             </div>
         </section>
