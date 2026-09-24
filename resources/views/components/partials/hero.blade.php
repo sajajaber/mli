@@ -110,10 +110,10 @@
 
             <div class="mli-opening__controls" x-show="shows.length > 1" aria-label="{{ app()->getLocale() === 'ar' ? 'التنقل بين البرامج' : 'Show navigation' }}">
                 <button type="button" class="mli-opening__control mli-opening__control--prev" @click="prev()" aria-label="{{ app()->getLocale() === 'ar' ? 'البرنامج السابق' : 'Previous show' }}">
-                    <span aria-hidden="true">←</span>
+                    <span aria-hidden="true">‹</span>
                 </button>
                 <button type="button" class="mli-opening__control mli-opening__control--next" @click="next()" aria-label="{{ app()->getLocale() === 'ar' ? 'البرنامج التالي' : 'Next show' }}">
-                    <span aria-hidden="true">→</span>
+                    <span aria-hidden="true">›</span>
                 </button>
             </div>
 
