@@ -9191,3 +9191,31 @@ html.mli-motion-ready.mli-reduced-motion body {
         clip-path: none !important;
     }
 }
+
+
+/* =========================================================
+   HERO SLOGAN — KEEP STATIC
+   ========================================================= */
+
+html.mli-motion-ready .mli-opening__word,
+html.mli-page-entered .mli-opening__word {
+    display: inline;
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    animation: none;
+}
+
+/* =========================================================
+   STAT COUNTERS
+   ========================================================= */
+
+.mli-about__stat strong .mli-stat-number {
+    color: inherit;
+    font-size: 1em;
+}
+
+.mli-about__stat strong .mli-stat-suffix {
+    color: var(--mli-signal);
+    font-size: 0.62em;
+}
