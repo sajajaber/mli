@@ -6895,3 +6895,32 @@ body {
         transition: none;
     }
 }
+
+
+/* SHOWS PAGE — use the same typography as the public site */
+.mli-shows-page,
+.mli-shows-page h1,
+.mli-shows-page h2,
+.mli-shows-page h3,
+.mli-shows-page h4,
+.mli-shows-page p,
+.mli-shows-page a,
+.mli-shows-page span {
+    font-family: "Readex Pro", ui-sans-serif, system-ui, sans-serif;
+}
+
+html[dir="rtl"] .mli-shows-page,
+html[dir="rtl"] .mli-shows-page h1,
+html[dir="rtl"] .mli-shows-page h2,
+html[dir="rtl"] .mli-shows-page h3,
+html[dir="rtl"] .mli-shows-page h4,
+html[dir="rtl"] .mli-shows-page p,
+html[dir="rtl"] .mli-shows-page a,
+html[dir="rtl"] .mli-shows-page span {
+    font-family: "IBM Plex Sans Arabic", "Readex Pro", ui-sans-serif, system-ui, sans-serif;
+}
+
+.mli-shows-header h1,
+.mli-show__details h2 {
+    font-weight: 500;
+}
