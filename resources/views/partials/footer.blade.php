@@ -15,17 +15,20 @@
 
         <div class="mli-footer-top mli-footer-top--rebalanced">
             <div class="mli-footer-intro">
-                <a href="{{ route('home') }}" class="mli-footer-brandmark" aria-label="Media Link International">
-                    <img src="{{ asset('images/mli-logo.png') }}" alt="Media Link International">
-                </a>
+                <div class="mli-footer-brand-block">
+                    <a href="{{ route('home') }}" class="mli-footer-brandmark" aria-label="Media Link International">
+                        <img src="{{ asset('images/mli-logo.png') }}" alt="Media Link International">
+                    </a>
 
-                @if($tagline)
-                    <p class="mli-footer-tagline">{{ $tagline }}</p>
-                @endif
-
-                @if($description)
-                    <p class="mli-footer-description">{{ $description }}</p>
-                @endif
+                    <div class="mli-footer-brand-copy">
+                        <h2>{{ app()->getLocale() === 'ar' ? 'ميديا لينك إنترناشونال' : 'Media Link International' }}</h2>
+                        <p>
+                            {{ app()->getLocale() === 'ar'
+                                ? 'نربط القصص والإعلام والأشخاص من خلال تواصل هادف وتجارب إبداعية.'
+                                : 'Connecting stories, media and people through meaningful communication and creative experiences.' }}
+                        </p>
+                    </div>
+                </div>
             </div>
 
             <div class="mli-footer-cta">
