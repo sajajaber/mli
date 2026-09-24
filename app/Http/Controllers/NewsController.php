@@ -39,7 +39,7 @@ class NewsController extends Controller
         }
 
         if ($featured) {
-            $newsQuery->whereKeyNot($featured->id);
+            $newsQuery->where('id', '!=', $featured->id);
         }
 
         $news = $newsQuery
