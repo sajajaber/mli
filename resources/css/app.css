@@ -9311,25 +9311,6 @@ html.mli-page-entered .mli-opening__word {
     transform: translateZ(0);
 }
 
-.mli-show__image::before {
-    content: "";
-    position: absolute;
-    inset: -15% -45%;
-    z-index: 2;
-    pointer-events: none;
-    background: linear-gradient(
-        105deg,
-        transparent 38%,
-        rgba(255,255,255,.28) 50%,
-        transparent 62%
-    );
-    transform: translateX(-75%) rotate(8deg);
-    transition: transform .9s cubic-bezier(.2,.75,.2,1);
-}
-
-.mli-show:hover .mli-show__image::before {
-    transform: translateX(75%) rotate(8deg);
-}
 
 .mli-show__image img {
     transform: scale(1);
@@ -9444,7 +9425,6 @@ html.mli-page-entered .mli-opening__word {
 
 @media (prefers-reduced-motion: reduce) {
     .mli-show,
-    .mli-show__image::before,
     .mli-show__image img,
     .mli-show__wash,
     .mli-show__copy,
@@ -9461,6 +9441,503 @@ html.mli-page-entered .mli-opening__word {
     .mli-show:hover .mli-show__copy strong,
     .mli-show:hover .mli-show__copy small,
     .mli-show:hover .mli-show__open {
+        transform: none !important;
+        filter: none !important;
+    }
+}
+
+
+/* =========================================================
+   PUBLIC HOMEPAGE — RICHER HOVER INTERACTIONS
+   ========================================================= */
+
+/* Hero poster */
+.mli-opening__poster {
+    overflow: hidden;
+    transform: translateZ(0);
+    transition:
+        transform .7s var(--mli-motion-ease),
+        box-shadow .7s var(--mli-motion-soft),
+        border-color .4s ease;
+}
+
+.mli-opening__poster:hover {
+    transform: translateY(-8px) scale(1.012);
+    box-shadow: 0 28px 70px rgba(0,0,0,.28);
+}
+
+.mli-opening__poster-image {
+    transition:
+        transform 1.1s var(--mli-motion-ease),
+        filter .8s var(--mli-motion-soft);
+}
+
+.mli-opening__poster:hover .mli-opening__poster-image {
+    transform: scale(1.065);
+    filter: saturate(1.08) contrast(1.03);
+}
+
+.mli-opening__poster-wash {
+    transition:
+        background .6s ease,
+        opacity .5s ease;
+}
+
+.mli-opening__poster:hover .mli-opening__poster-wash {
+    opacity: .92;
+    background: linear-gradient(
+        180deg,
+        rgba(47,65,86,.04) 18%,
+        rgba(18,29,42,.16) 48%,
+        rgba(18,29,42,.9) 100%
+    );
+}
+
+.mli-opening__poster-copy {
+    transition: transform .5s var(--mli-motion-ease);
+}
+
+.mli-opening__poster:hover .mli-opening__poster-copy {
+    transform: translateY(-5px);
+}
+
+.mli-opening__poster-copy strong,
+.mli-opening__poster-copy small {
+    transition: color .35s ease, letter-spacing .45s var(--mli-motion-ease);
+}
+
+.mli-opening__poster:hover .mli-opening__poster-copy strong {
+    letter-spacing: .01em;
+}
+
+.mli-opening__poster-arrow {
+    transition:
+        transform .45s var(--mli-motion-ease),
+        background .35s ease,
+        color .35s ease;
+}
+
+.mli-opening__poster:hover .mli-opening__poster-arrow {
+    transform: translate(3px,-3px) rotate(45deg);
+    background: #c4a470;
+    color: #2f4156;
+}
+
+.mli-opening__control {
+    transition:
+        transform .3s var(--mli-motion-ease),
+        background .3s ease,
+        border-color .3s ease;
+}
+
+.mli-opening__control:hover {
+    transform: translateY(-3px) scale(1.06);
+    background: #c4a470;
+    border-color: #c4a470;
+    color: #2f4156;
+}
+
+/* News rows */
+.news-item {
+    position: relative;
+    padding-left: 0;
+    transition:
+        transform .45s var(--mli-motion-ease),
+        border-color .35s ease;
+}
+
+.news-item::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 0;
+    height: 2px;
+    background: #c4a470;
+    transition: width .5s var(--mli-motion-ease);
+}
+
+.news-item:hover {
+    transform: translateX(8px);
+    border-color: rgba(196,164,112,.4);
+}
+
+.news-item:hover::after {
+    width: 100%;
+}
+
+.news-item__image {
+    position: relative;
+    overflow: hidden;
+    transition:
+        transform .45s var(--mli-motion-ease),
+        box-shadow .45s ease;
+}
+
+.news-item:hover .news-item__image {
+    transform: scale(1.025);
+    box-shadow: 0 12px 28px rgba(47,65,86,.16);
+}
+
+.news-item__body strong {
+    transition:
+        color .35s ease,
+        transform .4s var(--mli-motion-ease);
+}
+
+.news-item:hover .news-item__body strong {
+    color: #567c8d;
+    transform: translateX(3px);
+}
+
+.news-item__body > span {
+    transition:
+        color .35s ease,
+        letter-spacing .4s var(--mli-motion-ease);
+}
+
+.news-item:hover .news-item__body > span {
+    color: #c4a470;
+    letter-spacing: .13em;
+}
+
+/* Library marquee items */
+.mli-library-marquee__item {
+    position: relative;
+    transition:
+        transform .5s var(--mli-motion-ease),
+        background .35s ease,
+        color .35s ease;
+}
+
+.mli-library-marquee__item:hover {
+    transform: translateY(-5px);
+    background: rgba(47,65,86,.08);
+}
+
+.mli-library-marquee__thumb {
+    transition:
+        transform .5s var(--mli-motion-ease),
+        border-color .35s ease;
+}
+
+.mli-library-marquee__item:hover .mli-library-marquee__thumb {
+    transform: scale(1.035);
+    border-color: #c4a470;
+}
+
+.mli-library-marquee__thumb img {
+    transition:
+        transform .8s var(--mli-motion-ease),
+        filter .6s ease;
+}
+
+.mli-library-marquee__item:hover .mli-library-marquee__thumb img {
+    transform: scale(1.09);
+    filter: saturate(1.08);
+}
+
+.mli-library-marquee__copy strong {
+    transition:
+        color .35s ease,
+        transform .4s var(--mli-motion-ease);
+}
+
+.mli-library-marquee__item:hover .mli-library-marquee__copy strong {
+    color: #2f4156;
+    transform: translateX(4px);
+}
+
+.mli-library-marquee__arrow {
+    transition:
+        transform .4s var(--mli-motion-ease),
+        color .3s ease;
+}
+
+.mli-library-marquee__item:hover .mli-library-marquee__arrow {
+    transform: translate(4px,-4px) rotate(45deg);
+    color: #c4a470;
+}
+
+.mli-library-marquee__divider {
+    transition:
+        transform .5s var(--mli-motion-ease),
+        color .35s ease;
+}
+
+.mli-library-marquee__item:hover .mli-library-marquee__divider {
+    transform: rotate(90deg) scale(1.15);
+    color: #c4a470;
+}
+
+/* About statistics */
+.mli-about__stat {
+    position: relative;
+    overflow: hidden;
+    transition:
+        transform .5s var(--mli-motion-ease),
+        background .35s ease,
+        border-color .35s ease;
+}
+
+.mli-about__stat::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 3px;
+    background: #c4a470;
+    transition: width .55s var(--mli-motion-ease);
+}
+
+.mli-about__stat:hover {
+    transform: translateY(-6px);
+    background: rgba(196,164,112,.055);
+}
+
+.mli-about__stat:hover::after {
+    width: 100%;
+}
+
+.mli-about__stat strong {
+    transition:
+        transform .45s var(--mli-motion-ease),
+        color .35s ease;
+}
+
+.mli-about__stat:hover strong {
+    transform: translateY(-3px);
+    color: #fff;
+}
+
+/* Services */
+.mli-about-service {
+    position: relative;
+    transition:
+        transform .5s var(--mli-motion-ease),
+        border-color .35s ease,
+        background .35s ease;
+}
+
+.mli-about-service::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #c4a470;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform .5s var(--mli-motion-ease);
+}
+
+.mli-about-service:hover {
+    transform: translateX(10px);
+    background: rgba(196,164,112,.055);
+}
+
+.mli-about-service:hover::after {
+    transform: scaleY(1);
+}
+
+.mli-about-service__number {
+    transition:
+        color .35s ease,
+        transform .45s var(--mli-motion-ease);
+}
+
+.mli-about-service:hover .mli-about-service__number {
+    color: #c4a470;
+    transform: translateX(3px);
+}
+
+.mli-about-service__arrow {
+    transition:
+        transform .45s var(--mli-motion-ease),
+        color .35s ease;
+}
+
+.mli-about-service:hover .mli-about-service__arrow {
+    transform: translate(4px,-4px) rotate(45deg);
+    color: #c4a470;
+}
+
+.mli-about-service h4 {
+    transition:
+        color .35s ease,
+        transform .4s var(--mli-motion-ease);
+}
+
+.mli-about-service:hover h4 {
+    color: #fff;
+    transform: translateX(3px);
+}
+
+/* Key people */
+.mli-person-card {
+    transition:
+        transform .55s var(--mli-motion-ease),
+        filter .55s var(--mli-motion-soft);
+}
+
+.mli-person-card:hover {
+    transform: translateY(-9px);
+    filter: drop-shadow(0 18px 28px rgba(47,65,86,.14));
+}
+
+.mli-person-card__photo {
+    overflow: hidden;
+    transition:
+        transform .55s var(--mli-motion-ease),
+        border-color .35s ease;
+}
+
+.mli-person-card:hover .mli-person-card__photo {
+    transform: scale(1.02);
+    border-color: #c4a470;
+}
+
+.mli-person-card__photo img {
+    transition:
+        transform .9s var(--mli-motion-ease),
+        filter .7s var(--mli-motion-soft);
+}
+
+.mli-person-card:hover .mli-person-card__photo img {
+    transform: scale(1.07);
+    filter: saturate(1.06);
+}
+
+.mli-person-card h3,
+.mli-person-card p {
+    transition:
+        color .35s ease,
+        transform .4s var(--mli-motion-ease);
+}
+
+.mli-person-card:hover h3 {
+    transform: translateX(3px);
+}
+
+.mli-person-card:hover p {
+    color: #c4a470;
+    transform: translateX(3px);
+}
+
+/* Clients / partners */
+.mli-client-logo {
+    transition:
+        transform .5s var(--mli-motion-ease),
+        background .35s ease,
+        border-color .35s ease,
+        filter .5s ease;
+}
+
+.mli-client-logo:hover {
+    transform: translateY(-6px) scale(1.025);
+    background: rgba(196,164,112,.1);
+    border-color: rgba(196,164,112,.55);
+    filter: saturate(1.08);
+}
+
+.mli-client-logo img {
+    transition:
+        transform .6s var(--mli-motion-ease),
+        filter .5s ease;
+}
+
+.mli-client-logo:hover img {
+    transform: scale(1.08);
+}
+
+/* Public text links */
+.mli-catalogue__bottom a,
+.mli-about__scroll,
+.section-heading .text-link {
+    transition:
+        transform .4s var(--mli-motion-ease),
+        color .3s ease,
+        letter-spacing .35s ease;
+}
+
+.mli-catalogue__bottom a:hover,
+.section-heading .text-link:hover {
+    transform: translateX(5px);
+    color: #c4a470;
+    letter-spacing: .04em;
+}
+
+.mli-about__scroll:hover {
+    transform: translateY(-4px);
+    color: #c4a470;
+}
+
+/* Keep everything calm on small screens and for reduced-motion users. */
+@media (max-width: 700px) {
+    .news-item:hover,
+    .mli-about-service:hover {
+        transform: translateX(4px);
+    }
+
+    .mli-opening__poster:hover {
+        transform: translateY(-4px) scale(1.005);
+    }
+
+    .mli-person-card:hover {
+        transform: translateY(-5px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mli-opening__poster,
+    .mli-opening__poster-image,
+    .mli-opening__poster-wash,
+    .mli-opening__poster-copy,
+    .mli-opening__poster-copy strong,
+    .mli-opening__poster-copy small,
+    .mli-opening__poster-arrow,
+    .mli-opening__control,
+    .news-item,
+    .news-item::after,
+    .news-item__image,
+    .news-item__body strong,
+    .news-item__body > span,
+    .mli-library-marquee__item,
+    .mli-library-marquee__thumb,
+    .mli-library-marquee__thumb img,
+    .mli-library-marquee__copy strong,
+    .mli-library-marquee__arrow,
+    .mli-library-marquee__divider,
+    .mli-about__stat,
+    .mli-about__stat::after,
+    .mli-about__stat strong,
+    .mli-about-service,
+    .mli-about-service::after,
+    .mli-about-service__number,
+    .mli-about-service__arrow,
+    .mli-about-service h4,
+    .mli-person-card,
+    .mli-person-card__photo,
+    .mli-person-card__photo img,
+    .mli-person-card h3,
+    .mli-person-card p,
+    .mli-client-logo,
+    .mli-client-logo img,
+    .mli-catalogue__bottom a,
+    .mli-about__scroll,
+    .section-heading .text-link {
+        transition: none !important;
+    }
+
+    .mli-opening__poster:hover,
+    .mli-person-card:hover,
+    .news-item:hover,
+    .mli-library-marquee__item:hover,
+    .mli-about__stat:hover,
+    .mli-about-service:hover,
+    .mli-client-logo:hover {
         transform: none !important;
         filter: none !important;
     }
