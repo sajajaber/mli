@@ -10001,3 +10001,285 @@ html.mli-page-entered .mli-opening__word {
     background: transparent !important;
     color: inherit !important;
 }
+
+
+/* =========================================================
+   ARABIC PUBLIC HOMEPAGE — RTL DESIGN POLISH
+   ========================================================= */
+
+html[dir="rtl"] body {
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-nav__inner {
+    direction: rtl;
+}
+
+html[dir="rtl"] .mli-nav__brand {
+    direction: ltr;
+}
+
+html[dir="rtl"] .mli-nav__center {
+    direction: rtl;
+}
+
+html[dir="rtl"] .mli-nav__right {
+    direction: rtl;
+}
+
+html[dir="rtl"] .mli-nav__contact {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .mli-mobile-menu {
+    text-align: right;
+}
+
+/* Hero */
+html[dir="rtl"] .mli-opening__inner {
+    direction: rtl;
+}
+
+html[dir="rtl"] .mli-opening__copy {
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-opening__eyebrow {
+    justify-content: flex-start;
+}
+
+html[dir="rtl"] .mli-opening__eyebrow i {
+    order: 2;
+}
+
+html[dir="rtl"] .mli-opening h1 {
+    max-width: 760px;
+    font-size: clamp(54px, 6vw, 92px);
+    line-height: 1.08;
+    letter-spacing: 0 !important;
+    font-weight: 500;
+}
+
+html[dir="rtl"] .mli-opening__word {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+html[dir="rtl"] .mli-opening__statement {
+    max-width: 560px;
+    line-height: 2;
+    font-size: 15px;
+}
+
+html[dir="rtl"] .mli-opening__enter {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .mli-opening__poster-copy {
+    left: 24px;
+    right: auto;
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-opening__poster-copy strong {
+    letter-spacing: 0 !important;
+    line-height: 1.2;
+}
+
+html[dir="rtl"] .mli-opening__poster-copy small {
+    letter-spacing: .04em;
+}
+
+html[dir="rtl"] .mli-opening__poster-arrow {
+    right: auto;
+    left: 24px;
+}
+
+/* Headings and section introductions */
+html[dir="rtl"] .mli-catalogue__intro,
+html[dir="rtl"] .mli-new-releases__heading,
+html[dir="rtl"] .mli-clients__heading,
+html[dir="rtl"] .section-heading {
+    direction: rtl;
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-catalogue h2,
+html[dir="rtl"] .mli-new-releases h2,
+html[dir="rtl"] .mli-clients__heading h2,
+html[dir="rtl"] #news .section-heading h2 {
+    letter-spacing: 0 !important;
+    line-height: 1.1;
+}
+
+html[dir="rtl"] .mli-catalogue__intro > p,
+html[dir="rtl"] .mli-clients__heading > p {
+    margin-right: auto;
+    margin-left: 0;
+    text-align: right;
+    line-height: 2;
+}
+
+/* Library marquee */
+html[dir="rtl"] .mli-library-marquee__item {
+    direction: rtl;
+}
+
+html[dir="rtl"] .mli-library-marquee__copy {
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-library-marquee__arrow {
+    transform-origin: center;
+}
+
+/* News */
+html[dir="rtl"] .news-grid {
+    direction: rtl;
+}
+
+html[dir="rtl"] .news-column__head {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .news-item {
+    direction: rtl;
+    text-align: right;
+}
+
+html[dir="rtl"] .news-item:hover {
+    transform: translateX(-8px);
+}
+
+html[dir="rtl"] .news-item__body strong {
+    line-height: 1.75;
+}
+
+html[dir="rtl"] .news-item__body > span {
+    letter-spacing: .04em;
+}
+
+/* About */
+html[dir="rtl"] .mli-about__inner {
+    direction: rtl;
+}
+
+html[dir="rtl"] .mli-about__stats {
+    direction: rtl;
+}
+
+html[dir="rtl"] .mli-about__stat {
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-about__stat strong {
+    direction: ltr;
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-about-services {
+    direction: rtl;
+}
+
+html[dir="rtl"] .mli-about-services__heading {
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-about-service {
+    direction: rtl;
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-about-service:hover {
+    transform: translateX(-10px);
+}
+
+html[dir="rtl"] .mli-about-service::after {
+    left: auto;
+    right: 0;
+}
+
+html[dir="rtl"] .mli-about-service__number {
+    direction: ltr;
+}
+
+/* People */
+html[dir="rtl"] .mli-people__heading {
+    direction: rtl;
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-person-card {
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-person-card h3,
+html[dir="rtl"] .mli-person-card p {
+    letter-spacing: 0;
+}
+
+/* Client logos */
+html[dir="rtl"] .mli-clients__marquee {
+    direction: rtl;
+}
+
+/* Footer */
+html[dir="rtl"] .mli-footer-top--rebalanced {
+    direction: rtl;
+}
+
+html[dir="rtl"] .mli-footer-contact,
+html[dir="rtl"] .mli-footer-office,
+html[dir="rtl"] .mli-footer-social {
+    text-align: right;
+    align-items: flex-start;
+}
+
+html[dir="rtl"] .mli-footer-link:hover {
+    transform: translateX(-4px);
+}
+
+html[dir="rtl"] .mli-footer-map-link {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .mli-footer-bottom {
+    direction: rtl;
+}
+
+/* Arabic mobile rhythm */
+@media (max-width: 700px) {
+    html[dir="rtl"] .mli-opening h1 {
+        font-size: clamp(48px, 15vw, 78px);
+        line-height: 1.08;
+    }
+
+    html[dir="rtl"] .mli-opening__statement {
+        font-size: 13px;
+        line-height: 1.95;
+    }
+
+    html[dir="rtl"] .mli-opening__poster-copy {
+        left: 18px;
+        right: 18px;
+    }
+
+    html[dir="rtl"] .mli-opening__poster-arrow {
+        left: 18px;
+    }
+
+    html[dir="rtl"] .mli-catalogue__intro > p,
+    html[dir="rtl"] .mli-clients__heading > p {
+        max-width: 100%;
+        margin-right: 0;
+    }
+
+    html[dir="rtl"] .news-item:hover,
+    html[dir="rtl"] .mli-about-service:hover {
+        transform: translateX(-4px);
+    }
+
+    html[dir="rtl"] .mli-footer-link:hover {
+        transform: none;
+    }
+}
