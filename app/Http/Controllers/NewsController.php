@@ -11,29 +11,41 @@ class NewsController extends Controller
     {
         $type = $request->query('type');
 
-        $query = News::published()
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
-            ->latest('published_at');
-
-        if (in_array($type, ['mli_news', 'media_news'], true)) {
-            $query->where('news_type', $type);
-        } else {
+        if (!in_array($type, ['mli_news', 'media_news'], true)) {
             $type = null;
         }
 
-        $news = $query->paginate(9)->withQueryString();
-
-        $featuredQuery = News::published()
+        $published = fn ($query) => $query
+            ->published()
             ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
-            ->latest('published_at');
+            ->where('published_at', '<=', now());
+
+        $featuredQuery = News::query();
+        $published($featuredQuery);
 
         if ($type) {
             $featuredQuery->where('news_type', $type);
         }
 
-        $featured = $featuredQuery->first();
+        $featured = $featuredQuery
+            ->latest('published_at')
+            ->first();
+
+        $newsQuery = News::query();
+        $published($newsQuery);
+
+        if ($type) {
+            $newsQuery->where('news_type', $type);
+        }
+
+        if ($featured) {
+            $newsQuery->whereKeyNot($featured->id);
+        }
+
+        $news = $newsQuery
+            ->latest('published_at')
+            ->paginate(9)
+            ->withQueryString();
 
         return view('news.index', compact('news', 'featured', 'type'));
     }
