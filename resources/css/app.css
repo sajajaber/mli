@@ -7725,3 +7725,91 @@ html[dir="rtl"] .mli-footer-top--rebalanced .mli-footer-cta {
         padding-right: 0;
     }
 }
+
+
+/* FOOTER — LARGER LOGO WITH SIDE BRAND COPY */
+.mli-footer-brand-block {
+    display: flex;
+    align-items: center;
+    gap: clamp(28px, 4vw, 52px);
+}
+
+.mli-footer-brand-block .mli-footer-brandmark {
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+.mli-footer-brand-block .mli-footer-brandmark img {
+    display: block;
+    width: clamp(190px, 15vw, 250px);
+    max-height: 105px;
+    height: auto;
+    object-fit: contain;
+}
+
+.mli-footer-brand-copy {
+    max-width: 365px;
+}
+
+.mli-footer-brand-copy h2 {
+    margin: 0;
+    color: #fff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(24px, 2.2vw, 34px);
+    line-height: 1;
+    font-weight: 400;
+    letter-spacing: -.035em;
+}
+
+.mli-footer-brand-copy p {
+    max-width: 350px;
+    margin: 14px 0 0;
+    color: rgba(255,255,255,.62);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+html[dir="rtl"] .mli-footer-brand-block {
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-footer-brand-copy h2 {
+    font-family: "IBM Plex Sans Arabic", "Readex Pro", ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -.02em;
+}
+
+@media (max-width: 700px) {
+    .mli-footer-brand-block {
+        align-items: flex-start;
+        gap: 24px;
+    }
+
+    .mli-footer-brand-block .mli-footer-brandmark img {
+        width: 150px;
+        max-height: 78px;
+    }
+
+    .mli-footer-brand-copy h2 {
+        font-size: clamp(21px, 6vw, 28px);
+    }
+
+    .mli-footer-brand-copy p {
+        font-size: 11px;
+        line-height: 1.7;
+    }
+}
+
+@media (max-width: 520px) {
+    .mli-footer-brand-block {
+        display: block;
+    }
+
+    .mli-footer-brand-block .mli-footer-brandmark {
+        margin-bottom: 26px;
+    }
+
+    .mli-footer-brand-block .mli-footer-brandmark img {
+        width: 185px;
+        max-height: 92px;
+    }
+}
