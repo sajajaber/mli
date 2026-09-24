@@ -7277,3 +7277,42 @@ html[dir="rtl"] .mli-show-modal__content h2 {
     line-height: 1.05;
     font-weight: 500;
 }
+
+/* SHOWS PAGE — NAVBAR IS NAVY BEFORE SCROLL */
+.shows-page-body .mli-nav,
+.shows-page-body .mli-nav__brand,
+.shows-page-body .mli-nav__center a,
+.shows-page-body .mli-nav__language,
+.shows-page-body .mli-nav__contact,
+.shows-page-body .mli-nav__status,
+.shows-page-body .mli-nav__menu {
+    color: #2f4156 !important;
+}
+
+.shows-page-body .mli-nav {
+    border-bottom-color: rgba(47,65,86,.14) !important;
+}
+
+.shows-page-body .mli-nav__status i {
+    background: #2f4156 !important;
+    box-shadow: 0 0 0 4px rgba(47,65,86,.08) !important;
+}
+
+.shows-page-body .mli-nav__contact {
+    border-color: rgba(47,65,86,.45) !important;
+}
+
+.shows-page-body .mli-nav__center a:hover {
+    color: #567c8d !important;
+}
+
+.shows-page-body .mli-nav__contact:hover {
+    background: #2f4156 !important;
+    border-color: #2f4156 !important;
+    color: #f5f2eb !important;
+}
+
+.shows-page-body .mli-nav--scrolled {
+    color: #2f4156 !important;
+    background: rgba(248,250,249,.94) !important;
+}
