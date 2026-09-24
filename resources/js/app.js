@@ -2,45 +2,123 @@ import Alpine from "alpinejs";
 
 window.Alpine = Alpine;
 
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+document.documentElement.classList.add("mli-motion-ready");
+
 document.addEventListener("DOMContentLoaded", () => {
-    const revealItems = document.querySelectorAll("[data-reveal]");
-    if ("IntersectionObserver" in window) {
-        const observer = new IntersectionObserver((entries, obs) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("is-visible");
-                    obs.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.14, rootMargin: "0px 0px -40px 0px" });
-        revealItems.forEach((item) => observer.observe(item));
+    const root = document.documentElement;
+    const body = document.body;
+
+    if (reduceMotion) {
+        root.classList.add("mli-reduced-motion");
     } else {
-        revealItems.forEach((item) => item.classList.add("is-visible"));
+        requestAnimationFrame(() => {
+            root.classList.add("mli-page-entered");
+        });
     }
-});
 
-Alpine.start();
+    const revealItems = document.querySelectorAll("[data-reveal]");
 
-document.addEventListener("DOMContentLoaded", () => {
-    const sections = document.querySelectorAll("main > section:not(:first-child)");
+    revealItems.forEach((item, index) => {
+        if (!item.style.getPropertyValue("--reveal-delay")) {
+            item.style.setProperty("--reveal-delay", `${Math.min(index % 8, 7) * 65}ms`);
+        }
+    });
 
-    if (!sections.length) return;
-
-    if ("IntersectionObserver" in window) {
-        const sectionObserver = new IntersectionObserver((entries, observer) => {
+    if ("IntersectionObserver" in window && !reduceMotion) {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("mli-section-visible");
-                    observer.unobserve(entry.target);
-                }
+                if (!entry.isIntersecting) return;
+
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
             });
         }, {
             threshold: 0.08,
-            rootMargin: "0px 0px -50px 0px",
+            rootMargin: "0px 0px -70px 0px",
+        });
+
+        revealItems.forEach((item) => revealObserver.observe(item));
+    } else {
+        revealItems.forEach((item) => item.classList.add("is-visible"));
+    }
+
+    const sections = document.querySelectorAll("main > section");
+
+    if ("IntersectionObserver" in window && !reduceMotion) {
+        const sectionObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+
+                entry.target.classList.add("mli-section-visible");
+                observer.unobserve(entry.target);
+            });
+        }, {
+            threshold: 0.05,
+            rootMargin: "0px 0px -40px 0px",
         });
 
         sections.forEach((section) => sectionObserver.observe(section));
     } else {
         sections.forEach((section) => section.classList.add("mli-section-visible"));
     }
+
+    if (!reduceMotion) {
+        let ticking = false;
+
+        const updateScrollMotion = () => {
+            const scrollY = window.scrollY || window.pageYOffset || 0;
+            const viewportHeight = window.innerHeight || 1;
+            const documentHeight = Math.max(document.documentElement.scrollHeight - viewportHeight, 1);
+            const progress = Math.min(Math.max(scrollY / documentHeight, 0), 1);
+
+            root.style.setProperty("--mli-scroll-progress", progress.toFixed(4));
+
+            document.querySelectorAll("[data-depth]").forEach((element) => {
+                const depth = Number(element.dataset.depth || 0.08);
+                const rect = element.getBoundingClientRect();
+                const center = rect.top + rect.height / 2;
+                const distance = (center - viewportHeight / 2) / viewportHeight;
+                const translate = Math.max(-18, Math.min(18, distance * depth * -42));
+
+                element.style.setProperty("--mli-depth-y", `${translate.toFixed(2)}px`);
+            });
+
+            ticking = false;
+        };
+
+        const requestScrollMotion = () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(updateScrollMotion);
+        };
+
+        updateScrollMotion();
+        window.addEventListener("scroll", requestScrollMotion, { passive: true });
+        window.addEventListener("resize", requestScrollMotion, { passive: true });
+    }
+
+    // Image masks create a more intentional "uncover" instead of a generic fade.
+    if (!reduceMotion) {
+        document.querySelectorAll("img").forEach((image) => {
+            const parent = image.parentElement;
+            if (!parent || parent.classList.contains("mli-image-reveal-host")) return;
+
+            parent.classList.add("mli-image-reveal-host");
+
+            const revealImage = () => {
+                parent.classList.add("mli-image-revealed");
+            };
+
+            if (image.complete) {
+                requestAnimationFrame(revealImage);
+            } else {
+                image.addEventListener("load", revealImage, { once: true });
+                image.addEventListener("error", revealImage, { once: true });
+            }
+        });
+    }
 });
+
+Alpine.start();
