@@ -15,13 +15,7 @@ class NewsController extends Controller
             $type = null;
         }
 
-        $published = fn ($query) => $query
-            ->published()
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now());
-
-        $featuredQuery = News::query();
-        $published($featuredQuery);
+        $featuredQuery = News::published();
 
         if ($type) {
             $featuredQuery->where('news_type', $type);
@@ -29,10 +23,10 @@ class NewsController extends Controller
 
         $featured = $featuredQuery
             ->latest('published_at')
+            ->latest('created_at')
             ->first();
 
-        $newsQuery = News::query();
-        $published($newsQuery);
+        $newsQuery = News::published();
 
         if ($type) {
             $newsQuery->where('news_type', $type);
@@ -44,6 +38,7 @@ class NewsController extends Controller
 
         $news = $newsQuery
             ->latest('published_at')
+            ->latest('created_at')
             ->paginate(9)
             ->withQueryString();
 
@@ -53,17 +48,14 @@ class NewsController extends Controller
     public function show(string $slug)
     {
         $article = News::published()
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
             ->where('slug', $slug)
             ->firstOrFail();
 
         $related = News::published()
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
             ->where('id', '!=', $article->id)
             ->where('news_type', $article->news_type)
             ->latest('published_at')
+            ->latest('created_at')
             ->limit(3)
             ->get();
 
