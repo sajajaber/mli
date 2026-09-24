@@ -90,7 +90,7 @@
         </div>
 
         <div class="mli-opening__feature" data-reveal="scale">
-            <a href="{{ route('shows.index') }}" class="mli-opening__poster" :class="{ 'mli-opening__poster--empty': !shows.length || !shows[index].image }">
+            <a href="{{ route('shows.index') }}" class="mli-opening__poster" data-depth="0.18" :class="{ 'mli-opening__poster--empty': !shows.length || !shows[index].image }">
                 <template x-if="shows.length && shows[index].image">
                     <img
                         :src="shows[index].image"
