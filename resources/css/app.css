@@ -9287,3 +9287,181 @@ html.mli-page-entered .mli-opening__word {
         font-size: 15px;
     }
 }
+
+
+/* =========================================================
+   SHOW CARDS — ENHANCED HOVER INTERACTION
+   ========================================================= */
+
+.mli-show {
+    position: relative;
+    overflow: visible;
+    transform: translateY(0);
+    transition:
+        transform .55s var(--mli-motion-ease),
+        filter .55s var(--mli-motion-soft);
+}
+
+.mli-show:hover {
+    transform: translateY(-9px);
+    filter: drop-shadow(0 20px 28px rgba(18, 29, 42, .14));
+}
+
+.mli-show__image {
+    transform: translateZ(0);
+}
+
+.mli-show__image::before {
+    content: "";
+    position: absolute;
+    inset: -15% -45%;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(
+        105deg,
+        transparent 38%,
+        rgba(255,255,255,.28) 50%,
+        transparent 62%
+    );
+    transform: translateX(-75%) rotate(8deg);
+    transition: transform .9s cubic-bezier(.2,.75,.2,1);
+}
+
+.mli-show:hover .mli-show__image::before {
+    transform: translateX(75%) rotate(8deg);
+}
+
+.mli-show__image img {
+    transform: scale(1);
+    transition:
+        transform 1s var(--mli-motion-ease),
+        filter .7s var(--mli-motion-soft);
+}
+
+.mli-show:hover .mli-show__image img {
+    transform: scale(1.075) rotate(.7deg);
+    filter: saturate(1.06) contrast(1.02);
+}
+
+.mli-show__wash {
+    transition:
+        opacity .55s ease,
+        background .7s ease;
+}
+
+.mli-show:hover .mli-show__wash {
+    opacity: .84;
+    background: linear-gradient(
+        180deg,
+        rgba(47,65,86,0) 24%,
+        rgba(18,29,42,.08) 48%,
+        rgba(18,29,42,.96) 100%
+    );
+}
+
+.mli-show__copy {
+    transform: translateY(7px);
+    transition:
+        transform .55s var(--mli-motion-ease),
+        opacity .45s ease;
+}
+
+.mli-show:hover .mli-show__copy {
+    transform: translateY(0);
+}
+
+.mli-show__copy strong {
+    transition:
+        letter-spacing .45s var(--mli-motion-ease),
+        transform .45s var(--mli-motion-ease);
+}
+
+.mli-show:hover .mli-show__copy strong {
+    letter-spacing: -.015em;
+    transform: translateX(2px);
+}
+
+.mli-show__copy small {
+    transition:
+        opacity .4s ease,
+        transform .45s var(--mli-motion-ease);
+}
+
+.mli-show:hover .mli-show__copy small {
+    opacity: 1;
+    transform: translateX(2px);
+}
+
+.mli-show__open {
+    border-radius: 50%;
+    transform: translate(0, 0) rotate(0deg) scale(.82);
+    transition:
+        opacity .35s ease,
+        transform .55s var(--mli-motion-ease),
+        background .35s ease,
+        border-color .35s ease;
+}
+
+.mli-show:hover .mli-show__open {
+    transform: translate(-2px, -2px) rotate(45deg) scale(1);
+    background: #c4a470;
+    border-color: #c4a470;
+    color: #2f4156;
+}
+
+.mli-show:focus-visible {
+    outline: none;
+}
+
+.mli-show:focus-visible .mli-show__image {
+    box-shadow: 0 0 0 3px rgba(196,164,112,.65);
+}
+
+.mli-show__dash {
+    transition:
+        width .45s var(--mli-motion-ease),
+        background .35s ease;
+}
+
+.mli-show:hover .mli-show__dash {
+    width: 76px;
+    background: #c4a470;
+}
+
+@media (max-width: 640px) {
+    .mli-show:hover {
+        transform: translateY(-4px);
+    }
+
+    .mli-show:hover .mli-show__image img {
+        transform: scale(1.045);
+    }
+
+    .mli-show:hover .mli-show__dash {
+        width: 38px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mli-show,
+    .mli-show__image::before,
+    .mli-show__image img,
+    .mli-show__wash,
+    .mli-show__copy,
+    .mli-show__copy strong,
+    .mli-show__copy small,
+    .mli-show__open,
+    .mli-show__dash {
+        transition: none !important;
+    }
+
+    .mli-show:hover,
+    .mli-show:hover .mli-show__image img,
+    .mli-show:hover .mli-show__copy,
+    .mli-show:hover .mli-show__copy strong,
+    .mli-show:hover .mli-show__copy small,
+    .mli-show:hover .mli-show__open {
+        transform: none !important;
+        filter: none !important;
+    }
+}
