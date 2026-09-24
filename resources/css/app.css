@@ -7891,3 +7891,41 @@ html[dir="rtl"] .mli-footer-brand-copy h2 {
         max-height: 105px;
     }
 }
+
+
+/* FOOTER — BRAND TITLE + GOLD ACCENT */
+.mli-footer-brand-copy h2 {
+    white-space: nowrap;
+    color: #c4a470;
+    font-size: clamp(24px, 2.35vw, 38px);
+}
+
+.mli-footer-brand-copy p {
+    color: rgba(255,255,255,.66);
+}
+
+.mli-footer-top--rebalanced .mli-footer-kicker {
+    color: #c4a470;
+}
+
+.mli-footer-top--rebalanced .mli-footer-cta {
+    border-left-color: rgba(196,164,112,.38);
+}
+
+.mli-footer-label {
+    color: #c4a470;
+}
+
+.mli-footer-map span {
+    color: #c4a470;
+}
+
+@media (max-width: 700px) {
+    .mli-footer-brand-copy h2 {
+        font-size: clamp(21px, 5.2vw, 30px);
+    }
+}
+
+html[dir="rtl"] .mli-footer-brand-copy h2 {
+    white-space: normal;
+}
