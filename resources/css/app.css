@@ -7929,3 +7929,11 @@ html[dir="rtl"] .mli-footer-brand-copy h2 {
 html[dir="rtl"] .mli-footer-brand-copy h2 {
     white-space: normal;
 }
+
+
+/* FOOTER — WHITE BOLD BRAND TITLE */
+.mli-footer-brand-copy h2 {
+    color: #fff;
+    font-weight: 700;
+    white-space: nowrap;
+}
