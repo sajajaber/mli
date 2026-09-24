@@ -17,7 +17,7 @@
             <div class="mli-footer-intro">
                 <div class="mli-footer-brand-block">
                     <a href="{{ route('home') }}" class="mli-footer-brandmark" aria-label="Media Link International">
-                        <img src="{{ asset('images/mli-logo.png') }}" alt="Media Link International">
+                        <img src="{{ asset('images/mli-logo.jpeg') }}" alt="Media Link International">
                     </a>
 
                     <div class="mli-footer-brand-copy">
