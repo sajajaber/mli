@@ -7944,3 +7944,15 @@ html[dir="rtl"] .mli-footer-brand-copy h2 {
     color: #fff;
     font-weight: 400;
 }
+
+
+/* FOOTER — BRING BRAND COPY CLOSER TO LOGO */
+.mli-footer-brand-block {
+    gap: clamp(20px, 2.8vw, 38px);
+}
+
+@media (max-width: 700px) {
+    .mli-footer-brand-block {
+        gap: 18px;
+    }
+}
