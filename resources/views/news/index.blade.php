@@ -41,8 +41,13 @@
                 }
 
                 window.history.replaceState({}, '', url);
+            },
+            syncFromUrl() {
+                const type = new URL(window.location.href).searchParams.get('type');
+                this.activeType = ['mli_news', 'media_news'].includes(type) ? type : '';
             }
         }"
+        x-init="window.addEventListener('popstate', () => syncFromUrl())"
     >
         <section class="mli-shows-header mli-news-header">
             <div class="container">
@@ -131,6 +136,9 @@
                             x-transition:enter="mli-news-filter-enter"
                             x-transition:enter-start="mli-news-filter-enter-start"
                             x-transition:enter-end="mli-news-filter-enter-end"
+                            x-transition:leave="mli-news-filter-leave"
+                            x-transition:leave-start="mli-news-filter-leave-start"
+                            x-transition:leave-end="mli-news-filter-leave-end"
                             :aria-label="'{{ $isArabic ? 'قراءة ' : 'Read ' }}' + item.title"
                         >
                             <span class="mli-show__image">
