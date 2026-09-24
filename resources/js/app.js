@@ -27,12 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if ("IntersectionObserver" in window && !reduceMotion) {
-        const revealObserver = new IntersectionObserver((entries, observer) => {
+        const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                if (!entry.isIntersecting) return;
-
-                entry.target.classList.add("is-visible");
-                observer.unobserve(entry.target);
+                entry.target.classList.toggle("is-visible", entry.isIntersecting);
             });
         }, {
             threshold: 0.08,
@@ -102,12 +99,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const sections = document.querySelectorAll("main > section");
 
     if ("IntersectionObserver" in window && !reduceMotion) {
-        const sectionObserver = new IntersectionObserver((entries, observer) => {
+        const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                if (!entry.isIntersecting) return;
-
-                entry.target.classList.add("mli-section-visible");
-                observer.unobserve(entry.target);
+                entry.target.classList.toggle("mli-section-visible", entry.isIntersecting);
             });
         }, {
             threshold: 0.05,
