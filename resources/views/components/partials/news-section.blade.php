@@ -16,7 +16,7 @@
                 </div>
                 <div class="news-list">
                     @forelse($mliNews as $item)
-                        <a href="{{ route('home') }}#news" class="news-item">
+                        <a href="{{ route('news.show', $item->slug) }}" class="news-item">
                             <span class="news-item__image">
                                 @if($item->featured_image_url)
                                     <img src="{{ $item->featured_image_url }}" alt="{{ $item->featured_image_alt ?? '' }}" loading="lazy">
@@ -39,7 +39,7 @@
                 </div>
                 <div class="news-list">
                     @forelse($mediaNews as $item)
-                        <a href="{{ route('home') }}#news" class="news-item">
+                        <a href="{{ route('news.show', $item->slug) }}" class="news-item">
                             <span class="news-item__image">
                                 @if($item->featured_image_url)
                                     <img src="{{ $item->featured_image_url }}" alt="{{ $item->featured_image_alt ?? '' }}" loading="lazy">
