@@ -19,7 +19,6 @@
                 <div class="mli-library-marquee__track">
                     @foreach($libraryShows as $index => $show)
                         <a href="{{ route('shows.index') }}" class="mli-library-marquee__item">
-                            <span class="mli-library-marquee__number">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
 
                             <span class="mli-library-marquee__thumb">
                                 @if($show->cover_image_url)
@@ -45,7 +44,6 @@
 
                     @foreach($libraryShows as $index => $show)
                         <a href="{{ route('shows.index') }}" class="mli-library-marquee__item" aria-hidden="true" tabindex="-1">
-                            <span class="mli-library-marquee__number">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
 
                             <span class="mli-library-marquee__thumb">
                                 @if($show->cover_image_url)
