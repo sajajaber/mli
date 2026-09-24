@@ -9451,6 +9451,27 @@ html.mli-page-entered .mli-opening__word {
 
 
 /* =========================================================
+   HERO HEADLINE — PREVENT DESCENDER CLIPPING
+   ========================================================= */
+
+.mli-opening h1 {
+    overflow: visible;
+    line-height: 0.95;
+    padding-bottom: 0.08em;
+}
+
+.mli-opening h1 .mli-opening__word {
+    overflow: visible;
+}
+
+@media (max-width: 560px) {
+    .mli-opening h1 {
+        line-height: 1.02;
+        padding-bottom: 0.1em;
+    }
+}
+
+/* =========================================================
    PUBLIC HOMEPAGE — FINAL INTERACTION CLEANUP
    ========================================================= */
 
