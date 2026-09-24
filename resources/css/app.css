@@ -8919,3 +8919,20 @@ html[dir="rtl"] .mli-news-show-card .mli-show__details h2 {
         transition: none;
     }
 }
+
+
+/* NEWS — REDUCE HEADLINE SCALE */
+.mli-news-header .mli-shows-header h1 {
+    font-size: clamp(48px, 6.2vw, 94px);
+}
+
+.mli-news-article__header h1 {
+    font-size: clamp(46px, 6.2vw, 90px);
+}
+
+@media (max-width: 700px) {
+    .mli-news-header .mli-shows-header h1,
+    .mli-news-article__header h1 {
+        font-size: clamp(40px, 11vw, 64px);
+    }
+}
