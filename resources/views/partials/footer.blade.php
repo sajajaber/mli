@@ -1,3 +1,7 @@
+@php
+    $footer = \App\Models\FooterSetting::current();
+@endphp
+
 <footer id="contact" class="mli-footer">
     <div class="mli-footer-container">
 
