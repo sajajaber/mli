@@ -5776,3 +5776,14 @@ body {
 .mli-opening__poster-copy {
     display: none !important;
 }
+
+
+/* HERO — move text content slightly lower */
+.mli-opening__copy {
+    top: 56% !important;
+}
+@media (max-width: 700px) {
+    .mli-opening__copy {
+        top: 57% !important;
+    }
+}
