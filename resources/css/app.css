@@ -8936,3 +8936,16 @@ html[dir="rtl"] .mli-news-show-card .mli-show__details h2 {
         font-size: clamp(40px, 11vw, 64px);
     }
 }
+
+
+/* NEWS — SMALLER PAGE TITLE */
+.mli-news-header .mli-shows-header h1 {
+    font-size: clamp(42px, 5.2vw, 76px) !important;
+    line-height: .92 !important;
+}
+
+@media (max-width: 700px) {
+    .mli-news-header .mli-shows-header h1 {
+        font-size: clamp(36px, 9.5vw, 58px) !important;
+    }
+}
