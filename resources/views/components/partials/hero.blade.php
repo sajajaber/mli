@@ -60,9 +60,7 @@
 >
     <div class="mli-opening__grain" aria-hidden="true"></div>
 
-    <div class="mli-opening__number" aria-hidden="true">01</div>
-
-    <div class="mli-opening__inner">
+        <div class="mli-opening__inner">
         <div class="mli-opening__copy" data-reveal="left">
             <p class="mli-opening__eyebrow">
                 <i></i>
@@ -102,10 +100,6 @@
                 </template>
 
                 <span class="mli-opening__poster-wash"></span>
-                <span class="mli-opening__poster-label">
-                    SHOW / <span x-text="String(index + 1).padStart(2, '0')"></span>
-                </span>
-
                 <span class="mli-opening__poster-copy">
                     <small x-text="shows[index]?.category || '{{ app()->getLocale() === 'ar' ? 'محتوى MLI' : 'MLI CONTENT' }}'"></small>
                     <strong x-text="shows[index]?.title || '{{ app()->getLocale() === 'ar' ? 'لا توجد برامج منشورة' : 'No published shows yet' }}'"></strong>
@@ -114,14 +108,13 @@
                 <span class="mli-opening__poster-arrow">↗</span>
             </a>
 
-            <div class="mli-opening__controls" x-show="shows.length > 1">
-                <button type="button" @click="prev()" aria-label="{{ app()->getLocale() === 'ar' ? 'البرنامج السابق' : 'Previous show' }}">←</button>
-                <span>
-                    <b x-text="String(index + 1).padStart(2, '0')"></b>
-                    /
-                    <span x-text="String(shows.length).padStart(2, '0')"></span>
-                </span>
-                <button type="button" @click="next()" aria-label="{{ app()->getLocale() === 'ar' ? 'البرنامج التالي' : 'Next show' }}">→</button>
+            <div class="mli-opening__controls" x-show="shows.length > 1" aria-label="{{ app()->getLocale() === 'ar' ? 'التنقل بين البرامج' : 'Show navigation' }}">
+                <button type="button" class="mli-opening__control mli-opening__control--prev" @click="prev()" aria-label="{{ app()->getLocale() === 'ar' ? 'البرنامج السابق' : 'Previous show' }}">
+                    <span aria-hidden="true">←</span>
+                </button>
+                <button type="button" class="mli-opening__control mli-opening__control--next" @click="next()" aria-label="{{ app()->getLocale() === 'ar' ? 'البرنامج التالي' : 'Next show' }}">
+                    <span aria-hidden="true">→</span>
+                </button>
             </div>
 
         </div>
