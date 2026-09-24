@@ -7813,3 +7813,81 @@ html[dir="rtl"] .mli-footer-brand-copy h2 {
         max-height: 92px;
     }
 }
+
+
+/* FOOTER — GIVE THE BRAND AREA MORE WIDTH */
+.mli-footer-top--rebalanced {
+    grid-template-columns: minmax(0, 1.45fr) minmax(340px, .75fr);
+    gap: clamp(50px, 7vw, 110px);
+}
+
+.mli-footer-intro {
+    width: 100%;
+    max-width: none;
+}
+
+.mli-footer-brand-block {
+    width: min(100%, 760px);
+    gap: clamp(36px, 5vw, 70px);
+}
+
+.mli-footer-brand-block .mli-footer-brandmark img {
+    width: clamp(230px, 19vw, 320px);
+    max-height: 130px;
+}
+
+.mli-footer-brand-copy {
+    max-width: 500px;
+}
+
+.mli-footer-brand-copy h2 {
+    font-size: clamp(28px, 2.6vw, 42px);
+}
+
+.mli-footer-brand-copy p {
+    max-width: 470px;
+    font-size: 13px;
+    line-height: 1.85;
+}
+
+.mli-footer-top--rebalanced .mli-footer-cta {
+    width: 100%;
+    max-width: none;
+}
+
+@media (max-width: 950px) {
+    .mli-footer-top--rebalanced {
+        grid-template-columns: 1fr;
+    }
+
+    .mli-footer-brand-block {
+        width: 100%;
+    }
+
+    .mli-footer-brand-block .mli-footer-brandmark img {
+        width: clamp(210px, 30vw, 280px);
+        max-height: 115px;
+    }
+}
+
+@media (max-width: 700px) {
+    .mli-footer-brand-block {
+        gap: 28px;
+    }
+
+    .mli-footer-brand-block .mli-footer-brandmark img {
+        width: 170px;
+        max-height: 90px;
+    }
+
+    .mli-footer-brand-copy {
+        max-width: none;
+    }
+}
+
+@media (max-width: 520px) {
+    .mli-footer-brand-block .mli-footer-brandmark img {
+        width: 205px;
+        max-height: 105px;
+    }
+}
