@@ -44,6 +44,61 @@ document.addEventListener("DOMContentLoaded", () => {
         revealItems.forEach((item) => item.classList.add("is-visible"));
     }
 
+    const counters = document.querySelectorAll("[data-counter]");
+
+    const animateCounter = (counter) => {
+        const target = Number(counter.dataset.counter || 0);
+
+        if (!Number.isFinite(target)) {
+            counter.textContent = "0";
+            return;
+        }
+
+        if (reduceMotion) {
+            counter.textContent = Math.round(target).toLocaleString("en-US");
+            return;
+        }
+
+        const duration = 1400;
+        const startTime = performance.now();
+
+        counter.textContent = "0";
+
+        const tick = (now) => {
+            const progress = Math.min((now - startTime) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 4);
+            const value = Math.round(target * eased);
+
+            counter.textContent = value.toLocaleString("en-US");
+
+            if (progress < 1) {
+                requestAnimationFrame(tick);
+            }
+        };
+
+        requestAnimationFrame(tick);
+    };
+
+    if ("IntersectionObserver" in window && !reduceMotion) {
+        const counterObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
+            });
+        }, {
+            threshold: 0.6,
+        });
+
+        counters.forEach((counter) => {
+            counter.textContent = "0";
+            counterObserver.observe(counter);
+        });
+    } else {
+        counters.forEach((counter) => animateCounter(counter));
+    }
+
     const sections = document.querySelectorAll("main > section");
 
     if ("IntersectionObserver" in window && !reduceMotion) {
