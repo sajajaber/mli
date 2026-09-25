@@ -1459,7 +1459,11 @@ body {
 }
 .mli-nav__center a:hover {
     opacity: 1;
-    color: var(--mli-signal);
+    color: #c5a46d;
+}
+
+.mli-nav--scrolled .mli-nav__center a:hover {
+    color: #c5a46d;
 }
 .mli-nav__right {
     justify-self: end;
@@ -1477,8 +1481,8 @@ body {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--mli-signal);
-    box-shadow: 0 0 0 4px rgba(245, 242, 235, 0.13);
+    background: #c5a46d;
+    box-shadow: 0 0 0 4px rgba(197, 164, 109, 0.14);
 }
 .mli-nav__contact {
     padding: 9px 12px;
@@ -1486,8 +1490,15 @@ body {
     transition: 0.2s;
 }
 .mli-nav__contact:hover {
-    background: var(--mli-signal);
-    border-color: var(--mli-signal);
+    background: #c5a46d;
+    border-color: #c5a46d;
+    color: #2f4156;
+}
+
+.mli-nav--scrolled .mli-nav__contact:hover {
+    background: #c5a46d;
+    border-color: #c5a46d;
+    color: #2f4156;
 }
 .mli-nav__menu {
     display: none;
@@ -10058,13 +10069,14 @@ html.mli-public-home .news-item::before {
     bottom: -1px;
     width: 0;
     height: 2px;
-    background: var(--mli-signal);
+    background: #c5a46d;
     transition: width 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html.mli-public-home .news-item:hover {
     padding-left: 8px;
     padding-right: 8px;
+    background: rgba(197, 164, 109, 0.055);
 }
 
 html.mli-public-home .news-item:hover::before {
@@ -10094,7 +10106,7 @@ html.mli-public-home .news-item__body strong {
 
 html.mli-public-home .news-item:hover .news-item__body strong {
     transform: translateX(4px);
-    color: var(--mli-signal);
+    color: #c5a46d;
 }
 
 /* Library marquee: hover pauses the individual item visually without
@@ -10653,4 +10665,40 @@ html.mli-public-home .mli-catalogue__category:hover .mli-catalogue__category-arr
         height: 34px;
         font-size: 15px;
     }
+}
+
+
+/* =========================================================
+   PUBLIC HOME — NAV + NEWS COLOR REFINEMENT
+   ========================================================= */
+
+/* Keep the transparent hero nav light, then use the same warm gold
+   accent once the bar becomes light on scroll. */
+html.mli-public-home .mli-nav:not(.mli-nav--scrolled) .mli-nav__center a:hover,
+html.mli-public-home .mli-nav:not(.mli-nav--scrolled) .mli-nav__language:hover {
+    color: #c5a46d;
+}
+
+html.mli-public-home .mli-nav--scrolled .mli-nav__center a:hover,
+html.mli-public-home .mli-nav--scrolled .mli-nav__language:hover {
+    color: #c5a46d;
+}
+
+/* A very subtle warm wash keeps News connected to the new Library accent. */
+html.mli-public-home .news-item:hover {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(197, 164, 109, 0.075),
+            rgba(197, 164, 109, 0.018) 58%,
+            transparent
+        );
+}
+
+html.mli-public-home .news-item:hover .news-item__image img {
+    filter: saturate(1.04) contrast(1.01);
+}
+
+html.mli-public-home .news-item:hover .news-item__body > span {
+    color: #c5a46d;
 }
