@@ -14,9 +14,53 @@
     --mli-sidebar-group: #2f6fbd;
     --mli-sidebar-border: rgba(23, 59, 115, 0.10);
     --mli-sidebar-active: #f5e8a8;
+
+    --mli-surface: #ffffff;
+    --mli-page-bg: #f4f6f8;
+    --mli-border: rgba(23, 59, 115, 0.10);
+    --mli-muted: #66758a;
+
     color-scheme: light;
 }
 
+/* ---------------------------------------------------------
+   Overall admin shell
+   --------------------------------------------------------- */
+
+.fi-body {
+    background: var(--mli-page-bg) !important;
+}
+
+.fi-main {
+    max-width: 1480px;
+    margin-inline: auto;
+}
+
+.fi-page {
+    gap: 1.5rem !important;
+}
+
+.fi-header {
+    margin-bottom: 0.5rem;
+}
+
+.fi-header-heading {
+    color: var(--mli-navy) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em;
+}
+
+.fi-header-subheading {
+    color: var(--mli-muted) !important;
+}
+
+.fi-breadcrumbs {
+    color: var(--mli-muted) !important;
+}
+
+/* ---------------------------------------------------------
+   Sidebar / navigation
+   --------------------------------------------------------- */
 
 .fi-sidebar,
 .fi-sidebar-header {
@@ -31,13 +75,19 @@
     border-bottom: 1px solid var(--mli-sidebar-border) !important;
 }
 
+.fi-sidebar-group {
+    margin-bottom: 0.55rem;
+}
+
 .fi-sidebar-group-label {
     color: var(--mli-sidebar-group) !important;
-    font-weight: 600 !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.04em;
 }
 
 .fi-sidebar-item {
-    border-radius: 0.6rem !important;
+    border-radius: 0.65rem !important;
     transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
 }
 
@@ -52,6 +102,7 @@
 
 .fi-sidebar-item:hover {
     background-color: var(--mli-sidebar-hover) !important;
+    transform: translateX(2px);
 }
 
 .fi-sidebar-item:hover .fi-sidebar-item-icon {
@@ -65,13 +116,127 @@
 
 .fi-sidebar-item-active .fi-sidebar-item-label {
     color: var(--mli-navy) !important;
-    font-weight: 600 !important;
+    font-weight: 650 !important;
 }
 
 .fi-sidebar-item-active .fi-sidebar-item-icon {
     color: var(--mli-blue) !important;
 }
 
+/* ---------------------------------------------------------
+   Cards / sections
+   --------------------------------------------------------- */
+
+.fi-section {
+    overflow: hidden;
+    border: 1px solid var(--mli-border) !important;
+    border-radius: 16px !important;
+    background: var(--mli-surface) !important;
+    box-shadow: 0 10px 30px rgba(23, 59, 115, 0.05) !important;
+}
+
+.fi-section-header {
+    border-bottom: 1px solid rgba(23, 59, 115, 0.07) !important;
+    background: linear-gradient(
+        180deg,
+        rgba(248, 250, 252, 0.95),
+        rgba(255, 255, 255, 1)
+    ) !important;
+}
+
+.fi-section-header-heading {
+    color: var(--mli-navy) !important;
+    font-weight: 700 !important;
+}
+
+.fi-section-header-description {
+    color: var(--mli-muted) !important;
+    line-height: 1.55 !important;
+}
+
+.fi-section-content {
+    background: var(--mli-surface) !important;
+}
+
+/* ---------------------------------------------------------
+   Tables
+   --------------------------------------------------------- */
+
+.fi-ta-ctn {
+    overflow: hidden;
+    border: 1px solid var(--mli-border) !important;
+    border-radius: 16px !important;
+    background: var(--mli-surface) !important;
+    box-shadow: 0 10px 30px rgba(23, 59, 115, 0.04) !important;
+}
+
+.fi-ta-header-ctn {
+    border-bottom: 1px solid rgba(23, 59, 115, 0.07) !important;
+    background: #fbfcfd !important;
+}
+
+.fi-ta-header-cell {
+    color: var(--mli-navy) !important;
+    font-weight: 700 !important;
+}
+
+.fi-ta-row {
+    transition: background-color 140ms ease;
+}
+
+.fi-ta-row:hover {
+    background: rgba(220, 234, 250, 0.28) !important;
+}
+
+.fi-ta-content-ctn {
+    background: #fff !important;
+}
+
+/* ---------------------------------------------------------
+   Inputs / forms
+   --------------------------------------------------------- */
+
+.fi-input,
+.fi-select-input,
+.fi-textarea {
+    border-radius: 10px !important;
+}
+
+.fi-input-wrp {
+    border-radius: 10px !important;
+    border-color: rgba(23, 59, 115, 0.14) !important;
+    box-shadow: none !important;
+}
+
+.fi-input-wrp:focus-within {
+    border-color: rgba(47, 111, 189, 0.65) !important;
+    box-shadow: 0 0 0 3px rgba(47, 111, 189, 0.10) !important;
+}
+
+.fi-fieldset-label,
+.fi-fo-field-wrp-label {
+    color: var(--mli-navy) !important;
+    font-weight: 650 !important;
+}
+
+.fi-fo-field-wrp-helper-text,
+.fi-fo-field-wrp-description {
+    color: var(--mli-muted) !important;
+}
+
+.fi-btn {
+    border-radius: 10px !important;
+    font-weight: 650 !important;
+    transition:
+        transform 140ms ease,
+        box-shadow 140ms ease,
+        background-color 140ms ease,
+        border-color 140ms ease;
+}
+
+.fi-btn:hover {
+    transform: translateY(-1px);
+}
 
 .fi-btn-primary {
     background-color: var(--mli-blue) !important;
@@ -79,6 +244,7 @@
 
 .fi-btn-primary:hover {
     background-color: var(--mli-navy) !important;
+    box-shadow: 0 8px 18px rgba(23, 59, 115, 0.16);
 }
 
 .fi-input:focus,
@@ -87,8 +253,111 @@
     --tw-ring-color: var(--mli-blue) !important;
 }
 
-.fi-header-heading,
-.fi-section-header-heading,
-.fi-ta-header-cell {
-    color: var(--mli-navy) !important;
+/* ---------------------------------------------------------
+   Footer editor card on Website Content
+   --------------------------------------------------------- */
+
+.mli-admin-footer-card {
+    border: 1px solid rgba(23, 59, 115, 0.11);
+    border-radius: 16px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(220, 234, 250, 0.62),
+            rgba(255, 255, 255, 0.96) 55%
+        );
+    box-shadow: 0 12px 32px rgba(23, 59, 115, 0.06);
+}
+
+.mli-admin-footer-card__icon {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    place-items: center;
+    border-radius: 11px;
+    background: var(--mli-navy);
+    color: #fff;
+}
+
+.mli-admin-footer-card__eyebrow {
+    margin-bottom: 2px;
+    color: var(--mli-blue);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.mli-admin-footer-card__title {
+    color: var(--mli-navy);
+    font-size: 0.98rem;
+    font-weight: 750;
+}
+
+.mli-admin-footer-card__description {
+    margin-top: 4px;
+    max-width: 680px;
+    color: var(--mli-muted);
+    font-size: 0.82rem;
+    line-height: 1.55;
+}
+
+.mli-admin-footer-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.mli-admin-footer-card__pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0 9px;
+    border: 1px solid rgba(23, 59, 115, 0.10);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.75);
+    color: #526176;
+    font-size: 0.7rem;
+    font-weight: 650;
+}
+
+.mli-admin-footer-card__actions {
+    flex: 0 0 auto;
+}
+
+@media (max-width: 640px) {
+    .mli-admin-footer-card__actions {
+        width: 100%;
+    }
+
+    .mli-admin-footer-card__actions .fi-btn {
+        width: 100%;
+    }
+}
+
+/* ---------------------------------------------------------
+   Responsive admin spacing
+   --------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+    .fi-main {
+        padding-inline: 0.75rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .fi-page {
+        gap: 1rem !important;
+    }
+
+    .fi-section,
+    .fi-ta-ctn {
+        border-radius: 13px !important;
+    }
+
+    .fi-header-heading {
+        font-size: 1.35rem !important;
+    }
 }
