@@ -17,6 +17,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -44,147 +45,152 @@ class ShowResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Show Information')
-                ->columnSpanFull()
-                ->description('Set the bilingual title and public descriptions for this show.')
-                ->columns(2)
-                ->components([
-                    TextInput::make('title_en')
-                        ->label('Title (English)')
-                        ->required()
-                        ->maxLength(255)
-                        ->unique(
-                            ignoreRecord: true,
-                            modifyRuleUsing: fn (\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
-                        )
-                        ->validationMessages([
-                            'unique' => 'A show with this English title already exists.',
-                        ])
-                        ->live(onBlur: true)
-                        ->afterStateUpdated(static::fillSlugFromTitle()),
+            Grid::make(3)
+                ->schema([
+                    Grid::make(1)
+                        ->columnSpan(2)
+                        ->schema([
+                            Section::make('Show Information')
+                                ->description('Set the bilingual title and public descriptions for this show.')
+                                ->columns(2)
+                                ->components([
+                                    TextInput::make('title_en')
+                                        ->label('Title (English)')
+                                        ->required()
+                                        ->maxLength(255)
+                                        ->unique(
+                                            ignoreRecord: true,
+                                            modifyRuleUsing: fn (\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
+                                        )
+                                        ->validationMessages([
+                                            'unique' => 'A show with this English title already exists.',
+                                        ])
+                                        ->live(onBlur: true)
+                                        ->afterStateUpdated(static::fillSlugFromTitle()),
 
-                    TextInput::make('title_ar')
-                        ->label('Title (Arabic)')
-                        ->required()
-                        ->maxLength(255)
-                        ->unique(
-                            ignoreRecord: true,
-                            modifyRuleUsing: fn (\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
-                        )
-                        ->validationMessages([
-                            'unique' => 'A show with this Arabic title already exists.',
-                        ])
-                        ->extraInputAttributes([
-                            'dir' => 'rtl',
-                        ])
-                        ->live(onBlur: true),
+                                    TextInput::make('title_ar')
+                                        ->label('Title (Arabic)')
+                                        ->required()
+                                        ->maxLength(255)
+                                        ->unique(
+                                            ignoreRecord: true,
+                                            modifyRuleUsing: fn (\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
+                                        )
+                                        ->validationMessages([
+                                            'unique' => 'A show with this Arabic title already exists.',
+                                        ])
+                                        ->extraInputAttributes([
+                                            'dir' => 'rtl',
+                                        ])
+                                        ->live(onBlur: true),
 
-                    Textarea::make('description_en')
-                        ->label('Description (English)')
-                        ->rows(7)
-                        ->columnSpanFull()
-                        ->live(onBlur: true),
+                                    Textarea::make('description_en')
+                                        ->label('Description (English)')
+                                        ->rows(7)
+                                        ->columnSpanFull()
+                                        ->live(onBlur: true),
 
-                    Textarea::make('description_ar')
-                        ->label('Description (Arabic)')
-                        ->rows(7)
-                        ->extraInputAttributes([
-                            'dir' => 'rtl',
-                        ])
-                        ->columnSpanFull()
-                        ->live(onBlur: true),
-                ]),
+                                    Textarea::make('description_ar')
+                                        ->label('Description (Arabic)')
+                                        ->rows(7)
+                                        ->extraInputAttributes([
+                                            'dir' => 'rtl',
+                                        ])
+                                        ->columnSpanFull()
+                                        ->live(onBlur: true),
+                                ]),
 
-            Section::make('Publishing')
-                ->columnSpanFull()
-                ->description('Control visibility, release status, scheduling, and homepage ordering.')
-                ->columns(2)
-                ->components([
-                    Select::make('status')
-                        ->label('Status')
-                        ->options([
-                            'draft' => 'Draft',
-                            'scheduled' => 'Scheduled',
-                            'published' => 'Published',
-                        ])
-                        ->default('draft')
-                        ->required()
-                        ->live(),
+                            Section::make('Classification & Media')
+                                ->description('Set the category, URL, cover image, and accessibility information.')
+                                ->columns(2)
+                                ->components([
+                                    Select::make('category_id')
+                                        ->label('Category')
+                                        ->relationship('category', 'name_en')
+                                        ->searchable()
+                                        ->preload()
+                                        ->nullable(),
 
-                    Toggle::make('is_new_release')
-                        ->label('New Release')
-                        ->helperText('Show this title in the homepage New Releases section.')
-                        ->default(false),
+                                    TextInput::make('slug')
+                                        ->label('Slug')
+                                        ->required()
+                                        ->maxLength(255)
+                                        ->unique(ignoreRecord: true)
+                                        ->helperText('Auto-filled from the English title.'),
 
-                    DateTimePicker::make('published_at')
-                        ->label('Publish At')
-                        ->native(false)
-                        ->visible(
-                            fn (callable $get) =>
-                                $get('status') === 'scheduled'
-                        )
-                        ->required(
-                            fn (callable $get) =>
-                                $get('status') === 'scheduled'
-                        ),
+                                    TextInput::make('vimeo_url')
+                                        ->label('Vimeo Trailer URL')
+                                        ->url()
+                                        ->maxLength(255)
+                                        ->placeholder('https://vimeo.com/123456789')
+                                        ->columnSpanFull(),
 
-                    TextInput::make('sort_order')
-                        ->label('Sort Order')
-                        ->numeric()
-                        ->default(0)
-                        ->helperText('Lower numbers appear first where ordering is used.'),
-                ]),
+                                    FileUpload::make('cover_image_path')
+                                        ->label('Cover Image')
+                                        ->image()
+                                        ->disk('public')
+                                        ->directory('shows')
+                                        ->imageEditor()
+                                        ->maxSize(8192)
+                                        ->saveUploadedFileUsing(
+                                            fn ($file) => app(
+                                                \App\Services\ImageProcessingService::class
+                                            )->processAndStore(
+                                                $file,
+                                                'shows',
+                                                maxWidth: 1600,
+                                                quality: 85
+                                            )
+                                        )
+                                        ->columnSpanFull(),
 
-            Section::make('Classification & Media')
-                ->columnSpanFull()
-                ->description('Set the category, URL, cover image, and accessibility information.')
-                ->columns(2)
-                ->components([
-                    Select::make('category_id')
-                        ->label('Category')
-                        ->relationship('category', 'name_en')
-                        ->searchable()
-                        ->preload()
-                        ->nullable(),
+                                    TextInput::make('cover_image_alt')
+                                        ->label('Cover Image Alt Text')
+                                        ->maxLength(255)
+                                        ->helperText('Describe the image for accessibility & SEO.')
+                                        ->columnSpanFull(),
+                                ]),
+                        ]),
 
-                    TextInput::make('slug')
-                        ->label('Slug')
-                        ->required()
-                        ->maxLength(255)
-                        ->unique(ignoreRecord: true)
-                        ->helperText('Auto-filled from the English title.'),
+                    Section::make('Publishing')
+                        ->columnSpan(1)
+                        ->description('Control visibility, release status, scheduling, and homepage ordering.')
+                        ->columns(1)
+                        ->components([
+                            Select::make('status')
+                                ->label('Status')
+                                ->options([
+                                    'draft' => 'Draft',
+                                    'scheduled' => 'Scheduled',
+                                    'published' => 'Published',
+                                ])
+                                ->default('draft')
+                                ->required()
+                                ->live(),
 
-                    TextInput::make('vimeo_url')
-                        ->label('Vimeo Trailer URL')
-                        ->url()
-                        ->maxLength(255)
-                        ->placeholder('https://vimeo.com/123456789')
-                        ->columnSpanFull(),
+                            Toggle::make('is_new_release')
+                                ->label('New Release')
+                                ->helperText('Show this title in the homepage New Releases section.')
+                                ->default(false),
 
-                    FileUpload::make('cover_image_path')
-                        ->label('Cover Image')
-                        ->image()
-                        ->disk('public')
-                        ->directory('shows')
-                        ->imageEditor()
-                        ->maxSize(8192)
-                        ->saveUploadedFileUsing(
-                            fn ($file) => app(
-                                \App\Services\ImageProcessingService::class
-                            )->processAndStore(
-                                $file,
-                                'shows',
-                                maxWidth: 1600,
-                                quality: 85
-                            )
-                        )
-                        ->columnSpanFull(),
+                            DateTimePicker::make('published_at')
+                                ->label('Publish At')
+                                ->native(false)
+                                ->visible(
+                                    fn (callable $get) =>
+                                        $get('status') === 'scheduled'
+                                )
+                                ->required(
+                                    fn (callable $get) =>
+                                        $get('status') === 'scheduled'
+                                ),
 
-                    TextInput::make('cover_image_alt')
-                        ->label('Cover Image Alt Text')
-                        ->maxLength(255)
-                        ->helperText('Describe the image for accessibility & SEO.')
-                        ->columnSpanFull(),
+                            TextInput::make('sort_order')
+                                ->label('Sort Order')
+                                ->numeric()
+                                ->default(0)
+                                ->helperText('Lower numbers appear first where ordering is used.'),
+                        ]),
                 ]),
         ]);
     }
