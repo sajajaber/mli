@@ -7,6 +7,7 @@ use App\Filament\Resources\Clients\Pages\EditClient;
 use App\Filament\Resources\Clients\Pages\ListClients;
 use App\Models\Client;
 use BackedEnum;
+use UnitEnum;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
@@ -24,7 +25,7 @@ class ClientResource extends Resource
 
     protected static ?string $navigationLabel = 'Clients';
 
-    protected static ?string $navigationGroup = 'People & Partners';
+    protected static UnitEnum|string|null $navigationGroup = 'People & Partners';
 
     protected static ?int $navigationSort = 2;
 
