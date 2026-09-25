@@ -24,6 +24,10 @@ class ClientResource extends Resource
 
     protected static ?string $navigationLabel = 'Clients';
 
+    protected static ?string $navigationGroup = 'People & Partners';
+
+    protected static ?int $navigationSort = 2;
+
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
