@@ -16,8 +16,14 @@ class PersonForm
                     ->default(null),
                 TextInput::make('name')
                     ->required(),
+                TextInput::make('name_ar')
+                    ->required()
+                    ->extraInputAttributes(['dir' => 'rtl']),
                 TextInput::make('role_title')
                     ->default(null),
+                TextInput::make('role_title_ar')
+                    ->required()
+                    ->extraInputAttributes(['dir' => 'rtl']),
                 TextInput::make('sort_order')
                     ->required()
                     ->numeric()
