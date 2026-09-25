@@ -153,14 +153,31 @@ document.addEventListener("DOMContentLoaded", () => {
         window.addEventListener("resize", requestScrollMotion, { passive: true });
     }
 
-    // Continuous home-page scroll motion: the movement follows the viewport
-    // in both directions instead of firing only once on first reveal.
+    // Continuous public-home scroll motion.
+    // This is intentionally broad: most visible content moves with the
+    // viewport in both directions, while interactive hover transforms remain intact.
     if (isPublicHome && !reduceMotion) {
         const liveTargets = Array.from(document.querySelectorAll(
-            '[data-reveal], .mli-opening__feature, .mli-opening__poster, .section-heading, .mli-catalogue__intro, .mli-about__map-wrap, .mli-about-service, .mli-person-card, .mli-clients__heading'
+            [
+                "main > section",
+                ".mli-opening__copy > *",
+                ".mli-opening__feature",
+                ".mli-opening__poster",
+                ".section-heading",
+                ".section-heading > *",
+                ".news-column",
+                ".news-item",
+                ".mli-catalogue__intro > *",
+                ".mli-library-marquee__item",
+                ".mli-about > .container > *",
+                ".mli-about-service",
+                ".mli-person-card",
+                ".mli-clients__heading",
+                ".mli-client-logo"
+            ].join(", ")
         ));
 
-        liveTargets.forEach((element) => element.classList.add('mli-live-scroll'));
+        liveTargets.forEach((element) => element.classList.add("mli-live-scroll"));
 
         let liveTicking = false;
 
@@ -170,18 +187,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
             liveTargets.forEach((element) => {
                 const rect = element.getBoundingClientRect();
-                if (!rect.height) return;
+                if (!rect.height || rect.bottom < -120 || rect.top > viewportHeight + 120) return;
 
                 const elementCenter = rect.top + rect.height * 0.5;
                 const distance = (viewportCenter - elementCenter) / viewportHeight;
                 const clamped = Math.max(-1, Math.min(1, distance));
-                // Deliberately noticeable depth: elements can travel about 70px
-                // across the viewport and reverse immediately when scrolling back.
-                const amount = clamped * 72;
-                const scale = 1 - Math.min(Math.abs(clamped) * 0.018, 0.018);
+                const shift = clamped * 42;
+                const scale = 1 - Math.min(Math.abs(clamped) * 0.012, 0.012);
 
-                element.style.setProperty('--mli-live-y', amount.toFixed(2) + 'px');
-                element.style.setProperty('--mli-live-scale', scale.toFixed(4));
+                element.style.setProperty("--mli-scroll-y", shift.toFixed(2) + "px");
+                element.style.setProperty("--mli-scroll-scale", scale.toFixed(4));
             });
 
             liveTicking = false;
@@ -194,8 +209,8 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         updateLiveScroll();
-        window.addEventListener('scroll', requestLiveScroll, { passive: true });
-        window.addEventListener('resize', requestLiveScroll, { passive: true });
+        window.addEventListener("scroll", requestLiveScroll, { passive: true });
+        window.addEventListener("resize", requestLiveScroll, { passive: true });
     }
 
     // Image masks create a more intentional "uncover" instead of a generic fade.
