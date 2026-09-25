@@ -10702,3 +10702,172 @@ html.mli-public-home .news-item:hover .news-item__image img {
 html.mli-public-home .news-item:hover .news-item__body > span {
     color: #c5a46d;
 }
+
+
+/* =========================================================
+   SHOWS PAGE — ARABIC / RTL REFINEMENT
+   ========================================================= */
+
+html[dir="rtl"] .mli-shows-page {
+    direction: rtl;
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-shows-page,
+html[dir="rtl"] .mli-shows-page p,
+html[dir="rtl"] .mli-shows-page span,
+html[dir="rtl"] .mli-shows-page a,
+html[dir="rtl"] .mli-shows-page button,
+html[dir="rtl"] .mli-shows-page small,
+html[dir="rtl"] .mli-shows-page strong {
+    font-family:
+        "IBM Plex Sans Arabic",
+        "Readex Pro",
+        ui-sans-serif,
+        system-ui,
+        sans-serif !important;
+}
+
+html[dir="rtl"] .mli-shows-header__meta,
+html[dir="rtl"] .mli-shows-header__main,
+html[dir="rtl"] .mli-shows-library__bar,
+html[dir="rtl"] .mli-shows-filters,
+html[dir="rtl"] .mli-shows-filters__links {
+    direction: rtl;
+}
+
+html[dir="rtl"] .mli-shows-header__meta {
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-shows-header__main {
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-shows-header h1 {
+    white-space: normal;
+    max-width: 100%;
+    text-align: right;
+    line-height: 1.05 !important;
+    letter-spacing: -0.025em !important;
+}
+
+html[dir="rtl"] .mli-shows-header__copy {
+    margin-right: 0;
+    margin-left: auto;
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-shows-filters {
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-shows-filters__links {
+    justify-content: flex-start;
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-shows-filters__links a {
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+html[dir="rtl"] .mli-shows-library__bar {
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-shows-grid {
+    direction: rtl;
+}
+
+html[dir="rtl"] .mli-show {
+    direction: rtl;
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-show__copy {
+    text-align: right;
+    direction: rtl;
+}
+
+html[dir="rtl"] .mli-show__copy strong,
+html[dir="rtl"] .mli-show__copy small {
+    display: block;
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-show__open {
+    right: auto;
+    left: 12px;
+}
+
+html[dir="rtl"] .mli-show-modal__panel {
+    direction: rtl;
+    grid-template-columns: minmax(320px, 1.1fr) minmax(300px, 0.9fr);
+}
+
+html[dir="rtl"] .mli-show-modal__image {
+    grid-column: 2;
+}
+
+html[dir="rtl"] .mli-show-modal__content {
+    grid-column: 1;
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-show-modal__content h2 {
+    text-align: right;
+    font-family:
+        "IBM Plex Sans Arabic",
+        "Readex Pro",
+        ui-sans-serif,
+        system-ui,
+        sans-serif !important;
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+}
+
+html[dir="rtl"] .mli-show-modal__content p {
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-show-modal__watch {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .mli-show-modal__close {
+    right: auto;
+    left: 18px;
+}
+
+@media (max-width: 800px) {
+    html[dir="rtl"] .mli-show-modal__panel {
+        grid-template-columns: 1fr;
+    }
+
+    html[dir="rtl"] .mli-show-modal__image,
+    html[dir="rtl"] .mli-show-modal__content {
+        grid-column: 1;
+    }
+
+    html[dir="rtl"] .mli-show-modal__content {
+        text-align: right;
+    }
+}
+
+@media (max-width: 640px) {
+    html[dir="rtl"] .mli-shows-header h1 {
+        font-size: clamp(42px, 12vw, 72px);
+        line-height: 1.08 !important;
+    }
+
+    html[dir="rtl"] .mli-show__open {
+        left: 9px;
+        right: auto;
+    }
+
+    html[dir="rtl"] .mli-show-modal__close {
+        left: 10px;
+        right: auto;
+    }
+}
