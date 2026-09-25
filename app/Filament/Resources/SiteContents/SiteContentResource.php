@@ -7,6 +7,7 @@ use App\Filament\Resources\SiteContents\Pages\EditSiteContent;
 use App\Filament\Resources\SiteContents\Pages\ListSiteContents;
 use App\Models\SiteContent;
 use BackedEnum;
+use UnitEnum;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
@@ -30,7 +31,7 @@ class SiteContentResource extends Resource
 
     protected static ?string $navigationLabel = 'Website Content';
 
-    protected static ?string $navigationGroup = 'Content';
+    protected static UnitEnum|string|null $navigationGroup = 'Content';
 
     protected static ?int $navigationSort = 3;
 
