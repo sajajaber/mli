@@ -47,6 +47,7 @@ class PersonResource extends Resource
 
             TextInput::make('name_ar')
                 ->label('Name (Arabic)')
+                ->required()
                 ->maxLength(255)
                 ->extraInputAttributes(['dir' => 'rtl']),
 
@@ -56,6 +57,7 @@ class PersonResource extends Resource
 
             TextInput::make('role_title_ar')
                 ->label('Role / Title (Arabic)')
+                ->required()
                 ->maxLength(255)
                 ->extraInputAttributes(['dir' => 'rtl']),
 
