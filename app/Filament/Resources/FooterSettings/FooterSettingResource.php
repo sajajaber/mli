@@ -6,6 +6,7 @@ use App\Filament\Resources\FooterSettings\Pages\EditFooterSetting;
 use App\Filament\Resources\FooterSettings\Pages\ListFooterSettings;
 use App\Models\FooterSetting;
 use BackedEnum;
+use UnitEnum;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -24,7 +25,7 @@ class FooterSettingResource extends Resource
 
     protected static ?string $navigationLabel = 'Footer & Contact';
 
-    protected static ?string $navigationGroup = 'Settings';
+    protected static UnitEnum|string|null $navigationGroup = 'Settings';
 
     protected static ?int $navigationSort = 1;
 
