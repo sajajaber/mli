@@ -28,25 +28,33 @@ document.addEventListener("DOMContentLoaded", () => {
     const counters = document.querySelectorAll("[data-counter]");
 
     const animateCounter = (counter) => {
+        if (counter.dataset.counted === "true") return;
+
         const target = Number(counter.dataset.counter || 0);
 
         if (!Number.isFinite(target)) {
             counter.textContent = "0";
+            counter.dataset.counted = "true";
             return;
         }
 
         if (reduceMotion) {
             counter.textContent = Math.round(target).toLocaleString("en-US");
+            counter.dataset.counted = "true";
             return;
         }
 
-        const duration = 1400;
+        counter.dataset.counted = "true";
+
+        const duration = 1700;
         const startTime = performance.now();
 
         counter.textContent = "0";
 
         const tick = (now) => {
             const progress = Math.min((now - startTime) / duration, 1);
+
+            // Smooth ease-out: fast enough to feel alive, gentle enough to feel premium.
             const eased = 1 - Math.pow(1 - progress, 4);
             const value = Math.round(target * eased);
 
@@ -54,13 +62,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (progress < 1) {
                 requestAnimationFrame(tick);
+            } else {
+                counter.textContent = target.toLocaleString("en-US");
             }
         };
 
         requestAnimationFrame(tick);
     };
 
-    counters.forEach((counter) => animateCounter(counter));
+    if (isPublicHome && !reduceMotion) {
+        const counterObserver = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach((entry, index) => {
+                    if (!entry.isIntersecting) return;
+
+                    const counter = entry.target;
+
+                    window.setTimeout(() => animateCounter(counter), index * 140);
+
+                    observer.unobserve(counter);
+                });
+            },
+            {
+                threshold: 0.65,
+                rootMargin: "0px 0px -8% 0px",
+            }
+        );
+
+        counters.forEach((counter) => {
+            counterObserver.observe(counter);
+        });
+    } else {
+        counters.forEach((counter) => animateCounter(counter));
+    }
 
     if (isPublicHome && !reduceMotion) {
         root.classList.add("mli-home-motion-enabled");
