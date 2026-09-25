@@ -22,13 +22,17 @@ class FooterSettingResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
-    protected static ?string $navigationLabel = 'Footer';
+    protected static ?string $navigationLabel = 'Footer & Contact';
+
+    protected static ?string $navigationGroup = 'Settings';
+
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $modelLabel = 'Footer Settings';
 
     protected static ?string $pluralModelLabel = 'Footer Settings';
 
-    protected static bool $shouldRegisterNavigation = false;
+    protected static bool $shouldRegisterNavigation = true;
 
     public static function form(Schema $schema): Schema
     {
