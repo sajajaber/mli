@@ -10871,3 +10871,37 @@ html[dir="rtl"] .mli-show-modal__close {
         right: auto;
     }
 }
+
+
+/* =========================================================
+   PUBLIC HOME — ARABIC LIBRARY HEADING EDGE FIX
+   ========================================================= */
+
+html[dir="rtl"] .mli-catalogue h2 {
+    direction: rtl;
+    text-align: right;
+    letter-spacing: 0 !important;
+    line-height: 1.14 !important;
+    overflow: visible;
+    padding-inline: 0.08em;
+    margin-inline: -0.08em;
+}
+
+html[dir="rtl"] .mli-catalogue__intro {
+    overflow: visible;
+}
+
+html[dir="rtl"] .mli-catalogue__intro > div {
+    min-width: 0;
+    overflow: visible;
+}
+
+html[dir="rtl"] .mli-catalogue__categories-head h3 {
+    direction: rtl;
+    text-align: right;
+    letter-spacing: 0 !important;
+    line-height: 1.04 !important;
+    overflow: visible;
+    padding-inline: 0.05em;
+    margin-inline: -0.05em;
+}
