@@ -10263,49 +10263,49 @@ html.mli-public-home [data-depth] {
 
 html.mli-public-home.mli-home-motion-enabled main > section:not(:first-child) {
     opacity: 0 !important;
-    transform: translate3d(0, 46px, 0) !important;
-    filter: blur(3px) !important;
+    transform: translate3d(0, 26px, 0) !important;
+    filter: blur(1.2px) !important;
     transition:
-        opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 0.8s ease !important;
+        opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 1.05s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.9s ease !important;
     transition-delay: var(--home-section-delay, 0ms) !important;
     will-change: opacity, transform, filter;
 }
 
 html.mli-public-home.mli-home-motion-enabled main > section:not(:first-child).mli-section-visible {
     opacity: 1 !important;
-    transform: translate3d(0, var(--mli-scroll-shift, 0px), 0) !important;
+    transform: none !important;
     filter: none !important;
 }
 
 html.mli-public-home.mli-home-motion-enabled [data-reveal] {
     opacity: 0 !important;
-    transform: translate3d(0, 34px, 0) !important;
-    clip-path: inset(9% 0 0 0) !important;
-    filter: blur(2px) !important;
+    transform: translate3d(0, 20px, 0) !important;
+    clip-path: inset(5% 0 0 0) !important;
+    filter: blur(0.8px) !important;
     transition:
-        opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-        clip-path 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-        filter 0.65s ease !important;
+        opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+        clip-path 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.8s ease !important;
     transition-delay: var(--reveal-delay, 0ms) !important;
     will-change: opacity, transform, clip-path, filter;
 }
 
 html.mli-public-home.mli-home-motion-enabled [data-reveal="left"] {
-    transform: translate3d(-42px, 0, 0) !important;
-    clip-path: inset(0 10% 0 0) !important;
+    transform: translate3d(-28px, 0, 0) !important;
+    clip-path: inset(0 6% 0 0) !important;
 }
 
 html.mli-public-home.mli-home-motion-enabled [data-reveal="right"] {
-    transform: translate3d(42px, 0, 0) !important;
-    clip-path: inset(0 0 0 10%) !important;
+    transform: translate3d(28px, 0, 0) !important;
+    clip-path: inset(0 0 0 6%) !important;
 }
 
 html.mli-public-home.mli-home-motion-enabled [data-reveal="scale"] {
-    transform: scale(0.94) !important;
-    clip-path: inset(5%) !important;
+    transform: scale(0.97) !important;
+    clip-path: inset(3%) !important;
 }
 
 html.mli-public-home.mli-home-motion-enabled [data-reveal].is-visible {
@@ -10322,7 +10322,7 @@ html.mli-public-home.mli-home-motion-enabled .mli-opening__feature.is-visible {
 /* The hero stays present while its visual depth reacts continuously to scroll. */
 html.mli-public-home .mli-opening__copy {
     transform: translate3d(0, var(--mli-copy-scroll-y, 0px), 0);
-    transition: transform 0.18s linear;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 html.mli-public-home .mli-opening__feature {
@@ -10367,16 +10367,16 @@ html.mli-public-home.mli-home-motion-enabled
 /* Keep the motion elegant on small screens. */
 @media (max-width: 640px) {
     html.mli-public-home.mli-home-motion-enabled main > section:not(:first-child) {
-        transform: translate3d(0, 32px, 0) !important;
+        transform: translate3d(0, 22px, 0) !important;
     }
 
     html.mli-public-home.mli-home-motion-enabled [data-reveal] {
-        transform: translate3d(0, 24px, 0) !important;
+        transform: translate3d(0, 18px, 0) !important;
     }
 
     html.mli-public-home.mli-home-motion-enabled [data-reveal="left"],
     html.mli-public-home.mli-home-motion-enabled [data-reveal="right"] {
-        transform: translate3d(0, 24px, 0) !important;
+        transform: translate3d(0, 18px, 0) !important;
     }
 }
 
