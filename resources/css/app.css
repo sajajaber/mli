@@ -10267,3 +10267,31 @@ html.mli-public-home .mli-clients__heading.mli-live-scroll {
         will-change: auto;
     }
 }
+
+
+/* =========================================================
+   PUBLIC HOME — DISABLE ALL SCROLL-TRIGGERED MOTION
+   ========================================================= */
+
+html.mli-public-home main > section,
+html.mli-public-home main > section:not(:first-child),
+html.mli-public-home [data-reveal],
+html.mli-public-home [data-depth],
+html.mli-public-home .mli-live-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    translate: none !important;
+    scale: none !important;
+    filter: none !important;
+    clip-path: none !important;
+    animation: none !important;
+    transition: none !important;
+    will-change: auto !important;
+}
+
+html.mli-public-home [data-reveal="up"],
+html.mli-public-home [data-reveal="left"],
+html.mli-public-home [data-reveal="right"],
+html.mli-public-home [data-reveal="scale"] {
+    transform: none !important;
+}
