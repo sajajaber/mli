@@ -23,30 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    const revealItems = document.querySelectorAll("[data-reveal]");
-
-    revealItems.forEach((item, index) => {
-        if (!item.style.getPropertyValue("--reveal-delay")) {
-            item.style.setProperty("--reveal-delay", `${Math.min(index % 8, 7) * 65}ms`);
-        }
-    });
-
-    if ("IntersectionObserver" in window && !reduceMotion) {
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                entry.target.classList.toggle("is-visible", entry.isIntersecting);
-            });
-        }, {
-            threshold: 0.08,
-            rootMargin: "0px 0px -70px 0px",
-        });
-
-        revealItems.forEach((item) => revealObserver.observe(item));
-    } else {
-        revealItems.forEach((item) => item.classList.add("is-visible"));
-    }
-
-    const counters = document.querySelectorAll("[data-counter]");
+    // Scroll-triggered reveals are intentionally disabled on the public homepage.\n    const revealItems = document.querySelectorAll("[data-reveal]");\n    revealItems.forEach((item) => item.classList.add("is-visible"));\n\n    const counters = document.querySelectorAll("[data-counter]");
 
     const animateCounter = (counter) => {
         const target = Number(counter.dataset.counter || 0);
@@ -81,124 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
         requestAnimationFrame(tick);
     };
 
-    if ("IntersectionObserver" in window && !reduceMotion) {
-        const counterObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach((entry) => {
-                if (!entry.isIntersecting) return;
-
-                animateCounter(entry.target);
-                observer.unobserve(entry.target);
-            });
-        }, {
-            threshold: 0.6,
-        });
-
-        counters.forEach((counter) => {
-            counter.textContent = "0";
-            counterObserver.observe(counter);
-        });
-    } else {
-        counters.forEach((counter) => animateCounter(counter));
-    }
-
-    const sections = document.querySelectorAll("main > section");
-
-    if ("IntersectionObserver" in window && !reduceMotion) {
-        const sectionObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                entry.target.classList.toggle("mli-section-visible", entry.isIntersecting);
-            });
-        }, {
-            threshold: 0.05,
-            rootMargin: "0px 0px -40px 0px",
-        });
-
-        sections.forEach((section) => sectionObserver.observe(section));
-    } else {
-        sections.forEach((section) => section.classList.add("mli-section-visible"));
-    }
-
-    if (!reduceMotion) {
-        let ticking = false;
-
-        const updateScrollMotion = () => {
-            const scrollY = window.scrollY || window.pageYOffset || 0;
-            const viewportHeight = window.innerHeight || 1;
-            const documentHeight = Math.max(document.documentElement.scrollHeight - viewportHeight, 1);
-            const progress = Math.min(Math.max(scrollY / documentHeight, 0), 1);
-
-            root.style.setProperty("--mli-scroll-progress", progress.toFixed(4));
-
-            document.querySelectorAll("[data-depth]").forEach((element) => {
-                const depth = Number(element.dataset.depth || 0.08);
-                const rect = element.getBoundingClientRect();
-                const center = rect.top + rect.height / 2;
-                const distance = (center - viewportHeight / 2) / viewportHeight;
-                const translate = Math.max(-18, Math.min(18, distance * depth * -42));
-
-                element.style.setProperty("--mli-depth-y", `${translate.toFixed(2)}px`);
-            });
-
-            ticking = false;
-        };
-
-        const requestScrollMotion = () => {
-            if (ticking) return;
-            ticking = true;
-            requestAnimationFrame(updateScrollMotion);
-        };
-
-        updateScrollMotion();
-        window.addEventListener("scroll", requestScrollMotion, { passive: true });
-        window.addEventListener("resize", requestScrollMotion, { passive: true });
-    }
-
-    // Continuous home-page scroll motion: the movement follows the viewport
-    // in both directions instead of firing only once on first reveal.
-    if (isPublicHome && !reduceMotion) {
-        const liveTargets = Array.from(document.querySelectorAll(
-            '[data-reveal], .mli-opening__feature, .mli-opening__poster, .section-heading, .mli-catalogue__intro, .mli-about__map-wrap, .mli-about-service, .mli-person-card, .mli-clients__heading'
-        ));
-
-        liveTargets.forEach((element) => element.classList.add('mli-live-scroll'));
-
-        let liveTicking = false;
-
-        const updateLiveScroll = () => {
-            const viewportHeight = window.innerHeight || 1;
-            const viewportCenter = viewportHeight * 0.5;
-
-            liveTargets.forEach((element) => {
-                const rect = element.getBoundingClientRect();
-                if (!rect.height) return;
-
-                const elementCenter = rect.top + rect.height * 0.5;
-                const distance = (viewportCenter - elementCenter) / viewportHeight;
-                const clamped = Math.max(-1, Math.min(1, distance));
-                // Deliberately noticeable depth: elements can travel about 70px
-                // across the viewport and reverse immediately when scrolling back.
-                const amount = clamped * 72;
-                const scale = 1 - Math.min(Math.abs(clamped) * 0.018, 0.018);
-
-                element.style.setProperty('--mli-live-y', amount.toFixed(2) + 'px');
-                element.style.setProperty('--mli-live-scale', scale.toFixed(4));
-            });
-
-            liveTicking = false;
-        };
-
-        const requestLiveScroll = () => {
-            if (liveTicking) return;
-            liveTicking = true;
-            requestAnimationFrame(updateLiveScroll);
-        };
-
-        updateLiveScroll();
-        window.addEventListener('scroll', requestLiveScroll, { passive: true });
-        window.addEventListener('resize', requestLiveScroll, { passive: true });
-    }
-
-    // Image masks create a more intentional "uncover" instead of a generic fade.
+    // Counters are no longer triggered by scrolling; they animate on page load.\n    counters.forEach((counter) => animateCounter(counter));\n\n create a more intentional "uncover" instead of a generic fade.
     if (!reduceMotion) {
         document.querySelectorAll("img").forEach((image) => {
             const parent = image.parentElement;
