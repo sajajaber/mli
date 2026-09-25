@@ -45,6 +45,7 @@ class ShowResource extends Resource
     {
         return $schema->components([
             Section::make('Show Information')
+                ->columnSpanFull()
                 ->description('Set the bilingual title and public descriptions for this show.')
                 ->columns(2)
                 ->components([
@@ -95,6 +96,7 @@ class ShowResource extends Resource
                 ]),
 
             Section::make('Publishing')
+                ->columnSpanFull()
                 ->description('Control visibility, release status, scheduling, and homepage ordering.')
                 ->columns(2)
                 ->components([
@@ -134,6 +136,7 @@ class ShowResource extends Resource
                 ]),
 
             Section::make('Classification & Media')
+                ->columnSpanFull()
                 ->description('Set the category, URL, cover image, and accessibility information.')
                 ->columns(2)
                 ->components([
