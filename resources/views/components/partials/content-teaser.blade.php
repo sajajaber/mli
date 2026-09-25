@@ -1,4 +1,4 @@
-@props(['shows'])
+@props(['shows', 'categories'])
 
 @php
     $libraryShows = $shows->take(12)->values();
@@ -70,6 +70,58 @@
             <p class="mli-content-empty">
                 {{ app()->getLocale() === 'ar' ? 'لا توجد برامج منشورة حاليًا.' : 'No published shows yet.' }}
             </p>
+        </div>
+    @endif
+
+    @if($categories->isNotEmpty())
+        <div class="container mli-catalogue__categories" data-reveal="up">
+            <div class="mli-catalogue__categories-head">
+                <div>
+                    <span class="mli-catalogue__categories-index">
+                        {{ app()->getLocale() === 'ar' ? 'تصنيفات المحتوى' : 'PROGRAM CATEGORIES' }}
+                    </span>
+                    <h3>
+                        {{ app()->getLocale() === 'ar'
+                            ? 'استكشف حسب النوع.'
+                            : 'Explore by type.' }}
+                    </h3>
+                </div>
+
+                <p>
+                    {{ app()->getLocale() === 'ar'
+                        ? 'من الوثائقيات إلى البرامج الإسلامية وغيرها، اكتشف مكتبتنا حسب نوع المحتوى.'
+                        : 'From documentaries to Islamic programming and beyond, explore the library by content type.' }}
+                </p>
+            </div>
+
+            <div class="mli-catalogue__category-grid">
+                @foreach($categories as $index => $category)
+                    <a
+                        href="{{ route('shows.index', ['category' => $category->slug]) }}"
+                        class="mli-catalogue__category"
+                        data-reveal="up"
+                        style="--reveal-delay: {{ min($index, 5) * 70 }}ms"
+                    >
+                        <span class="mli-catalogue__category-number">
+                            {{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}
+                        </span>
+
+                        <span class="mli-catalogue__category-copy">
+                            <strong>
+                                {{ app()->getLocale() === 'ar' ? $category->name_ar : $category->name_en }}
+                            </strong>
+                            <small>
+                                {{ $category->published_shows_count }}
+                                {{ app()->getLocale() === 'ar'
+                                    ? ($category->published_shows_count === 1 ? 'برنامج' : 'برامج')
+                                    : ($category->published_shows_count === 1 ? 'title' : 'titles') }}
+                            </small>
+                        </span>
+
+                        <span class="mli-catalogue__category-arrow" aria-hidden="true">↗</span>
+                    </a>
+                @endforeach
+            </div>
         </div>
     @endif
 
