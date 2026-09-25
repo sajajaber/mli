@@ -10315,6 +10315,10 @@ html.mli-public-home.mli-home-motion-enabled [data-reveal].is-visible {
     filter: none !important;
 }
 
+html.mli-public-home.mli-home-motion-enabled .mli-opening__feature.is-visible {
+    transform: translate3d(0, var(--mli-feature-scroll-y, 0px), 0) !important;
+}
+
 /* The hero stays present while its visual depth reacts continuously to scroll. */
 html.mli-public-home .mli-opening__copy {
     transform: translate3d(0, var(--mli-copy-scroll-y, 0px), 0);
