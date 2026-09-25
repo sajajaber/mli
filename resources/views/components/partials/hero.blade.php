@@ -104,8 +104,6 @@
                     <small x-text="shows[index]?.category || '{{ app()->getLocale() === 'ar' ? 'محتوى MLI' : 'MLI CONTENT' }}'"></small>
                     <strong x-text="shows[index]?.title || '{{ app()->getLocale() === 'ar' ? 'لا توجد برامج منشورة' : 'No published shows yet' }}'"></strong>
                 </span>
-
-                <span class="mli-opening__poster-arrow">↗</span>
             </a>
 
             <div class="mli-opening__controls" x-show="shows.length > 1" aria-label="{{ app()->getLocale() === 'ar' ? 'التنقل بين البرامج' : 'Show navigation' }}">

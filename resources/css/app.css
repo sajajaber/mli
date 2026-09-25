@@ -4276,7 +4276,7 @@ html.mli-public-home .mli-catalogue__bottom a:hover {
     margin-top: 17px;
     font-family: Georgia, "Times New Roman", "Readex Pro", sans-serif;
     font-size: clamp(52px, 7vw, 100px);
-    line-height: 0.84;
+    line-height: 1.15;  
     font-weight: 400;
     letter-spacing: -0.065em;
 }
@@ -4898,7 +4898,7 @@ html.mli-public-home .mli-catalogue__bottom a:hover {
     margin-top: 17px;
     font-family: Georgia, "Times New Roman", "Readex Pro", sans-serif;
     font-size: clamp(52px, 7vw, 96px);
-    line-height: 0.84;
+    line-height: 1.15;
     font-weight: 400;
     letter-spacing: -0.065em;
 }
@@ -6024,7 +6024,7 @@ body {
 .library-hero h1 {
     margin: 0;
     font-size: clamp(58px, 9vw, 132px);
-    line-height: 0.9;
+    line-height: 0.6;
     letter-spacing: -0.06em;
     font-weight: 500;
     color: #fff;
