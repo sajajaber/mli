@@ -28,11 +28,15 @@ class SiteContentResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
-    protected static ?string $navigationLabel = 'Site Content';
+    protected static ?string $navigationLabel = 'Website Content';
 
-    protected static ?string $modelLabel = 'Site Content';
+    protected static ?string $navigationGroup = 'Content';
 
-    protected static ?string $pluralModelLabel = 'Site Content';
+    protected static ?int $navigationSort = 3;
+
+    protected static ?string $modelLabel = 'Website Content';
+
+    protected static ?string $pluralModelLabel = 'Website Content';
 
     public static function form(Schema $schema): Schema
     {
