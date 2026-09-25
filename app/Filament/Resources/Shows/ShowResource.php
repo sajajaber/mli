@@ -45,10 +45,10 @@ class ShowResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Grid::make(3)
+            Grid::make(['default' => 1, 'xl' => 5])
                 ->schema([
                     Grid::make(1)
-                        ->columnSpan(2)
+                        ->columnSpan(['default' => 1, 'xl' => 4])
                         ->schema([
                             Section::make('Show Information')
                                 ->description('Set the bilingual title and public descriptions for this show.')
