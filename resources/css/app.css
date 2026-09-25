@@ -754,6 +754,94 @@
 }
 
 /* =========================================================
+   ABOUT SECTION
+   ========================================================= */
+
+.about-layout {
+    display: grid;
+
+    grid-template-columns: 1.05fr 0.95fr;
+
+    gap: 100px;
+
+    align-items: center;
+}
+
+.about-copy h2 {
+    max-width: 600px;
+}
+
+.rich-copy {
+    max-width: 650px;
+
+    margin-top: 26px;
+
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 15px;
+
+    line-height: 1.9;
+}
+
+.rich-copy p + p {
+    margin-top: 14px;
+}
+
+/* Stats */
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    border-left: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.stat {
+    min-height: 180px;
+
+    padding: 28px;
+
+    border-right: 1px solid rgba(255, 255, 255, 0.18);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.stat strong {
+    display: block;
+
+    font-size: clamp(40px, 5vw, 64px);
+
+    line-height: 1;
+
+    font-weight: 400;
+
+    color: #f5f2eb;
+}
+
+.stat strong span {
+    font-size: 0.55em;
+}
+
+.stat small {
+    display: block;
+
+    max-width: 130px;
+
+    margin-top: 15px;
+
+    color: rgba(255, 255, 255, 0.58);
+
+    font-size: 10px;
+
+    line-height: 1.5;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.1em;
+}
+
+/* =========================================================
    NEWS
    ========================================================= */
 
@@ -3561,8 +3649,364 @@ html[dir="rtl"] .mli-about__map-caption {
     }
 }
 
+/* Media services within About */
+.mli-about-services {
+    margin-top: 100px;
+    padding-top: 45px;
+    border-top: 1px solid rgba(47,65,86,.18);
+}
+.mli-about-services__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 30px;
+    margin-bottom: 32px;
+}
+.mli-about-services__heading > span {
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: .2em;
+}
+.mli-about-services__heading h3 {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(42px, 5vw, 70px);
+    line-height: .9;
+    font-weight: 400;
+    letter-spacing: -.05em;
+}
+.mli-about-services__list {
+    border-top: 1px solid rgba(47,65,86,.18);
+}
+.mli-about-service {
+    display: grid;
+    grid-template-columns: 55px 1fr 30px;
+    gap: 20px;
+    align-items: start;
+    padding: 27px 0;
+    border-bottom: 1px solid rgba(47,65,86,.18);
+    transition: padding .3s ease;
+}
+.mli-about-service:hover {
+    padding-left: 12px;
+}
+.mli-about-service__number {
+    color: #567c8d;
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: .12em;
+}
+.mli-about-service h4 {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(25px, 2.4vw, 38px);
+    line-height: 1;
+    font-weight: 400;
+}
+.mli-about-service__description {
+    max-width: 650px;
+    margin-top: 12px;
+    color: rgba(47,65,86,.62);
+    font-size: 11px;
+    line-height: 1.8;
+}
+.mli-about-service__arrow {
+    font-size: 19px;
+}
+@media (max-width: 640px) {
+    .mli-about-services { margin-top: 70px; }
+    .mli-about-services__heading { align-items: flex-start; flex-direction: column; }
+    .mli-about-service { grid-template-columns: 35px 1fr 20px; gap: 10px; }
+}
+
 /* Compact contact footer */
 .mli-contact { min-height: auto; }
+
+
+/* =========================================================
+   WHAT WE DO / MEDIA SERVICES — DARK ABOUT TREATMENT
+   ========================================================= */
+
+.mli-about-services {
+    margin-top: 110px;
+    padding-top: 55px;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.mli-about-services__heading {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    align-items: end;
+    gap: 30px;
+    margin-bottom: 38px;
+}
+
+.mli-about-services__heading > span {
+    color: #c8d9e6;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding-bottom: 9px;
+}
+
+.mli-about-services__heading h3 {
+    margin: 0;
+    color: #ffffff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(52px, 6vw, 88px);
+    line-height: 0.84;
+    font-weight: 400;
+    letter-spacing: -0.06em;
+}
+
+.mli-about-services__list {
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.mli-about-service {
+    position: relative;
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr) 42px;
+    gap: 24px;
+    align-items: start;
+    padding: 30px 18px 30px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    overflow: hidden;
+    transition:
+        padding 0.35s ease,
+        background-color 0.35s ease;
+}
+
+.mli-about-service::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: #c8d9e6;
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: transform 0.35s ease;
+}
+
+.mli-about-service:hover {
+    padding-left: 18px;
+    background: rgba(200, 217, 230, 0.055);
+}
+
+.mli-about-service:hover::before {
+    transform: scaleY(1);
+}
+
+.mli-about-service__number {
+    padding-top: 7px;
+    color: #9ddfd3;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+}
+
+.mli-about-service h4 {
+    margin: 0;
+    color: #ffffff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(30px, 3vw, 48px);
+    line-height: 0.95;
+    font-weight: 400;
+    letter-spacing: -0.035em;
+}
+
+.mli-about-service__description {
+    max-width: 680px;
+    margin-top: 12px;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.mli-about-service__arrow {
+    justify-self: end;
+    color: #c8d9e6;
+    font-size: 25px;
+    font-weight: 300;
+    line-height: 1;
+    transform: translateY(3px);
+    transition:
+        transform 0.3s ease,
+        color 0.3s ease;
+}
+
+.mli-about-service:hover .mli-about-service__arrow {
+    color: #9ddfd3;
+    transform: translate(4px, -1px);
+}
+
+.mli-about-services .mli-content-empty {
+    color: rgba(255, 255, 255, 0.55);
+    border-color: rgba(255, 255, 255, 0.16);
+}
+
+@media (max-width: 760px) {
+    .mli-about-services {
+        margin-top: 80px;
+        padding-top: 42px;
+    }
+
+    .mli-about-services__heading {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 28px;
+    }
+
+    .mli-about-services__heading > span {
+        padding-bottom: 0;
+    }
+
+    .mli-about-services__heading h3 {
+        font-size: clamp(48px, 15vw, 76px);
+    }
+
+    .mli-about-service {
+        grid-template-columns: 38px minmax(0, 1fr) 28px;
+        gap: 12px;
+        padding: 23px 8px 23px 0;
+    }
+
+    .mli-about-service:hover {
+        padding-left: 10px;
+    }
+
+    .mli-about-service h4 {
+        font-size: clamp(25px, 8vw, 38px);
+    }
+
+    .mli-about-service__description {
+        font-size: 11px;
+    }
+
+    .mli-about-service__arrow {
+        font-size: 21px;
+    }
+}
+
+
+/* =========================================================
+   WHAT WE DO — CARD GRID
+   ========================================================= */
+
+.mli-about-services__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.mli-about-service {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 245px;
+    padding: 30px 30px 28px;
+    border: 0;
+    background: #2f4156;
+    overflow: hidden;
+    transition:
+        background-color 0.35s ease,
+        transform 0.35s ease;
+}
+
+.mli-about-service::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #c8d9e6;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+}
+
+.mli-about-service:hover {
+    background: #354b62;
+    transform: translateY(-3px);
+}
+
+.mli-about-service:hover::before {
+    transform: scaleX(1);
+}
+
+.mli-about-service__number {
+    display: block;
+    margin-bottom: auto;
+    padding-top: 0;
+    color: #9ddfd3;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+}
+
+.mli-about-service > div {
+    padding-right: 35px;
+}
+
+.mli-about-service h4 {
+    margin: 30px 0 0;
+    color: #ffffff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(29px, 2.7vw, 43px);
+    line-height: 0.95;
+    font-weight: 400;
+    letter-spacing: -0.035em;
+}
+
+.mli-about-service__description {
+    max-width: 520px;
+    margin-top: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 11px;
+    line-height: 1.75;
+}
+
+.mli-about-service__arrow {
+    position: absolute;
+    right: 28px;
+    bottom: 27px;
+    color: #c8d9e6;
+    font-size: 24px;
+    line-height: 1;
+    transition:
+        transform 0.3s ease,
+        color 0.3s ease;
+}
+
+.mli-about-service:hover .mli-about-service__arrow {
+    color: #9ddfd3;
+    transform: translate(4px, -4px);
+}
+
+@media (max-width: 760px) {
+    .mli-about-services__list {
+        grid-template-columns: 1fr;
+    }
+
+    .mli-about-service {
+        min-height: 210px;
+        padding: 25px 22px 24px;
+    }
+
+    .mli-about-service h4 {
+        margin-top: 24px;
+        font-size: clamp(28px, 9vw, 40px);
+    }
+
+    .mli-about-service__arrow {
+        right: 21px;
+        bottom: 22px;
+    }
+}
 
 
 /* =========================================================
@@ -8867,6 +9311,25 @@ html.mli-page-entered .mli-opening__word {
     transform: translateZ(0);
 }
 
+.mli-show__image::before {
+    content: "";
+    position: absolute;
+    inset: -15% -45%;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(
+        105deg,
+        transparent 38%,
+        rgba(255,255,255,.28) 50%,
+        transparent 62%
+    );
+    transform: translateX(-75%) rotate(8deg);
+    transition: transform .9s cubic-bezier(.2,.75,.2,1);
+}
+
+.mli-show:hover .mli-show__image::before {
+    transform: translateX(75%) rotate(8deg);
+}
 
 .mli-show__image img {
     transform: scale(1);
@@ -8981,6 +9444,7 @@ html.mli-page-entered .mli-opening__word {
 
 @media (prefers-reduced-motion: reduce) {
     .mli-show,
+    .mli-show__image::before,
     .mli-show__image img,
     .mli-show__wash,
     .mli-show__copy,
@@ -8999,106 +9463,5 @@ html.mli-page-entered .mli-opening__word {
     .mli-show:hover .mli-show__open {
         transform: none !important;
         filter: none !important;
-    }
-}
-
-
-
-
-
-/* =========================================================
-   HERO HEADLINE — PREVENT DESCENDER CLIPPING
-   ========================================================= */
-
-.mli-opening h1 {
-    overflow: visible;
-    line-height: 0.95;
-    padding-bottom: 0.08em;
-}
-
-.mli-opening h1 .mli-opening__word {
-    overflow: visible;
-}
-
-@media (max-width: 560px) {
-    .mli-opening h1 {
-        line-height: 1.02;
-        padding-bottom: 0.1em;
-    }
-}
-
-/* =========================================================
-   PUBLIC HOMEPAGE — FINAL INTERACTION CLEANUP
-   ========================================================= */
-
-/* Hero posters intentionally have no hover animation or darkening. */
-.mli-opening__poster,
-.mli-opening__poster-image,
-.mli-opening__poster-wash,
-.mli-opening__poster-copy,
-.mli-opening__poster-copy strong,
-.mli-opening__poster-copy small,
-.mli-opening__poster-arrow {
-    transition: none;
-}
-
-.mli-opening__poster:hover,
-.mli-opening__poster:hover .mli-opening__poster-image,
-.mli-opening__poster:hover img,
-.mli-opening__poster:hover .mli-opening__poster-wash,
-.mli-opening__poster:hover .mli-opening__poster-copy,
-.mli-opening__poster:hover .mli-opening__poster-copy strong,
-.mli-opening__poster:hover .mli-opening__poster-copy small,
-.mli-opening__poster:hover .mli-opening__poster-arrow {
-    transform: none;
-    filter: none;
-    box-shadow: none;
-    background: none;
-    opacity: initial;
-}
-
-/* What We Do: no decorative arrow. */
-.mli-about-service__arrow {
-    display: none;
-}
-
-/* Arabic headings: leave enough vertical room for descenders. */
-html[dir="rtl"] .mli-opening h1,
-html[dir="rtl"] .mli-catalogue h2,
-html[dir="rtl"] .mli-new-releases h2,
-html[dir="rtl"] .mli-clients__heading h2,
-html[dir="rtl"] #news .section-heading h2,
-html[dir="rtl"] .mli-about__title,
-html[dir="rtl"] .mli-about-services__heading h3,
-html[dir="rtl"] .mli-about-service h4,
-html[dir="rtl"] .mli-person-card h3,
-html[dir="rtl"] .mli-news-show-card .mli-show__details h2,
-html[dir="rtl"] .mli-news-article__header h1,
-html[dir="rtl"] .mli-news-article__content h2,
-html[dir="rtl"] .mli-news-article__content h3,
-html[dir="rtl"] .mli-show__copy strong {
-    overflow: visible;
-    line-height: 1.24;
-    padding-bottom: .08em;
-}
-
-html[dir="rtl"] .mli-opening h1 {
-    line-height: 1.16;
-}
-
-/* Respect reduced-motion preferences. */
-@media (prefers-reduced-motion: reduce) {
-    .reel-track {
-        animation: none;
-    }
-
-    html {
-        scroll-behavior: auto;
-    }
-
-    [data-reveal] {
-        transition: none;
-        transform: none;
-        opacity: 1;
     }
 }
