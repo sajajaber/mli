@@ -11,6 +11,6 @@ class CreateShow extends CreateRecord
 
     protected function getRedirectUrl(): string
     {
-        return ShowResource::getUrl('index');
+        return ShowResource::getUrl('edit', ['record' => $this->getRecord()]);
     }
 }
