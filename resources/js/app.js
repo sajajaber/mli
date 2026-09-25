@@ -9,6 +9,11 @@ document.documentElement.classList.add("mli-motion-ready");
 document.addEventListener("DOMContentLoaded", () => {
     const root = document.documentElement;
     const body = document.body;
+    const isPublicHome = Boolean(document.querySelector(".mli-opening"));
+
+    if (isPublicHome) {
+        root.classList.add("mli-public-home");
+    }
 
     if (reduceMotion) {
         root.classList.add("mli-reduced-motion");
@@ -18,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    const revealItems = document.querySelectorAll("[data-reveal]");
+    const revealItems = isPublicHome ? [] : document.querySelectorAll("[data-reveal]");
 
     revealItems.forEach((item, index) => {
         if (!item.style.getPropertyValue("--reveal-delay")) {
@@ -41,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
         revealItems.forEach((item) => item.classList.add("is-visible"));
     }
 
-    const counters = document.querySelectorAll("[data-counter]");
+    const counters = isPublicHome ? [] : document.querySelectorAll("[data-counter]");
 
     const animateCounter = (counter) => {
         const target = Number(counter.dataset.counter || 0);
@@ -96,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         counters.forEach((counter) => animateCounter(counter));
     }
 
-    const sections = document.querySelectorAll("main > section");
+    const sections = isPublicHome ? [] : document.querySelectorAll("main > section");
 
     if ("IntersectionObserver" in window && !reduceMotion) {
         const sectionObserver = new IntersectionObserver((entries) => {
@@ -113,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
         sections.forEach((section) => section.classList.add("mli-section-visible"));
     }
 
-    if (!reduceMotion) {
+    if (!reduceMotion && !isPublicHome) {
         let ticking = false;
 
         const updateScrollMotion = () => {
