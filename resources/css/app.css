@@ -10231,3 +10231,39 @@ html.mli-public-home .text-link:hover {
         clip-path: none !important;
     }
 }
+
+
+/* =========================================================
+   PUBLIC HOME — CONTINUOUS SCROLL MOTION
+   The motion updates with every scroll position, so it reverses
+   naturally when the user scrolls back up.
+   ========================================================= */
+
+html.mli-public-home .mli-live-scroll {
+    will-change: transform;
+}
+
+html.mli-public-home [data-reveal].is-visible.mli-live-scroll {
+    transform: translate3d(0, var(--mli-live-y, 0px), 0) !important;
+    opacity: 1 !important;
+    clip-path: inset(0) !important;
+}
+
+html.mli-public-home .mli-opening__feature.mli-live-scroll,
+html.mli-public-home .mli-opening__poster.mli-live-scroll,
+html.mli-public-home .section-heading.mli-live-scroll,
+html.mli-public-home .mli-catalogue__intro.mli-live-scroll,
+html.mli-public-home .mli-about__map-wrap.mli-live-scroll,
+html.mli-public-home .mli-about-service.mli-live-scroll,
+html.mli-public-home .mli-person-card.mli-live-scroll,
+html.mli-public-home .mli-clients__heading.mli-live-scroll {
+    transform: translate3d(0, var(--mli-live-y, 0px), 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html.mli-public-home .mli-live-scroll,
+    html.mli-public-home [data-reveal].is-visible.mli-live-scroll {
+        transform: none !important;
+        will-change: auto;
+    }
+}
