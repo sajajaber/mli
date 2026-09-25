@@ -72,7 +72,7 @@ class ShowResource extends Resource
                         )
                         ->validationMessages([
                             'unique' => 'A show with this Arabic title already exists.',
-                        )
+                        ])
                         ->extraInputAttributes([
                             'dir' => 'rtl',
                         ])
