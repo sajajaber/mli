@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\News;
 
+use App\Filament\Concerns\HasAutoSlug;
+use App\Filament\Concerns\HasPublishWorkflow;
 use App\Filament\Resources\News\Pages\CreateNews;
 use App\Filament\Resources\News\Pages\EditNews;
 use App\Filament\Resources\News\Pages\ListNews;
@@ -13,8 +15,6 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Actions\Action;
-use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -22,10 +22,12 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
 
 class NewsResource extends Resource
 {
+    use HasAutoSlug;
+    use HasPublishWorkflow;
+
     protected static ?string $model = News::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedNewspaper;
@@ -43,11 +45,7 @@ class NewsResource extends Resource
                         ->required()
                         ->maxLength(255)
                         ->live(onBlur: true)
-                        ->afterStateUpdated(function (string $state, callable $get, callable $set, string $operation) {
-                            if ($operation === 'create') {
-                                $set('slug', Str::slug($state));
-                            }
-                        }),
+                        ->afterStateUpdated(static::fillSlugFromTitle()),
 
                     TextInput::make('title_ar')
                         ->label('Title (Arabic)')
@@ -85,7 +83,8 @@ class NewsResource extends Resource
                             'redo',
                         ])
                         ->live(onBlur: true)
-                        ->columnSpanFull(),                ]),
+                        ->columnSpanFull(),
+                ]),
 
             Section::make('Classification & Media')
                 ->columns(2)
@@ -112,7 +111,7 @@ class NewsResource extends Resource
                         ->directory('news')
                         ->imageEditor()
                         ->maxSize(8192)
-                        ->saveUploadedFileUsing(fn($file) => app(\App\Services\ImageProcessingService::class)
+                        ->saveUploadedFileUsing(fn ($file) => app(\App\Services\ImageProcessingService::class)
                             ->processAndStore($file, 'news', maxWidth: 1600, quality: 85))
                         ->columnSpanFull(),
 
@@ -139,8 +138,8 @@ class NewsResource extends Resource
                     DateTimePicker::make('published_at')
                         ->label('Publish At')
                         ->native(false)
-                        ->visible(fn(callable $get) => $get('status') === 'scheduled')
-                        ->required(fn(callable $get) => $get('status') === 'scheduled'),
+                        ->visible(fn (callable $get) => $get('status') === 'scheduled')
+                        ->required(fn (callable $get) => $get('status') === 'scheduled'),
                 ]),
         ]);
     }
@@ -162,22 +161,18 @@ class NewsResource extends Resource
                 TextColumn::make('news_type')
                     ->label('Type')
                     ->badge()
-                    ->color(fn(string $state) => match ($state) {
+                    ->color(fn (string $state) => match ($state) {
                         'media_news' => 'info',
                         'mli_news' => 'primary',
+                        default => 'gray',
                     })
-                    ->formatStateUsing(fn(string $state) => match ($state) {
+                    ->formatStateUsing(fn (string $state) => match ($state) {
                         'media_news' => 'Media News',
                         'mli_news' => 'MLI News',
+                        default => $state,
                     }),
 
-                TextColumn::make('status')
-                    ->badge()
-                    ->color(fn(string $state) => match ($state) {
-                        'draft' => 'gray',
-                        'scheduled' => 'warning',
-                        'published' => 'success',
-                    }),
+                static::statusColumn(),
 
                 TextColumn::make('published_at')
                     ->dateTime()
@@ -200,49 +195,8 @@ class NewsResource extends Resource
                     ]),
             ])
             ->recordActions([
-                Action::make('publish')
-                    ->label('Publish')
-                    ->color('success')
-                    ->requiresConfirmation()
-                    ->visible(fn (News $record) => $record->status !== 'published')
-                    ->action(function (News $record): void {
-                        $record->update([
-                            'status' => 'published',
-                            'published_at' => now(),
-                        ]);
-
-                        Notification::make()
-                            ->success()
-                            ->title('Published')
-                            ->body('The news article is now live on the website.')
-                            ->send();
-                    }),
-
-                Action::make('schedule')
-                    ->label('Schedule')
-                    ->color('warning')
-                    ->visible(fn (News $record) => $record->status !== 'published')
-                    ->form([
-                        DateTimePicker::make('published_at')
-                            ->label('Publish date & time')
-                            ->native(false)
-                            ->seconds(false)
-                            ->required()
-                            ->minDate(now()),
-                    ])
-                    ->action(function (News $record, array $data): void {
-                        $record->update([
-                            'status' => 'scheduled',
-                            'published_at' => $data['published_at'],
-                        ]);
-
-                        Notification::make()
-                            ->success()
-                            ->title('Publication scheduled')
-                            ->body('The article will go live automatically at the scheduled time.')
-                            ->send();
-                    }),
-
+                static::publishAction(),
+                static::scheduleAction(),
                 \Filament\Actions\EditAction::make(),
                 \Filament\Actions\DeleteAction::make(),
             ])

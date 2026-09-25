@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\SiteContents;
 
+use App\Filament\Concerns\HasPublishWorkflow;
 use App\Filament\Resources\SiteContents\Pages\EditSiteContent;
 use App\Filament\Resources\SiteContents\Pages\ListSiteContents;
 use App\Models\SiteContent;
@@ -11,17 +12,18 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Actions\Action;
-use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class SiteContentResource extends Resource
 {
+    use HasPublishWorkflow;
+
     protected static ?string $model = SiteContent::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
@@ -91,12 +93,33 @@ class SiteContentResource extends Resource
 
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {
+        // Site content is versioned by key. The admin list shows only the latest
+        // version for each section so editors do not see every historical row.
         return parent::getEloquentQuery()
             ->whereIn('id', function ($query) {
                 $query->selectRaw('MAX(id)')
                     ->from('site_contents')
                     ->groupBy('key');
             });
+    }
+
+    protected static function beforePublish(Model $record): void
+    {
+        SiteContent::query()
+            ->where('key', $record->key)
+            ->where('status', 'published')
+            ->where('id', '!=', $record->getKey())
+            ->update(['status' => 'draft']);
+    }
+
+    protected static function publishNotificationBody(Model $record): string
+    {
+        return 'This site content is now live on the website.';
+    }
+
+    protected static function scheduleNotificationBody(Model $record): string
+    {
+        return 'This content will replace the current live version automatically at the scheduled time.';
     }
 
     public static function table(Table $table): Table
@@ -107,13 +130,7 @@ class SiteContentResource extends Resource
                 TextColumn::make('title_en')->label('Content')->searchable()->sortable(),
                 TextColumn::make('key')->label('Section')->searchable(),
                 TextColumn::make('version')->label('Version'),
-                TextColumn::make('status')
-                    ->badge()
-                    ->color(fn (string $state) => match ($state) {
-                        'draft' => 'gray',
-                        'scheduled' => 'warning',
-                        'published' => 'success',
-                    }),
+                static::statusColumn(),
                 TextColumn::make('published_at')->dateTime()->sortable()->toggleable(),
             ])
             ->filters([
@@ -124,55 +141,8 @@ class SiteContentResource extends Resource
                 ]),
             ])
             ->recordActions([
-                Action::make('publish')
-                    ->label('Publish')
-                    ->color('success')
-                    ->requiresConfirmation()
-                    ->visible(fn (SiteContent $record) => $record->status !== 'published')
-                    ->action(function (SiteContent $record): void {
-                        SiteContent::query()
-                            ->where('key', $record->key)
-                            ->where('status', 'published')
-                            ->where('id', '!=', $record->getKey())
-                            ->update(['status' => 'draft']);
-
-                        $record->update([
-                            'status' => 'published',
-                            'published_at' => now(),
-                        ]);
-
-                        Notification::make()
-                            ->success()
-                            ->title('Published')
-                            ->body('This site content is now live on the website.')
-                            ->send();
-                    }),
-
-                Action::make('schedule')
-                    ->label('Schedule')
-                    ->color('warning')
-                    ->visible(fn (SiteContent $record) => $record->status !== 'published')
-                    ->form([
-                        DateTimePicker::make('published_at')
-                            ->label('Publish date & time')
-                            ->native(false)
-                            ->seconds(false)
-                            ->required()
-                            ->minDate(now()),
-                    ])
-                    ->action(function (SiteContent $record, array $data): void {
-                        $record->update([
-                            'status' => 'scheduled',
-                            'published_at' => $data['published_at'],
-                        ]);
-
-                        Notification::make()
-                            ->success()
-                            ->title('Publication scheduled')
-                            ->body('This content will replace the current live version automatically at the scheduled time.')
-                            ->send();
-                    }),
-
+                static::publishAction(),
+                static::scheduleAction(),
                 \Filament\Actions\EditAction::make(),
             ]);
     }
