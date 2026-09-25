@@ -9885,3 +9885,349 @@ html.mli-public-home [data-depth] {
 html.mli-public-home [data-depth] {
     will-change: auto !important;
 }
+
+
+/* =========================================================
+   PUBLIC HOME — EDITORIAL MOTION SYSTEM
+   Scroll reveals + cinematic hover interactions.
+   ========================================================= */
+
+html.mli-public-home main > section,
+html.mli-public-home main > section:not(:first-child) {
+    transition:
+        opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+        filter 0.9s ease;
+}
+
+html.mli-public-home main > section:not(:first-child) {
+    opacity: 0;
+    transform: translateY(48px);
+    filter: blur(3px);
+}
+
+html.mli-public-home main > section.mli-section-visible {
+    opacity: 1;
+    transform: none;
+    filter: none;
+}
+
+/* Individual scroll reveals: sharper than a generic fade. */
+html.mli-public-home [data-reveal] {
+    opacity: 0;
+    transition:
+        opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+        clip-path 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.8s ease;
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: transform, opacity;
+}
+
+html.mli-public-home [data-reveal="up"] {
+    transform: translateY(42px);
+    clip-path: inset(12% 0 0 0);
+}
+
+html.mli-public-home [data-reveal="left"] {
+    transform: translateX(-42px);
+    clip-path: inset(0 12% 0 0);
+}
+
+html.mli-public-home [data-reveal="right"] {
+    transform: translateX(42px);
+    clip-path: inset(0 0 0 12%);
+}
+
+html.mli-public-home [data-reveal="scale"] {
+    transform: scale(0.94);
+    clip-path: inset(5%);
+}
+
+html.mli-public-home [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0);
+    filter: none;
+}
+
+/* Hero enters as a composed sequence. */
+html.mli-public-home .mli-opening__copy > * {
+    opacity: 0;
+    transform: translateY(22px);
+    animation: mliHomeEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+html.mli-public-home .mli-opening__copy > *:nth-child(1) { animation-delay: 80ms; }
+html.mli-public-home .mli-opening__copy > *:nth-child(2) { animation-delay: 170ms; }
+html.mli-public-home .mli-opening__copy > *:nth-child(3) { animation-delay: 260ms; }
+html.mli-public-home .mli-opening__copy > *:nth-child(4) { animation-delay: 360ms; }
+
+html.mli-public-home .mli-opening__feature {
+    animation: mliHomeFeatureIn 1.05s cubic-bezier(0.16, 1, 0.3, 1) 180ms both;
+}
+
+@keyframes mliHomeEnter {
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes mliHomeFeatureIn {
+    from {
+        opacity: 0;
+        transform: translateY(35px) scale(0.96) rotate(1deg);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Hero poster: depth follows scroll, while hover remains tactile. */
+html.mli-public-home .mli-opening__poster {
+    transform:
+        translate3d(0, var(--mli-depth-y, 0px), 0)
+        rotate(0deg);
+    transition:
+        transform 0.25s linear,
+        box-shadow 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+html.mli-public-home .mli-opening__poster:hover {
+    transform:
+        translate3d(0, calc(var(--mli-depth-y, 0px) - 8px), 0)
+        scale(1.018);
+    box-shadow: 0 34px 80px rgba(0, 0, 0, 0.28);
+}
+
+html.mli-public-home .mli-opening__poster-image {
+    transition:
+        transform 1s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.7s ease;
+}
+
+html.mli-public-home .mli-opening__poster:hover .mli-opening__poster-image {
+    transform: scale(1.065);
+    filter: saturate(1.08) contrast(1.03);
+}
+
+html.mli-public-home .mli-opening__poster-wash {
+    transition: opacity 0.6s ease;
+}
+
+html.mli-public-home .mli-opening__poster:hover .mli-opening__poster-wash {
+    opacity: 0.72;
+}
+
+html.mli-public-home .mli-opening__poster-arrow {
+    transition:
+        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        background 0.35s ease,
+        color 0.35s ease;
+}
+
+html.mli-public-home .mli-opening__poster:hover .mli-opening__poster-arrow {
+    transform: rotate(45deg) scale(1.08);
+    background: var(--mli-signal);
+    color: var(--mli-ink);
+}
+
+/* News: editorial line expands, image breathes, text slides a touch. */
+html.mli-public-home .news-item {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    transition:
+        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        padding-left 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        padding-right 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.mli-public-home .news-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 0;
+    height: 2px;
+    background: var(--mli-signal);
+    transition: width 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.mli-public-home .news-item:hover {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+html.mli-public-home .news-item:hover::before {
+    width: 100%;
+}
+
+html.mli-public-home .news-item__image {
+    overflow: hidden;
+}
+
+html.mli-public-home .news-item__image img {
+    transition:
+        transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.5s ease;
+}
+
+html.mli-public-home .news-item:hover .news-item__image img {
+    transform: scale(1.09);
+    filter: saturate(1.06);
+}
+
+html.mli-public-home .news-item__body strong {
+    transition:
+        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        color 0.3s ease;
+}
+
+html.mli-public-home .news-item:hover .news-item__body strong {
+    transform: translateX(4px);
+    color: var(--mli-signal);
+}
+
+/* Library marquee: hover pauses the individual item visually without
+   interrupting the continuous track. */
+html.mli-public-home .mli-library-marquee__item {
+    transition:
+        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.35s ease;
+}
+
+html.mli-public-home .mli-library-marquee__item:hover {
+    transform: translateY(-7px);
+}
+
+html.mli-public-home .mli-library-marquee__item .mli-library-marquee__thumb img {
+    transition:
+        transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.5s ease;
+}
+
+html.mli-public-home .mli-library-marquee__item:hover .mli-library-marquee__thumb img {
+    transform: scale(1.09);
+    filter: saturate(1.08);
+}
+
+html.mli-public-home .mli-library-marquee__arrow {
+    transition:
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        color 0.3s ease;
+}
+
+html.mli-public-home .mli-library-marquee__item:hover .mli-library-marquee__arrow {
+    transform: translate(4px, -4px) rotate(45deg);
+    color: var(--mli-signal);
+}
+
+/* About/services: rows respond like a magazine index. */
+html.mli-public-home .mli-about-service {
+    position: relative;
+    transition:
+        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        padding-left 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        background 0.45s ease;
+}
+
+html.mli-public-home .mli-about-service:hover {
+    transform: translateX(8px);
+    padding-left: 12px;
+    background: rgba(255, 255, 255, 0.035);
+}
+
+html.mli-public-home .mli-about-service h4 {
+    transition:
+        color 0.3s ease,
+        letter-spacing 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.mli-public-home .mli-about-service:hover h4 {
+    color: var(--mli-signal);
+    letter-spacing: 0.01em;
+}
+
+/* People cards: quiet lift, not a generic card shadow. */
+html.mli-public-home .mli-person-card {
+    transition:
+        transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.35s ease;
+}
+
+html.mli-public-home .mli-person-card:hover {
+    transform: translateY(-10px);
+}
+
+html.mli-public-home .mli-person-card__photo {
+    overflow: hidden;
+}
+
+html.mli-public-home .mli-person-card__photo img {
+    transition:
+        transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.6s ease;
+}
+
+html.mli-public-home .mli-person-card:hover .mli-person-card__photo img {
+    transform: scale(1.06);
+    filter: saturate(1.05);
+}
+
+/* Client logos subtly wake up on hover. */
+html.mli-public-home .mli-client-logo {
+    transition:
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.35s ease,
+        filter 0.35s ease;
+}
+
+html.mli-public-home .mli-client-logo:hover {
+    transform: translateY(-5px);
+    opacity: 1;
+    filter: none;
+}
+
+/* Buttons / links get a small physical response. */
+html.mli-public-home .mli-opening__enter,
+html.mli-public-home .text-link {
+    transition:
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+html.mli-public-home .mli-opening__enter:hover,
+html.mli-public-home .text-link:hover {
+    transform: translateX(5px);
+}
+
+/* Do not animate the home page when the OS requests reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+    html.mli-public-home main > section,
+    html.mli-public-home main > section:not(:first-child),
+    html.mli-public-home [data-reveal],
+    html.mli-public-home .mli-opening__copy > *,
+    html.mli-public-home .mli-opening__feature,
+    html.mli-public-home .mli-opening__poster,
+    html.mli-public-home .mli-opening__poster-image,
+    html.mli-public-home .news-item,
+    html.mli-public-home .mli-library-marquee__item,
+    html.mli-public-home .mli-about-service,
+    html.mli-public-home .mli-person-card,
+    html.mli-public-home .mli-client-logo {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+        filter: none !important;
+    }
+
+    html.mli-public-home main > section:not(:first-child),
+    html.mli-public-home [data-reveal] {
+        opacity: 1 !important;
+        clip-path: none !important;
+    }
+}
