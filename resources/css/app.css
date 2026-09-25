@@ -8929,6 +8929,39 @@ html[dir="rtl"] .mli-news-show-card .mli-show__details h2 {
     );
 }
 
+.mli-news-show-card .mli-show__copy {
+    transform: translateY(7px);
+    transition:
+        transform 0.55s var(--mli-motion-ease),
+        opacity 0.45s ease;
+}
+
+.mli-news-show-card:hover .mli-show__copy {
+    transform: translateY(0);
+}
+
+.mli-news-show-card .mli-show__copy strong {
+    transition:
+        letter-spacing 0.45s var(--mli-motion-ease),
+        transform 0.45s var(--mli-motion-ease);
+}
+
+.mli-news-show-card:hover .mli-show__copy strong {
+    letter-spacing: -0.015em;
+    transform: translateX(2px);
+}
+
+.mli-news-show-card .mli-show__copy small {
+    transition:
+        opacity 0.4s ease,
+        transform 0.45s var(--mli-motion-ease);
+}
+
+.mli-news-show-card:hover .mli-show__copy small {
+    opacity: 1;
+    transform: translateX(2px);
+}
+
 .mli-news-show-card .mli-show__open {
     border-radius: 50%;
     transform: translate(0, 0) rotate(0deg) scale(0.82);
@@ -8944,6 +8977,14 @@ html[dir="rtl"] .mli-news-show-card .mli-show__details h2 {
     background: #c4a470;
     border-color: #c4a470;
     color: #2f4156;
+}
+
+.mli-news-show-card:focus-visible {
+    outline: none;
+}
+
+.mli-news-show-card:focus-visible .mli-show__image {
+    box-shadow: 0 0 0 3px rgba(196, 164, 112, 0.65);
 }
 
 .mli-news-show-card .mli-show__dash {
@@ -8968,6 +9009,30 @@ html[dir="rtl"] .mli-news-show-card .mli-show__details h2 {
 
     .mli-news-show-card:hover .mli-show__dash {
         width: 38px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mli-news-show-card,
+    .mli-news-show-card .mli-show__image::before,
+    .mli-news-show-card .mli-show__image img,
+    .mli-news-show-card .mli-show__wash,
+    .mli-news-show-card .mli-show__copy,
+    .mli-news-show-card .mli-show__copy strong,
+    .mli-news-show-card .mli-show__copy small,
+    .mli-news-show-card .mli-show__open,
+    .mli-news-show-card .mli-show__dash {
+        transition: none !important;
+    }
+
+    .mli-news-show-card:hover,
+    .mli-news-show-card:hover .mli-show__image img,
+    .mli-news-show-card:hover .mli-show__copy,
+    .mli-news-show-card:hover .mli-show__copy strong,
+    .mli-news-show-card:hover .mli-show__copy small,
+    .mli-news-show-card:hover .mli-show__open {
+        transform: none !important;
+        filter: none !important;
     }
 }
 
