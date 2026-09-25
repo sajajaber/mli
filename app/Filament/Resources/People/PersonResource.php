@@ -7,6 +7,7 @@ use App\Filament\Resources\People\Pages\EditPerson;
 use App\Filament\Resources\People\Pages\ListPeople;
 use App\Models\Person;
 use BackedEnum;
+use UnitEnum;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -26,7 +27,7 @@ class PersonResource extends Resource
 
     protected static ?string $navigationLabel = 'Team';
 
-    protected static ?string $navigationGroup = 'People & Partners';
+    protected static UnitEnum|string|null $navigationGroup = 'People & Partners';
 
     protected static ?int $navigationSort = 1;
 
