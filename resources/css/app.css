@@ -9862,3 +9862,26 @@ html.mli-motion-ready main.mli-news-page [data-depth] {
     }
 }
 
+
+/* =========================================================
+   PUBLIC HOME — NO SCROLL-TRIGGERED TRANSITIONS
+   ========================================================= */
+
+html.mli-public-home::before {
+    display: none !important;
+}
+
+html.mli-public-home main > section,
+html.mli-public-home main > section:not(:first-child),
+html.mli-public-home [data-reveal],
+html.mli-public-home [data-depth] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+    transition: none !important;
+}
+
+html.mli-public-home [data-depth] {
+    will-change: auto !important;
+}
