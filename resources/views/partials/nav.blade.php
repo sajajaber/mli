@@ -6,7 +6,7 @@
         </a>
 
         <div class="mli-nav__center">
-            <a href="{{ route('home') }}#content">{{ app()->getLocale() === 'ar' ? 'أعمالنا' : 'Work' }}</a>
+            <a href="{{ route('shows.index') }}">{{ app()->getLocale() === 'ar' ? 'أعمالنا' : 'Work' }}</a>
             <a href="{{ route('news.index') }}">{{ app()->getLocale() === 'ar' ? 'الأخبار' : 'News' }}</a>
             <a href="{{ route('home') }}#about">{{ app()->getLocale() === 'ar' ? 'من نحن' : 'About' }}</a>
             <a href="{{ route('home') }}#clients">{{ app()->getLocale() === 'ar' ? 'العملاء' : 'Clients' }}</a>
@@ -23,7 +23,7 @@
     </div>
 
     <div x-cloak x-show="menuOpen" x-transition class="mli-mobile-menu">
-        <a href="{{ route('home') }}#content" @click="menuOpen = false">{{ app()->getLocale() === 'ar' ? 'أعمالنا' : 'Work' }}</a>
+        <a href="{{ route('shows.index') }}" @click="menuOpen = false">{{ app()->getLocale() === 'ar' ? 'أعمالنا' : 'Work' }}</a>
         <a href="{{ route('news.index') }}" @click="menuOpen = false">{{ app()->getLocale() === 'ar' ? 'الأخبار' : 'News' }}</a>
         <a href="{{ route('home') }}#about" @click="menuOpen = false">{{ app()->getLocale() === 'ar' ? 'من نحن' : 'About' }}</a>
         <a href="{{ route('home') }}#clients" @click="menuOpen = false">{{ app()->getLocale() === 'ar' ? 'العملاء' : 'Clients' }}</a>
