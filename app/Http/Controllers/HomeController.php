@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Client;
 use App\Models\News;
 use App\Models\Person;
@@ -20,6 +21,15 @@ class HomeController extends Controller
             ->latest('published_at')
             ->limit(12)
             ->get();
+
+        $categories = Category::query()
+            ->withCount([
+                'shows as published_shows_count' => fn ($query) => $query->published(),
+            ])
+            ->orderBy('name_en')
+            ->get()
+            ->filter(fn ($category) => $category->published_shows_count > 0)
+            ->values();
 
         $people = Person::active()
             ->orderBy('sort_order')
@@ -65,6 +75,7 @@ class HomeController extends Controller
 
         return view('home', [
             'shows' => $shows,
+            'categories' => $categories,
             'people' => $people,
             'clients' => $clients,
             'mediaServices' => $mediaServices,
