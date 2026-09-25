@@ -10905,3 +10905,25 @@ html[dir="rtl"] .mli-catalogue__categories-head h3 {
     padding-inline: 0.05em;
     margin-inline: -0.05em;
 }
+
+/* =========================================================
+   FINAL ARABIC TYPOGRAPHY — ONE FONT ACROSS RTL PAGES
+   ========================================================= */
+
+html[dir="rtl"] body,
+html[dir="rtl"] body * {
+    font-family:
+        "IBM Plex Sans Arabic",
+        ui-sans-serif,
+        system-ui,
+        sans-serif !important;
+}
+
+/* Keep Latin/brand marks visually stable where they are intentionally
+   rendered in a non-Arabic display style. */
+html[dir="rtl"] .mli-brand,
+html[dir="rtl"] .mli-social-link,
+html[dir="rtl"] .mli-opening__control,
+html[dir="rtl"] svg {
+    font-family: inherit !important;
+}
