@@ -10235,35 +10235,41 @@ html.mli-public-home .text-link:hover {
 
 /* =========================================================
    PUBLIC HOME — CONTINUOUS SCROLL MOTION
-   The motion updates with every scroll position, so it reverses
-   naturally when the user scrolls back up.
+   Broad viewport-following motion for the homepage. Uses the CSS
+   individual translate property so existing hover transforms stay intact.
    ========================================================= */
 
 html.mli-public-home .mli-live-scroll {
-    will-change: transform;
+    --mli-scroll-y: 0px;
+    --mli-scroll-scale: 1;
+    translate: 0 var(--mli-scroll-y);
+    scale: var(--mli-scroll-scale);
+    will-change: translate, scale;
 }
 
-html.mli-public-home [data-reveal].is-visible.mli-live-scroll {
-    transform: translate3d(0, var(--mli-live-y, 0px), 0) scale(var(--mli-live-scale, 1)) !important;
-    opacity: 1 !important;
-    clip-path: inset(0) !important;
-}
-
+/* Sections and content move continuously while scrolling up or down. */
+html.mli-public-home main > section.mli-live-scroll,
+html.mli-public-home .mli-opening__copy > *.mli-live-scroll,
 html.mli-public-home .mli-opening__feature.mli-live-scroll,
 html.mli-public-home .mli-opening__poster.mli-live-scroll,
 html.mli-public-home .section-heading.mli-live-scroll,
-html.mli-public-home .mli-catalogue__intro.mli-live-scroll,
-html.mli-public-home .mli-about__map-wrap.mli-live-scroll,
+html.mli-public-home .section-heading > *.mli-live-scroll,
+html.mli-public-home .news-column.mli-live-scroll,
+html.mli-public-home .news-item.mli-live-scroll,
+html.mli-public-home .mli-catalogue__intro > *.mli-live-scroll,
+html.mli-public-home .mli-library-marquee__item.mli-live-scroll,
+html.mli-public-home .mli-about > .container > *.mli-live-scroll,
 html.mli-public-home .mli-about-service.mli-live-scroll,
 html.mli-public-home .mli-person-card.mli-live-scroll,
-html.mli-public-home .mli-clients__heading.mli-live-scroll {
-    transform: translate3d(0, var(--mli-live-y, 0px), 0);
+html.mli-public-home .mli-clients__heading.mli-live-scroll,
+html.mli-public-home .mli-client-logo.mli-live-scroll {
+    transition-property: translate, scale, opacity, filter;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    html.mli-public-home .mli-live-scroll,
-    html.mli-public-home [data-reveal].is-visible.mli-live-scroll {
-        transform: none !important;
+    html.mli-public-home .mli-live-scroll {
+        translate: none !important;
+        scale: none !important;
         will-change: auto;
     }
 }
