@@ -146,14 +146,16 @@
                                     <img :src="item.image" :alt="item.alt" loading="lazy">
                                 </template>
 
-                                <span class="mli-show__wash" aria-hidden="true"></span>
+                                <span class="mli-show__open" aria-hidden="true">↗</span>
+                            </span>
 
-                                <span class="mli-show__copy">
-                                    <strong x-text="item.title"></strong>
-                                    <small x-text="item.category + ' · ' + (item.date || '')"></small>
+                            <span class="mli-show__details">
+                                <span>
+                                    <h2 x-text="item.title"></h2>
+                                    <p x-text="item.category + ' · ' + (item.date || '')"></p>
                                 </span>
 
-                                <span class="mli-show__open" aria-hidden="true">↗</span>
+                                <span class="mli-show__dash" aria-hidden="true"></span>
                             </span>
                         </a>
                     </template>
