@@ -10394,3 +10394,175 @@ html.mli-public-home.mli-home-motion-enabled
         transition: none !important;
     }
 }
+
+
+/* =========================================================
+   PUBLIC HOME — LIBRARY CATEGORIES
+   ========================================================= */
+
+html.mli-public-home .mli-catalogue__categories {
+    margin-top: 88px;
+    padding-top: 42px;
+    border-top: 1px solid rgba(47, 65, 86, 0.16);
+}
+
+html.mli-public-home .mli-catalogue__categories-head {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(260px, 0.7fr);
+    gap: 48px;
+    align-items: end;
+    margin-bottom: 30px;
+}
+
+html.mli-public-home .mli-catalogue__categories-index {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #567c8d;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+html.mli-public-home .mli-catalogue__categories-head h3 {
+    margin: 0;
+    color: #2f4156;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(34px, 4vw, 58px);
+    line-height: 0.95;
+    font-weight: 400;
+    letter-spacing: -0.045em;
+}
+
+html.mli-public-home .mli-catalogue__categories-head p {
+    max-width: 430px;
+    justify-self: end;
+    margin: 0;
+    color: #567c8d;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+html.mli-public-home .mli-catalogue__category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid rgba(47, 65, 86, 0.12);
+    border-left: 1px solid rgba(47, 65, 86, 0.12);
+}
+
+html.mli-public-home .mli-catalogue__category {
+    position: relative;
+    min-height: 154px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: start;
+    gap: 18px;
+    padding: 22px 20px 20px;
+    border-right: 1px solid rgba(47, 65, 86, 0.12);
+    border-bottom: 1px solid rgba(47, 65, 86, 0.12);
+    color: #2f4156;
+    background: transparent;
+    overflow: hidden;
+    transition:
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        background 0.4s ease,
+        color 0.35s ease;
+}
+
+html.mli-public-home .mli-catalogue__category::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 3px;
+    background: #2f4156;
+    transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.mli-public-home .mli-catalogue__category-number {
+    color: rgba(47, 65, 86, 0.42);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    transition: color 0.3s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.mli-public-home .mli-catalogue__category-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+html.mli-public-home .mli-catalogue__category-copy strong {
+    font-size: 15px;
+    line-height: 1.25;
+    font-weight: 600;
+}
+
+html.mli-public-home .mli-catalogue__category-copy small {
+    color: #567c8d;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+html.mli-public-home .mli-catalogue__category-arrow {
+    font-size: 19px;
+    line-height: 1;
+    transform: translate(0, 0);
+    transition:
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        color 0.3s ease;
+}
+
+html.mli-public-home .mli-catalogue__category:hover {
+    background: rgba(245, 242, 235, 0.72);
+    transform: translateY(-4px);
+}
+
+html.mli-public-home .mli-catalogue__category:hover::after {
+    width: 100%;
+}
+
+html.mli-public-home .mli-catalogue__category:hover .mli-catalogue__category-number {
+    color: #567c8d;
+    transform: translateY(-2px);
+}
+
+html.mli-public-home .mli-catalogue__category:hover .mli-catalogue__category-arrow {
+    color: #567c8d;
+    transform: translate(4px, -4px) rotate(45deg);
+}
+
+@media (max-width: 900px) {
+    html.mli-public-home .mli-catalogue__categories-head {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    html.mli-public-home .mli-catalogue__categories-head p {
+        justify-self: start;
+    }
+
+    html.mli-public-home .mli-catalogue__category-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    html.mli-public-home .mli-catalogue__categories {
+        margin-top: 62px;
+        padding-top: 30px;
+    }
+
+    html.mli-public-home .mli-catalogue__category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    html.mli-public-home .mli-catalogue__category {
+        min-height: 118px;
+    }
+}
