@@ -175,9 +175,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 const elementCenter = rect.top + rect.height * 0.5;
                 const distance = (viewportCenter - elementCenter) / viewportHeight;
                 const clamped = Math.max(-1, Math.min(1, distance));
-                const amount = clamped * 34;
+                // Deliberately noticeable depth: elements can travel about 70px
+                // across the viewport and reverse immediately when scrolling back.
+                const amount = clamped * 72;
+                const scale = 1 - Math.min(Math.abs(clamped) * 0.018, 0.018);
 
                 element.style.setProperty('--mli-live-y', amount.toFixed(2) + 'px');
+                element.style.setProperty('--mli-live-scale', scale.toFixed(4));
             });
 
             liveTicking = false;
