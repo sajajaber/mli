@@ -41,7 +41,7 @@
                     </p>
 
                     <h1>
-                        {{ app()->getLocale() === 'ar' ? 'قصص تُشاهد.' : 'Stories worth watching.' }}
+                        {{ app()->getLocale() === 'ar' ? 'مكتبة البرامج' : 'Explore Our Catalogue' }}
                     </h1>
 
                     <p class="mli-shows-header__copy">
