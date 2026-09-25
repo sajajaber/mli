@@ -34,6 +34,10 @@ class NewsResource extends Resource
 
     protected static ?string $navigationLabel = 'News & Articles';
 
+    protected static ?string $navigationGroup = 'Content';
+
+    protected static ?int $navigationSort = 2;
+
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
