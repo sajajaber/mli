@@ -44,7 +44,8 @@ class ShowResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Content')
+            Section::make('Show Information')
+                ->description('Set the bilingual title and public descriptions for this show.')
                 ->columns(2)
                 ->components([
                     TextInput::make('title_en')
@@ -71,7 +72,7 @@ class ShowResource extends Resource
                         )
                         ->validationMessages([
                             'unique' => 'A show with this Arabic title already exists.',
-                        ])
+                        )
                         ->extraInputAttributes([
                             'dir' => 'rtl',
                         ])
@@ -94,14 +95,11 @@ class ShowResource extends Resource
                 ]),
 
             Section::make('Publishing')
+                ->description('Control visibility, release status, scheduling, and homepage ordering.')
                 ->columns(2)
                 ->components([
-                    Toggle::make('is_new_release')
-                        ->label('New Release')
-                        ->helperText('Show this title in the homepage New Releases section.')
-                        ->default(false),
-
                     Select::make('status')
+                        ->label('Status')
                         ->options([
                             'draft' => 'Draft',
                             'scheduled' => 'Scheduled',
@@ -110,6 +108,11 @@ class ShowResource extends Resource
                         ->default('draft')
                         ->required()
                         ->live(),
+
+                    Toggle::make('is_new_release')
+                        ->label('New Release')
+                        ->helperText('Show this title in the homepage New Releases section.')
+                        ->default(false),
 
                     DateTimePicker::make('published_at')
                         ->label('Publish At')
@@ -124,11 +127,14 @@ class ShowResource extends Resource
                         ),
 
                     TextInput::make('sort_order')
+                        ->label('Sort Order')
                         ->numeric()
-                        ->default(0),
+                        ->default(0)
+                        ->helperText('Lower numbers appear first where ordering is used.'),
                 ]),
 
             Section::make('Classification & Media')
+                ->description('Set the category, URL, cover image, and accessibility information.')
                 ->columns(2)
                 ->components([
                     Select::make('category_id')
@@ -139,20 +145,17 @@ class ShowResource extends Resource
                         ->nullable(),
 
                     TextInput::make('slug')
+                        ->label('Slug')
                         ->required()
                         ->maxLength(255)
                         ->unique(ignoreRecord: true)
-                        ->helperText(
-                            'Auto-filled from English title.'
-                        ),
+                        ->helperText('Auto-filled from the English title.'),
 
                     TextInput::make('vimeo_url')
                         ->label('Vimeo Trailer URL')
                         ->url()
                         ->maxLength(255)
-                        ->placeholder(
-                            'https://vimeo.com/123456789'
-                        )
+                        ->placeholder('https://vimeo.com/123456789')
                         ->columnSpanFull(),
 
                     FileUpload::make('cover_image_path')
@@ -177,12 +180,9 @@ class ShowResource extends Resource
                     TextInput::make('cover_image_alt')
                         ->label('Cover Image Alt Text')
                         ->maxLength(255)
-                        ->helperText(
-                            'Describe the image for accessibility & SEO.'
-                        )
+                        ->helperText('Describe the image for accessibility & SEO.')
                         ->columnSpanFull(),
                 ]),
-
         ]);
     }
 
