@@ -153,6 +153,47 @@ document.addEventListener("DOMContentLoaded", () => {
         window.addEventListener("resize", requestScrollMotion, { passive: true });
     }
 
+    // Continuous home-page scroll motion: the movement follows the viewport
+    // in both directions instead of firing only once on first reveal.
+    if (isPublicHome && !reduceMotion) {
+        const liveTargets = Array.from(document.querySelectorAll(
+            '[data-reveal], .mli-opening__feature, .mli-opening__poster, .section-heading, .mli-catalogue__intro, .mli-about__map-wrap, .mli-about-service, .mli-person-card, .mli-clients__heading'
+        ));
+
+        liveTargets.forEach((element) => element.classList.add('mli-live-scroll'));
+
+        let liveTicking = false;
+
+        const updateLiveScroll = () => {
+            const viewportHeight = window.innerHeight || 1;
+            const viewportCenter = viewportHeight * 0.5;
+
+            liveTargets.forEach((element) => {
+                const rect = element.getBoundingClientRect();
+                if (!rect.height) return;
+
+                const elementCenter = rect.top + rect.height * 0.5;
+                const distance = (viewportCenter - elementCenter) / viewportHeight;
+                const clamped = Math.max(-1, Math.min(1, distance));
+                const amount = clamped * 34;
+
+                element.style.setProperty('--mli-live-y', amount.toFixed(2) + 'px');
+            });
+
+            liveTicking = false;
+        };
+
+        const requestLiveScroll = () => {
+            if (liveTicking) return;
+            liveTicking = true;
+            requestAnimationFrame(updateLiveScroll);
+        };
+
+        updateLiveScroll();
+        window.addEventListener('scroll', requestLiveScroll, { passive: true });
+        window.addEventListener('resize', requestLiveScroll, { passive: true });
+    }
+
     // Image masks create a more intentional "uncover" instead of a generic fade.
     if (!reduceMotion) {
         document.querySelectorAll("img").forEach((image) => {
