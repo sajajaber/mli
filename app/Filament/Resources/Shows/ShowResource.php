@@ -78,19 +78,54 @@ class ShowResource extends Resource
 
                     Textarea::make('description_en')
                         ->label('Description (English)')
-                        ->rows(4)
-                        ->columnSpan(1)
+                        ->rows(7)
+                        ->columnSpanFull()
                         ->live(onBlur: true),
 
                     Textarea::make('description_ar')
                         ->label('Description (Arabic)')
-                        ->rows(4)
+                        ->rows(7)
                         ->extraInputAttributes([
                             'dir' => 'rtl',
                         ])
-                        ->columnSpan(1)
+                        ->columnSpanFull()
                         ->live(onBlur: true),
                 ]),
+
+            Section::make('Publishing')
+                ->columns(2)
+                ->components([
+                    Toggle::make('is_new_release')
+                        ->label('New Release')
+                        ->helperText('Show this title in the homepage New Releases section.')
+                        ->default(false),
+
+                    Select::make('status')
+                        ->options([
+                            'draft' => 'Draft',
+                            'scheduled' => 'Scheduled',
+                            'published' => 'Published',
+                        ])
+                        ->default('draft')
+                        ->required()
+                        ->live(),
+
+                    DateTimePicker::make('published_at')
+                        ->label('Publish At')
+                        ->native(false)
+                        ->visible(
+                            fn (callable $get) =>
+                                $get('status') === 'scheduled'
+                        )
+                        ->required(
+                            fn (callable $get) =>
+                                $get('status') === 'scheduled'
+                        ),
+
+                    TextInput::make('sort_order')
+                        ->numeric()
+                        ->default(0),
+                ]),,
 
             Section::make('Classification & Media')
                 ->columns(2)
@@ -147,40 +182,6 @@ class ShowResource extends Resource
                         ->columnSpanFull(),
                 ]),
 
-            Section::make('Publishing')
-                ->columns(2)
-                ->components([
-                    Toggle::make('is_new_release')
-                        ->label('New Release')
-                        ->helperText('Show this title in the homepage New Releases section.')
-                        ->default(false),
-
-                    Select::make('status')
-                        ->options([
-                            'draft' => 'Draft',
-                            'scheduled' => 'Scheduled',
-                            'published' => 'Published',
-                        ])
-                        ->default('draft')
-                        ->required()
-                        ->live(),
-
-                    DateTimePicker::make('published_at')
-                        ->label('Publish At')
-                        ->native(false)
-                        ->visible(
-                            fn (callable $get) =>
-                                $get('status') === 'scheduled'
-                        )
-                        ->required(
-                            fn (callable $get) =>
-                                $get('status') === 'scheduled'
-                        ),
-
-                    TextInput::make('sort_order')
-                        ->numeric()
-                        ->default(0),
-                ]),
         ]);
     }
 
