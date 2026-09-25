@@ -26,6 +26,10 @@ class PersonResource extends Resource
 
     protected static ?string $navigationLabel = 'Team';
 
+    protected static ?string $navigationGroup = 'People & Partners';
+
+    protected static ?int $navigationSort = 1;
+
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
