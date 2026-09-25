@@ -125,7 +125,7 @@ class ShowResource extends Resource
                     TextInput::make('sort_order')
                         ->numeric()
                         ->default(0),
-                ]),,
+                ]),
 
             Section::make('Classification & Media')
                 ->columns(2)
