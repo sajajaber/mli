@@ -11,6 +11,6 @@ class CreateNews extends CreateRecord
 
     protected function getRedirectUrl(): string
     {
-        return NewsResource::getUrl('index');
+        return NewsResource::getUrl('edit', ['record' => $this->getRecord()]);
     }
 }
