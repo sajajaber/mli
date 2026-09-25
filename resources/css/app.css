@@ -6646,7 +6646,7 @@ body {
 .mli-shows-header__eyebrow {
     grid-column: 1 / -1;
     margin: 0 0 14px;
-    color: #567c8d;
+    color: #c5a46d;
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.16em;
@@ -6810,7 +6810,9 @@ body {
     flex: 0 0 auto;
     margin-bottom: 4px;
     background: #567c8d;
-    transition: width 0.3s ease;
+    transition:
+        width 0.3s ease,
+        background 0.3s ease;
 }
 
 .mli-show:hover .mli-show__image img {
@@ -6820,11 +6822,14 @@ body {
 .mli-show:hover .mli-show__open {
     opacity: 1;
     transform: none;
+    border-color: #c5a46d;
+    color: #c5a46d;
     background: rgba(47, 65, 86, 0.56);
 }
 
 .mli-show:hover .mli-show__dash {
     width: 62px;
+    background: #c5a46d;
 }
 
 .mli-shows-pagination {
@@ -6848,8 +6853,8 @@ body {
 }
 
 .mli-shows-pagination a:hover {
-    border-color: rgba(47, 65, 86, 0.18);
-    color: #2f4156;
+    border-color: rgba(197, 164, 109, 0.45);
+    color: #c5a46d;
 }
 
 @media (max-width: 900px) {
@@ -7057,7 +7062,7 @@ body.modal-open {
     right: 0;
     bottom: -4px;
     height: 1px;
-    background: #2f4156;
+    background: #c5a46d;
     transform: scaleX(0);
     transform-origin: center;
     transition: transform 0.25s ease;
@@ -7065,7 +7070,7 @@ body.modal-open {
 
 .mli-shows-filters__links a:hover,
 .mli-shows-filters__links a.is-active {
-    color: #2f4156;
+    color: #c5a46d;
 }
 
 .mli-shows-filters__links a.is-active::after,
