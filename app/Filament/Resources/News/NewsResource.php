@@ -9,6 +9,7 @@ use App\Filament\Resources\News\Pages\EditNews;
 use App\Filament\Resources\News\Pages\ListNews;
 use App\Models\News;
 use BackedEnum;
+use UnitEnum;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -34,7 +35,7 @@ class NewsResource extends Resource
 
     protected static ?string $navigationLabel = 'News & Articles';
 
-    protected static ?string $navigationGroup = 'Content';
+    protected static UnitEnum|string|null $navigationGroup = 'Content';
 
     protected static ?int $navigationSort = 2;
 
