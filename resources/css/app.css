@@ -9723,3 +9723,56 @@ html.mli-motion-ready main.mli-news-page [data-depth] {
     transform: none !important;
     transition: none !important;
 }
+
+/* =========================================================
+   NEWS — REMOVE ALL HOVER EFFECTS
+   ========================================================= */
+
+.mli-news-show-card,
+.mli-news-show-card:hover {
+    transform: none !important;
+    filter: none !important;
+}
+
+.mli-news-show-card .mli-show__image::before,
+.mli-news-show-card:hover .mli-show__image::before {
+    transform: none !important;
+    opacity: 0 !important;
+    transition: none !important;
+}
+
+.mli-news-show-card .mli-show__image img,
+.mli-news-show-card:hover .mli-show__image img {
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+}
+
+.mli-news-show-card .mli-show__wash,
+.mli-news-show-card:hover .mli-show__wash {
+    opacity: 1 !important;
+    transition: none !important;
+}
+
+.mli-news-show-card .mli-show__copy,
+.mli-news-show-card:hover .mli-show__copy,
+.mli-news-show-card .mli-show__copy strong,
+.mli-news-show-card:hover .mli-show__copy strong,
+.mli-news-show-card .mli-show__copy small,
+.mli-news-show-card:hover .mli-show__copy small,
+.mli-news-show-card .mli-show__open,
+.mli-news-show-card:hover .mli-show__open,
+.mli-news-show-card .mli-show__dash,
+.mli-news-show-card:hover .mli-show__dash {
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    letter-spacing: inherit !important;
+    width: initial !important;
+    background: inherit !important;
+    transition: none !important;
+}
+
+.mli-news-show-card:hover .mli-show__details h2 {
+    color: inherit !important;
+}
