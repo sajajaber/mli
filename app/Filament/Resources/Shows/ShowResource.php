@@ -9,6 +9,7 @@ use App\Filament\Resources\Shows\Pages\EditShow;
 use App\Filament\Resources\Shows\Pages\ListShows;
 use App\Models\Show;
 use BackedEnum;
+use UnitEnum;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
@@ -36,7 +37,7 @@ class ShowResource extends Resource
 
     protected static ?string $navigationLabel = 'Shows';
 
-    protected static ?string $navigationGroup = 'Content';
+    protected static UnitEnum|string|null $navigationGroup = 'Content';
 
     protected static ?int $navigationSort = 1;
 
