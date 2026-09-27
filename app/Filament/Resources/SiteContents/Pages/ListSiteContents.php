@@ -16,4 +16,9 @@ class ListSiteContents extends ListRecords
             FooterSettingsRow::class,
         ];
     }
+
+    public function getFooterWidgetsColumns(): int|array
+    {
+        return 1;
+    }
 }
