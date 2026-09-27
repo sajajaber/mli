@@ -30,16 +30,18 @@
         <div class="mli-admin-footer-panel__grid">
             <div class="mli-admin-footer-panel__preview">
                 <span class="mli-admin-footer-panel__label">Brand</span>
-                <strong>
-                    {{ app()->getLocale() === 'ar'
-    ? ($footer->tagline_ar ?: ($footer->tagline ?: 'No tagline set'))
-    : ($footer->tagline ?: 'No tagline set') }}
-                </strong>
-                <p>
-                    {{ app()->getLocale() === 'ar'
-                        ? ($footer->description_ar ?: $footer->description)
-                        : $footer->description ?: 'No footer description set.' }}
-                </p>
+                @php
+                    $tagline = app()->getLocale() === 'ar'
+                        ? ($footer->tagline_ar ?: ($footer->tagline ?: 'No tagline set'))
+                        : ($footer->tagline ?: 'No tagline set');
+
+                    $description = app()->getLocale() === 'ar'
+                        ? ($footer->description_ar ?: ($footer->description ?: 'No footer description set.'))
+                        : ($footer->description ?: 'No footer description set.');
+                @endphp
+
+                <strong>{{ $tagline }}</strong>
+                <p>{{ $description }}</p>
             </div>
 
             <div class="mli-admin-footer-panel__details">
