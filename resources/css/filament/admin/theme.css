@@ -32,7 +32,8 @@
 }
 
 .fi-main {
-    max-width: 1480px;
+    width: 100% !important;
+    max-width: none !important;
     margin-inline: auto;
 }
 
