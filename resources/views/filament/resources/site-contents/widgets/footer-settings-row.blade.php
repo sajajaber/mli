@@ -1,53 +1,83 @@
-<x-filament::section class="mli-admin-footer-card">
-    <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-        <div class="flex min-w-0 items-start gap-4">
-            <div class="mli-admin-footer-card__icon" aria-hidden="true">
-                <x-filament::icon icon="heroicon-o-envelope" class="h-5 w-5" />
+<x-filament::section class="mli-admin-footer-panel">
+    <div class="mli-admin-footer-panel__top">
+        <div class="mli-admin-footer-panel__heading">
+            <div class="mli-admin-footer-panel__icon" aria-hidden="true">
+                <x-filament::icon icon="heroicon-o-building-office-2" class="h-5 w-5" />
             </div>
 
-            <div class="min-w-0">
-                <div class="mli-admin-footer-card__eyebrow">Global site settings</div>
-
-                <h3 class="mli-admin-footer-card__title">
-                    Footer &amp; Contact
-                </h3>
-
-                <p class="mli-admin-footer-card__description">
-                    Manage the footer brand copy, contact details, office address, social links, and privacy URL shown across the public website.
+            <div>
+                <div class="mli-admin-footer-panel__eyebrow">Website-wide</div>
+                <h3 class="mli-admin-footer-panel__title">Footer &amp; Contact</h3>
+                <p class="mli-admin-footer-panel__description">
+                    Control the information that appears in the MLI footer across every public page.
                 </p>
-
-                @if ($footer)
-                    <div class="mli-admin-footer-card__meta">
-                        <span class="mli-admin-footer-card__pill">Configured</span>
-
-                        @if ($footer->email)
-                            <span class="mli-admin-footer-card__pill">{{ $footer->email }}</span>
-                        @endif
-
-                        @if ($footer->updated_at)
-                            <span class="mli-admin-footer-card__pill">
-                                Updated {{ $footer->updated_at->diffForHumans() }}
-                            </span>
-                        @endif
-                    </div>
-                @else
-                    <div class="mli-admin-footer-card__meta">
-                        <span class="mli-admin-footer-card__pill">Not configured yet</span>
-                    </div>
-                @endif
             </div>
         </div>
 
         @if ($footer)
-            <div class="mli-admin-footer-card__actions">
-                <x-filament::button
-                    tag="a"
-                    icon="heroicon-m-pencil-square"
-                    :href="\App\Filament\Resources\FooterSettings\FooterSettingResource::getUrl('edit', ['record' => $footer])"
-                >
-                    Edit Footer
-                </x-filament::button>
-            </div>
+            <x-filament::button
+                tag="a"
+                icon="heroicon-m-pencil-square"
+                color="gray"
+                :href="\App\Filament\Resources\FooterSettings\FooterSettingResource::getUrl('edit', ['record' => $footer])"
+            >
+                Edit Footer
+            </x-filament::button>
         @endif
     </div>
+
+    @if ($footer)
+        <div class="mli-admin-footer-panel__grid">
+            <div class="mli-admin-footer-panel__preview">
+                <span class="mli-admin-footer-panel__label">Brand</span>
+                <strong>
+                    {{ app()->getLocale() === 'ar' ? ($footer->tagline_ar ?: $footer->tagline) : $footer->tagline ?: 'No tagline set' }}
+                </strong>
+                <p>
+                    {{ app()->getLocale() === 'ar'
+                        ? ($footer->description_ar ?: $footer->description)
+                        : $footer->description ?: 'No footer description set.' }}
+                </p>
+            </div>
+
+            <div class="mli-admin-footer-panel__details">
+                <div class="mli-admin-footer-panel__detail">
+                    <span>Email</span>
+                    <strong>{{ $footer->email ?: 'Not set' }}</strong>
+                </div>
+
+                <div class="mli-admin-footer-panel__detail">
+                    <span>Phone</span>
+                    <strong>{{ $footer->phone_primary ?: 'Not set' }}</strong>
+                </div>
+
+                <div class="mli-admin-footer-panel__detail">
+                    <span>Office</span>
+                    <strong>{{ $footer->office_address ? str_replace(["\r\n", "\r", "\n"], ' · ', $footer->office_address) : 'Not set' }}</strong>
+                </div>
+
+                <div class="mli-admin-footer-panel__detail">
+                    <span>Social</span>
+                    <strong>
+                        {{ collect([
+                            $footer->facebook_url ? 'Facebook' : null,
+                            $footer->linkedin_url ? 'LinkedIn' : null,
+                        ])->filter()->implode(' · ') ?: 'Not set' }}
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="mli-admin-footer-panel__bottom">
+            <span>
+                Last updated {{ $footer->updated_at?->diffForHumans() ?? '—' }}
+            </span>
+            <span class="mli-admin-footer-panel__status">Configured</span>
+        </div>
+    @else
+        <div class="mli-admin-footer-panel__empty">
+            <strong>Footer settings are not configured yet.</strong>
+            <span>Create the global footer settings to populate the public site footer.</span>
+        </div>
+    @endif
 </x-filament::section>
