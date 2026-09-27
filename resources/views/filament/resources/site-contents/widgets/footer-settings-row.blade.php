@@ -31,7 +31,9 @@
             <div class="mli-admin-footer-panel__preview">
                 <span class="mli-admin-footer-panel__label">Brand</span>
                 <strong>
-                    {{ app()->getLocale() === 'ar' ? ($footer->tagline_ar ?: $footer->tagline) : $footer->tagline ?: 'No tagline set' }}
+                    {{ app()->getLocale() === 'ar'
+    ? ($footer->tagline_ar ?: ($footer->tagline ?: 'No tagline set'))
+    : ($footer->tagline ?: 'No tagline set') }}
                 </strong>
                 <p>
                     {{ app()->getLocale() === 'ar'
