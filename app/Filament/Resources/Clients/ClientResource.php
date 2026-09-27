@@ -35,6 +35,7 @@ class ClientResource extends Resource
         return $schema->components([
             Section::make('Client Information')
                 ->description('Manage the client name, logo, and display order used on the public website.')
+                ->columnSpan(['default' => 1, 'xl' => 11])
                 ->columns(2)
                 ->components([
                     FileUpload::make('logo_path')

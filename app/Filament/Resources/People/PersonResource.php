@@ -37,6 +37,7 @@ class PersonResource extends Resource
         return $schema->components([
             Section::make('Team Member')
                 ->description('Manage the team member profile, bilingual role, visibility, and display order.')
+                ->columnSpan(['default' => 1, 'xl' => 11])
                 ->columns(2)
                 ->components([
                     FileUpload::make('photo_path')

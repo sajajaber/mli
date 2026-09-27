@@ -34,6 +34,7 @@ class CategoryResource extends Resource
         return $schema->components([
             Section::make('Category Information')
                 ->description('Set the bilingual category name and the URL segment used by the library.')
+                ->columnSpan(['default' => 1, 'xl' => 11])
                 ->columns(2)
                 ->components([
                     TextInput::make('name_en')

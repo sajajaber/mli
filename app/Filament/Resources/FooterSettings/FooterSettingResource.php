@@ -34,7 +34,7 @@ class FooterSettingResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Footer Settings';
 
-    protected static bool $shouldRegisterNavigation = true;
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Schema $schema): Schema
     {

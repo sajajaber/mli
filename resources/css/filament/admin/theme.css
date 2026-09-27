@@ -205,8 +205,21 @@
 
 .fi-input-wrp {
     border-radius: 10px !important;
-    border-color: rgba(23, 59, 115, 0.14) !important;
+    border: 1px solid rgba(23, 59, 115, 0.16) !important;
+    background: #fff !important;
     box-shadow: none !important;
+}
+
+.fi-fo-rich-editor {
+    overflow: hidden;
+    border: 1px solid rgba(23, 59, 115, 0.16) !important;
+    border-radius: 10px !important;
+    background: #fff !important;
+}
+
+.fi-fo-rich-editor:focus-within {
+    border-color: rgba(47, 111, 189, 0.65) !important;
+    box-shadow: 0 0 0 3px rgba(47, 111, 189, 0.10) !important;
 }
 
 .fi-input-wrp:focus-within {
