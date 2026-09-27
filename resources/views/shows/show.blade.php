@@ -53,6 +53,29 @@
                         </div>
                         @endif
 
+                        <div class="mli-show-detail__meta">
+                            @if($show->category)
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'الفئة' : 'Category' }}</span>
+                                <strong>{{ app()->getLocale() === 'ar' ? $show->category->name_ar : $show->category->name_en }}</strong>
+                            </div>
+                            @endif
+
+                            @if($show->is_new_release)
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'الحالة' : 'Status' }}</span>
+                                <strong>{{ app()->getLocale() === 'ar' ? 'إصدار جديد' : 'New Release' }}</strong>
+                            </div>
+                            @endif
+
+                            @if($show->published_at)
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'تاريخ النشر' : 'Published' }}</span>
+                                <strong>{{ $show->published_at->locale(app()->getLocale())->translatedFormat('F Y') }}</strong>
+                            </div>
+                            @endif
+                        </div>
+
                         @if($show->vimeo_url)
                         <a
                             href="{{ $show->vimeo_url }}"
