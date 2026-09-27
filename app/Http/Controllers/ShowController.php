@@ -29,4 +29,24 @@ class ShowController extends Controller
 
         return view('shows.index', compact('shows', 'categories', 'categorySlug'));
     }
+
+    public function show(string $slug)
+    {
+        $show = Show::published()
+            ->with('category')
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        $relatedShows = Show::published()
+            ->with('category')
+            ->where('id', '!=', $show->id)
+            ->when($show->category_id, function ($query) use ($show) {
+                $query->where('category_id', $show->category_id);
+            })
+            ->orderBy('sort_order')
+            ->limit(4)
+            ->get();
+
+        return view('shows.show', compact('show', 'relatedShows'));
+    }
 }

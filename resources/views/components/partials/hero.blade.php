@@ -1,7 +1,7 @@
 @props(['shows'])
 
 @php
-    $heroShows = $shows->values();
+$heroShows = $shows->values();
 @endphp
 
 <section
@@ -10,6 +10,7 @@
     x-data="{
         shows: @js($heroShows->map(fn ($show) => [
             'title' => app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en,
+            'slug' => $show->slug,
             'image' => $show->cover_image_url,
             'alt' => $show->cover_image_alt ?? (app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en),
             'category' => $show->category
@@ -56,11 +57,10 @@
     @focusout="start()"
     @keydown.left.prevent="prev()"
     @keydown.right.prevent="next()"
-    tabindex="0"
->
+    tabindex="0">
     <div class="mli-opening__grain" aria-hidden="true"></div>
 
-        <div class="mli-opening__inner">
+    <div class="mli-opening__inner">
         <div class="mli-opening__copy">
             <p class="mli-opening__eyebrow">
                 <i></i>
@@ -69,17 +69,17 @@
 
             <h1 id="hero-title">
                 @if(app()->getLocale() === 'ar')
-                    <span class="mli-opening__word">تنوع.</span> <span class="mli-opening__word">جودة.</span> <span class="mli-opening__word">توافر.</span>
+                <span class="mli-opening__word">تنوع.</span> <span class="mli-opening__word">جودة.</span> <span class="mli-opening__word">توافر.</span>
                 @else
-                    <span class="mli-opening__word">Variety.</span> <span class="mli-opening__word">Quality.</span> <span class="mli-opening__word">Availability.</span>
+                <span class="mli-opening__word">Variety.</span> <span class="mli-opening__word">Quality.</span> <span class="mli-opening__word">Availability.</span>
                 @endif
             </h1>
 
             <p class="mli-opening__statement">
                 @if(app()->getLocale() === 'ar')
-                    مكتبة مبنية على ثلاثة أركان: تنوع الخيارات، جودة المحتوى، وتوافره للجمهور.
+                مكتبة مبنية على ثلاثة أركان: تنوع الخيارات، جودة المحتوى، وتوافره للجمهور.
                 @else
-                    A catalogue built around three things: breadth of choice, a commitment to quality, and content ready when audiences need it.
+                A catalogue built around three things: breadth of choice, a commitment to quality, and content ready when audiences need it.
                 @endif
             </p>
 
@@ -90,13 +90,16 @@
         </div>
 
         <div class="mli-opening__feature" data-reveal="scale">
-            <a href="{{ route('shows.index') }}" class="mli-opening__poster" data-depth="0.18" :class="{ 'mli-opening__poster--empty': !shows.length || !shows[index].image }">
+            <a
+                :href="shows[index]?.slug
+                    ? '{{ url('/shows') }}/' + shows[index].slug
+                    : '{{ route('shows.index') }}'"
+                class="mli-opening__poster" data-depth="0.18" :class="{ 'mli-opening__poster--empty': !shows.length || !shows[index].image }">
                 <template x-if="shows.length && shows[index].image">
                     <img
                         :src="shows[index].image"
                         :alt="shows[index].alt"
-                        class="mli-opening__poster-image"
-                    >
+                        class="mli-opening__poster-image">
                 </template>
 
                 <span class="mli-opening__poster-wash"></span>

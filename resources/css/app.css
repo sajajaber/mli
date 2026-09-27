@@ -2770,7 +2770,9 @@ html[dir="rtl"] .mli-about__map-caption {
 .mli-catalogue__bottom a {
     border-bottom: 1px solid #c5a46d;
     padding-bottom: 4px;
-    transition: color 0.3s ease, border-color 0.3s ease;
+    transition:
+        color 0.3s ease,
+        border-color 0.3s ease;
 }
 
 html.mli-public-home .mli-catalogue__bottom a:hover {
@@ -4276,7 +4278,7 @@ html.mli-public-home .mli-catalogue__bottom a:hover {
     margin-top: 17px;
     font-family: Georgia, "Times New Roman", "Readex Pro", sans-serif;
     font-size: clamp(52px, 7vw, 100px);
-    line-height: 1.15;  
+    line-height: 1.15;
     font-weight: 400;
     letter-spacing: -0.065em;
 }
@@ -9900,7 +9902,6 @@ html.mli-motion-ready main.mli-news-page [data-depth] {
     }
 }
 
-
 /* =========================================================
    PUBLIC HOME — NO SCROLL-TRIGGERED TRANSITIONS
    ========================================================= */
@@ -9923,7 +9924,6 @@ html.mli-public-home [data-depth] {
 html.mli-public-home [data-depth] {
     will-change: auto !important;
 }
-
 
 /* =========================================================
    PUBLIC HOME — EDITORIAL MOTION SYSTEM
@@ -9996,10 +9996,18 @@ html.mli-public-home .mli-opening__copy > * {
     animation: mliHomeEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-html.mli-public-home .mli-opening__copy > *:nth-child(1) { animation-delay: 80ms; }
-html.mli-public-home .mli-opening__copy > *:nth-child(2) { animation-delay: 170ms; }
-html.mli-public-home .mli-opening__copy > *:nth-child(3) { animation-delay: 260ms; }
-html.mli-public-home .mli-opening__copy > *:nth-child(4) { animation-delay: 360ms; }
+html.mli-public-home .mli-opening__copy > *:nth-child(1) {
+    animation-delay: 80ms;
+}
+html.mli-public-home .mli-opening__copy > *:nth-child(2) {
+    animation-delay: 170ms;
+}
+html.mli-public-home .mli-opening__copy > *:nth-child(3) {
+    animation-delay: 260ms;
+}
+html.mli-public-home .mli-opening__copy > *:nth-child(4) {
+    animation-delay: 360ms;
+}
 
 html.mli-public-home .mli-opening__feature {
     animation: mliHomeFeatureIn 1.05s cubic-bezier(0.16, 1, 0.3, 1) 180ms both;
@@ -10025,17 +10033,14 @@ html.mli-public-home .mli-opening__feature {
 
 /* Hero poster: depth follows scroll, while hover remains tactile. */
 html.mli-public-home .mli-opening__poster {
-    transform:
-        translate3d(0, var(--mli-depth-y, 0px), 0)
-        rotate(0deg);
+    transform: translate3d(0, var(--mli-depth-y, 0px), 0) rotate(0deg);
     transition:
         transform 0.25s linear,
         box-shadow 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 html.mli-public-home .mli-opening__poster:hover {
-    transform:
-        translate3d(0, calc(var(--mli-depth-y, 0px) - 8px), 0)
+    transform: translate3d(0, calc(var(--mli-depth-y, 0px) - 8px), 0)
         scale(1.018);
     box-shadow: 0 34px 80px rgba(0, 0, 0, 0.28);
 }
@@ -10142,13 +10147,19 @@ html.mli-public-home .mli-library-marquee__item:hover {
     transform: translateY(-7px);
 }
 
-html.mli-public-home .mli-library-marquee__item .mli-library-marquee__thumb img {
+html.mli-public-home
+    .mli-library-marquee__item
+    .mli-library-marquee__thumb
+    img {
     transition:
         transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
         filter 0.5s ease;
 }
 
-html.mli-public-home .mli-library-marquee__item:hover .mli-library-marquee__thumb img {
+html.mli-public-home
+    .mli-library-marquee__item:hover
+    .mli-library-marquee__thumb
+    img {
     transform: scale(1.09);
     filter: saturate(1.08);
 }
@@ -10159,7 +10170,9 @@ html.mli-public-home .mli-library-marquee__arrow {
         color 0.3s ease;
 }
 
-html.mli-public-home .mli-library-marquee__item:hover .mli-library-marquee__arrow {
+html.mli-public-home
+    .mli-library-marquee__item:hover
+    .mli-library-marquee__arrow {
     transform: translate(4px, -4px) rotate(45deg);
     color: var(--mli-signal);
 }
@@ -10271,7 +10284,6 @@ html.mli-public-home .text-link:hover {
     }
 }
 
-
 /* =========================================================
    PUBLIC HOME — SCROLL MOTION DISABLED
    ========================================================= */
@@ -10295,7 +10307,6 @@ html.mli-public-home [data-depth] {
     --mli-depth-y: 0px !important;
 }
 
-
 /* =========================================================
    PUBLIC HOME — LIVE SCROLL MOTION
    ========================================================= */
@@ -10312,7 +10323,9 @@ html.mli-public-home.mli-home-motion-enabled main > section:not(:first-child) {
     will-change: opacity, transform, filter;
 }
 
-html.mli-public-home.mli-home-motion-enabled main > section:not(:first-child).mli-section-visible {
+html.mli-public-home.mli-home-motion-enabled
+    main
+    > section:not(:first-child).mli-section-visible {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
@@ -10370,32 +10383,25 @@ html.mli-public-home .mli-opening__feature {
 }
 
 html.mli-public-home .mli-opening__poster {
-    transform:
-        translate3d(0, var(--mli-depth-y, 0px), 0)
-        rotate(0deg);
+    transform: translate3d(0, var(--mli-depth-y, 0px), 0) rotate(0deg);
     transition:
         transform 0.2s linear,
         box-shadow 0.55s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 html.mli-public-home .mli-opening__poster:hover {
-    transform:
-        translate3d(0, calc(var(--mli-depth-y, 0px) - 8px), 0)
+    transform: translate3d(0, calc(var(--mli-depth-y, 0px) - 8px), 0)
         scale(1.018);
 }
 
 /* Slightly different reveal direction for the main home grids. */
-html.mli-public-home.mli-home-motion-enabled
-    .news-item[data-reveal],
-html.mli-public-home.mli-home-motion-enabled
-    .mli-person-card[data-reveal],
-html.mli-public-home.mli-home-motion-enabled
-    .mli-release-card[data-reveal] {
+html.mli-public-home.mli-home-motion-enabled .news-item[data-reveal],
+html.mli-public-home.mli-home-motion-enabled .mli-person-card[data-reveal],
+html.mli-public-home.mli-home-motion-enabled .mli-release-card[data-reveal] {
     transform: translate3d(0, 28px, 0) !important;
 }
 
-html.mli-public-home.mli-home-motion-enabled
-    .news-item[data-reveal].is-visible,
+html.mli-public-home.mli-home-motion-enabled .news-item[data-reveal].is-visible,
 html.mli-public-home.mli-home-motion-enabled
     .mli-person-card[data-reveal].is-visible,
 html.mli-public-home.mli-home-motion-enabled
@@ -10405,7 +10411,9 @@ html.mli-public-home.mli-home-motion-enabled
 
 /* Keep the motion elegant on small screens. */
 @media (max-width: 640px) {
-    html.mli-public-home.mli-home-motion-enabled main > section:not(:first-child) {
+    html.mli-public-home.mli-home-motion-enabled
+        main
+        > section:not(:first-child) {
         transform: translate3d(0, 22px, 0) !important;
     }
 
@@ -10421,7 +10429,9 @@ html.mli-public-home.mli-home-motion-enabled
 
 /* Respect the operating system's reduced-motion preference. */
 @media (prefers-reduced-motion: reduce) {
-    html.mli-public-home.mli-home-motion-enabled main > section:not(:first-child),
+    html.mli-public-home.mli-home-motion-enabled
+        main
+        > section:not(:first-child),
     html.mli-public-home.mli-home-motion-enabled [data-reveal],
     html.mli-public-home .mli-opening__copy,
     html.mli-public-home .mli-opening__feature,
@@ -10433,7 +10443,6 @@ html.mli-public-home.mli-home-motion-enabled
         transition: none !important;
     }
 }
-
 
 /* =========================================================
    PUBLIC HOME — LIBRARY CATEGORIES
@@ -10611,21 +10620,31 @@ html.mli-public-home .mli-catalogue__category:hover::after {
     transform: scale(1);
 }
 
-html.mli-public-home .mli-catalogue__category:hover .mli-catalogue__category-number {
+html.mli-public-home
+    .mli-catalogue__category:hover
+    .mli-catalogue__category-number {
     color: #c5a46d;
     transform: translateY(-2px);
 }
 
-html.mli-public-home .mli-catalogue__category:hover .mli-catalogue__category-copy strong {
+html.mli-public-home
+    .mli-catalogue__category:hover
+    .mli-catalogue__category-copy
+    strong {
     transform: translateX(6px);
     letter-spacing: -0.02em;
 }
 
-html.mli-public-home .mli-catalogue__category:hover .mli-catalogue__category-copy small {
+html.mli-public-home
+    .mli-catalogue__category:hover
+    .mli-catalogue__category-copy
+    small {
     color: #2f4156;
 }
 
-html.mli-public-home .mli-catalogue__category:hover .mli-catalogue__category-arrow {
+html.mli-public-home
+    .mli-catalogue__category:hover
+    .mli-catalogue__category-arrow {
     background: #c5a46d;
     border-color: #c5a46d;
     color: #2f4156;
@@ -10688,7 +10707,6 @@ html.mli-public-home .mli-catalogue__category:hover .mli-catalogue__category-arr
     }
 }
 
-
 /* =========================================================
    PUBLIC HOME — NAV + NEWS COLOR REFINEMENT
    ========================================================= */
@@ -10707,13 +10725,12 @@ html.mli-public-home .mli-nav--scrolled .mli-nav__language:hover {
 
 /* A very subtle warm wash keeps News connected to the new Library accent. */
 html.mli-public-home .news-item:hover {
-    background:
-        linear-gradient(
-            90deg,
-            rgba(197, 164, 109, 0.075),
-            rgba(197, 164, 109, 0.018) 58%,
-            transparent
-        );
+    background: linear-gradient(
+        90deg,
+        rgba(197, 164, 109, 0.075),
+        rgba(197, 164, 109, 0.018) 58%,
+        transparent
+    );
 }
 
 html.mli-public-home .news-item:hover .news-item__image img {
@@ -10723,7 +10740,6 @@ html.mli-public-home .news-item:hover .news-item__image img {
 html.mli-public-home .news-item:hover .news-item__body > span {
     color: #c5a46d;
 }
-
 
 /* =========================================================
    SHOWS PAGE — ARABIC / RTL REFINEMENT
@@ -10742,10 +10758,7 @@ html[dir="rtl"] .mli-shows-page button,
 html[dir="rtl"] .mli-shows-page small,
 html[dir="rtl"] .mli-shows-page strong {
     font-family:
-        "IBM Plex Sans Arabic",
-        "Readex Pro",
-        ui-sans-serif,
-        system-ui,
+        "IBM Plex Sans Arabic", "Readex Pro", ui-sans-serif, system-ui,
         sans-serif !important;
 }
 
@@ -10839,10 +10852,7 @@ html[dir="rtl"] .mli-show-modal__content {
 html[dir="rtl"] .mli-show-modal__content h2 {
     text-align: right;
     font-family:
-        "IBM Plex Sans Arabic",
-        "Readex Pro",
-        ui-sans-serif,
-        system-ui,
+        "IBM Plex Sans Arabic", "Readex Pro", ui-sans-serif, system-ui,
         sans-serif !important;
     letter-spacing: -0.025em;
     line-height: 1.08;
@@ -10893,7 +10903,6 @@ html[dir="rtl"] .mli-show-modal__close {
     }
 }
 
-
 /* =========================================================
    PUBLIC HOME — ARABIC LIBRARY HEADING EDGE FIX
    ========================================================= */
@@ -10934,10 +10943,7 @@ html[dir="rtl"] .mli-catalogue__categories-head h3 {
 html[dir="rtl"] body,
 html[dir="rtl"] body * {
     font-family:
-        "IBM Plex Sans Arabic",
-        ui-sans-serif,
-        system-ui,
-        sans-serif !important;
+        "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif !important;
 }
 
 /* Keep Latin/brand marks visually stable where they are intentionally
@@ -11575,5 +11581,297 @@ a {
     html[dir="rtl"] .mli-show-modal__close {
         right: auto;
         left: 9px;
+    }
+}
+
+/* =========================================================
+   INDIVIDUAL SHOW PAGE
+   ========================================================= */
+
+.mli-show-page {
+    min-height: 100vh;
+    background: #f5f2eb;
+    color: #2f4156;
+}
+
+.mli-show-detail {
+    padding: 132px 0 110px;
+}
+
+.mli-show-detail__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 54px;
+    color: rgba(47, 65, 86, 0.62);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition:
+        color 0.3s ease,
+        transform 0.4s ease;
+}
+
+.mli-show-detail__back:hover {
+    color: #2f4156;
+    transform: translateX(-4px);
+}
+
+.mli-show-detail__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+    gap: clamp(44px, 7vw, 110px);
+    align-items: center;
+}
+
+.mli-show-detail__image {
+    overflow: hidden;
+    background: #c8d9e6;
+    aspect-ratio: 4 / 5;
+}
+
+.mli-show-detail__image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.mli-show-detail__content {
+    max-width: 640px;
+}
+
+.mli-show-detail__category {
+    display: block;
+    margin-bottom: 20px;
+    color: #567c8d;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.mli-show-detail__content h1 {
+    margin: 0;
+    color: #2f4156;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(52px, 6vw, 96px);
+    font-weight: 400;
+    line-height: 0.94;
+    letter-spacing: -0.055em;
+}
+
+.mli-show-detail__description {
+    max-width: 570px;
+    margin-top: 38px;
+    color: rgba(47, 65, 86, 0.72);
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.mli-show-detail__watch {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 38px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2f4156;
+    color: #2f4156;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition:
+        gap 0.35s ease,
+        color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.mli-show-detail__watch:hover {
+    gap: 22px;
+    color: #567c8d;
+    border-color: #567c8d;
+}
+
+.mli-show-related {
+    padding: 100px 0 120px;
+    border-top: 1px solid rgba(47, 65, 86, 0.14);
+}
+
+.mli-show-related__heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 48px;
+}
+
+.mli-show-related__heading > span {
+    color: #567c8d;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+}
+
+.mli-show-related__heading h2 {
+    margin: 0;
+    color: #2f4156;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(42px, 5vw, 72px);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+}
+
+.mli-show-related__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.mli-show-related__card {
+    color: #2f4156;
+}
+
+.mli-show-related__image {
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    background: #c8d9e6;
+}
+
+.mli-show-related__image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition:
+        transform 0.9s cubic-bezier(0.2, 0.75, 0.2, 1),
+        filter 0.6s ease;
+}
+
+.mli-show-related__card:hover .mli-show-related__image img {
+    transform: scale(1.045);
+    filter: saturate(1.04);
+}
+
+.mli-show-related__copy {
+    display: block;
+    padding-top: 14px;
+}
+
+.mli-show-related__copy strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.mli-show-related__copy small {
+    display: block;
+    margin-top: 6px;
+    color: #567c8d;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+    .mli-show-detail__grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+
+    .mli-show-detail__visual {
+        max-width: 720px;
+    }
+
+    .mli-show-detail__content {
+        max-width: 720px;
+    }
+
+    .mli-show-related__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .mli-show-detail {
+        padding: 96px 0 76px;
+    }
+
+    .mli-show-detail__back {
+        margin-bottom: 34px;
+    }
+
+    .mli-show-detail__content h1 {
+        font-size: clamp(44px, 13vw, 72px);
+        line-height: 1;
+    }
+
+    .mli-show-detail__description {
+        margin-top: 28px;
+        font-size: 13px;
+        line-height: 1.85;
+    }
+
+    .mli-show-detail__watch {
+        margin-top: 30px;
+    }
+
+    .mli-show-related {
+        padding: 72px 0 88px;
+    }
+
+    .mli-show-related__heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 34px;
+    }
+
+    .mli-show-related__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 28px 12px;
+    }
+}
+
+@media (max-width: 360px) {
+    .mli-show-related__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Arabic */
+html[dir="rtl"] .mli-show-detail,
+html[dir="rtl"] .mli-show-related {
+    direction: rtl;
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-show-detail__grid {
+    grid-template-columns: minmax(360px, 0.92fr) minmax(0, 1.08fr);
+}
+
+html[dir="rtl"] .mli-show-detail__content {
+    text-align: right;
+}
+
+html[dir="rtl"] .mli-show-detail__content h1,
+html[dir="rtl"] .mli-show-related__heading h2 {
+    font-family:
+        "IBM Plex Sans Arabic", "Readex Pro", ui-sans-serif, system-ui,
+        sans-serif !important;
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+}
+
+html[dir="rtl"] .mli-show-detail__back:hover {
+    transform: translateX(4px);
+}
+
+@media (max-width: 900px) {
+    html[dir="rtl"] .mli-show-detail__grid {
+        grid-template-columns: 1fr;
     }
 }

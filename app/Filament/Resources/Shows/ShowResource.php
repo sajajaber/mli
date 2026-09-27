@@ -60,7 +60,7 @@ class ShowResource extends Resource
                                         ->maxLength(255)
                                         ->unique(
                                             ignoreRecord: true,
-                                            modifyRuleUsing: fn (\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
+                                            modifyRuleUsing: fn(\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
                                         )
                                         ->validationMessages([
                                             'unique' => 'A show with this English title already exists.',
@@ -74,7 +74,7 @@ class ShowResource extends Resource
                                         ->maxLength(255)
                                         ->unique(
                                             ignoreRecord: true,
-                                            modifyRuleUsing: fn (\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
+                                            modifyRuleUsing: fn(\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
                                         )
                                         ->validationMessages([
                                             'unique' => 'A show with this Arabic title already exists.',
@@ -133,7 +133,7 @@ class ShowResource extends Resource
                                         ->imageEditor()
                                         ->maxSize(8192)
                                         ->saveUploadedFileUsing(
-                                            fn ($file) => app(
+                                            fn($file) => app(
                                                 \App\Services\ImageProcessingService::class
                                             )->processAndStore(
                                                 $file,
@@ -177,12 +177,12 @@ class ShowResource extends Resource
                                 ->label('Publish At')
                                 ->native(false)
                                 ->visible(
-                                    fn (callable $get) =>
-                                        $get('status') === 'scheduled'
+                                    fn(callable $get) =>
+                                    $get('status') === 'scheduled'
                                 )
                                 ->required(
-                                    fn (callable $get) =>
-                                        $get('status') === 'scheduled'
+                                    fn(callable $get) =>
+                                    $get('status') === 'scheduled'
                                 ),
 
                             TextInput::make('sort_order')
