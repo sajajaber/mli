@@ -12,6 +12,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
@@ -34,45 +35,52 @@ class PersonResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            FileUpload::make('photo_path')
-                ->label('Photo')
-                ->image()
-                ->disk('public')
-                ->directory('people')
-                ->imageEditor()
-                ->maxSize(8192)
-                ->saveUploadedFileUsing(fn($file) => app(\App\Services\ImageProcessingService::class)
-                    ->processAndStore($file, 'people', maxWidth: 800, quality: 85))
-                ->columnSpanFull(),
+            Section::make('Team Member')
+                ->description('Manage the team member profile, bilingual role, visibility, and display order.')
+                ->columns(2)
+                ->components([
+                    FileUpload::make('photo_path')
+                        ->label('Photo')
+                        ->image()
+                        ->disk('public')
+                        ->directory('people')
+                        ->imageEditor()
+                        ->maxSize(8192)
+                        ->saveUploadedFileUsing(fn($file) => app(\App\Services\ImageProcessingService::class)
+                            ->processAndStore($file, 'people', maxWidth: 800, quality: 85))
+                        ->columnSpanFull(),
 
-            TextInput::make('name')
-                ->label('Name (English)')
-                ->required()
-                ->maxLength(255),
+                    TextInput::make('name')
+                        ->label('Name (English)')
+                        ->required()
+                        ->maxLength(255),
 
-            TextInput::make('name_ar')
-                ->label('Name (Arabic)')
-                ->required()
-                ->maxLength(255)
-                ->extraInputAttributes(['dir' => 'rtl']),
+                    TextInput::make('name_ar')
+                        ->label('Name (Arabic)')
+                        ->required()
+                        ->maxLength(255)
+                        ->extraInputAttributes(['dir' => 'rtl']),
 
-            TextInput::make('role_title')
-                ->label('Role / Title (English)')
-                ->maxLength(255),
+                    TextInput::make('role_title')
+                        ->label('Role / Title (English)')
+                        ->maxLength(255),
 
-            TextInput::make('role_title_ar')
-                ->label('Role / Title (Arabic)')
-                ->required()
-                ->maxLength(255)
-                ->extraInputAttributes(['dir' => 'rtl']),
+                    TextInput::make('role_title_ar')
+                        ->label('Role / Title (Arabic)')
+                        ->required()
+                        ->maxLength(255)
+                        ->extraInputAttributes(['dir' => 'rtl']),
 
-            TextInput::make('sort_order')
-                ->numeric()
-                ->default(0),
+                    TextInput::make('sort_order')
+                        ->label('Sort Order')
+                        ->numeric()
+                        ->default(0)
+                        ->helperText('Lower numbers appear first where ordering is used.'),
 
-            Toggle::make('is_active')
-                ->label('Active (visible on site)')
-                ->default(true),
+                    Toggle::make('is_active')
+                        ->label('Active (visible on site)')
+                        ->default(true),
+                ]),
         ]);
     }
 

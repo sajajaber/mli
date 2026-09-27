@@ -10,6 +10,7 @@ use BackedEnum;
 use UnitEnum;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -31,38 +32,43 @@ class CategoryResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            TextInput::make('name_en')
-                ->label('Name (English)')
-                ->required()
-                ->maxLength(255)
-                ->unique(ignoreRecord: true)
-                ->validationMessages([
-                    'unique' => 'A category with this English name already exists.',
-                ])
-                ->live(onBlur: true)
-                ->afterStateUpdated(function (string $state, callable $set, string $operation) {
-                    // Only auto-fill slug while creating, never overwrite on edit
-                    if ($operation === 'create') {
-                        $set('slug', Str::slug($state));
-                    }
-                }),
+            Section::make('Category Information')
+                ->description('Set the bilingual category name and the URL segment used by the library.')
+                ->columns(2)
+                ->components([
+                    TextInput::make('name_en')
+                        ->label('Name (English)')
+                        ->required()
+                        ->maxLength(255)
+                        ->unique(ignoreRecord: true)
+                        ->validationMessages([
+                            'unique' => 'A category with this English name already exists.',
+                        ])
+                        ->live(onBlur: true)
+                        ->afterStateUpdated(function (string $state, callable $set, string $operation) {
+                            if ($operation === 'create') {
+                                $set('slug', Str::slug($state));
+                            }
+                        }),
 
-            TextInput::make('name_ar')
-                ->label('Name (Arabic)')
-                ->required()
-                ->maxLength(255)
-                ->unique(ignoreRecord: true)
-                ->validationMessages([
-                    'unique' => 'A category with this Arabic name already exists.',
-                ])
-                ->extraInputAttributes(['dir' => 'rtl']),
+                    TextInput::make('name_ar')
+                        ->label('Name (Arabic)')
+                        ->required()
+                        ->maxLength(255)
+                        ->unique(ignoreRecord: true)
+                        ->validationMessages([
+                            'unique' => 'A category with this Arabic name already exists.',
+                        ])
+                        ->extraInputAttributes(['dir' => 'rtl']),
 
-            TextInput::make('slug')
-                ->label('Slug')
-                ->required()
-                ->maxLength(255)
-                ->unique(ignoreRecord: true)
-                ->helperText('Auto-filled from the English name — edit if you want a custom URL segment.'),
+                    TextInput::make('slug')
+                        ->label('Slug')
+                        ->required()
+                        ->maxLength(255)
+                        ->unique(ignoreRecord: true)
+                        ->helperText('Auto-filled from the English name — edit if you want a custom URL segment.')
+                        ->columnSpanFull(),
+                ]),
         ]);
     }
 

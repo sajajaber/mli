@@ -11,6 +11,7 @@ use UnitEnum;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
@@ -32,23 +33,31 @@ class ClientResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            FileUpload::make('logo_path')
-                ->label('Logo')
-                ->image()
-                ->disk('public')
-                ->directory('clients')
-                ->maxSize(8192)
-                ->saveUploadedFileUsing(fn($file) => app(\App\Services\ImageProcessingService::class)
-                    ->processAndStore($file, 'clients', maxWidth: 500, quality: 90, preserveTransparency: true))
-                ->columnSpanFull(),
+            Section::make('Client Information')
+                ->description('Manage the client name, logo, and display order used on the public website.')
+                ->columns(2)
+                ->components([
+                    FileUpload::make('logo_path')
+                        ->label('Logo')
+                        ->image()
+                        ->disk('public')
+                        ->directory('clients')
+                        ->maxSize(8192)
+                        ->saveUploadedFileUsing(fn($file) => app(\App\Services\ImageProcessingService::class)
+                            ->processAndStore($file, 'clients', maxWidth: 500, quality: 90, preserveTransparency: true))
+                        ->columnSpanFull(),
 
-            TextInput::make('name')
-                ->required()
-                ->maxLength(255),
+                    TextInput::make('name')
+                        ->label('Client Name')
+                        ->required()
+                        ->maxLength(255),
 
-            TextInput::make('sort_order')
-                ->numeric()
-                ->default(0),
+                    TextInput::make('sort_order')
+                        ->label('Sort Order')
+                        ->numeric()
+                        ->default(0)
+                        ->helperText('Lower numbers appear first where ordering is used.'),
+                ]),
         ]);
     }
 

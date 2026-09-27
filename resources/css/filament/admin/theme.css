@@ -364,47 +364,80 @@
 }
 
 /* ---------------------------------------------------------
-   FINAL SHOW FORM WIDTH OVERRIDE
+   Shared form/card organization
    --------------------------------------------------------- */
 
-.fi-page > .fi-page-content,
-.fi-page > .fi-page-content > form,
-.fi-page > .fi-page-content > form > .fi-grid,
-.fi-page .fi-section,
+.fi-page .fi-grid {
+    min-width: 0;
+    align-items: start;
+}
+
+.fi-page .fi-section {
+    min-width: 0;
+}
+
 .fi-page .fi-section > .fi-section-content-ctn,
 .fi-page .fi-section > .fi-section-content-ctn > .fi-section-content {
-    width: 100% !important;
-    max-width: none !important;
+    min-width: 0;
 }
 
-.fi-page .fi-fo-component-ctn,
-.fi-page .fi-sc-component {
-    min-width: 0 !important;
+.fi-page .fi-section-header {
+    min-height: 72px;
 }
 
-.fi-page .grid-cols-1.xl\:grid-cols-5 {
-    grid-template-columns: minmax(0, 4fr) minmax(260px, 1fr) !important;
+.fi-page .fi-section-content {
+    min-width: 0;
 }
 
-.fi-page .xl\:col-span-4 {
-    grid-column: span 4 / span 4 !important;
-    min-width: 0 !important;
-}
-
-.fi-page .xl\:col-span-1 {
-    grid-column: span 1 / span 1 !important;
-    min-width: 0 !important;
+.fi-page .fi-page-content,
+.fi-page .fi-page-content > form {
+    min-width: 0;
 }
 
 @media (max-width: 1279px) {
-    .fi-page .grid-cols-1.xl\:grid-cols-5 {
-        grid-template-columns: 1fr !important;
+    .fi-page .fi-section {
+        width: 100%;
     }
+}
 
-    .fi-page .xl\:col-span-4,
-    .fi-page .xl\:col-span-1 {
-        grid-column: span 1 / span 1 !important;
-    }
+/* ---------------------------------------------------------
+   Dashboard / widget cards
+   --------------------------------------------------------- */
+
+.fi-page .fi-wi {
+    min-width: 0;
+    border: 1px solid var(--mli-border) !important;
+    border-radius: 16px !important;
+    background: var(--mli-surface) !important;
+    box-shadow: 0 10px 30px rgba(23, 59, 115, 0.05) !important;
+}
+
+.fi-page .fi-wi .fi-ta-ctn {
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.fi-page .fi-wi .fi-ta-header-ctn {
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.fi-page .fi-wi .fi-ta-content-ctn {
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+.fi-page .fi-stats-overview {
+    gap: 14px !important;
+}
+
+.fi-page .fi-stats-overview-stat {
+    min-width: 0;
+    border: 1px solid var(--mli-border) !important;
+    border-radius: 14px !important;
+    background: var(--mli-surface) !important;
+    box-shadow: 0 8px 24px rgba(23, 59, 115, 0.04) !important;
 }
 
 /* ---------------------------------------------------------
