@@ -11670,6 +11670,36 @@ a {
     line-height: 1.9;
 }
 
+.mli-show-detail__meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 34px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(47, 65, 86, 0.14);
+}
+
+.mli-show-detail__meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.mli-show-detail__meta-item span {
+    color: rgba(47, 65, 86, 0.48);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.mli-show-detail__meta-item strong {
+    color: #2f4156;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.45;
+}
+
 .mli-show-detail__watch {
     display: inline-flex;
     align-items: center;
@@ -11813,6 +11843,12 @@ a {
         margin-top: 28px;
         font-size: 13px;
         line-height: 1.85;
+    }
+
+    .mli-show-detail__meta {
+        grid-template-columns: 1fr 1fr;
+        gap: 18px 14px;
+        margin-top: 28px;
     }
 
     .mli-show-detail__watch {
