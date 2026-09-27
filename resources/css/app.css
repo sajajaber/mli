@@ -11595,7 +11595,7 @@ a {
 }
 
 .mli-show-detail {
-    padding: 132px 0 110px;
+    padding: 124px 0 56px;
 }
 
 .mli-show-detail__back {
@@ -11622,13 +11622,14 @@ a {
     display: grid;
     grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
     gap: clamp(44px, 7vw, 110px);
-    align-items: center;
+    align-items: start;
 }
 
 .mli-show-detail__image {
     overflow: hidden;
     background: #c8d9e6;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 1 / 1.08;
+    max-height: 680px;
 }
 
 .mli-show-detail__image img {
@@ -11827,7 +11828,12 @@ a {
 
 @media (max-width: 640px) {
     .mli-show-detail {
-        padding: 96px 0 76px;
+        padding: 96px 0 52px;
+    }
+
+    .mli-show-detail__image {
+        aspect-ratio: 4 / 5;
+        max-height: none;
     }
 
     .mli-show-detail__back {
