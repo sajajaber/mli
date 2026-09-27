@@ -11946,8 +11946,8 @@ html[dir="rtl"] .mli-show-detail__back:hover {
 
 .mli-show-detail__image {
     width: 100% !important;
-    height: min(66vh, 560px) !important;
-    max-height: 560px !important;
+    height: 440px !important;
+    max-height: 480px !important;
     aspect-ratio: auto !important;
 }
 
@@ -11970,8 +11970,8 @@ html[dir="rtl"] .mli-show-detail__back:hover {
     }
 
     .mli-show-detail__image {
-        height: min(78vw, 620px) !important;
-        max-height: 620px !important;
+        height: min(72vw, 560px) !important;
+        max-height: 560px !important;
     }
 }
 
