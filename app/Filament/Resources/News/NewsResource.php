@@ -16,6 +16,7 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -42,109 +43,121 @@ class NewsResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Content')
-                ->columns(2)
-                ->components([
-                    TextInput::make('title_en')
-                        ->label('Title (English)')
-                        ->required()
-                        ->maxLength(255)
-                        ->live(onBlur: true)
-                        ->afterStateUpdated(static::fillSlugFromTitle()),
+            Grid::make(12)
+                ->columnSpanFull()
+                ->schema([
+                    Grid::make(1)
+                        ->columnSpan(['default' => 1, 'xl' => 9])
+                        ->schema([
+                            Section::make('Content')
+                                ->description('Set the bilingual title and article content.')
+                                ->columns(2)
+                                ->components([
+                                    TextInput::make('title_en')
+                                        ->label('Title (English)')
+                                        ->required()
+                                        ->maxLength(255)
+                                        ->live(onBlur: true)
+                                        ->afterStateUpdated(static::fillSlugFromTitle()),
 
-                    TextInput::make('title_ar')
-                        ->label('Title (Arabic)')
-                        ->required()
-                        ->maxLength(255)
-                        ->extraInputAttributes(['dir' => 'rtl'])
-                        ->live(onBlur: true),
+                                    TextInput::make('title_ar')
+                                        ->label('Title (Arabic)')
+                                        ->required()
+                                        ->maxLength(255)
+                                        ->extraInputAttributes(['dir' => 'rtl'])
+                                        ->live(onBlur: true),
 
-                    RichEditor::make('body_en')
-                        ->label('Body (English)')
-                        ->toolbarButtons([
-                            'bold',
-                            'italic',
-                            'bulletList',
-                            'orderedList',
-                            'link',
-                            'blockquote',
-                            'undo',
-                            'redo',
-                        ])
-                        ->live(onBlur: true)
-                        ->columnSpanFull(),
+                                    RichEditor::make('body_en')
+                                        ->label('Body (English)')
+                                        ->toolbarButtons([
+                                            'bold',
+                                            'italic',
+                                            'bulletList',
+                                            'orderedList',
+                                            'link',
+                                            'blockquote',
+                                            'undo',
+                                            'redo',
+                                        ])
+                                        ->live(onBlur: true)
+                                        ->columnSpanFull(),
 
-                    RichEditor::make('body_ar')
-                        ->label('Body (Arabic)')
-                        ->extraInputAttributes(['dir' => 'rtl'])
-                        ->toolbarButtons([
-                            'bold',
-                            'italic',
-                            'bulletList',
-                            'orderedList',
-                            'link',
-                            'blockquote',
-                            'undo',
-                            'redo',
-                        ])
-                        ->live(onBlur: true)
-                        ->columnSpanFull(),
-                ]),
+                                    RichEditor::make('body_ar')
+                                        ->label('Body (Arabic)')
+                                        ->extraInputAttributes(['dir' => 'rtl'])
+                                        ->toolbarButtons([
+                                            'bold',
+                                            'italic',
+                                            'bulletList',
+                                            'orderedList',
+                                            'link',
+                                            'blockquote',
+                                            'undo',
+                                            'redo',
+                                        ])
+                                        ->live(onBlur: true)
+                                        ->columnSpanFull(),
+                                ]),
 
-            Section::make('Classification & Media')
-                ->columns(2)
-                ->components([
-                    Select::make('news_type')
-                        ->label('News Type')
-                        ->options([
-                            'media_news' => 'Media News',
-                            'mli_news' => 'MLI News',
-                        ])
-                        ->default('mli_news')
-                        ->required(),
+                            Section::make('Classification & Media')
+                                ->description('Set the article type, URL, featured image, and accessibility information.')
+                                ->columns(2)
+                                ->components([
+                                    Select::make('news_type')
+                                        ->label('News Type')
+                                        ->options([
+                                            'media_news' => 'Media News',
+                                            'mli_news' => 'MLI News',
+                                        ])
+                                        ->default('mli_news')
+                                        ->required(),
 
-                    TextInput::make('slug')
-                        ->required()
-                        ->maxLength(255)
-                        ->unique(ignoreRecord: true)
-                        ->helperText('Auto-filled from English title.'),
+                                    TextInput::make('slug')
+                                        ->required()
+                                        ->maxLength(255)
+                                        ->unique(ignoreRecord: true)
+                                        ->helperText('Auto-filled from English title.'),
 
-                    FileUpload::make('featured_image_path')
-                        ->label('Featured Image')
-                        ->image()
-                        ->disk('public')
-                        ->directory('news')
-                        ->imageEditor()
-                        ->maxSize(8192)
-                        ->saveUploadedFileUsing(fn ($file) => app(\App\Services\ImageProcessingService::class)
-                            ->processAndStore($file, 'news', maxWidth: 1600, quality: 85))
-                        ->columnSpanFull(),
+                                    FileUpload::make('featured_image_path')
+                                        ->label('Featured Image')
+                                        ->image()
+                                        ->disk('public')
+                                        ->directory('news')
+                                        ->imageEditor()
+                                        ->maxSize(8192)
+                                        ->saveUploadedFileUsing(fn ($file) => app(\App\Services\ImageProcessingService::class)
+                                            ->processAndStore($file, 'news', maxWidth: 1600, quality: 85))
+                                        ->columnSpanFull(),
 
-                    TextInput::make('featured_image_alt')
-                        ->label('Featured Image Alt Text')
-                        ->maxLength(255)
-                        ->helperText('Describe the image for accessibility & SEO.')
-                        ->columnSpanFull(),
-                ]),
+                                    TextInput::make('featured_image_alt')
+                                        ->label('Featured Image Alt Text')
+                                        ->maxLength(255)
+                                        ->helperText('Describe the image for accessibility & SEO.')
+                                        ->columnSpanFull(),
+                                ]),
+                        ]),
 
-            Section::make('Publishing')
-                ->columns(2)
-                ->components([
-                    Select::make('status')
-                        ->options([
-                            'draft' => 'Draft',
-                            'scheduled' => 'Scheduled',
-                            'published' => 'Published',
-                        ])
-                        ->default('draft')
-                        ->required()
-                        ->live(),
+                    Section::make('Publishing')
+                        ->columnSpan(['default' => 1, 'xl' => 3])
+                        ->description('Control visibility and scheduling.')
+                        ->columns(1)
+                        ->components([
+                            Select::make('status')
+                                ->options([
+                                    'draft' => 'Draft',
+                                    'scheduled' => 'Scheduled',
+                                    'published' => 'Published',
+                                ])
+                                ->default('draft')
+                                ->required()
+                                ->live(),
 
-                    DateTimePicker::make('published_at')
-                        ->label('Publish At')
-                        ->native(false)
-                        ->visible(fn (callable $get) => $get('status') === 'scheduled')
-                        ->required(fn (callable $get) => $get('status') === 'scheduled'),
+                            DateTimePicker::make('published_at')
+                                ->label('Publish At')
+                                ->native(false)
+                                ->visible(fn (callable $get) => $get('status') === 'scheduled')
+                                ->required(fn (callable $get) => $get('status') === 'scheduled'),
+                        ]),
                 ]),
         ]);
     }
