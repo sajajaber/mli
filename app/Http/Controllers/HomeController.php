@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Client;
 use App\Models\News;
+use App\Models\HeroAdvertisement;
 use App\Models\Person;
 use App\Models\Show;
 use App\Models\SiteContent;
@@ -21,6 +22,24 @@ class HomeController extends Controller
             ->latest('published_at')
             ->limit(12)
             ->get();
+
+        $heroAdvertisements = HeroAdvertisement::active()
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get();
+
+        // Keep the public hero populated until the admin adds dedicated hero artwork.
+        if ($heroAdvertisements->isEmpty()) {
+            $heroAdvertisements = $shows
+                ->filter(fn ($show) => filled($show->cover_image_path))
+                ->take(5)
+                ->map(fn ($show) => (object) [
+                    'image_url' => $show->cover_image_url,
+                    'image_alt' => $show->cover_image_alt
+                        ?: (app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en),
+                ])
+                ->values();
+        }
 
         $categories = Category::query()
             ->withCount([
@@ -75,6 +94,7 @@ class HomeController extends Controller
 
         return view('home', [
             'shows' => $shows,
+            'heroAdvertisements' => $heroAdvertisements,
             'categories' => $categories,
             'people' => $people,
             'clients' => $clients,
