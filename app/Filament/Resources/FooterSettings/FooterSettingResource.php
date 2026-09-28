@@ -25,15 +25,24 @@ class FooterSettingResource extends Resource
 
     protected static ?string $navigationLabel = 'Footer & Contact';
 
-    protected static UnitEnum|string|null $navigationGroup = 'Settings';
+    protected static UnitEnum|string|null $navigationGroup = 'Content';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 5;
 
     protected static ?string $modelLabel = 'Footer Settings';
 
     protected static ?string $pluralModelLabel = 'Footer Settings';
 
     protected static bool $shouldRegisterNavigation = true;
+
+    public static function getNavigationUrl(): string
+    {
+        $footer = FooterSetting::query()->first();
+
+        return $footer
+            ? static::getUrl('edit', ['record' => $footer->getKey()])
+            : static::getUrl('index');
+    }
 
     public static function form(Schema $schema): Schema
     {
