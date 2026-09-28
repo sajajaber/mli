@@ -40,7 +40,7 @@ class HeroAdvertisementResource extends Resource
     {
         return $schema->components([
             Section::make('Hero Advertisement')
-                ->description('Upload the artwork used in the homepage hero. This image is separate from a show cover. New images are added at the end; use drag-and-drop on the list to change their order.')
+                ->description('Upload the artwork used in the homepage hero. Set a unique position for each image, or use drag-and-drop on the list to change the order.')
                 ->columnSpanFull()
                 ->columns(2)
                 ->components([
@@ -69,6 +69,16 @@ class HeroAdvertisementResource extends Resource
                         ->maxLength(255)
                         ->helperText('Describe the hero artwork for accessibility.')
                         ->columnSpanFull(),
+
+                    TextInput::make('sort_order')
+                        ->label('Position')
+                        ->numeric()
+                        ->integer()
+                        ->minValue(1)
+                        ->default(fn () => (int) HeroAdvertisement::max('sort_order') + 1)
+                        ->unique(ignoreRecord: true)
+                        ->helperText('Each hero image must have a unique position. Lower numbers appear first.')
+                        ->required(),
 
                     Toggle::make('is_active')
                         ->label('Active in Hero')
