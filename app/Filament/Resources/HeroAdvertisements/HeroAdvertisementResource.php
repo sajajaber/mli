@@ -40,7 +40,7 @@ class HeroAdvertisementResource extends Resource
     {
         return $schema->components([
             Section::make('Hero Advertisement')
-                ->description('Upload the artwork used in the homepage hero. This image is separate from a show cover.')
+                ->description('Upload the artwork used in the homepage hero. This image is separate from a show cover. New images are added at the end; use drag-and-drop on the list to change their order.')
                 ->columnSpanFull()
                 ->columns(2)
                 ->components([
@@ -70,17 +70,11 @@ class HeroAdvertisementResource extends Resource
                         ->helperText('Describe the hero artwork for accessibility.')
                         ->columnSpanFull(),
 
-                    TextInput::make('sort_order')
-                        ->label('Display Order')
-                        ->numeric()
-                        ->minValue(0)
-                        ->default(0)
-                        ->helperText('Lower numbers appear first in the hero.'),
-
                     Toggle::make('is_active')
                         ->label('Active in Hero')
                         ->default(true)
-                        ->helperText('Only active hero advertisements are displayed on the homepage.'),
+                        ->helperText('Only active hero advertisements are displayed on the homepage.')
+                        ->columnSpanFull(),
                 ]),
         ]);
     }
@@ -100,7 +94,7 @@ class HeroAdvertisementResource extends Resource
                     ->toggleable(),
 
                 TextColumn::make('sort_order')
-                    ->label('Order')
+                    ->label('Position')
                     ->sortable(),
 
                 ToggleColumn::make('is_active')
