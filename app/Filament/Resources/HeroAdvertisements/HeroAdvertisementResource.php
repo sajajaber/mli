@@ -21,7 +21,6 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\DB;
 use UnitEnum;
 
 class HeroAdvertisementResource extends Resource
@@ -116,23 +115,13 @@ class HeroAdvertisementResource extends Resource
                 'xl' => 3,
             ])
             ->defaultSort('sort_order')
+            ->reorderable('sort_order')
+            ->reorderRecordsTriggerAction(
+                fn (Action $action) => $action
+                    ->label('Reorder Hero Advertisements')
+                    ->icon('heroicon-o-arrows-up-down')
+            )
             ->recordActions([
-                Action::make('moveEarlier')
-                    ->label('Swap with previous')
-                    ->icon('heroicon-o-chevron-up')
-                    ->color('gray')
-                    ->disabled(fn (HeroAdvertisement $record): bool => ! static::hasAdjacent($record, -1))
-                    ->action(fn (HeroAdvertisement $record) => static::swapWithAdjacent($record, -1))
-                    ->successNotificationTitle('Hero order updated'),
-
-                Action::make('moveLater')
-                    ->label('Swap with next')
-                    ->icon('heroicon-o-chevron-down')
-                    ->color('gray')
-                    ->disabled(fn (HeroAdvertisement $record): bool => ! static::hasAdjacent($record, 1))
-                    ->action(fn (HeroAdvertisement $record) => static::swapWithAdjacent($record, 1))
-                    ->successNotificationTitle('Hero order updated'),
-
                 Action::make('toggleActive')
                     ->label(fn (HeroAdvertisement $record): string => $record->is_active ? 'Deactivate' : 'Activate')
                     ->icon(fn (HeroAdvertisement $record): string => $record->is_active
@@ -149,49 +138,6 @@ class HeroAdvertisementResource extends Resource
                 EditAction::make(),
                 DeleteAction::make(),
             ]);
-    }
-
-    protected static function hasAdjacent(HeroAdvertisement $record, int $direction): bool
-    {
-        $ordered = HeroAdvertisement::query()
-            ->orderBy('sort_order')
-            ->orderBy('id')
-            ->pluck('id');
-
-        $index = $ordered->search($record->getKey());
-
-        return $index !== false
-            && isset($ordered[$index + $direction]);
-    }
-
-    protected static function swapWithAdjacent(HeroAdvertisement $record, int $direction): void
-    {
-        $ordered = HeroAdvertisement::query()
-            ->orderBy('sort_order')
-            ->orderBy('id')
-            ->get(['id', 'sort_order']);
-
-        $index = $ordered->search(fn (HeroAdvertisement $item): bool => $item->is($record));
-
-        if ($index === false) {
-            return;
-        }
-
-        $adjacent = $ordered->get($index + $direction);
-
-        if (! $adjacent) {
-            return;
-        }
-
-        $recordOrder = (int) $record->sort_order;
-        $adjacentOrder = (int) $adjacent->sort_order;
-        $temporaryOrder = (int) $ordered->max('sort_order') + 1;
-
-        DB::transaction(function () use ($record, $adjacent, $recordOrder, $adjacentOrder, $temporaryOrder): void {
-            $record->update(['sort_order' => $temporaryOrder]);
-            $adjacent->update(['sort_order' => $recordOrder]);
-            $record->update(['sort_order' => $adjacentOrder]);
-        });
     }
 
     public static function getPages(): array
