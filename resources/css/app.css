@@ -12189,3 +12189,38 @@ html[dir="rtl"] .mli-show-detail__back:hover {
         margin-inline-end: 2px !important;
     }
 }
+
+
+/* Final hero navigation positioning */
+.mli-opening__controls {
+    position: absolute !important;
+    top: 50% !important;
+    right: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+    height: 0 !important;
+    width: 100% !important;
+    transform: translateY(-50%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    pointer-events: none !important;
+}
+
+.mli-opening__controls .mli-opening__control {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    flex: 0 0 auto !important;
+    pointer-events: auto !important;
+}
+
+.mli-opening__controls .mli-opening__control--prev {
+    margin-inline-start: 10px !important;
+}
+
+.mli-opening__controls .mli-opening__control--next {
+    margin-inline-end: 10px !important;
+}

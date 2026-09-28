@@ -77,10 +77,10 @@ $heroShows = $shows->values();
             </a>
 
             <div class="mli-opening__controls" x-show="shows.length > 1" aria-label="{{ app()->getLocale() === 'ar' ? 'التنقل بين البرامج' : 'Show navigation' }}">
-                <button type="button" class="mli-opening__control mli-opening__control--prev" @click.stop.prevent="index = (index - 1 + shows.length) % shows.length; restart()" aria-label="{{ app()->getLocale() === 'ar' ? 'البرنامج السابق' : 'Previous show' }}">
+                <button type="button" class="mli-opening__control mli-opening__control--prev" @click.stop="prev()" aria-label="{{ app()->getLocale() === 'ar' ? 'البرنامج السابق' : 'Previous show' }}">
                     <span aria-hidden="true">‹</span>
                 </button>
-                <button type="button" class="mli-opening__control mli-opening__control--next" @click.stop.prevent="index = (index + 1) % shows.length; restart()" aria-label="{{ app()->getLocale() === 'ar' ? 'البرنامج التالي' : 'Next show' }}">
+                <button type="button" class="mli-opening__control mli-opening__control--next" @click.stop="next()" aria-label="{{ app()->getLocale() === 'ar' ? 'البرنامج التالي' : 'Next show' }}">
                     <span aria-hidden="true">›</span>
                 </button>
             </div>
