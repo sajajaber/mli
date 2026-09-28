@@ -715,3 +715,317 @@
 .fi-page-footer-widgets .fi-wi {
     grid-column: 1 / -1 !important;
 }
+
+
+/* ---------------------------------------------------------
+   MLI Hero Advertisement manager
+   --------------------------------------------------------- */
+
+.mli-hero-manager {
+    width: 100%;
+}
+
+.mli-hero-manager__panel {
+    overflow: hidden;
+    border: 1px solid var(--mli-border);
+    border-radius: 16px;
+    background: var(--mli-surface);
+    box-shadow: 0 10px 30px rgba(23, 59, 115, 0.05);
+}
+
+.mli-hero-manager__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 24px 26px;
+    border-bottom: 1px solid rgba(23, 59, 115, 0.08);
+    background: linear-gradient(135deg, rgba(220, 234, 250, 0.72), #fff 65%);
+}
+
+.mli-hero-manager__eyebrow {
+    margin: 0 0 5px;
+    color: var(--mli-blue);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+}
+
+.mli-hero-manager__title-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.mli-hero-manager__title {
+    margin: 0;
+    color: var(--mli-navy);
+    font-size: 1.35rem;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+}
+
+.mli-hero-manager__count {
+    display: inline-flex;
+    align-items: center;
+    min-height: 25px;
+    padding: 0 9px;
+    border-radius: 999px;
+    background: rgba(47, 111, 189, 0.10);
+    color: var(--mli-blue);
+    font-size: 0.68rem;
+    font-weight: 750;
+}
+
+.mli-hero-manager__description {
+    max-width: 700px;
+    margin: 8px 0 0;
+    color: var(--mli-muted);
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+
+.mli-hero-manager__header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 0 0 auto;
+}
+
+.mli-hero-manager__dirty {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #9a6700;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.mli-hero-manager__dirty::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: #d6a21d;
+}
+
+.mli-hero-manager__save {
+    min-width: 126px;
+}
+
+.mli-hero-manager__body {
+    padding: 24px 26px;
+}
+
+.mli-hero-manager__section + .mli-hero-manager__section {
+    padding-top: 24px;
+    margin-top: 24px;
+    border-top: 1px solid rgba(23, 59, 115, 0.08);
+}
+
+.mli-hero-manager__section-head {
+    margin-bottom: 13px;
+}
+
+.mli-hero-manager__section-label {
+    margin: 0;
+    color: var(--mli-navy);
+    font-size: 0.82rem;
+    font-weight: 750;
+}
+
+.mli-hero-manager__section-note {
+    margin: 4px 0 0;
+    color: var(--mli-muted);
+    font-size: 0.72rem;
+    line-height: 1.55;
+}
+
+.mli-hero-manager__preview-strip {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 2px 2px 5px;
+}
+
+.mli-hero-manager__preview {
+    width: 116px;
+    flex: 0 0 116px;
+}
+
+.mli-hero-manager__preview-frame,
+.mli-hero-manager__card-image {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: #edf1f5;
+}
+
+.mli-hero-manager__preview-frame {
+    border: 1px solid rgba(23, 59, 115, 0.10);
+    border-radius: 9px;
+}
+
+.mli-hero-manager__preview-frame img,
+.mli-hero-manager__card-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.mli-hero-manager__preview-index,
+.mli-hero-manager__card-index {
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 21px;
+    height: 21px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.66);
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 800;
+}
+
+.mli-hero-manager__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.mli-hero-manager__card {
+    position: relative;
+    min-width: 0;
+    cursor: grab;
+}
+
+.mli-hero-manager__card:active {
+    cursor: grabbing;
+}
+
+.mli-hero-manager__card-shell {
+    overflow: hidden;
+    border: 1px solid rgba(23, 59, 115, 0.10);
+    border-radius: 13px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(23, 59, 115, 0.05);
+    transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+}
+
+.mli-hero-manager__card:hover .mli-hero-manager__card-shell {
+    transform: translateY(-2px);
+    box-shadow: 0 11px 24px rgba(23, 59, 115, 0.09);
+}
+
+.mli-hero-manager__drop-line {
+    position: absolute;
+    right: 10px;
+    left: 10px;
+    z-index: 3;
+    height: 3px;
+    border-radius: 999px;
+    background: var(--mli-blue);
+    box-shadow: 0 0 0 4px rgba(47, 111, 189, 0.10);
+}
+
+.mli-hero-manager__drop-line--top {
+    top: -8px;
+}
+
+.mli-hero-manager__drop-line--bottom {
+    bottom: -8px;
+}
+
+.mli-hero-manager__card-status {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: inline-flex;
+    align-items: center;
+    min-height: 22px;
+    padding: 0 8px;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 800;
+}
+
+.mli-hero-manager__card-status--active {
+    background: rgba(22, 163, 74, 0.94);
+}
+
+.mli-hero-manager__card-status--inactive {
+    background: rgba(31, 41, 55, 0.74);
+}
+
+.mli-hero-manager__card-meta {
+    min-height: 57px;
+    padding: 11px 12px;
+    border-top: 1px solid rgba(23, 59, 115, 0.07);
+}
+
+.mli-hero-manager__card-alt {
+    margin: 0;
+    overflow: hidden;
+    color: #5d6b7c;
+    font-size: 0.7rem;
+    font-weight: 600;
+    line-height: 1.45;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mli-hero-manager__empty {
+    padding: 48px 24px;
+    border: 1px dashed rgba(23, 59, 115, 0.16);
+    border-radius: 13px;
+    background: #fbfcfd;
+    text-align: center;
+}
+
+@media (max-width: 1279px) {
+    .mli-hero-manager__grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .mli-hero-manager__header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .mli-hero-manager__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .mli-hero-manager__header,
+    .mli-hero-manager__body {
+        padding-inline: 18px;
+    }
+
+    .mli-hero-manager__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mli-hero-manager__header-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .mli-hero-manager__save {
+        width: 100%;
+    }
+}
