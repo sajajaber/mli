@@ -1,5 +1,5 @@
 @php
-    use App\\Models\\HeroAdvertisement;
+    use App\Models\HeroAdvertisement;
 @endphp
 
 <x-filament-panels::page>
