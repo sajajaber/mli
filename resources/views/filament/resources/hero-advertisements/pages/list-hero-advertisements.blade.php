@@ -87,36 +87,36 @@
                 }
             }
         }"
-        class="space-y-5"
+        class="mli-hero-manager"
     >
-        <section class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-gray-900">
-            <div class="border-b border-gray-100 px-5 py-5 dark:border-white/10">
-                <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <section class="mli-hero-manager__panel">
+            <div class="mli-hero-manager__header">
+                <div >
                     <div>
-                        <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-primary-600">
+                        <p class="mli-hero-manager__eyebrow">
                             Homepage
                         </p>
 
-                        <div class="mt-1 flex flex-wrap items-center gap-2.5">
-                            <h2 class="text-xl font-semibold tracking-tight text-gray-950 dark:text-white">
+                        <div class="mli-hero-manager__title-row">
+                            <h2 class="mli-hero-manager__title">
                                 Hero Advertisements
                             </h2>
 
-                            <span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600 dark:bg-white/5 dark:text-gray-300">
+                            <span class="mli-hero-manager__count">
                                 {{ $heroAdvertisements->count() }} {{ $heroAdvertisements->count() === 1 ? 'image' : 'images' }}
                             </span>
                         </div>
 
-                        <p class="mt-2 max-w-2xl text-sm leading-6 text-gray-500 dark:text-gray-400">
+                        <p class="mli-hero-manager__description">
                             Arrange the homepage hero visually. Drag a thumbnail before or after another image, then save when the sequence is correct.
                         </p>
                     </div>
 
-                    <div class="flex items-center gap-3">
+                    <div class="mli-hero-manager__header-actions">
                         <span
                             x-show="dirty"
                             x-cloak
-                            class="inline-flex items-center gap-2 text-xs font-medium text-amber-700 dark:text-amber-300"
+                            class="mli-hero-manager__dirty"
                         >
                             <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
                             Unsaved changes
@@ -126,7 +126,7 @@
                             type="button"
                             x-on:click="saveOrder()"
                             x-bind:disabled="! dirty || saving"
-                            class="fi-btn fi-btn-size-md fi-btn-color-primary inline-flex min-w-[130px] items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold shadow-sm transition disabled:pointer-events-none disabled:opacity-45"
+                            class="fi-btn fi-btn-size-md fi-btn-color-primary mli-hero-manager__save"
                         >
                             <x-filament::icon
                                 x-show="! saving"
@@ -145,7 +145,7 @@
             </div>
 
             @if ($heroAdvertisements->isEmpty())
-                <div class="px-6 py-16 text-center">
+                <div class="mli-hero-manager__empty">
                     <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-gray-100 text-gray-500 dark:bg-white/5 dark:text-gray-400">
                         <x-filament::icon icon="heroicon-o-photo" class="h-6 w-6" />
                     </div>
@@ -159,23 +159,23 @@
                     </p>
                 </div>
             @else
-                <div class="space-y-6 p-5">
+                <div class="mli-hero-manager__body">
                     <div>
-                        <div class="mb-3 flex items-center justify-between gap-3">
+                        <div class="mli-hero-manager__section-head">
                             <div>
-                                <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-gray-400">
+                                <p class="mli-hero-manager__section-label">
                                     Current order
                                 </p>
-                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                <p class="mli-hero-manager__section-note">
                                     This preview updates immediately as you drag items.
                                 </p>
                             </div>
                         </div>
 
-                        <div class="flex gap-3 overflow-x-auto pb-1">
+                        <div class="mli-hero-manager__preview-strip">
                             <template x-for="(item, index) in items" :key="'preview-' + item.id">
-                                <div class="w-[112px] shrink-0">
-                                    <div class="relative overflow-hidden rounded-lg border border-gray-200 bg-gray-100 dark:border-white/10 dark:bg-gray-800">
+                                <div class="mli-hero-manager__preview">
+                                    <div class="mli-hero-manager__preview-frame">
                                         <div class="aspect-[16/9] w-full">
                                             <img
                                                 x-bind:src="item.image"
@@ -187,7 +187,7 @@
 
                                         <span
                                             x-text="index + 1"
-                                            class="absolute left-2 top-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-black/65 px-1.5 text-[10px] font-semibold text-white backdrop-blur-sm"
+                                            class="mli-hero-manager__preview-index"
                                         ></span>
                                     </div>
                                 </div>
@@ -195,8 +195,8 @@
                         </div>
                     </div>
 
-                    <div class="border-t border-gray-100 pt-6 dark:border-white/10">
-                        <div class="mb-4">
+                    <div class="mli-hero-manager__section">
+                        <div class="mli-hero-manager__section-head">
                             <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-gray-400">
                                 Hero images
                             </p>
@@ -205,7 +205,7 @@
                             </p>
                         </div>
 
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                        <div class="mli-hero-manager__grid">
                             <template x-for="(item, index) in items" :key="item.id">
                                 <article
                                     draggable="true"
@@ -216,22 +216,22 @@
                                     x-bind:class="{
                                         'scale-[0.985] opacity-60': draggedId === item.id
                                     }"
-                                    class="group relative cursor-grab active:cursor-grabbing"
+                                    class="mli-hero-manager__card"
                                 >
                                     <div
                                         x-show="dropIndex === index && draggedId !== item.id"
                                         x-cloak
-                                        class="pointer-events-none absolute inset-x-2 -top-1 z-20 h-0.5 rounded-full bg-primary-500"
+                                        class="mli-hero-manager__drop-line mli-hero-manager__drop-line--top"
                                     ></div>
 
                                     <div
                                         x-show="dropIndex === index + 1 && draggedId !== item.id"
                                         x-cloak
-                                        class="pointer-events-none absolute inset-x-2 -bottom-1 z-20 h-0.5 rounded-full bg-primary-500"
+                                        class="mli-hero-manager__drop-line mli-hero-manager__drop-line--bottom"
                                     ></div>
 
-                                    <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md dark:border-white/10 dark:bg-gray-900">
-                                        <div class="relative aspect-[16/9] w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
+                                    <div class="mli-hero-manager__card-shell">
+                                        <div class="mli-hero-manager__card-image">
                                             <img
                                                 x-bind:src="item.image"
                                                 x-bind:alt="item.alt"
@@ -241,22 +241,22 @@
 
                                             <span
                                                 x-text="index + 1"
-                                                class="absolute left-2.5 top-2.5 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-black/65 px-1.5 text-[10px] font-bold text-white backdrop-blur-sm"
+                                                class="mli-hero-manager__card-index"
                                             ></span>
 
                                             <span
                                                 x-text="item.active ? 'Active' : 'Inactive'"
                                                 x-bind:class="item.active
                                                     ? 'bg-emerald-500/95 text-white'
-                                                    : 'bg-black/60 text-white'"
-                                                class="absolute right-2.5 top-2.5 inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-semibold backdrop-blur-sm"
+                                                    : 'mli-hero-manager__card-status--inactive'"
+                                                class="mli-hero-manager__card-status"
                                             ></span>
                                         </div>
 
-                                        <div class="px-3 py-2.5">
+                                        <div class="mli-hero-manager__card-meta">
                                             <p
                                                 x-text="item.alt || 'MLI hero advertisement'"
-                                                class="truncate text-xs font-medium text-gray-600 dark:text-gray-300"
+                                                class="mli-hero-manager__card-alt"
                                             ></p>
                                         </div>
                                     </div>
