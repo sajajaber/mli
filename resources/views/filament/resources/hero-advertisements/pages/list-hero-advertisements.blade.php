@@ -14,13 +14,11 @@
             draggedId: null,
             dirty: false,
             dropIndex: null,
-            dropPosition: null,
             saving: false,
 
             startDrag(id) {
                 this.draggedId = id;
                 this.dropIndex = null;
-                this.dropPosition = null;
             },
 
             dragOver(event, index) {
@@ -34,10 +32,9 @@
                 const midpoint = rect.top + (rect.height / 2);
 
                 this.dropIndex = event.clientY < midpoint ? index : index + 1;
-                this.dropPosition = event.clientY < midpoint ? 'before' : 'after';
             },
 
-            drop(event, targetIndex) {
+            drop(event) {
                 event.preventDefault();
 
                 if (this.draggedId === null || this.dropIndex === null) {
