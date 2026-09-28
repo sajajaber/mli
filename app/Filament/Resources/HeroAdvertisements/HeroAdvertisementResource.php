@@ -122,7 +122,7 @@ class HeroAdvertisementResource extends Resource
                     ->icon('heroicon-o-chevron-up')
                     ->color('gray')
                     ->disabled(fn (HeroAdvertisement $record): bool => ! static::hasAdjacent($record, -1))
-                    ->action(fn (HeroAdvertisement $record): void => static::swapWithAdjacent($record, -1))
+                    ->action(fn (HeroAdvertisement $record) => static::swapWithAdjacent($record, -1))
                     ->successNotificationTitle('Hero order updated'),
 
                 Action::make('moveLater')
@@ -130,7 +130,7 @@ class HeroAdvertisementResource extends Resource
                     ->icon('heroicon-o-chevron-down')
                     ->color('gray')
                     ->disabled(fn (HeroAdvertisement $record): bool => ! static::hasAdjacent($record, 1))
-                    ->action(fn (HeroAdvertisement $record): void => static::swapWithAdjacent($record, 1))
+                    ->action(fn (HeroAdvertisement $record) => static::swapWithAdjacent($record, 1))
                     ->successNotificationTitle('Hero order updated'),
 
                 Action::make('toggleActive')
