@@ -1,10 +1,10 @@
 <?php
 
-namespace App\\Filament\\Resources\\HeroAdvertisements\\Pages;
+namespace App\Filament\Resources\HeroAdvertisements\Pages;
 
-use App\\Filament\\Resources\\HeroAdvertisements\\HeroAdvertisementResource;
-use Filament\\Actions\\CreateAction;
-use Filament\\Resources\\Pages\\ListRecords;
+use App\Filament\Resources\HeroAdvertisements\HeroAdvertisementResource;
+use Filament\Actions\CreateAction;
+use Filament\Resources\Pages\ListRecords;
 
 class ListHeroAdvertisements extends ListRecords
 {
