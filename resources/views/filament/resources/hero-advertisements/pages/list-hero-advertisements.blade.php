@@ -155,7 +155,7 @@
                 </div>
             @else
                 <div class="p-4 sm:p-5">
-                    <div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                         <template x-for="(item, index) in items" :key="item.id">
                             <article
                                 draggable="true"
@@ -182,11 +182,11 @@
                                 ></div>
 
                                 <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md dark:border-white/10 dark:bg-gray-900">
-                                    <div class="relative aspect-[16/9] w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
+                                    <div class="relative mx-auto aspect-[16/9] w-full max-w-[260px] overflow-hidden rounded-t-2xl bg-gray-100 dark:bg-gray-800">
                                         <img
                                             x-bind:src="item.image"
                                             x-bind:alt="item.alt"
-                                            class="block h-full w-full select-none object-cover"
+                                            class="block h-full w-full select-none object-cover object-center"
                                             draggable="false"
                                         />
 
@@ -206,7 +206,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="min-h-[72px] border-t border-gray-100 px-4 py-3 dark:border-white/10">
+                                    <div class="mx-auto min-h-[64px] w-full max-w-[260px] border-t border-gray-100 px-3 py-2.5 dark:border-white/10">
                                         <p
                                             x-text="item.alt || 'MLI hero advertisement'"
                                             class="line-clamp-2 text-xs leading-5 text-gray-500 dark:text-gray-400"
