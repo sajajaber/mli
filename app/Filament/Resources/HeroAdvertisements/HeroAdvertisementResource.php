@@ -7,7 +7,9 @@ use App\Filament\Resources\HeroAdvertisements\Pages\EditHeroAdvertisement;
 use App\Filament\Resources\HeroAdvertisements\Pages\ListHeroAdvertisements;
 use App\Models\HeroAdvertisement;
 use BackedEnum;
-use UnitEnum;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -16,9 +18,11 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\DB;
+use UnitEnum;
 
 class HeroAdvertisementResource extends Resource
 {
@@ -40,7 +44,7 @@ class HeroAdvertisementResource extends Resource
     {
         return $schema->components([
             Section::make('Hero Advertisement')
-                ->description('Upload the artwork used in the homepage hero. Set a unique position for each image, or use drag-and-drop on the list to change the order.')
+                ->description('Upload the artwork used in the homepage hero. The order is managed visually from the Hero Advertisements page.')
                 ->columnSpanFull()
                 ->columns(2)
                 ->components([
@@ -70,16 +74,6 @@ class HeroAdvertisementResource extends Resource
                         ->helperText('Describe the hero artwork for accessibility.')
                         ->columnSpanFull(),
 
-                    TextInput::make('sort_order')
-                        ->label('Position')
-                        ->numeric()
-                        ->integer()
-                        ->minValue(1)
-                        ->default(fn () => (int) HeroAdvertisement::max('sort_order') + 1)
-                        ->unique(ignoreRecord: true)
-                        ->helperText('Each hero image must have a unique position. Lower numbers appear first.')
-                        ->required(),
-
                     Toggle::make('is_active')
                         ->label('Active in Hero')
                         ->default(true)
@@ -93,34 +87,111 @@ class HeroAdvertisementResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('image_path')
-                    ->label('Hero Image')
-                    ->disk('public')
-                    ->height(72),
+                Stack::make([
+                    ImageColumn::make('image_path')
+                        ->label('Hero Artwork')
+                        ->disk('public')
+                        ->height(220)
+                        ->extraImgAttributes([
+                            'class' => 'w-full rounded-xl object-cover',
+                        ]),
 
-                TextColumn::make('image_alt')
-                    ->label('Alt Text')
-                    ->limit(55)
-                    ->toggleable(),
+                    TextColumn::make('image_alt')
+                        ->label('Alt Text')
+                        ->placeholder('No alt text')
+                        ->limit(90)
+                        ->wrap()
+                        ->color('gray'),
 
-                TextColumn::make('sort_order')
-                    ->label('Position')
-                    ->sortable(),
-
-                ToggleColumn::make('is_active')
-                    ->label('Active'),
+                    TextColumn::make('is_active')
+                        ->label('Status')
+                        ->formatStateUsing(fn (bool $state): string => $state ? 'Active' : 'Inactive')
+                        ->badge()
+                        ->color(fn (bool $state): string => $state ? 'success' : 'gray'),
+                ]),
+            ])
+            ->contentGrid([
+                'default' => 1,
+                'md' => 2,
+                'xl' => 3,
             ])
             ->defaultSort('sort_order')
-            ->reorderable('sort_order')
             ->recordActions([
-                \Filament\Actions\EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
-            ])
-            ->toolbarActions([
-                \Filament\Actions\BulkActionGroup::make([
-                    \Filament\Actions\DeleteBulkAction::make(),
-                ]),
+                Action::make('moveEarlier')
+                    ->label('Swap with previous')
+                    ->icon('heroicon-o-chevron-up')
+                    ->color('gray')
+                    ->disabled(fn (HeroAdvertisement $record): bool => ! static::hasAdjacent($record, -1))
+                    ->action(fn (HeroAdvertisement $record): void => static::swapWithAdjacent($record, -1))
+                    ->successNotificationTitle('Hero order updated'),
+
+                Action::make('moveLater')
+                    ->label('Swap with next')
+                    ->icon('heroicon-o-chevron-down')
+                    ->color('gray')
+                    ->disabled(fn (HeroAdvertisement $record): bool => ! static::hasAdjacent($record, 1))
+                    ->action(fn (HeroAdvertisement $record): void => static::swapWithAdjacent($record, 1))
+                    ->successNotificationTitle('Hero order updated'),
+
+                Action::make('toggleActive')
+                    ->label(fn (HeroAdvertisement $record): string => $record->is_active ? 'Deactivate' : 'Activate')
+                    ->icon(fn (HeroAdvertisement $record): string => $record->is_active
+                        ? 'heroicon-o-eye-slash'
+                        : 'heroicon-o-eye')
+                    ->color(fn (HeroAdvertisement $record): string => $record->is_active ? 'warning' : 'success')
+                    ->action(function (HeroAdvertisement $record): void {
+                        $record->update([
+                            'is_active' => ! $record->is_active,
+                        ]);
+                    })
+                    ->successNotificationTitle('Hero visibility updated'),
+
+                EditAction::make(),
+                DeleteAction::make(),
             ]);
+    }
+
+    protected static function hasAdjacent(HeroAdvertisement $record, int $direction): bool
+    {
+        $ordered = HeroAdvertisement::query()
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->pluck('id');
+
+        $index = $ordered->search($record->getKey());
+
+        return $index !== false
+            && isset($ordered[$index + $direction]);
+    }
+
+    protected static function swapWithAdjacent(HeroAdvertisement $record, int $direction): void
+    {
+        $ordered = HeroAdvertisement::query()
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get(['id', 'sort_order']);
+
+        $index = $ordered->search(fn (HeroAdvertisement $item): bool => $item->is($record));
+
+        if ($index === false) {
+            return;
+        }
+
+        $adjacent = $ordered->get($index + $direction);
+
+        if (! $adjacent) {
+            return;
+        }
+
+        $recordOrder = (int) $record->sort_order;
+        $adjacentOrder = (int) $adjacent->sort_order;
+        $temporaryOrder = (int) $ordered->max('sort_order') + 1;
+
+        DB::transaction(function () use ($record, $adjacent, $recordOrder, $adjacentOrder, $temporaryOrder): void {
+            $record->update(['sort_order' => $temporaryOrder]);
+            $adjacent->update(['sort_order' => $recordOrder]);
+            $record->update(['sort_order' => $adjacentOrder]);
+        });
     }
 
     public static function getPages(): array
