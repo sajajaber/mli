@@ -11,7 +11,6 @@ use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -34,94 +33,90 @@ class FooterSettingResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Footer Settings';
 
-    protected static bool $shouldRegisterNavigation = false;
+    protected static bool $shouldRegisterNavigation = true;
 
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Grid::make(12)
+            Section::make('Brand')
+                ->description('Control the footer identity and bilingual brand messaging.')
                 ->columnSpanFull()
-                ->schema([
-                    Section::make('Brand')
-                        ->description('Control the footer identity and bilingual brand messaging.')
-                        ->columnSpan(['default' => 1, 'xl' => 6])
-                        ->columns(2)
-                        ->components([
-                            TextInput::make('tagline')
-                                ->label('Tagline (English)')
-                                ->maxLength(255),
+                ->columns(2)
+                ->components([
+                    TextInput::make('tagline')
+                        ->label('Tagline (English)')
+                        ->maxLength(255),
 
-                            TextInput::make('tagline_ar')
-                                ->label('Tagline (Arabic)')
-                                ->maxLength(255)
-                                ->extraInputAttributes(['dir' => 'rtl']),
+                    TextInput::make('tagline_ar')
+                        ->label('Tagline (Arabic)')
+                        ->maxLength(255)
+                        ->extraInputAttributes(['dir' => 'rtl']),
 
-                            Textarea::make('description')
-                                ->label('Description (English)')
-                                ->rows(5)
-                                ->columnSpanFull(),
+                    Textarea::make('description')
+                        ->label('Description (English)')
+                        ->rows(5)
+                        ->columnSpanFull(),
 
-                            Textarea::make('description_ar')
-                                ->label('Description (Arabic)')
-                                ->rows(5)
-                                ->extraInputAttributes(['dir' => 'rtl'])
-                                ->columnSpanFull(),
-                        ]),
+                    Textarea::make('description_ar')
+                        ->label('Description (Arabic)')
+                        ->rows(5)
+                        ->extraInputAttributes(['dir' => 'rtl'])
+                        ->columnSpanFull(),
+                ]),
 
-                    Section::make('Contact')
-                        ->description('Public contact details displayed throughout the footer.')
-                        ->columnSpan(['default' => 1, 'xl' => 6])
-                        ->columns(2)
-                        ->components([
-                            TextInput::make('phone_primary')
-                                ->label('Primary phone')
-                                ->maxLength(255),
+            Section::make('Contact')
+                ->description('Public contact details displayed throughout the footer.')
+                ->columnSpanFull()
+                ->columns(2)
+                ->components([
+                    TextInput::make('phone_primary')
+                        ->label('Primary phone')
+                        ->maxLength(255),
 
-                            TextInput::make('phone_secondary')
-                                ->label('Secondary phone')
-                                ->maxLength(255),
+                    TextInput::make('phone_secondary')
+                        ->label('Secondary phone')
+                        ->maxLength(255),
 
-                            TextInput::make('email')
-                                ->label('Email')
-                                ->email()
-                                ->maxLength(255)
-                                ->columnSpanFull(),
-                        ]),
+                    TextInput::make('email')
+                        ->label('Email')
+                        ->email()
+                        ->maxLength(255)
+                        ->columnSpanFull(),
+                ]),
 
-                    Section::make('Office')
-                        ->description('Office location and map destination.')
-                        ->columnSpan(['default' => 1, 'xl' => 6])
-                        ->columns(2)
-                        ->components([
-                            Textarea::make('office_address')
-                                ->label('Office address')
-                                ->rows(5),
+            Section::make('Office')
+                ->description('Office location and map destination.')
+                ->columnSpanFull()
+                ->columns(2)
+                ->components([
+                    Textarea::make('office_address')
+                        ->label('Office address')
+                        ->rows(5),
 
-                            TextInput::make('map_url')
-                                ->label('Google Maps URL')
-                                ->maxLength(2048)
-                                ->helperText('Paste the full Google Maps link.')
-                                ->url(),
-                        ]),
+                    TextInput::make('map_url')
+                        ->label('Google Maps URL')
+                        ->maxLength(2048)
+                        ->helperText('Paste the full Google Maps link.')
+                        ->url(),
+                ]),
 
-                    Section::make('Social & Legal')
-                        ->description('Social profiles and the privacy policy link.')
-                        ->columnSpan(['default' => 1, 'xl' => 6])
-                        ->columns(2)
-                        ->components([
-                            TextInput::make('facebook_url')
-                                ->label('Facebook URL')
-                                ->url(),
+            Section::make('Social & Legal')
+                ->description('Social profiles and the privacy policy link.')
+                ->columnSpanFull()
+                ->columns(2)
+                ->components([
+                    TextInput::make('facebook_url')
+                        ->label('Facebook URL')
+                        ->url(),
 
-                            TextInput::make('linkedin_url')
-                                ->label('LinkedIn URL')
-                                ->url(),
+                    TextInput::make('linkedin_url')
+                        ->label('LinkedIn URL')
+                        ->url(),
 
-                            TextInput::make('privacy_policy_url')
-                                ->label('Privacy Policy URL')
-                                ->url()
-                                ->columnSpanFull(),
-                        ]),
+                    TextInput::make('privacy_policy_url')
+                        ->label('Privacy Policy URL')
+                        ->url()
+                        ->columnSpanFull(),
                 ]),
         ]);
     }

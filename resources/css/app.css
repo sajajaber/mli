@@ -12224,3 +12224,114 @@ html[dir="rtl"] .mli-show-detail__back:hover {
 .mli-opening__controls .mli-opening__control--next {
     margin-inline-end: 10px !important;
 }
+
+
+/* =========================================================
+   FINAL HOMEPAGE HERO / RESPONSIVE POLISH
+   ========================================================= */
+
+.mli-opening {
+    min-height: 100svh;
+}
+
+.mli-opening__feature,
+.mli-opening__poster {
+    height: calc(100svh - 92px);
+    min-height: calc(100svh - 92px);
+}
+
+.mli-opening__poster-image {
+    object-fit: cover;
+    object-position: center center;
+}
+
+.mli-opening__brand-note {
+    width: min(1240px, calc(100% - 48px));
+    min-height: 92px;
+}
+
+@media (max-width: 900px) {
+    .mli-opening__feature,
+    .mli-opening__poster {
+        height: calc(100svh - 100px);
+        min-height: calc(100svh - 100px);
+    }
+
+    .mli-opening__brand-note {
+        min-height: 100px;
+    }
+
+    .mli-opening__control {
+        width: 48px !important;
+        height: 58px !important;
+        font-size: 40px !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .mli-opening__feature,
+    .mli-opening__poster {
+        height: calc(100svh - 108px);
+        min-height: calc(100svh - 108px);
+    }
+
+    .mli-opening__brand-note {
+        width: calc(100% - 28px);
+        min-height: 108px;
+        padding-inline: 0;
+    }
+
+    .mli-opening__brand-note p {
+        max-width: 220px;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+    }
+
+    .mli-opening__brand-note a {
+        font-size: 9px;
+    }
+
+    .mli-opening__control {
+        width: 40px !important;
+        height: 54px !important;
+        font-size: 34px !important;
+    }
+
+    .mli-opening__controls .mli-opening__control--prev {
+        margin-inline-start: 0 !important;
+    }
+
+    .mli-opening__controls .mli-opening__control--next {
+        margin-inline-end: 0 !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .mli-opening__brand-note {
+        align-items: flex-start;
+        padding-top: 18px;
+        padding-bottom: 18px;
+    }
+
+    .mli-opening__brand-note-line {
+        width: 22px;
+        flex-basis: 22px;
+    }
+
+    .mli-opening__brand-note p {
+        max-width: 180px;
+        font-size: 9px;
+    }
+
+    .mli-opening__brand-note a {
+        width: 100%;
+        margin-inline-start: 0;
+        margin-top: 2px;
+    }
+}
+
+/* Keep admin edit cards vertically stacked and full-width where requested. */
+.mli-admin-wide-edit-form .fi-section {
+    width: 100% !important;
+    max-width: none !important;
+}

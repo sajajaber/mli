@@ -8,4 +8,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateHeroAdvertisement extends CreateRecord
 {
     protected static string $resource = HeroAdvertisementResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return HeroAdvertisementResource::getUrl('index');
+    }
 }

@@ -1,23 +1,28 @@
-@props(['heroAdvertisements'])
+@props(['shows'])
 
 @php
-$heroAds = $heroAdvertisements->values();
+$heroShows = $shows->values();
 @endphp
 
 <section
     class="mli-opening"
     aria-label="{{ app()->getLocale() === 'ar' ? 'العروض والبرامج' : 'Featured programmes' }}"
     x-data="{
-        ads: @js($heroAds->map(fn ($ad) => [
-            'image' => $ad->image_url,
-            'alt' => $ad->image_alt ?: (app()->getLocale() === 'ar' ? 'صورة ترويجية من MLI' : 'MLI promotional artwork'),
+        shows: @js($heroShows->map(fn ($show) => [
+            'title' => app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en,
+            'slug' => $show->slug,
+            'image' => $show->cover_image_url,
+            'alt' => $show->cover_image_alt ?? (app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en),
+            'category' => $show->category
+                ? (app()->getLocale() === 'ar' ? $show->category->name_ar : $show->category->name_en)
+                : '',
         ])->values()),
         index: 0,
         timer: null,
         interval: 5500,
         start() {
             this.stop();
-            if (this.ads.length > 1) {
+            if (this.shows.length > 1) {
                 this.timer = setInterval(() => this.next(), this.interval);
             }
         },
@@ -28,13 +33,13 @@ $heroAds = $heroAdvertisements->values();
             }
         },
         next() {
-            if (!this.ads.length) return;
-            this.index = (this.index + 1) % this.ads.length;
+            if (!this.shows.length) return;
+            this.index = (this.index + 1) % this.shows.length;
             this.restart();
         },
         prev() {
-            if (!this.ads.length) return;
-            this.index = (this.index - 1 + this.ads.length) % this.ads.length;
+            if (!this.shows.length) return;
+            this.index = (this.index - 1 + this.shows.length) % this.shows.length;
             this.restart();
         },
         goTo(index) {
@@ -58,22 +63,24 @@ $heroAds = $heroAdvertisements->values();
     <div class="mli-opening__inner">
         <div class="mli-opening__feature">
             <a
-                :href="'{{ route('shows.index') }}'"
-                class="mli-opening__poster" data-depth="0.18" :class="{ 'mli-opening__poster--empty': !ads.length || !ads[index]?.image }">
-                <template x-if="ads.length && ads[index]?.image">
+                :href="shows[index]?.slug
+                    ? '{{ url('/shows') }}/' + shows[index].slug
+                    : '{{ route('shows.index') }}'"
+                class="mli-opening__poster" data-depth="0.18" :class="{ 'mli-opening__poster--empty': !shows.length || !shows[index].image }">
+                <template x-if="shows.length && shows[index].image">
                     <img
-                        :src="ads[index].image"
-                        :alt="ads[index].alt"
+                        :src="shows[index].image"
+                        :alt="shows[index].alt"
                         class="mli-opening__poster-image">
                 </template>
 
             </a>
 
-            <div class="mli-opening__controls" x-show="ads.length > 1" aria-label="{{ app()->getLocale() === 'ar' ? 'التنقل بين الإعلانات' : 'Hero navigation' }}">
-                <button type="button" class="mli-opening__control mli-opening__control--prev" @click.stop="prev()" aria-label="{{ app()->getLocale() === 'ar' ? 'الإعلان السابق' : 'Previous advertisement' }}">
+            <div class="mli-opening__controls" x-show="shows.length > 1" aria-label="{{ app()->getLocale() === 'ar' ? 'التنقل بين البرامج' : 'Show navigation' }}">
+                <button type="button" class="mli-opening__control mli-opening__control--prev" @click.stop="prev()" aria-label="{{ app()->getLocale() === 'ar' ? 'البرنامج السابق' : 'Previous show' }}">
                     <span aria-hidden="true">‹</span>
                 </button>
-                <button type="button" class="mli-opening__control mli-opening__control--next" @click.stop="next()" aria-label="{{ app()->getLocale() === 'ar' ? 'الإعلان التالي' : 'Next advertisement' }}">
+                <button type="button" class="mli-opening__control mli-opening__control--next" @click.stop="next()" aria-label="{{ app()->getLocale() === 'ar' ? 'البرنامج التالي' : 'Next show' }}">
                     <span aria-hidden="true">›</span>
                 </button>
             </div>
