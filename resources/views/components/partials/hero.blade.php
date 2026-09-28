@@ -70,17 +70,18 @@ $heroAds = $heroAdvertisements->values();
                 </template>
             </a>
 
-            <div
-                class="mli-opening__controls"
-                x-show="ads.length > 1"
-                aria-label="{{ app()->getLocale() === 'ar' ? 'التنقل بين الإعلانات' : 'Hero navigation' }}">
-                <button type="button" class="mli-opening__control mli-opening__control--prev" @click.stop="prev()" aria-label="{{ app()->getLocale() === 'ar' ? 'الإعلان السابق' : 'Previous advertisement' }}">
-                    <span aria-hidden="true">‹</span>
-                </button>
-                <button type="button" class="mli-opening__control mli-opening__control--next" @click.stop="next()" aria-label="{{ app()->getLocale() === 'ar' ? 'الإعلان التالي' : 'Next advertisement' }}">
-                    <span aria-hidden="true">›</span>
-                </button>
-            </div>
+            @if ($heroAds->count() > 1)
+                <div
+                    class="mli-opening__controls"
+                    aria-label="{{ app()->getLocale() === 'ar' ? 'التنقل بين الإعلانات' : 'Hero navigation' }}">
+                    <button type="button" class="mli-opening__control mli-opening__control--prev" @click.stop="prev()" aria-label="{{ app()->getLocale() === 'ar' ? 'الإعلان السابق' : 'Previous advertisement' }}">
+                        <span aria-hidden="true">‹</span>
+                    </button>
+                    <button type="button" class="mli-opening__control mli-opening__control--next" @click.stop="next()" aria-label="{{ app()->getLocale() === 'ar' ? 'الإعلان التالي' : 'Next advertisement' }}">
+                        <span aria-hidden="true">›</span>
+                    </button>
+                </div>
+            @endif
         </div>
     </div>
 
