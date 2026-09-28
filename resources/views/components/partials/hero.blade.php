@@ -6,7 +6,7 @@ $heroShows = $shows->values();
 
 <section
     class="mli-opening"
-    aria-labelledby="hero-title"
+    aria-label="{{ app()->getLocale() === 'ar' ? 'العروض والبرامج' : 'Featured programmes' }}"
     x-data="{
         shows: @js($heroShows->map(fn ($show) => [
             'title' => app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en,
@@ -61,35 +61,7 @@ $heroShows = $shows->values();
     <div class="mli-opening__grain" aria-hidden="true"></div>
 
     <div class="mli-opening__inner">
-        <div class="mli-opening__copy">
-            <p class="mli-opening__eyebrow">
-                <i></i>
-                {{ app()->getLocale() === 'ar' ? 'تنوع. جودة. توافر.' : 'Variety. Quality. Availability.' }}
-            </p>
-
-            <h1 id="hero-title">
-                @if(app()->getLocale() === 'ar')
-                <span class="mli-opening__word">تنوع.</span> <span class="mli-opening__word">جودة.</span> <span class="mli-opening__word">توافر.</span>
-                @else
-                <span class="mli-opening__word">Variety.</span> <span class="mli-opening__word">Quality.</span> <span class="mli-opening__word">Availability.</span>
-                @endif
-            </h1>
-
-            <p class="mli-opening__statement">
-                @if(app()->getLocale() === 'ar')
-                مكتبة مبنية على ثلاثة أركان: تنوع الخيارات، جودة المحتوى، وتوافره للجمهور.
-                @else
-                A catalogue built around three things: breadth of choice, a commitment to quality, and content ready when audiences need it.
-                @endif
-            </p>
-
-            <a href="{{ route('shows.index') }}" class="mli-opening__enter">
-                <span>{{ app()->getLocale() === 'ar' ? 'اكتشف المكتبة' : 'Explore the library' }}</span>
-                <b>↗</b>
-            </a>
-        </div>
-
-        <div class="mli-opening__feature" data-reveal="scale">
+        <div class="mli-opening__feature">
             <a
                 :href="shows[index]?.slug
                     ? '{{ url('/shows') }}/' + shows[index].slug
@@ -102,11 +74,6 @@ $heroShows = $shows->values();
                         class="mli-opening__poster-image">
                 </template>
 
-                <span class="mli-opening__poster-wash"></span>
-                <span class="mli-opening__poster-copy">
-                    <small x-text="shows[index]?.category || '{{ app()->getLocale() === 'ar' ? 'محتوى MLI' : 'MLI CONTENT' }}'"></small>
-                    <strong x-text="shows[index]?.title || '{{ app()->getLocale() === 'ar' ? 'لا توجد برامج منشورة' : 'No published shows yet' }}'"></strong>
-                </span>
             </a>
 
             <div class="mli-opening__controls" x-show="shows.length > 1" aria-label="{{ app()->getLocale() === 'ar' ? 'التنقل بين البرامج' : 'Show navigation' }}">
@@ -120,7 +87,15 @@ $heroShows = $shows->values();
 
         </div>
     </div>
-</section>
 
+    <div class="mli-opening__brand-note">
+        <span class="mli-opening__brand-note-line" aria-hidden="true"></span>
+        <p>{{ app()->getLocale() === 'ar' ? 'تنوع. جودة. توافر.' : 'Variety. Quality. Availability.' }}</p>
+        <a href="{{ route('shows.index') }}">
+            {{ app()->getLocale() === 'ar' ? 'اكتشف المكتبة' : 'Explore the library' }}
+            <b aria-hidden="true">↗</b>
+        </a>
+    </div>
+</section>
 
 {{-- Hero navigation uses Alpine state on the section above. --}}
