@@ -12,7 +12,7 @@ class ListHeroAdvertisements extends ListRecords
 {
     protected static string $resource = HeroAdvertisementResource::class;
 
-    protected static string $view = 'filament.resources.hero-advertisements.pages.list-hero-advertisements';
+    protected string $view = 'filament.resources.hero-advertisements.pages.list-hero-advertisements';
 
     public function getHeroAdvertisements()
     {
