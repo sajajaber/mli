@@ -152,7 +152,17 @@
                             <span class="mli-show__details">
                                 <span>
                                     <h2 x-text="item.title"></h2>
-                                    <p x-text="item.category + ' · ' + (item.date || '')"></p>
+                                    <p>
+                                        <span
+                                            class="mli-news-show-card__category"
+                                            :class="item.type === 'mli_news'
+                                                ? 'mli-news-show-card__category--mli'
+                                                : 'mli-news-show-card__category--media'"
+                                            x-text="item.category"
+                                        ></span>
+                                        <span class="mli-news-show-card__separator" aria-hidden="true"> · </span>
+                                        <span x-text="item.date || ''"></span>
+                                    </p>
                                 </span>
 
                                 <span class="mli-show__dash" aria-hidden="true"></span>
