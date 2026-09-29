@@ -9,6 +9,11 @@ class ShowObserver
 {
     public function updating(Show $show): void
     {
+        // Homepage ordering only applies to published New Releases.
+        if (! $show->is_new_release || $show->status !== 'published') {
+            $show->sort_order = 0;
+        }
+
         // If the cover image was replaced, delete the old file from disk.
         if ($show->isDirty('cover_image_path')) {
             $original = $show->getOriginal('cover_image_path');
