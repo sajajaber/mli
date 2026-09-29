@@ -182,7 +182,7 @@ class NewsResource extends Resource
                     ->badge()
                     ->color(fn (string $state) => match ($state) {
                         'media_news' => 'info',
-                        'mli_news' => 'primary',
+                        'mli_news' => 'warning',
                         default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state) => match ($state) {
