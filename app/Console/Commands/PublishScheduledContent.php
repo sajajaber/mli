@@ -6,6 +6,7 @@ use App\Models\News;
 use App\Models\Show;
 use App\Models\SiteContent;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class PublishScheduledContent extends Command
@@ -16,12 +17,14 @@ class PublishScheduledContent extends Command
 
     public function handle(): int
     {
-        $now = now();
+        $now = Carbon::now('UTC');
         $totalPublished = 0;
 
         foreach ([Show::class, News::class, SiteContent::class] as $modelClass) {
-            $due = $modelClass::where('status', 'scheduled')
-                ->where('published_at', '<=', $now)
+            $due = $modelClass::query()
+                ->where('status', 'scheduled')
+                ->whereNotNull('published_at')
+                ->where('published_at', '<=', $now->toDateTimeString())
                 ->get();
 
             foreach ($due as $item) {
@@ -33,13 +36,23 @@ class PublishScheduledContent extends Command
                         ->update(['status' => 'draft']);
                 }
 
-                $item->update(['status' => 'published']);
+                $updated = $modelClass::query()
+                    ->whereKey($item->getKey())
+                    ->where('status', 'scheduled')
+                    ->update(['status' => 'published']);
+
+                if ($updated !== 1) {
+                    continue;
+                }
+
                 $totalPublished++;
 
-                Log::info("Auto-published {$modelClass}", [
-                    'id' => $item->id,
+                Log::info('Auto-published scheduled content.', [
+                    'model' => $modelClass,
+                    'id' => $item->getKey(),
                     'title_en' => $item->title_en ?? null,
-                    'published_at' => $item->published_at,
+                    'scheduled_for_utc' => $item->published_at?->copy()->utc()->toDateTimeString(),
+                    'checked_at_utc' => $now->toDateTimeString(),
                 ]);
             }
         }
