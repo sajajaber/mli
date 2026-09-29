@@ -33,11 +33,7 @@ class FooterSettingResource extends Resource
 
     public static function getNavigationUrl(): string
     {
-        $footer = FooterSetting::query()->first();
-
-        return $footer
-            ? static::getUrl('edit')
-            : static::getUrl('index');
+        return static::getUrl('edit');
     }
 
     public static function form(Schema $schema): Schema
