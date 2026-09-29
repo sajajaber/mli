@@ -223,6 +223,7 @@ class ShowResource extends Resource
 
                 TextColumn::make('published_at')
                     ->dateTime()
+                    ->timezone('Asia/Beirut')
                     ->sortable()
                     ->toggleable(),
 
