@@ -248,7 +248,14 @@ class ShowResource extends Resource
 
             ])
             ->defaultSort('sort_order')
-            ->reorderable('sort_order')            ->poll('10s')
+            ->reorderable('sort_order')
+            ->reorderRecordsTriggerAction(
+                fn (\Filament\Actions\Action $action, bool $isReordering) => $action
+                    ->button()
+                    ->label($isReordering ? 'Done reordering' : 'Reorder shows')
+                    ->icon($isReordering ? Heroicon::Check : Heroicon::ArrowsUpDown),
+            )
+            ->poll('10s')
             ->filters([
                 SelectFilter::make('is_new_release')
                     ->label('New Release')
