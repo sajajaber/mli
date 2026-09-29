@@ -171,7 +171,7 @@ class ShowResource extends Resource
 
                             Toggle::make('is_new_release')
                                 ->label('New Release')
-                                ->helperText('Show this title in the homepage library.')
+                                ->helperText('Show this title in the homepage New Releases section.')
                                 ->default(false),
 
                             DateTimePicker::make('published_at')
@@ -186,6 +186,12 @@ class ShowResource extends Resource
                                     fn(callable $get) =>
                                     $get('status') === 'scheduled'
                                 ),
+
+                            TextInput::make('sort_order')
+                                ->label('Sort Order')
+                                ->numeric()
+                                ->default(0)
+                                ->helperText('Lower numbers appear first where ordering is used.'),
 
                         ]),
                 ]),
@@ -221,6 +227,12 @@ class ShowResource extends Resource
                     ->timezone('Asia/Beirut')
                     ->sortable()
                     ->toggleable(),
+
+                TextColumn::make('sort_order')
+                    ->sortable()
+                    ->toggleable(
+                        isToggledHiddenByDefault: true
+                    ),
 
             ])
             ->defaultSort('sort_order')
