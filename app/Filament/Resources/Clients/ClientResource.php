@@ -35,7 +35,7 @@ class ClientResource extends Resource
     {
         return $schema->components([
             Section::make('Client Information')
-                ->description('Manage the client name, logo, and display order used on the public website.')
+                ->description('Manage the client name and logo used on the public website.')
                 ->columnSpan(['default' => 1, 'xl' => 11])
                 ->columns(2)
                 ->components([
@@ -54,11 +54,6 @@ class ClientResource extends Resource
                         ->required()
                         ->maxLength(255),
 
-                    TextInput::make('sort_order')
-                        ->label('Sort Order')
-                        ->numeric()
-                        ->default(0)
-                        ->helperText('Lower numbers appear first where ordering is used.'),
                 ]),
         ]);
     }
