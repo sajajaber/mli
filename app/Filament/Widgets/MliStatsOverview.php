@@ -7,16 +7,20 @@ use App\Models\News;
 use App\Models\Person;
 use App\Models\Show;
 use App\Models\SiteContent;
-use Filament\Widgets\StatsOverviewWidget as BaseWidget;
-use Filament\Widgets\StatsOverviewWidget\Stat;
+use Filament\Widgets\Widget;
 use Illuminate\Support\Facades\Cache;
 
-class MliStatsOverview extends BaseWidget
+class MliStatsOverview extends Widget
 {
+    protected static string $view = 'filament.widgets.mli-stats-overview';
+
     protected static bool $isLazy = false;
-    protected function getStats(): array
+
+    protected int|string|array $columnSpan = 'full';
+
+    public function getDashboardMetrics(): array
     {
-        $metrics = Cache::remember(
+        return Cache::remember(
             'admin.dashboard.stats',
             now()->addSeconds(30),
             function (): array {
@@ -62,10 +66,7 @@ class MliStatsOverview extends BaseWidget
                     $shows?->next_scheduled,
                     $news?->next_scheduled,
                     $siteContent?->next_scheduled,
-                ])
-                    ->filter()
-                    ->sort()
-                    ->first();
+                ])->filter()->sort()->first();
 
                 return [
                     'live_count' => (int) ($shows?->published_count ?? 0) + (int) ($news?->published_count ?? 0),
@@ -78,39 +79,5 @@ class MliStatsOverview extends BaseWidget
                 ];
             }
         );
-
-        $nextScheduledDescription = $metrics['next_scheduled']
-            ? 'Next: ' . \Illuminate\Support\Carbon::parse($metrics['next_scheduled'])->format('M j, g:ia')
-            : 'Nothing scheduled';
-
-        return [
-            Stat::make('Live on the Site', $metrics['live_count'])
-                ->description('Published shows + news articles')
-                ->descriptionIcon('heroicon-m-globe-alt')
-                ->color('success'),
-
-            Stat::make('Needs Attention', $metrics['draft_count'])
-                ->description($metrics['draft_count'] > 0 ? 'Drafts waiting to be finished or published' : 'All caught up')
-                ->descriptionIcon('heroicon-m-pencil-square')
-                ->color($metrics['draft_count'] > 0 ? 'danger' : 'success'),
-
-            Stat::make('Publishing Soon', $metrics['scheduled_count'])
-                ->description($nextScheduledDescription)
-                ->descriptionIcon('heroicon-m-clock')
-                ->color('info'),
-
-            Stat::make('Added This Week', $metrics['added_this_week'])
-                ->description('New shows + news in the last 7 days')
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->color('gray'),
-
-            Stat::make('Active Team Members', $metrics['active_team_members'])
-                ->descriptionIcon('heroicon-m-users')
-                ->color('gray'),
-
-            Stat::make('Clients', $metrics['clients'])
-                ->descriptionIcon('heroicon-m-briefcase')
-                ->color('gray'),
-        ];
     }
 }
