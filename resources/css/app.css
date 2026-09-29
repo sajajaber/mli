@@ -4996,11 +4996,11 @@ html.mli-public-home .mli-catalogue__bottom a:hover {
 
 @keyframes mli-clients-scroll {
     from {
-        transform: translateX(0);
+        transform: translate3d(0, 0, 0);
     }
 
     to {
-        transform: translateX(-50%);
+        transform: translate3d(-25%, 0, 0);
     }
 }
 
