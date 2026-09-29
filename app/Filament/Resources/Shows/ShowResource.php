@@ -171,7 +171,7 @@ class ShowResource extends Resource
 
                             Toggle::make('is_new_release')
                                 ->label('New Release')
-                                ->helperText('Show this title in the homepage New Releases section.')
+                                ->helperText('Show this title in the homepage library.')
                                 ->default(false),
 
                             DateTimePicker::make('published_at')
@@ -187,11 +187,6 @@ class ShowResource extends Resource
                                     $get('status') === 'scheduled'
                                 ),
 
-                            TextInput::make('sort_order')
-                                ->label('Sort Order')
-                                ->numeric()
-                                ->default(0)
-                                ->helperText('Lower numbers appear first where ordering is used.'),
                         ]),
                 ]),
         ]);
@@ -227,13 +222,21 @@ class ShowResource extends Resource
                     ->sortable()
                     ->toggleable(),
 
-                TextColumn::make('sort_order')
-                    ->sortable()
-                    ->toggleable(
-                        isToggledHiddenByDefault: true
-                    ),
             ])
             ->defaultSort('sort_order')
+            ->reorderable(
+                'sort_order',
+                fn ($livewire): bool =>
+                    blank($livewire->tableFilters)
+                    && blank($livewire->tableSearch)
+                    && blank($livewire->tableSort),
+            )
+            ->reorderRecordsTriggerAction(
+                fn (\Filament\Actions\Action $action, bool $isReordering) => $action
+                    ->button()
+                    ->label($isReordering ? 'Done reordering' : 'Reorder shows')
+                    ->icon($isReordering ? Heroicon::Check : Heroicon::ArrowsUpDown),
+            )
             ->poll('10s')
             ->filters([
                 SelectFilter::make('is_new_release')
