@@ -15,7 +15,7 @@
         </div>
 
         @if($clients->isNotEmpty())
-            <div class="mli-clients__marquee" aria-label="{{ app()->getLocale() === 'ar' ? 'العملاء والشركاء' : 'Clients and partners' }}">
+            <div class="mli-clients__marquee {{ $clients->count() <= 5 ? 'mli-clients__marquee--static' : '' }}" aria-label="{{ app()->getLocale() === 'ar' ? 'العملاء والشركاء' : 'Clients and partners' }}">
                 <div class="mli-clients__track">
                     @foreach($clients as $client)
                         <div class="mli-client-logo" title="{{ $client->name }}">
