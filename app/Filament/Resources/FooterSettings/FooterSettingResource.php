@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Model;
 
 class FooterSettingResource extends Resource
 {
@@ -34,6 +35,11 @@ class FooterSettingResource extends Resource
     public static function getNavigationUrl(): string
     {
         return static::getUrl('edit');
+    }
+
+    public static function getIndexUrl(array $parameters = [], bool $isAbsolute = true, ?string $panel = null, ?Model $tenant = null, bool $shouldGuessMissingParameters = false): string
+    {
+        return static::getUrl('edit', [], $isAbsolute, $panel, $tenant, $shouldGuessMissingParameters);
     }
 
     public static function form(Schema $schema): Schema
