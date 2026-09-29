@@ -195,6 +195,7 @@ class NewsResource extends Resource
 
                 TextColumn::make('published_at')
                     ->dateTime()
+                    ->timezone('Asia/Beirut')
                     ->sortable()
                     ->toggleable(),
             ])
