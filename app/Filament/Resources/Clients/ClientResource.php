@@ -75,9 +75,10 @@ class ClientResource extends Resource
             ->defaultSort('sort_order')
             ->reorderable('sort_order')
             ->reorderRecordsTriggerAction(
-                fn (Action $action) => $action
-                    ->label('Reorder Clients')
-                    ->icon('heroicon-o-arrows-up-down')
+                fn (Action $action, bool $isReordering) => $action
+                    ->button()
+                    ->label($isReordering ? 'Done reordering' : 'Reorder clients')
+                    ->icon($isReordering ? Heroicon::Check : Heroicon::ArrowsUpDown),
             )
             ->recordActions([
                 \Filament\Actions\EditAction::make(),
