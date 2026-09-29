@@ -97,6 +97,7 @@ class SiteContentResource extends Resource
                             DateTimePicker::make('published_at')
                                 ->label('Publish At')
                                 ->native(false)
+                                ->timezone('Asia/Beirut')
                                 ->visible(fn (callable $get) => $get('status') === 'scheduled')
                                 ->required(fn (callable $get) => $get('status') === 'scheduled'),
                         ]),
@@ -137,6 +138,7 @@ class SiteContentResource extends Resource
     {
         return $table
             ->paginated(false)
+            ->poll('10s')
             ->columns([
                 TextColumn::make('title_en')->label('Content')->searchable()->sortable(),
                 TextColumn::make('key')->label('Section')->searchable(),
