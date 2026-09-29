@@ -15,6 +15,7 @@ class FooterSetting extends Model
         'phone_secondary',
         'email',
         'office_address',
+        'office_address_ar',
         'map_url',
         'facebook_url',
         'linkedin_url',
