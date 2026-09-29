@@ -24,7 +24,9 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Table;
 
 class ShowResource extends Resource
@@ -265,6 +267,31 @@ class ShowResource extends Resource
                         'name_en'
                     )
                     ->label('Category'),
+
+                Filter::make('published_at')
+                    ->label('Published At')
+                    ->form([
+                        DateTimePicker::make('published_from')
+                            ->label('From')
+                            ->native(false)
+                            ->timezone('Asia/Beirut'),
+
+                        DateTimePicker::make('published_until')
+                            ->label('To')
+                            ->native(false)
+                            ->timezone('Asia/Beirut'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['published_from'] ?? null,
+                                fn (Builder $query, $date) => $query->where('published_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['published_until'] ?? null,
+                                fn (Builder $query, $date) => $query->where('published_at', '<=', $date),
+                            );
+                    }),
             ])
             ->recordActions([
                 static::publishAction(),
