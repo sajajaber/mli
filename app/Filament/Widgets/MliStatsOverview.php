@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Cache;
 
 class MliStatsOverview extends Widget
 {
-    protected static string $view = 'filament.widgets.mli-stats-overview';
+    protected string $view = 'filament.widgets.mli-stats-overview';
 
     protected static bool $isLazy = false;
 
