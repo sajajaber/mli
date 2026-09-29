@@ -11,13 +11,14 @@ use Illuminate\Support\Facades\Log;
 
 class PublishScheduledContent extends Command
 {
-    protected $signature = 'content:publish-scheduled';
+    protected $signature = 'content:publish-scheduled {--debug : Show scheduled timestamps and comparison details}';
 
     protected $description = 'Publish shows, news, and site content whose scheduled publish time has arrived';
 
     public function handle(): int
     {
         $now = Carbon::now('UTC');
+        $debug = (bool) $this->option('debug');
         $totalChecked = 0;
         $totalPublished = 0;
 
@@ -37,6 +38,17 @@ class PublishScheduledContent extends Command
                 }
 
                 $publishedAtUtc = $publishedAt->copy()->utc();
+
+                if ($debug) {
+                    $this->line(sprintf(
+                        '%s #%s — scheduled UTC: %s | current UTC: %s | due: %s',
+                        class_basename($modelClass),
+                        $item->getKey(),
+                        $publishedAtUtc->toDateTimeString(),
+                        $now->toDateTimeString(),
+                        $publishedAtUtc->lessThanOrEqualTo($now) ? 'yes' : 'no',
+                    ));
+                }
 
                 if ($publishedAtUtc->greaterThan($now)) {
                     continue;
