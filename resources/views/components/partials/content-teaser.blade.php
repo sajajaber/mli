@@ -6,9 +6,9 @@ $libraryShows = $shows->take(12)->values();
 
 <section id="content" class="mli-catalogue mli-catalogue--light">
     <div class="mli-catalogue__intro container" data-reveal="up">
-        <div>
+        <div>   
             <span class="mli-catalogue__index">02 / THE LIBRARY</span>
-            <h2>{{ app()->getLocale() === 'ar' ? 'تنوع. جودة. توافر.' : 'Variety. Quality. Availability.' }}</h2>
+            <h2>{{ app()->getLocale() === 'ar' ? 'تنوّع. جودة. توافر.' : 'Variety. Quality. Availability.' }}</h2>
         </div>
         <p>{{ app()->getLocale() === 'ar' ? 'ثلاثة مبادئ تشكل مكتبتنا — تنوع واسع، جودة مختارة بعناية، ومحتوى متاح للشركاء والجمهور.' : 'Three principles shape the library — a wide range of titles, carefully selected quality, and content ready for partners and audiences.' }}</p>
     </div>

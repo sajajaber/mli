@@ -9167,46 +9167,6 @@ html[dir="rtl"] .mli-news-show-card .mli-show__details h2 {
     }
 }
 
-/* NEWS — EXACT HOMEPAGE LIBRARY HEADING TYPOGRAPHY */
-.mli-news-header .mli-shows-header h1 {
-    margin-top: 18px !important;
-    max-width: none !important;
-    color: #2f4156 !important;
-    font-family: Georgia, "Times New Roman", serif !important;
-    font-size: clamp(54px, 7vw, 105px) !important;
-    line-height: 1.15 !important;
-    padding-bottom: 0.12em !important;
-    font-weight: 400 !important;
-    letter-spacing: -0.065em !important;
-    white-space: normal !important;
-}
-
-html[dir="rtl"] .mli-news-header .mli-shows-header h1 {
-    font-family: "IBM Plex Sans Arabic", "Readex Pro", ui-sans-serif, system-ui, sans-serif !important;
-    font-size: clamp(54px, 7vw, 105px) !important;
-    line-height: 1.08 !important;
-    padding-bottom: 0.12em !important;
-    font-weight: 500 !important;
-    letter-spacing: -0.025em !important;
-    text-align: right !important;
-    white-space: normal !important;
-}
-
-@media (max-width: 900px) {
-    .mli-news-header .mli-shows-header h1,
-    html[dir="rtl"] .mli-news-header .mli-shows-header h1 {
-        font-size: clamp(52px, 15vw, 82px) !important;
-    }
-}
-
-@media (max-width: 640px) {
-    .mli-news-header .mli-shows-header h1,
-    html[dir="rtl"] .mli-news-header .mli-shows-header h1 {
-        font-size: clamp(48px, 14vw, 78px) !important;
-        line-height: 1.05 !important;
-    }
-}
-
 /* =========================================================
    MLI MOTION SYSTEM — CINEMATIC EDITORIAL
    ========================================================= */
@@ -11986,7 +11946,6 @@ html[dir="rtl"] .mli-show-detail__back:hover {
     }
 }
 
-
 /* =========================================================
    HERO — artwork-first presentation
    ========================================================= */
@@ -12185,7 +12144,6 @@ html[dir="rtl"] .mli-show-detail__back:hover {
     }
 }
 
-
 /* Final hero navigation positioning */
 .mli-opening__controls {
     position: absolute !important;
@@ -12219,7 +12177,6 @@ html[dir="rtl"] .mli-show-detail__back:hover {
 .mli-opening__controls .mli-opening__control--next {
     margin-inline-end: 10px !important;
 }
-
 
 /* =========================================================
    FINAL HOMEPAGE HERO / RESPONSIVE POLISH
@@ -12329,4 +12286,48 @@ html[dir="rtl"] .mli-show-detail__back:hover {
 .mli-admin-wide-edit-form .fi-section {
     width: 100% !important;
     max-width: none !important;
+}
+
+.mli-shows-page .mli-shows-header h1,
+.mli-news-page .mli-shows-header h1 {
+    margin: 0 !important;
+    max-width: 980px !important;
+    color: #2f4156 !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: clamp(44px, 6vw, 92px) !important;
+    line-height: 0.9 !important;
+    letter-spacing: -0.055em !important;
+    font-weight: 400 !important;
+    padding-bottom: 0 !important;
+    white-space: normal !important; /* nowrap would overflow the longer News title */
+}
+
+html[dir="rtl"] .mli-shows-page .mli-shows-header h1,
+html[dir="rtl"] .mli-news-page .mli-shows-header h1 {
+    font-family:
+        "IBM Plex Sans Arabic", "Readex Pro", ui-sans-serif, system-ui,
+        sans-serif !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.025em !important;
+    line-height: 1.05 !important;
+    text-align: right !important;
+}
+
+@media (max-width: 640px) {
+    .mli-shows-page .mli-shows-header h1,
+    .mli-news-page .mli-shows-header h1 {
+        font-size: clamp(48px, 15vw, 80px) !important;
+        line-height: 1 !important;
+    }
+
+    html[dir="rtl"] .mli-shows-page .mli-shows-header h1,
+    html[dir="rtl"] .mli-news-page .mli-shows-header h1 {
+        font-size: clamp(42px, 12vw, 72px) !important;
+        line-height: 1.08 !important;
+    }
+}
+
+html[dir="rtl"] .mli-catalogue h2 {
+    font-style: normal; 
+    margin-right: 6px;
 }

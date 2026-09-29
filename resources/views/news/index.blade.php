@@ -63,13 +63,13 @@
 
                     <div>
                         <h1>
-                            {{ $isArabic ? 'قصص تستحق أن تُعرف' : 'Stories worth knowing.' }}
+                            {{ $isArabic ? 'آخر الأخبار' : 'Stories worth knowing.' }}
                         </h1>
                     </div>
 
                     <p class="mli-shows-header__copy">
                         {{ $isArabic
-                            ? 'آخر أخبار MLI وأخبار الإعلام والاتصال.'
+                            ? 'آخر أخبار MLI وأخبار الإعلام.'
                             : 'The latest from MLI, media, and the world of communication.' }}
                     </p>
                 </div>
