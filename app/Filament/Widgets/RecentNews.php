@@ -9,6 +9,8 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class RecentNews extends BaseWidget
 {
+    protected static ?int $sort = 3;
+
     protected static bool $isLazy = false;
     protected static ?string $heading = 'Recently Added News';
 
