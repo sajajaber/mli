@@ -18,8 +18,11 @@ class HomeController extends Controller
         // This avoids unserializing stale Eloquent Collection objects
         // after code/dependency changes.
         $shows = Show::published()
+            ->where('is_new_release', true)
             ->with('category')
-            ->latest('published_at')
+            ->orderBy('sort_order')
+            ->orderByDesc('published_at')
+            ->orderByDesc('id')
             ->limit(12)
             ->get();
 
