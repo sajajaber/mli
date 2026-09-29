@@ -8850,12 +8850,32 @@ html[dir="rtl"] .mli-news-article__content blockquote {
 
 .mli-news-show-card .mli-show__details p {
     margin: 6px 0 0;
-    color: #567c8d;
+    color: #6d7882;
     font-size: 9px;
     font-weight: 700;
     letter-spacing: 0.14em;
     line-height: 1.5;
     text-transform: uppercase;
+}
+
+.mli-news-show-card__category {
+    transition: color 0.25s ease;
+}
+
+.mli-news-show-card__category--mli {
+    color: #c5a46d;
+}
+
+.mli-news-show-card__category--media {
+    color: #567c8d;
+}
+
+.mli-news-show-card:hover .mli-news-show-card__category--mli {
+    color: #a98245;
+}
+
+.mli-news-show-card:hover .mli-news-show-card__category--media {
+    color: #2f4156;
 }
 
 .mli-news-show-card:hover .mli-show__details h2 {
