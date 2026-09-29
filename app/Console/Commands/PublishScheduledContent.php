@@ -18,16 +18,30 @@ class PublishScheduledContent extends Command
     public function handle(): int
     {
         $now = Carbon::now('UTC');
+        $totalChecked = 0;
         $totalPublished = 0;
 
         foreach ([Show::class, News::class, SiteContent::class] as $modelClass) {
-            $due = $modelClass::query()
+            $scheduledItems = $modelClass::query()
                 ->where('status', 'scheduled')
                 ->whereNotNull('published_at')
-                ->where('published_at', '<=', $now->toDateTimeString())
                 ->get();
 
-            foreach ($due as $item) {
+            foreach ($scheduledItems as $item) {
+                $totalChecked++;
+
+                $publishedAt = $item->published_at;
+
+                if (! $publishedAt) {
+                    continue;
+                }
+
+                $publishedAtUtc = $publishedAt->copy()->utc();
+
+                if ($publishedAtUtc->greaterThan($now)) {
+                    continue;
+                }
+
                 if ($item instanceof SiteContent) {
                     SiteContent::query()
                         ->where('key', $item->key)
@@ -51,7 +65,7 @@ class PublishScheduledContent extends Command
                     'model' => $modelClass,
                     'id' => $item->getKey(),
                     'title_en' => $item->title_en ?? null,
-                    'scheduled_for_utc' => $item->published_at?->copy()->utc()->toDateTimeString(),
+                    'scheduled_for_utc' => $publishedAtUtc->toDateTimeString(),
                     'checked_at_utc' => $now->toDateTimeString(),
                 ]);
             }
@@ -60,7 +74,7 @@ class PublishScheduledContent extends Command
         if ($totalPublished > 0) {
             $this->info("Published {$totalPublished} item(s).");
         } else {
-            $this->info('No scheduled content due for publishing.');
+            $this->info("Checked {$totalChecked} scheduled item(s); none are due yet.");
         }
 
         return self::SUCCESS;
