@@ -1778,3 +1778,39 @@
         grid-column: auto;
     }
 }
+
+
+/* ---------------------------------------------------------
+   MLI dashboard — explicit widget layout
+   --------------------------------------------------------- */
+
+.mli-admin-dashboard-widgets {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    width: 100%;
+    align-items: start;
+}
+
+.mli-admin-dashboard-widgets > * {
+    min-width: 0;
+}
+
+.mli-admin-dashboard-widgets > :first-child {
+    grid-column: 1 / -1;
+}
+
+.mli-admin-dashboard-widgets .fi-wi {
+    width: 100%;
+    min-width: 0;
+}
+
+@media (max-width: 1024px) {
+    .mli-admin-dashboard-widgets {
+        grid-template-columns: 1fr;
+    }
+
+    .mli-admin-dashboard-widgets > :first-child {
+        grid-column: auto;
+    }
+}
