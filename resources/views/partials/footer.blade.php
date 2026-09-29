@@ -8,6 +8,10 @@
     $description = app()->getLocale() === 'ar'
         ? ($footer?->description_ar ?: $footer?->description)
         : $footer?->description;
+
+    $officeAddress = app()->getLocale() === 'ar'
+        ? ($footer?->office_address_ar ?: $footer?->office_address)
+        : $footer?->office_address;
 @endphp
 
 <footer id="contact" class="mli-footer">
@@ -21,12 +25,13 @@
                     </a>
 
                     <div class="mli-footer-brand-copy">
-                        <h2>{{ app()->getLocale() === 'ar' ? 'ميديا لينك إنترناشونال' : 'Media Link International' }}</h2>
-                        <p>
-                            {{ app()->getLocale() === 'ar'
-                                ? 'نربط القصص والإعلام والأشخاص من خلال تواصل هادف وتجارب إبداعية.'
-                                : 'Connecting stories, media and people through meaningful communication and creative experiences.' }}
-                        </p>
+                        @if($tagline)
+                            <h2>{{ $tagline }}</h2>
+                        @endif
+
+                        @if($description)
+                            <p>{{ $description }}</p>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -52,13 +57,13 @@
                 </span>
 
                 @if($footer?->phone_primary)
-                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $footer->phone_primary) }}" class="mli-footer-text-link">
+                    <a dir="ltr" href="tel:{{ preg_replace('/[^0-9+]/', '', $footer->phone_primary) }}" class="mli-footer-text-link mli-footer-phone">
                         {{ $footer->phone_primary }}
                     </a>
                 @endif
 
                 @if($footer?->phone_secondary)
-                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $footer->phone_secondary) }}" class="mli-footer-text-link">
+                    <a dir="ltr" href="tel:{{ preg_replace('/[^0-9+]/', '', $footer->phone_secondary) }}" class="mli-footer-text-link mli-footer-phone">
                         {{ $footer->phone_secondary }}
                     </a>
                 @endif
@@ -69,9 +74,9 @@
                     {{ app()->getLocale() === 'ar' ? 'المكتب' : 'Office' }}
                 </span>
 
-                @if($footer?->office_address)
-                    <address class="mli-footer-address">
-                        {!! nl2br(e($footer->office_address)) !!}
+                @if($officeAddress)
+                    <address dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="mli-footer-address">
+                        {!! nl2br(e($officeAddress)) !!}
                     </address>
                 @endif
 
