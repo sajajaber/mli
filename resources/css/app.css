@@ -9167,31 +9167,35 @@ html[dir="rtl"] .mli-news-show-card .mli-show__details h2 {
     }
 }
 
-/* NEWS — REDUCE HEADLINE SCALE */
+/* NEWS — HOMEPAGE LIBRARY HEADING STYLE */
 .mli-news-header .mli-shows-header h1 {
-    font-size: clamp(48px, 6.2vw, 94px);
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: clamp(54px, 7vw, 105px) !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.065em !important;
+    font-weight: 400 !important;
 }
 
-.mli-news-article__header h1 {
-    font-size: clamp(46px, 6.2vw, 90px);
+html[dir="rtl"] .mli-news-header .mli-shows-header h1 {
+    font-family: "IBM Plex Sans Arabic", "Readex Pro", ui-sans-serif, system-ui, sans-serif !important;
+    font-size: clamp(54px, 7vw, 105px) !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.025em !important;
+    font-weight: 400 !important;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
     .mli-news-header .mli-shows-header h1,
-    .mli-news-article__header h1 {
-        font-size: clamp(40px, 11vw, 64px);
+    html[dir="rtl"] .mli-news-header .mli-shows-header h1 {
+        font-size: clamp(52px, 15vw, 82px) !important;
     }
 }
 
-/* NEWS — SMALLER PAGE TITLE */
-.mli-news-header .mli-shows-header h1 {
-    font-size: clamp(42px, 5.2vw, 76px) !important;
-    line-height: 0.92 !important;
-}
-
-@media (max-width: 700px) {
-    .mli-news-header .mli-shows-header h1 {
-        font-size: clamp(36px, 9.5vw, 58px) !important;
+@media (max-width: 640px) {
+    .mli-news-header .mli-shows-header h1,
+    html[dir="rtl"] .mli-news-header .mli-shows-header h1 {
+        font-size: clamp(48px, 14vw, 78px) !important;
+        line-height: 1.02 !important;
     }
 }
 
