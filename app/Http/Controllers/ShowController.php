@@ -14,8 +14,8 @@ class ShowController extends Controller
 
         $query = Show::published()
             ->with('category')
-            ->orderBy('sort_order')
             ->orderByDesc('published_at')
+            ->orderBy('title_en')
             ->orderByDesc('id');
 
         if ($categorySlug) {
@@ -45,8 +45,8 @@ class ShowController extends Controller
             ->when($show->category_id, function ($query) use ($show) {
                 $query->where('category_id', $show->category_id);
             })
-            ->orderBy('sort_order')
             ->orderByDesc('published_at')
+            ->orderBy('title_en')
             ->orderByDesc('id')
             ->limit(4)
             ->get();
