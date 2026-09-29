@@ -9,10 +9,12 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class RecentContent extends BaseWidget
 {
+    protected static ?int $sort = 2;
+
     protected static bool $isLazy = false;
     protected static ?string $heading = 'Recently Added Shows';
 
-    protected int|string|array $columnSpan = 1; // half-width
+    protected int|string|array $columnSpan = 1;
 
     public function table(Table $table): Table
     {
