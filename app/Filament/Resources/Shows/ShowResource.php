@@ -252,8 +252,9 @@ class ShowResource extends Resource
             ->reorderRecordsTriggerAction(
                 fn (\Filament\Actions\Action $action, bool $isReordering) => $action
                     ->button()
-                    ->label($isReordering ? 'Done reordering' : 'Reorder shows')
-                    ->icon($isReordering ? Heroicon::Check : Heroicon::ArrowsUpDown),
+                    ->label('Done reordering')
+                    ->icon(Heroicon::Check)
+                    ->hidden(! $isReordering),
             )
             ->poll('10s')
             ->filters([
