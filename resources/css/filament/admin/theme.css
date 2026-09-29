@@ -1814,3 +1814,288 @@
         grid-column: auto;
     }
 }
+
+
+/* ---------------------------------------------------------
+   MLI dashboard — unified visual system
+   --------------------------------------------------------- */
+
+.mli-admin-dashboard-widgets {
+    --mli-dashboard-card-radius: 14px;
+    --mli-dashboard-card-border: rgba(23, 59, 115, 0.10);
+    --mli-dashboard-card-shadow: 0 8px 24px rgba(23, 59, 115, 0.045);
+    --mli-dashboard-card-hover-shadow: 0 12px 30px rgba(23, 59, 115, 0.07);
+    --mli-dashboard-ink: #173b73;
+    --mli-dashboard-gold: #c4a470;
+    --mli-dashboard-muted: #66758a;
+    font-family: inherit;
+    color: var(--mli-dashboard-ink);
+}
+
+.mli-admin-dashboard-widgets *,
+.mli-admin-dashboard-widgets button,
+.mli-admin-dashboard-widgets input,
+.mli-admin-dashboard-widgets select,
+.mli-admin-dashboard-widgets textarea {
+    font-family: inherit;
+}
+
+.mli-admin-dashboard-widgets .fi-wi {
+    border: 1px solid var(--mli-dashboard-card-border) !important;
+    border-radius: var(--mli-dashboard-card-radius) !important;
+    background: #fff !important;
+    box-shadow: var(--mli-dashboard-card-shadow) !important;
+    overflow: hidden;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease;
+}
+
+.mli-admin-dashboard-widgets .fi-wi:hover {
+    border-color: rgba(196, 164, 112, 0.34) !important;
+    box-shadow: var(--mli-dashboard-card-hover-shadow) !important;
+}
+
+.mli-admin-dashboard-widgets > :first-child .mli-dashboard {
+    padding: 0;
+}
+
+.mli-admin-dashboard-widgets > :first-child .fi-wi {
+    box-shadow: none !important;
+}
+
+.mli-dashboard {
+    gap: 18px;
+    color: var(--mli-dashboard-ink);
+}
+
+.mli-dashboard__intro {
+    padding: 2px 2px 12px;
+    border-bottom: 1px solid var(--mli-dashboard-card-border);
+}
+
+.mli-dashboard__intro h2 {
+    font-family: inherit;
+    color: var(--mli-dashboard-ink);
+    font-size: clamp(1.45rem, 2.1vw, 1.9rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
+.mli-dashboard__intro p {
+    color: var(--mli-dashboard-muted);
+    font-size: 0.8rem;
+}
+
+.mli-dashboard__eyebrow {
+    color: var(--mli-dashboard-gold);
+    font-size: 0.62rem;
+    font-weight: 750;
+    letter-spacing: 0.13em;
+}
+
+.mli-dashboard__status,
+.mli-dashboard__panel {
+    border-color: var(--mli-dashboard-card-border);
+    box-shadow: none;
+}
+
+.mli-dashboard__status {
+    background: #fff;
+}
+
+.mli-dashboard__status-item {
+    min-height: 92px;
+    padding: 16px 20px;
+}
+
+.mli-dashboard__status-item--live {
+    border-top-color: var(--mli-dashboard-gold);
+}
+
+.mli-dashboard__label,
+.mli-dashboard__panel-head h3,
+.mli-dashboard__content-row strong,
+.mli-dashboard__week strong,
+.mli-dashboard__activity-main strong,
+.mli-dashboard__upcoming strong {
+    color: var(--mli-dashboard-ink);
+    font-family: inherit;
+}
+
+.mli-dashboard__label {
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+
+.mli-dashboard__status-item small,
+.mli-dashboard__content-row span,
+.mli-dashboard__week span,
+.mli-dashboard__activity-main small,
+.mli-dashboard__upcoming small,
+.mli-dashboard__activity time,
+.mli-dashboard__upcoming time,
+.mli-dashboard__empty {
+    color: var(--mli-dashboard-muted);
+    font-family: inherit;
+}
+
+.mli-dashboard__status-item strong {
+    font-size: 1.8rem;
+    font-weight: 750;
+}
+
+.mli-dashboard__content {
+    gap: 14px;
+}
+
+.mli-dashboard__panel {
+    border-radius: var(--mli-dashboard-card-radius);
+    box-shadow: var(--mli-dashboard-card-shadow);
+}
+
+.mli-dashboard__panel-head {
+    min-height: 68px;
+    padding: 16px 18px;
+}
+
+.mli-dashboard__panel-head h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.mli-dashboard__content-list,
+.mli-dashboard__activity-list,
+.mli-dashboard__upcoming-list {
+    padding-inline: 18px;
+}
+
+.mli-dashboard__content-row {
+    min-height: 48px;
+}
+
+.mli-dashboard__content-row span {
+    font-size: 0.72rem;
+}
+
+.mli-dashboard__content-row strong {
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.mli-dashboard__week {
+    margin-inline: 18px;
+    margin-bottom: 18px;
+}
+
+.mli-dashboard__activity,
+.mli-dashboard__upcoming {
+    min-height: 54px;
+}
+
+.mli-dashboard__activity-main strong,
+.mli-dashboard__upcoming strong {
+    font-size: 0.7rem;
+    font-weight: 650;
+}
+
+.mli-dashboard__activity-main small,
+.mli-dashboard__upcoming small {
+    font-size: 0.61rem;
+}
+
+.mli-dashboard__activity time,
+.mli-dashboard__upcoming time {
+    font-size: 0.6rem;
+}
+
+/* Recent Shows / Recent News widgets use the same card language. */
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-wi,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-wi {
+    min-height: 100%;
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-ctn,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-ctn {
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #fff !important;
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header-ctn,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header-ctn {
+    min-height: 68px;
+    padding-inline: 18px;
+    border-bottom: 1px solid var(--mli-dashboard-card-border) !important;
+    background: #fff !important;
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header-cell,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header-cell {
+    color: var(--mli-dashboard-ink) !important;
+    font-family: inherit;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header-cell,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header-cell,
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-cell,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-cell {
+    padding-inline: 18px !important;
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-row,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-row {
+    min-height: 56px;
+    border-color: rgba(23, 59, 115, 0.07) !important;
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-row:hover,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-row:hover {
+    background: rgba(196, 164, 112, 0.055) !important;
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-text-item-label,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-text-item-label {
+    color: var(--mli-dashboard-ink) !important;
+    font-family: inherit;
+    font-size: 0.73rem !important;
+    font-weight: 600 !important;
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-text,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-text {
+    font-family: inherit;
+    color: var(--mli-dashboard-muted);
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-badge,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-badge {
+    border-radius: 999px !important;
+    font-family: inherit;
+    font-size: 0.61rem !important;
+    font-weight: 700 !important;
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-empty-state,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-empty-state {
+    padding-block: 28px;
+    color: var(--mli-dashboard-muted);
+    font-family: inherit;
+}
+
+/* Keep the two lower cards the same height on wider screens. */
+@media (min-width: 1025px) {
+    .mli-admin-dashboard-widgets > :nth-child(2),
+    .mli-admin-dashboard-widgets > :nth-child(3) {
+        display: flex;
+    }
+
+    .mli-admin-dashboard-widgets > :nth-child(2) .fi-wi,
+    .mli-admin-dashboard-widgets > :nth-child(3) .fi-wi {
+        height: 100%;
+    }
+}
