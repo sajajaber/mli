@@ -7504,6 +7504,12 @@ html[dir="rtl"] .mli-show-modal__content h2 {
     text-decoration: none;
 }
 
+.mli-footer-phone {
+    direction: ltr;
+    unicode-bidi: isolate;
+    white-space: nowrap;
+}
+
 .mli-footer-text-link {
     width: fit-content;
     transition:
