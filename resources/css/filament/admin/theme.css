@@ -1,4 +1,4 @@
-@import '../../../../vendor/filament/filament/resources/css/theme.css';
+@import "../../../../vendor/filament/filament/resources/css/theme.css";
 
 :root {
     --mli-navy: #173b73;
@@ -12,12 +12,12 @@
     --mli-sidebar-icon: #2f6fbd;
     --mli-sidebar-hover: rgba(47, 111, 189, 0.08);
     --mli-sidebar-group: #2f6fbd;
-    --mli-sidebar-border: rgba(23, 59, 115, 0.10);
+    --mli-sidebar-border: rgba(23, 59, 115, 0.1);
     --mli-sidebar-active: #f5e8a8;
 
     --mli-surface: #ffffff;
     --mli-page-bg: #f4f6f8;
-    --mli-border: rgba(23, 59, 115, 0.10);
+    --mli-border: rgba(23, 59, 115, 0.1);
     --mli-muted: #66758a;
 
     color-scheme: light;
@@ -89,7 +89,10 @@
 
 .fi-sidebar-item {
     border-radius: 0.65rem !important;
-    transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+    transition:
+        background-color 160ms ease,
+        color 160ms ease,
+        transform 160ms ease;
 }
 
 .fi-sidebar-item-label {
@@ -219,12 +222,12 @@
 
 .fi-fo-rich-editor:focus-within {
     border-color: rgba(47, 111, 189, 0.65) !important;
-    box-shadow: 0 0 0 3px rgba(47, 111, 189, 0.10) !important;
+    box-shadow: 0 0 0 3px rgba(47, 111, 189, 0.1) !important;
 }
 
 .fi-input-wrp:focus-within {
     border-color: rgba(47, 111, 189, 0.65) !important;
-    box-shadow: 0 0 0 3px rgba(47, 111, 189, 0.10) !important;
+    box-shadow: 0 0 0 3px rgba(47, 111, 189, 0.1) !important;
 }
 
 .fi-fieldset-label,
@@ -274,12 +277,11 @@
 .mli-admin-footer-card {
     border: 1px solid rgba(23, 59, 115, 0.11);
     border-radius: 16px;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(220, 234, 250, 0.62),
-            rgba(255, 255, 255, 0.96) 55%
-        );
+    background: linear-gradient(
+        135deg,
+        rgba(220, 234, 250, 0.62),
+        rgba(255, 255, 255, 0.96) 55%
+    );
     box-shadow: 0 12px 32px rgba(23, 59, 115, 0.06);
 }
 
@@ -329,7 +331,7 @@
     align-items: center;
     min-height: 24px;
     padding: 0 9px;
-    border: 1px solid rgba(23, 59, 115, 0.10);
+    border: 1px solid rgba(23, 59, 115, 0.1);
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.75);
     color: #526176;
@@ -696,7 +698,6 @@
     }
 }
 
-
 /* Keep the Website Content footer widget aligned with the full-width content section. */
 .fi-page-footer-widgets,
 .fi-page-footer-widgets > *,
@@ -715,7 +716,6 @@
 .fi-page-footer-widgets .fi-wi {
     grid-column: 1 / -1 !important;
 }
-
 
 /* ---------------------------------------------------------
    MLI Hero Advertisement manager
@@ -773,15 +773,16 @@
     min-height: 25px;
     padding: 0 9px;
     border-radius: 999px;
-    background: rgba(47, 111, 189, 0.10);
+    background: rgba(47, 111, 189, 0.1);
     color: var(--mli-blue);
     font-size: 0.68rem;
     font-weight: 750;
 }
 
 .mli-hero-manager__description {
-    max-width: 700px;
+    max-width: 850px;
     margin: 8px 0 0;
+    margin-bottom: 8px;
     color: var(--mli-muted);
     font-size: 0.8rem;
     line-height: 1.6;
@@ -866,7 +867,7 @@
 }
 
 .mli-hero-manager__preview-frame {
-    border: 1px solid rgba(23, 59, 115, 0.10);
+    border: 1px solid rgba(23, 59, 115, 0.1);
     border-radius: 9px;
 }
 
@@ -915,11 +916,14 @@
 
 .mli-hero-manager__card-shell {
     overflow: hidden;
-    border: 1px solid rgba(23, 59, 115, 0.10);
+    border: 1px solid rgba(23, 59, 115, 0.1);
     border-radius: 13px;
     background: #fff;
     box-shadow: 0 5px 18px rgba(23, 59, 115, 0.05);
-    transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+    transition:
+        transform 160ms ease,
+        box-shadow 160ms ease,
+        opacity 160ms ease;
 }
 
 .mli-hero-manager__card:hover .mli-hero-manager__card-shell {
@@ -935,7 +939,7 @@
     height: 3px;
     border-radius: 999px;
     background: var(--mli-blue);
-    box-shadow: 0 0 0 4px rgba(47, 111, 189, 0.10);
+    box-shadow: 0 0 0 4px rgba(47, 111, 189, 0.1);
 }
 
 .mli-hero-manager__drop-line--top {
@@ -1028,4 +1032,18 @@
     .mli-hero-manager__save {
         width: 100%;
     }
+}
+
+.mli-hero-manager__section-label {
+    margin: 0;
+    color: var(--mli-navy);
+    font-size: 0.82rem;
+    font-weight: 750;
+}
+
+.mli-hero-manager__section-note {
+    margin: 4px 0 0;
+    color: var(--mli-muted);
+    font-size: 0.72rem;
+    line-height: 1.55;
 }

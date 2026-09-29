@@ -35,10 +35,11 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('MLI')
+            ->brandName('Media Link International')
             ->darkMode(false)
             ->themeSwitcher(false)
             ->maxContentWidth(Width::Full)
+            ->favicon(asset('images/mli-logo.png'))
             ->colors([
                 'primary' => Color::Blue,
             ])

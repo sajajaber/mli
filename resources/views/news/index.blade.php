@@ -63,7 +63,7 @@
 
                     <div>
                         <h1>
-                            {{ $isArabic ? 'قصص تستحق أن تُعرف.' : 'Stories worth knowing.' }}
+                            {{ $isArabic ? 'آخر الأخبار' : 'Stories worth knowing.' }}
                         </h1>
                     </div>
 
