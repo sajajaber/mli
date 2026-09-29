@@ -8,6 +8,7 @@ use App\Filament\Resources\Clients\Pages\ListClients;
 use App\Models\Client;
 use BackedEnum;
 use UnitEnum;
+use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
@@ -77,6 +78,12 @@ class ClientResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('sort_order')
+            ->reorderable('sort_order')
+            ->reorderRecordsTriggerAction(
+                fn (Action $action) => $action
+                    ->label('Reorder Clients')
+                    ->icon('heroicon-o-arrows-up-down')
+            )
             ->recordActions([
                 \Filament\Actions\EditAction::make(),
                 \Filament\Actions\DeleteAction::make(),
