@@ -63,6 +63,7 @@ trait HasPublishWorkflow
                     ->label('Publish date & time')
                     ->native(false)
                     ->seconds(false)
+                    ->timezone('Asia/Beirut')
                     ->required()
                     ->minDate(now()),
             ])
