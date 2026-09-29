@@ -188,10 +188,15 @@ class ShowResource extends Resource
                                 ),
 
                             TextInput::make('sort_order')
-                                ->label('Sort Order')
+                                ->label('Homepage Order')
                                 ->numeric()
                                 ->default(0)
-                                ->helperText('Lower numbers appear first where ordering is used.'),
+                                ->helperText('Used only for published New Releases on the homepage.')
+                                ->visible(
+                                    fn (callable $get): bool =>
+                                        (bool) $get('is_new_release')
+                                        && $get('status') === 'published',
+                                ),
 
                         ]),
                 ]),
@@ -229,6 +234,7 @@ class ShowResource extends Resource
                     ->toggleable(),
 
                 TextColumn::make('sort_order')
+                    ->label('Homepage Order')
                     ->sortable()
                     ->toggleable(
                         isToggledHiddenByDefault: true
@@ -236,7 +242,12 @@ class ShowResource extends Resource
 
             ])
             ->defaultSort('sort_order')
-            ->reorderable('sort_order')
+            ->reorderable(
+                'sort_order',
+                fn ($livewire): bool =>
+                    data_get($livewire->tableFilters, 'is_new_release.value') === '1'
+                    && data_get($livewire->tableFilters, 'status.value') === 'published',
+            )
             ->reorderRecordsTriggerAction(
                 fn (\Filament\Actions\Action $action, bool $isReordering) => $action
                     ->button()
