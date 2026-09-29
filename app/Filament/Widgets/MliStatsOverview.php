@@ -23,7 +23,7 @@ class MliStatsOverview extends Widget
     public function getDashboardData(): array
     {
         return Cache::remember(
-            'admin.dashboard.overview.v2',
+            'admin.dashboard.overview.v3',
             now()->addSeconds(30),
             function (): array {
                 $weekStart = now()->subDays(7);
@@ -128,8 +128,8 @@ class MliStatsOverview extends Widget
                     'news_count' => News::count(),
                     'active_team_members' => Person::where('is_active', true)->count(),
                     'clients' => Client::count(),
-                    'recent' => $recent,
-                    'upcoming' => $upcoming,
+                    'recent' => $recent->map(fn (array $item): array => $item)->all(),
+                    'upcoming' => $upcoming->map(fn (array $item): array => $item)->all(),
                 ];
             }
         );
