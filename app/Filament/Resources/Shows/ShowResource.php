@@ -236,13 +236,7 @@ class ShowResource extends Resource
 
             ])
             ->defaultSort('sort_order')
-            ->reorderable(
-                'sort_order',
-                fn ($livewire): bool =>
-                    blank($livewire->tableFilters)
-                    && blank($livewire->tableSearch)
-                    && blank($livewire->tableSort),
-            )
+            ->reorderable('sort_order')
             ->reorderRecordsTriggerAction(
                 fn (\Filament\Actions\Action $action, bool $isReordering) => $action
                     ->button()
