@@ -3,19 +3,15 @@
 namespace App\Filament\Resources\FooterSettings;
 
 use App\Filament\Resources\FooterSettings\Pages\EditFooterSetting;
-use App\Filament\Resources\FooterSettings\Pages\ListFooterSettings;
 use App\Models\FooterSetting;
 use BackedEnum;
 use UnitEnum;
-use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
 
 class FooterSettingResource extends Resource
 {
@@ -130,33 +126,9 @@ class FooterSettingResource extends Resource
         ]);
     }
 
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->paginated(false)
-            ->columns([
-                TextColumn::make('tagline')
-                    ->label('Tagline'),
-
-                TextColumn::make('email')
-                    ->label('Email'),
-
-                TextColumn::make('phone_primary')
-                    ->label('Phone'),
-
-                TextColumn::make('updated_at')
-                    ->label('Last updated')
-                    ->since(),
-            ])
-            ->recordActions([
-                EditAction::make(),
-            ]);
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => ListFooterSettings::route('/'),
             'edit' => EditFooterSetting::route('/edit'),
         ];
     }
