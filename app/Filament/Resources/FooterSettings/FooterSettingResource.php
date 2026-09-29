@@ -40,7 +40,7 @@ class FooterSettingResource extends Resource
         $footer = FooterSetting::query()->first();
 
         return $footer
-            ? static::getUrl('edit', ['record' => $footer->getKey()])
+            ? static::getUrl('edit')
             : static::getUrl('index');
     }
 
@@ -157,7 +157,7 @@ class FooterSettingResource extends Resource
     {
         return [
             'index' => ListFooterSettings::route('/'),
-            'edit' => EditFooterSetting::route('/{record}/edit'),
+            'edit' => EditFooterSetting::route('/edit'),
         ];
     }
 }
