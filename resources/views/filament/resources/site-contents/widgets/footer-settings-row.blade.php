@@ -55,9 +55,15 @@
                     <strong>{{ $footer->phone_primary ?: 'Not set' }}</strong>
                 </div>
 
+                @php
+                    $officeAddress = app()->getLocale() === 'ar'
+                        ? ($footer->office_address_ar ?: $footer->office_address)
+                        : $footer->office_address;
+                @endphp
+
                 <div class="mli-admin-footer-panel__detail">
                     <span>Office</span>
-                    <strong>{{ $footer->office_address ? str_replace(["\r\n", "\r", "\n"], ' · ', $footer->office_address) : 'Not set' }}</strong>
+                    <strong>{{ $officeAddress ? str_replace(["\r\n", "\r", "\n"], ' · ', $officeAddress) : 'Not set' }}</strong>
                 </div>
 
                 <div class="mli-admin-footer-panel__detail">
