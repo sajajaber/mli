@@ -9,8 +9,19 @@ class EditFooterSetting extends EditRecord
 {
     protected static string $resource = FooterSettingResource::class;
 
+    public function mount(int | string | null $record = null): void
+    {
+        $this->record = \App\Models\FooterSetting::query()->firstOrFail();
+
+        $this->authorizeAccess();
+
+        $this->fillForm();
+
+        $this->previousUrl = url()->previous();
+    }
+
     protected function getRedirectUrl(): string
     {
-        return FooterSettingResource::getUrl('index');
+        return FooterSettingResource::getUrl('edit');
     }
 }
