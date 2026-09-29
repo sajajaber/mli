@@ -155,6 +155,7 @@ class NewsResource extends Resource
                             DateTimePicker::make('published_at')
                                 ->label('Publish At')
                                 ->native(false)
+                                ->timezone('Asia/Beirut')
                                 ->visible(fn (callable $get) => $get('status') === 'scheduled')
                                 ->required(fn (callable $get) => $get('status') === 'scheduled'),
                         ]),
@@ -198,6 +199,7 @@ class NewsResource extends Resource
                     ->toggleable(),
             ])
             ->defaultSort('created_at', 'desc')
+            ->poll('10s')
             ->filters([
                 SelectFilter::make('status')
                     ->options([
