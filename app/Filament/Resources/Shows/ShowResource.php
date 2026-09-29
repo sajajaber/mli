@@ -177,6 +177,7 @@ class ShowResource extends Resource
                             DateTimePicker::make('published_at')
                                 ->label('Publish At')
                                 ->native(false)
+                                ->timezone('Asia/Beirut')
                                 ->visible(
                                     fn(callable $get) =>
                                     $get('status') === 'scheduled'
