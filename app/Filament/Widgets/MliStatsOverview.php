@@ -23,7 +23,7 @@ class MliStatsOverview extends Widget
     public function getDashboardData(): array
     {
         return Cache::remember(
-            'admin.dashboard.overview',
+            'admin.dashboard.overview.v2',
             now()->addSeconds(30),
             function (): array {
                 $weekStart = now()->subDays(7);
