@@ -248,12 +248,7 @@ class ShowResource extends Resource
 
             ])
             ->defaultSort('sort_order')
-            ->reorderable(
-                'sort_order',
-                fn ($livewire): bool =>
-                    data_get($livewire->tableFilters, 'is_new_release.value') === '1'
-                    && data_get($livewire->tableFilters, 'status.value') === 'published',
-            )
+            ->reorderable('sort_order')
             ->reorderRecordsTriggerAction(
                 fn (\Filament\Actions\Action $action, bool $isReordering) => $action
                     ->button()
