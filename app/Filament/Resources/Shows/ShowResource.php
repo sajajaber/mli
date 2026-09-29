@@ -233,6 +233,7 @@ class ShowResource extends Resource
                     ),
             ])
             ->defaultSort('sort_order')
+            ->poll('10s')
             ->filters([
                 SelectFilter::make('is_new_release')
                     ->label('New Release')
