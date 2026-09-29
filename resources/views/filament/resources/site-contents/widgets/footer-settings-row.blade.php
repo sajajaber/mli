@@ -19,7 +19,7 @@
                 tag="a"
                 icon="heroicon-m-pencil-square"
                 color="gray"
-                :href="\App\Filament\Resources\FooterSettings\FooterSettingResource::getUrl('edit', ['record' => $footer])"
+                :href="\App\Filament\Resources\FooterSettings\FooterSettingResource::getUrl('edit')"
             >
                 Edit Footer
             </x-filament::button>
