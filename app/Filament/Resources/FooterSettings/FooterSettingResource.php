@@ -95,8 +95,13 @@ class FooterSettingResource extends Resource
                 ->columns(2)
                 ->components([
                     Textarea::make('office_address')
-                        ->label('Office address')
+                        ->label('Office address (English)')
                         ->rows(5),
+
+                    Textarea::make('office_address_ar')
+                        ->label('Office address (Arabic)')
+                        ->rows(5)
+                        ->extraInputAttributes(['dir' => 'rtl']),
 
                     TextInput::make('map_url')
                         ->label('Google Maps URL')
