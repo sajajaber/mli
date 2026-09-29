@@ -36,6 +36,26 @@
                             @endif
                         </div>
                     @endforeach
+
+                    @foreach($clients as $client)
+                        <div class="mli-client-logo" aria-hidden="true">
+                            @if($client->logo_url)
+                                <img src="{{ $client->logo_url }}" alt="" loading="lazy">
+                            @else
+                                <span>{{ $client->name }}</span>
+                            @endif
+                        </div>
+                    @endforeach
+
+                    @foreach($clients as $client)
+                        <div class="mli-client-logo" aria-hidden="true">
+                            @if($client->logo_url)
+                                <img src="{{ $client->logo_url }}" alt="" loading="lazy">
+                            @else
+                                <span>{{ $client->name }}</span>
+                            @endif
+                        </div>
+                    @endforeach
                 </div>
             </div>
         @else
