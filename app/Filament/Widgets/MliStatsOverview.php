@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Cache;
 
 class MliStatsOverview extends Widget
 {
+    protected static ?int $sort = 1;
+
     protected string $view = 'filament.widgets.mli-stats-overview';
 
     protected static bool $isLazy = false;
