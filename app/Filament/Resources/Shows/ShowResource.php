@@ -236,6 +236,12 @@ class ShowResource extends Resource
                 TextColumn::make('sort_order')
                     ->label('Homepage Order')
                     ->sortable()
+                    ->formatStateUsing(
+                        fn ($state, Show $record) =>
+                            $record->is_new_release && $record->status === 'published'
+                                ? $state
+                                : null
+                    )
                     ->toggleable(
                         isToggledHiddenByDefault: true
                     ),
