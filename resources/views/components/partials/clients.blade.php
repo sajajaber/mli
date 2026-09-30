@@ -4,8 +4,8 @@
     <div class="container">
         <div class="mli-clients__heading" data-reveal="up">
             <div>
-                <span class="mli-clients__index">06 / CLIENTS &amp; PARTNERS</span>
-                <h2>{{ app()->getLocale() === 'ar' ? 'شركاؤنا' : 'Clients & Partners' }}</h2>
+                <span class="mli-clients__index">06 /CLIENTS</span>
+                <h2>{{ app()->getLocale() === 'ar' ? 'عملاؤنا' : 'Our Clients' }}</h2>
             </div>
             <p>
                 {{ app()->getLocale() === 'ar'

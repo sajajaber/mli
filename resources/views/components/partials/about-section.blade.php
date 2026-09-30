@@ -35,7 +35,7 @@
                 </div>
                 <div class="mli-about__stat">
                     <strong><span class="mli-stat-number" data-counter="{{ (int) $stats['clients'] }}">{{ $stats['clients'] }}</span><span class="mli-stat-suffix">+</span></strong>
-                    <small>{{ app()->getLocale() === 'ar' ? 'عملاء وشركاء' : 'Clients & partners' }}</small>
+                    <small>{{ app()->getLocale() === 'ar' ? 'عملاؤنا' : 'Our Clients' }}</small>
                 </div>
                 <div class="mli-about__stat">
                     <strong><span class="mli-stat-number" data-counter="3">3</span></strong>
