@@ -1009,1121 +1009,71 @@
 }
 
 /* ---------------------------------------------------------
-   MLI dashboard — editorial / content-studio treatment
-   --------------------------------------------------------- */
-
-.fi-page:has(.fi-stats-overview) {
-    --mli-dashboard-ink: #173b73;
-    --mli-dashboard-gold: #c4a470;
-    --mli-dashboard-blue-soft: rgba(47, 111, 189, 0.07);
-}
-
-.fi-page:has(.fi-stats-overview) .fi-header {
-    position: relative;
-    padding: 4px 0 10px;
-}
-
-.fi-page:has(.fi-stats-overview) .fi-header::after {
-    content: "";
-    display: block;
-    width: 46px;
-    height: 3px;
-    margin-top: 14px;
-    border-radius: 999px;
-    background: var(--mli-dashboard-gold);
-}
-
-.fi-page:has(.fi-stats-overview) .fi-header-heading {
-    font-size: clamp(1.65rem, 2vw, 2.15rem) !important;
-    letter-spacing: -0.035em;
-}
-
-.fi-page:has(.fi-stats-overview) .fi-stats-overview {
-    display: grid !important;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: 14px !important;
-}
-
-.fi-page:has(.fi-stats-overview) .fi-stats-overview > * {
-    grid-column: span 2;
-    min-height: 142px;
-}
-
-.fi-page:has(.fi-stats-overview) .fi-stats-overview > *:nth-child(1),
-.fi-page:has(.fi-stats-overview) .fi-stats-overview > *:nth-child(2),
-.fi-page:has(.fi-stats-overview) .fi-stats-overview > *:nth-child(3) {
-    grid-column: span 4;
-    min-height: 168px;
-}
-
-.fi-page:has(.fi-stats-overview) .fi-stats-overview-stat {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border: 1px solid rgba(23, 59, 115, 0.1) !important;
-    border-radius: 16px !important;
-    background: #fff !important;
-    box-shadow: 0 8px 28px rgba(23, 59, 115, 0.055) !important;
-    transition:
-        transform 180ms ease,
-        box-shadow 180ms ease,
-        border-color 180ms ease;
-}
-
-.fi-page:has(.fi-stats-overview) .fi-stats-overview-stat::before {
-    content: "";
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 3px;
-    background: var(--mli-dashboard-gold);
-    opacity: 0.9;
-}
-
-.fi-page:has(.fi-stats-overview) .fi-stats-overview-stat:hover {
-    transform: translateY(-3px);
-    border-color: rgba(196, 164, 112, 0.38) !important;
-    box-shadow: 0 14px 34px rgba(23, 59, 115, 0.1) !important;
-}
-
-.fi-page:has(.fi-stats-overview)
-    .fi-stats-overview
-    > *:nth-child(1)
-    .fi-stats-overview-stat {
-    background: linear-gradient(
-        135deg,
-        #fff 0%,
-        rgba(220, 234, 250, 0.62) 100%
-    ) !important;
-}
-
-.fi-page:has(.fi-stats-overview)
-    .fi-stats-overview
-    > *:nth-child(2)
-    .fi-stats-overview-stat {
-    background: linear-gradient(
-        135deg,
-        #fff 0%,
-        rgba(196, 164, 112, 0.09) 100%
-    ) !important;
-}
-
-.fi-page:has(.fi-stats-overview)
-    .fi-stats-overview
-    > *:nth-child(3)
-    .fi-stats-overview-stat {
-    background: linear-gradient(
-        135deg,
-        #fff 0%,
-        rgba(47, 111, 189, 0.055) 100%
-    ) !important;
-}
-
-.fi-page:has(.fi-stats-overview)
-    .fi-stats-overview-stat
-    .fi-stats-overview-stat-value {
-    color: var(--mli-dashboard-ink) !important;
-    font-size: clamp(1.8rem, 3vw, 2.45rem) !important;
-    font-weight: 750 !important;
-    letter-spacing: -0.045em;
-}
-
-.fi-page:has(.fi-stats-overview)
-    .fi-stats-overview
-    > *:nth-child(n + 4)
-    .fi-stats-overview-stat-value {
-    font-size: 1.65rem !important;
-}
-
-.fi-page:has(.fi-stats-overview) .fi-stats-overview-stat-label {
-    color: var(--mli-dashboard-ink) !important;
-    font-size: 0.78rem !important;
-    font-weight: 750 !important;
-    letter-spacing: 0.02em;
-}
-
-.fi-page:has(.fi-stats-overview) .fi-stats-overview-stat-description {
-    color: var(--mli-muted) !important;
-    line-height: 1.45;
-}
-
-.fi-page:has(.fi-stats-overview) .fi-wi {
-    border-radius: 16px !important;
-    box-shadow: 0 8px 28px rgba(23, 59, 115, 0.045) !important;
-}
-
-.fi-page:has(.fi-stats-overview) .fi-wi .fi-ta-header-ctn {
-    min-height: 68px;
-    background: linear-gradient(180deg, #fbfcfd, #fff) !important;
-}
-
-.fi-page:has(.fi-stats-overview) .fi-wi .fi-ta-header-cell {
-    color: var(--mli-dashboard-ink) !important;
-}
-
-.fi-page:has(.fi-stats-overview) .fi-wi .fi-ta-content {
-    padding-top: 2px;
-}
-
-.fi-page:has(.fi-stats-overview) .fi-wi .fi-ta-row {
-    transition:
-        background-color 150ms ease,
-        transform 150ms ease;
-}
-
-.fi-page:has(.fi-stats-overview) .fi-wi .fi-ta-row:hover {
-    background: var(--mli-dashboard-blue-soft) !important;
-}
-
-@media (max-width: 1024px) {
-    .fi-page:has(.fi-stats-overview) .fi-stats-overview {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .fi-page:has(.fi-stats-overview) .fi-stats-overview > *,
-    .fi-page:has(.fi-stats-overview) .fi-stats-overview > *:nth-child(1),
-    .fi-page:has(.fi-stats-overview) .fi-stats-overview > *:nth-child(2),
-    .fi-page:has(.fi-stats-overview) .fi-stats-overview > *:nth-child(3) {
-        grid-column: span 1;
-        min-height: 145px;
-    }
-}
-
-@media (max-width: 640px) {
-    .fi-page:has(.fi-stats-overview) .fi-stats-overview {
-        grid-template-columns: 1fr;
-        gap: 11px !important;
-    }
-
-    .fi-page:has(.fi-stats-overview) .fi-stats-overview > *,
-    .fi-page:has(.fi-stats-overview) .fi-stats-overview > *:nth-child(1),
-    .fi-page:has(.fi-stats-overview) .fi-stats-overview > *:nth-child(2),
-    .fi-page:has(.fi-stats-overview) .fi-stats-overview > *:nth-child(3) {
-        grid-column: span 1;
-        min-height: 132px;
-    }
-}
-
-/* ---------------------------------------------------------
-   MLI dashboard — custom overview
-   --------------------------------------------------------- */
-
-.mli-dashboard {
-    --mli-dashboard-ink: #173b73;
-    --mli-dashboard-blue: #2f6fbd;
-    --mli-dashboard-gold: #c4a470;
-    --mli-dashboard-border: rgba(23, 59, 115, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    width: 100%;
-}
-
-.mli-dashboard__intro {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 24px;
-    padding: 4px 2px 6px;
-}
-
-.mli-dashboard__eyebrow {
-    display: block;
-    margin-bottom: 8px;
-    color: var(--mli-dashboard-gold);
-    font-size: 0.67rem;
-    font-weight: 800;
-    letter-spacing: 0.13em;
-}
-
-.mli-dashboard__intro h2 {
-    margin: 0;
-    color: var(--mli-dashboard-ink);
-    font-size: clamp(1.35rem, 2vw, 1.9rem);
-    font-weight: 750;
-    letter-spacing: -0.035em;
-}
-
-.mli-dashboard__intro p {
-    max-width: 690px;
-    margin: 7px 0 0;
-    color: var(--mli-muted);
-    font-size: 0.82rem;
-    line-height: 1.55;
-}
-
-.mli-dashboard__mark {
-    color: rgba(23, 59, 115, 0.08);
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    font-weight: 900;
-    letter-spacing: -0.08em;
-    line-height: 0.8;
-    user-select: none;
-}
-
-.mli-dashboard__hero-grid {
-    display: grid;
-    grid-template-columns: 1.35fr 1fr 1fr;
-    gap: 14px;
-}
-
-.mli-dashboard-card {
-    position: relative;
-    min-height: 184px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 22px;
-    border: 1px solid var(--mli-dashboard-border);
-    border-radius: 17px;
-    background: #fff;
-    box-shadow: 0 10px 30px rgba(23, 59, 115, 0.055);
-    transition:
-        transform 180ms ease,
-        box-shadow 180ms ease;
-}
-
-.mli-dashboard-card::after {
-    content: "";
-    position: absolute;
-    width: 170px;
-    height: 170px;
-    right: -80px;
-    bottom: -95px;
-    border-radius: 50%;
-    background: rgba(196, 164, 112, 0.08);
-}
-
-.mli-dashboard-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 16px 36px rgba(23, 59, 115, 0.09);
-}
-
-.mli-dashboard-card--primary {
-    background: linear-gradient(135deg, #173b73 0%, #245d9d 100%);
-    border-color: transparent;
-    color: #fff;
-}
-
-.mli-dashboard-card--primary::after {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.mli-dashboard-card--attention {
-    background: linear-gradient(
-        135deg,
-        #fff 0%,
-        rgba(196, 164, 112, 0.11) 100%
-    );
-}
-
-.mli-dashboard-card--schedule {
-    background: linear-gradient(135deg, #fff 0%, rgba(220, 234, 250, 0.7) 100%);
-}
-
-.mli-dashboard-card__top {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    color: currentColor;
-    font-size: 0.72rem;
-    font-weight: 750;
-    letter-spacing: 0.02em;
-}
-
-.mli-dashboard-card:not(.mli-dashboard-card--primary) .mli-dashboard-card__top {
-    color: var(--mli-dashboard-ink);
-}
-
-.mli-dashboard-card strong {
-    position: relative;
-    z-index: 1;
-    margin-top: auto;
-    color: currentColor;
-    font-size: clamp(2.35rem, 4vw, 3.5rem);
-    font-weight: 800;
-    letter-spacing: -0.06em;
-    line-height: 1;
-}
-
-.mli-dashboard-card small {
-    position: relative;
-    z-index: 1;
-    max-width: 300px;
-    margin-top: 9px;
-    color: rgba(255, 255, 255, 0.68);
-    font-size: 0.72rem;
-    line-height: 1.45;
-}
-
-.mli-dashboard-card:not(.mli-dashboard-card--primary) small {
-    color: var(--mli-muted);
-}
-
-.mli-dashboard-card__dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 999px;
-    background: #bfe6cf;
-    box-shadow: 0 0 0 5px rgba(191, 230, 207, 0.13);
-}
-
-.mli-dashboard-card__icon {
-    display: grid;
-    width: 25px;
-    height: 25px;
-    place-items: center;
-    border-radius: 50%;
-    background: rgba(23, 59, 115, 0.07);
-    color: var(--mli-dashboard-ink);
-    font-size: 0.72rem;
-    font-weight: 850;
-}
-
-.mli-dashboard__metrics {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    overflow: hidden;
-    border: 1px solid var(--mli-dashboard-border);
-    border-radius: 15px;
-    background: #fff;
-    box-shadow: 0 8px 24px rgba(23, 59, 115, 0.035);
-}
-
-.mli-dashboard__metrics > div {
-    min-width: 0;
-    padding: 17px 20px;
-}
-
-.mli-dashboard__metrics > div + div {
-    border-inline-start: 1px solid rgba(23, 59, 115, 0.08);
-}
-
-.mli-dashboard__metrics span {
-    display: block;
-    color: var(--mli-muted);
-    font-size: 0.66rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-.mli-dashboard__metrics strong {
-    display: block;
-    margin-top: 6px;
-    color: var(--mli-dashboard-ink);
-    font-size: 1.45rem;
-    font-weight: 800;
-    letter-spacing: -0.04em;
-}
-
-@media (max-width: 900px) {
-    .mli-dashboard__hero-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .mli-dashboard-card--primary {
-        grid-column: 1 / -1;
-    }
-}
-
-@media (max-width: 640px) {
-    .mli-dashboard__intro {
-        align-items: flex-start;
-    }
-
-    .mli-dashboard__mark {
-        display: none;
-    }
-
-    .mli-dashboard__hero-grid,
-    .mli-dashboard__metrics {
-        grid-template-columns: 1fr;
-    }
-
-    .mli-dashboard-card--primary {
-        grid-column: auto;
-    }
-
-    .mli-dashboard__metrics > div + div {
-        border-inline-start: 0;
-        border-top: 1px solid rgba(23, 59, 115, 0.08);
-    }
-
-    .mli-dashboard-card {
-        min-height: 160px;
-    }
-}
-
-/* ---------------------------------------------------------
-   MLI dashboard — editorial workspace
-   --------------------------------------------------------- */
-
-.mli-dashboard {
-    --mli-dashboard-ink: #173b73;
-    --mli-dashboard-gold: #c4a470;
-    --mli-dashboard-border: rgba(23, 59, 115, 0.11);
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    width: 100%;
-}
-
-.mli-dashboard__intro {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 24px;
-    padding: 2px 2px 10px;
-    border-bottom: 1px solid rgba(23, 59, 115, 0.1);
-}
-
-.mli-dashboard__eyebrow {
-    display: block;
-    margin-bottom: 7px;
-    color: var(--mli-dashboard-gold);
-    font-size: 0.64rem;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-}
-
-.mli-dashboard__intro h2 {
-    margin: 0;
-    color: var(--mli-dashboard-ink);
-    font-size: clamp(1.55rem, 2.4vw, 2.15rem);
-    font-weight: 750;
-    letter-spacing: -0.045em;
-}
-
-.mli-dashboard__intro p {
-    margin: 4px 0 0;
-    color: var(--mli-muted);
-    font-size: 0.88rem;
-}
-
-.mli-dashboard__intro-mark {
-    color: rgba(23, 59, 115, 0.055);
-    font-size: clamp(3rem, 7vw, 6rem);
-    font-weight: 900;
-    letter-spacing: -0.09em;
-    line-height: 0.65;
-    user-select: none;
-}
-
-.mli-dashboard__status {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-top: 1px solid var(--mli-dashboard-border);
-    border-bottom: 1px solid var(--mli-dashboard-border);
-    background: #fff;
-}
-
-.mli-dashboard__status-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    min-height: 112px;
-    padding: 18px 24px;
-}
-
-.mli-dashboard__status-item + .mli-dashboard__status-item {
-    border-inline-start: 1px solid var(--mli-dashboard-border);
-}
-
-.mli-dashboard__status-item--live {
-    border-top: 2px solid var(--mli-dashboard-gold);
-}
-
-.mli-dashboard__label {
-    display: block;
-    color: var(--mli-dashboard-ink);
-    font-size: 0.82rem;
-    font-weight: 750;
-}
-
-.mli-dashboard__status-item small {
-    display: block;
-    margin-top: 4px;
-    color: var(--mli-muted);
-    font-size: 0.68rem;
-}
-
-.mli-dashboard__status-item strong {
-    color: var(--mli-dashboard-ink);
-    font-size: 2.05rem;
-    font-weight: 800;
-    letter-spacing: -0.055em;
-}
-
-.mli-dashboard__content {
-    display: grid;
-    grid-template-columns: minmax(250px, 0.9fr) minmax(0, 1.35fr) minmax(
-            0,
-            1.15fr
-        );
-    gap: 16px;
-}
-
-.mli-dashboard__panel {
-    min-width: 0;
-    border: 1px solid var(--mli-dashboard-border);
-    background: #fff;
-}
-
-.mli-dashboard__panel-head {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
-    min-height: 76px;
-    padding: 18px 20px;
-    border-bottom: 1px solid rgba(23, 59, 115, 0.08);
-}
-
-.mli-dashboard__panel-head .mli-dashboard__eyebrow {
-    margin-bottom: 4px;
-}
-
-.mli-dashboard__panel-head h3 {
-    margin: 0;
-    color: var(--mli-dashboard-ink);
-    font-size: 0.98rem;
-    font-weight: 750;
-    letter-spacing: -0.015em;
-}
-
-.mli-dashboard__accent-line {
-    width: 28px;
-    height: 2px;
-    margin-top: 8px;
-    background: var(--mli-dashboard-gold);
-}
-
-.mli-dashboard__content-list {
-    padding: 4px 20px;
-}
-
-.mli-dashboard__content-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 51px;
-    border-bottom: 1px solid rgba(23, 59, 115, 0.07);
-}
-
-.mli-dashboard__content-row:last-child {
-    border-bottom: 0;
-}
-
-.mli-dashboard__content-row span {
-    color: var(--mli-muted);
-    font-size: 0.75rem;
-}
-
-.mli-dashboard__content-row strong {
-    color: var(--mli-dashboard-ink);
-    font-size: 1rem;
-    font-weight: 750;
-}
-
-.mli-dashboard__week {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 14px 20px 20px;
-    padding: 11px 13px;
-    border-inline-start: 2px solid var(--mli-dashboard-gold);
-    background: rgba(196, 164, 112, 0.07);
-}
-
-.mli-dashboard__week span {
-    color: var(--mli-muted);
-    font-size: 0.68rem;
-}
-
-.mli-dashboard__week strong {
-    color: var(--mli-dashboard-ink);
-    font-size: 0.88rem;
-}
-
-.mli-dashboard__activity-list,
-.mli-dashboard__upcoming-list {
-    padding: 4px 20px 12px;
-}
-
-.mli-dashboard__activity,
-.mli-dashboard__upcoming {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    min-height: 58px;
-    border-bottom: 1px solid rgba(23, 59, 115, 0.07);
-}
-
-.mli-dashboard__activity:last-child,
-.mli-dashboard__upcoming:last-child {
-    border-bottom: 0;
-}
-
-.mli-dashboard__activity-dot {
-    width: 6px;
-    height: 6px;
-    flex: 0 0 6px;
-    border-radius: 50%;
-    background: var(--mli-dashboard-gold);
-}
-
-.mli-dashboard__activity-main,
-.mli-dashboard__upcoming > div {
-    min-width: 0;
-    flex: 1;
-}
-
-.mli-dashboard__activity-main strong,
-.mli-dashboard__upcoming strong {
-    display: block;
-    overflow: hidden;
-    color: var(--mli-dashboard-ink);
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.mli-dashboard__activity-main small,
-.mli-dashboard__upcoming small {
-    display: block;
-    margin-top: 3px;
-    color: var(--mli-muted);
-    font-size: 0.62rem;
-}
-
-.mli-dashboard__activity time,
-.mli-dashboard__upcoming time {
-    flex: 0 0 auto;
-    color: var(--mli-muted);
-    font-size: 0.61rem;
-    text-align: right;
-}
-
-.mli-dashboard__upcoming time {
-    color: var(--mli-dashboard-ink);
-    line-height: 1.35;
-}
-
-.mli-dashboard__upcoming time span {
-    color: var(--mli-muted);
-    font-size: 0.58rem;
-}
-
-.mli-dashboard__empty {
-    margin: 0;
-    padding: 25px 0;
-    color: var(--mli-muted);
-    font-size: 0.7rem;
-}
-
-@media (max-width: 1050px) {
-    .mli-dashboard__content {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .mli-dashboard__panel--content {
-        grid-column: 1 / -1;
-    }
-}
-
-@media (max-width: 700px) {
-    .mli-dashboard {
-        gap: 16px;
-    }
-
-    .mli-dashboard__intro-mark {
-        display: none;
-    }
-
-    .mli-dashboard__status {
-        grid-template-columns: 1fr;
-    }
-
-    .mli-dashboard__status-item {
-        min-height: 82px;
-        padding-inline: 16px;
-    }
-
-    .mli-dashboard__status-item + .mli-dashboard__status-item {
-        border-inline-start: 0;
-        border-top: 1px solid var(--mli-dashboard-border);
-    }
-
-    .mli-dashboard__content {
-        grid-template-columns: 1fr;
-    }
-
-    .mli-dashboard__panel--content {
-        grid-column: auto;
-    }
-}
-
-/* ---------------------------------------------------------
-   MLI dashboard — explicit widget layout
+   MLI dashboard — unified card system
    --------------------------------------------------------- */
 
 .mli-admin-dashboard-widgets {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-    width: 100%;
-    align-items: start;
-}
-
-.mli-admin-dashboard-widgets > * {
-    min-width: 0;
-}
-
-.mli-admin-dashboard-widgets > :first-child {
-    grid-column: 1 / -1;
-}
-
-.mli-admin-dashboard-widgets .fi-wi {
-    width: 100%;
-    min-width: 0;
-}
-
-@media (max-width: 1024px) {
-    .mli-admin-dashboard-widgets {
-        grid-template-columns: 1fr;
-    }
-
-    .mli-admin-dashboard-widgets > :first-child {
-        grid-column: auto;
-    }
-}
-
-/* ---------------------------------------------------------
-   MLI dashboard — unified visual system
-   --------------------------------------------------------- */
-
-.mli-admin-dashboard-widgets {
-    --mli-dashboard-card-radius: 14px;
-    --mli-dashboard-card-border: rgba(23, 59, 115, 0.1);
-    --mli-dashboard-card-shadow: 0 8px 24px rgba(23, 59, 115, 0.045);
-    --mli-dashboard-card-hover-shadow: 0 12px 30px rgba(23, 59, 115, 0.07);
-    --mli-dashboard-ink: #173b73;
-    --mli-dashboard-gold: #c4a470;
-    --mli-dashboard-muted: #66758a;
-    font-family: inherit;
-    color: var(--mli-dashboard-ink);
-}
-
-.mli-admin-dashboard-widgets *,
-.mli-admin-dashboard-widgets button,
-.mli-admin-dashboard-widgets input,
-.mli-admin-dashboard-widgets select,
-.mli-admin-dashboard-widgets textarea {
-    font-family: inherit;
-}
-
-.mli-admin-dashboard-widgets .fi-wi {
-    border: 1px solid var(--mli-dashboard-card-border) !important;
-    border-radius: var(--mli-dashboard-card-radius) !important;
-    background: #fff !important;
-    box-shadow: var(--mli-dashboard-card-shadow) !important;
-    overflow: hidden;
-    transition:
-        border-color 160ms ease,
-        box-shadow 160ms ease,
-        transform 160ms ease;
-}
-
-.mli-admin-dashboard-widgets .fi-wi:hover {
-    border-color: rgba(196, 164, 112, 0.34) !important;
-    box-shadow: var(--mli-dashboard-card-hover-shadow) !important;
-}
-
-.mli-admin-dashboard-widgets > :first-child .mli-dashboard {
-    padding: 0;
-}
-
-.mli-admin-dashboard-widgets > :first-child .fi-wi {
-    box-shadow: none !important;
-}
-
-.mli-dashboard {
-    gap: 18px;
-    color: var(--mli-dashboard-ink);
-}
-
-.mli-dashboard__intro {
-    padding: 2px 2px 12px;
-    border-bottom: 1px solid var(--mli-dashboard-card-border);
-}
-
-.mli-dashboard__intro h2 {
-    font-family: inherit;
-    color: var(--mli-dashboard-ink);
-    font-size: clamp(1.45rem, 2.1vw, 1.9rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-}
-
-.mli-dashboard__intro p {
-    color: var(--mli-dashboard-muted);
-    font-size: 0.8rem;
-}
-
-.mli-dashboard__eyebrow {
-    color: var(--mli-dashboard-gold);
-    font-size: 0.62rem;
-    font-weight: 750;
-    letter-spacing: 0.13em;
-}
-
-.mli-dashboard__status,
-.mli-dashboard__panel {
-    border-color: var(--mli-dashboard-card-border);
-    box-shadow: none;
-}
-
-.mli-dashboard__status {
-    background: #fff;
-}
-
-.mli-dashboard__status-item {
-    min-height: 92px;
-    padding: 16px 20px;
-}
-
-.mli-dashboard__status-item--live {
-    border-top-color: var(--mli-dashboard-gold);
-}
-
-.mli-dashboard__label,
-.mli-dashboard__panel-head h3,
-.mli-dashboard__content-row strong,
-.mli-dashboard__week strong,
-.mli-dashboard__activity-main strong,
-.mli-dashboard__upcoming strong {
-    color: var(--mli-dashboard-ink);
-    font-family: inherit;
-}
-
-.mli-dashboard__label {
-    font-size: 0.76rem;
-    font-weight: 700;
-}
-
-.mli-dashboard__status-item small,
-.mli-dashboard__content-row span,
-.mli-dashboard__week span,
-.mli-dashboard__activity-main small,
-.mli-dashboard__upcoming small,
-.mli-dashboard__activity time,
-.mli-dashboard__upcoming time,
-.mli-dashboard__empty {
-    color: var(--mli-dashboard-muted);
-    font-family: inherit;
-}
-
-.mli-dashboard__status-item strong {
-    font-size: 1.8rem;
-    font-weight: 750;
-}
-
-.mli-dashboard__content {
-    gap: 14px;
-}
-
-.mli-dashboard__panel {
-    border-radius: var(--mli-dashboard-card-radius);
-    box-shadow: var(--mli-dashboard-card-shadow);
-}
-
-.mli-dashboard__panel-head {
-    min-height: 68px;
-    padding: 16px 18px;
-}
-
-.mli-dashboard__panel-head h3 {
-    font-size: 0.9rem;
-    font-weight: 700;
-}
-
-.mli-dashboard__content-list,
-.mli-dashboard__activity-list,
-.mli-dashboard__upcoming-list {
-    padding-inline: 18px;
-}
-
-.mli-dashboard__content-row {
-    min-height: 48px;
-}
-
-.mli-dashboard__content-row span {
-    font-size: 0.72rem;
-}
-
-.mli-dashboard__content-row strong {
-    font-size: 0.95rem;
-    font-weight: 700;
-}
-
-.mli-dashboard__week {
-    margin-inline: 18px;
-    margin-bottom: 18px;
-}
-
-.mli-dashboard__activity,
-.mli-dashboard__upcoming {
-    min-height: 54px;
-}
-
-.mli-dashboard__activity-main strong,
-.mli-dashboard__upcoming strong {
-    font-size: 0.7rem;
-    font-weight: 650;
-}
-
-.mli-dashboard__activity-main small,
-.mli-dashboard__upcoming small {
-    font-size: 0.61rem;
-}
-
-.mli-dashboard__activity time,
-.mli-dashboard__upcoming time {
-    font-size: 0.6rem;
-}
-
-/* Recent Shows / Recent News widgets use the same card language. */
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-wi,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-wi {
-    min-height: 100%;
-}
-
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-ctn,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-ctn {
-    border: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    background: #fff !important;
-}
-
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header-ctn,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header-ctn {
-    min-height: 68px;
-    padding-inline: 18px;
-    border-bottom: 1px solid var(--mli-dashboard-card-border) !important;
-    background: #fff !important;
-}
-
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header-cell,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header-cell {
-    color: var(--mli-dashboard-ink) !important;
-    font-family: inherit;
-    font-size: 0.72rem !important;
-    font-weight: 700 !important;
-}
-
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header-cell,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header-cell,
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-cell,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-cell {
-    padding-inline: 18px !important;
-}
-
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-row,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-row {
-    min-height: 56px;
-    border-color: rgba(23, 59, 115, 0.07) !important;
-}
-
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-row:hover,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-row:hover {
-    background: rgba(196, 164, 112, 0.055) !important;
-}
-
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-text-item-label,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-text-item-label {
-    color: var(--mli-dashboard-ink) !important;
-    font-family: inherit;
-    font-size: 0.73rem !important;
-    font-weight: 600 !important;
-}
-
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-text,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-text {
-    font-family: inherit;
-    color: var(--mli-dashboard-muted);
-}
-
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-badge,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-badge {
-    border-radius: 999px !important;
-    font-family: inherit;
-    font-size: 0.61rem !important;
-    font-weight: 700 !important;
-}
-
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-empty-state,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-empty-state {
-    padding-block: 28px;
-    color: var(--mli-dashboard-muted);
-    font-family: inherit;
-}
-
-/* Keep the two lower cards the same height on wider screens. */
-@media (min-width: 1025px) {
-    .mli-admin-dashboard-widgets > :nth-child(2),
-    .mli-admin-dashboard-widgets > :nth-child(3) {
-        display: flex;
-    }
-
-    .mli-admin-dashboard-widgets > :nth-child(2) .fi-wi,
-    .mli-admin-dashboard-widgets > :nth-child(3) .fi-wi {
-        height: 100%;
-    }
-}
-
-/* ---------------------------------------------------------
-   MLI Dashboard — final unified visual system
-   --------------------------------------------------------- */
-
-.mli-admin-dashboard-widgets {
+    --dashboard-card-bg: #ffffff;
+    --dashboard-card-border: rgba(23, 59, 115, 0.1);
+    --dashboard-card-divider: rgba(23, 59, 115, 0.07);
+    --dashboard-card-shadow: 0 8px 24px rgba(23, 59, 115, 0.045);
+    --dashboard-card-hover-shadow: 0 10px 28px rgba(23, 59, 115, 0.07);
+    --dashboard-card-radius: 14px;
     --dashboard-ink: #173b73;
-    --dashboard-gold: #c4a470;
     --dashboard-muted: #66758a;
-    --dashboard-border: rgba(23, 59, 115, 0.1);
-    --dashboard-border-light: rgba(23, 59, 115, 0.07);
-    --dashboard-radius: 14px;
-    --dashboard-shadow: 0 8px 24px rgba(23, 59, 115, 0.045);
-    width: 100%;
+    --dashboard-gold: #c4a470;
+
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+    width: 100% !important;
+    max-width: none !important;
+    align-items: stretch !important;
+    justify-items: stretch !important;
     color: var(--dashboard-ink);
     font-family: inherit;
 }
 
-.mli-admin-dashboard-widgets .fi-wi {
-    border: 1px solid var(--dashboard-border) !important;
-    border-radius: var(--dashboard-radius) !important;
-    background: #fff !important;
-    box-shadow: var(--dashboard-shadow) !important;
-    overflow: hidden;
+.mli-admin-dashboard-widgets > * {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+}
+
+.mli-admin-dashboard-widgets > :first-child {
+    grid-column: 1 / -1 !important;
+}
+
+/* One identical outer card for Overview, Shows, and News. */
+.mli-admin-dashboard-widgets > .fi-wi-widget {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    background: var(--dashboard-card-bg) !important;
+    border: 1px solid var(--dashboard-card-border) !important;
+    border-radius: var(--dashboard-card-radius) !important;
+    box-shadow: var(--dashboard-card-shadow) !important;
+    overflow: hidden !important;
+    box-sizing: border-box;
     transition:
         border-color 160ms ease,
         box-shadow 160ms ease;
 }
 
-.mli-admin-dashboard-widgets .fi-wi:hover {
-    border-color: rgba(196, 164, 112, 0.28) !important;
-    box-shadow: 0 10px 28px rgba(23, 59, 115, 0.06) !important;
+.mli-admin-dashboard-widgets > .fi-wi-widget:hover {
+    border-color: rgba(196, 164, 112, 0.3) !important;
+    box-shadow: var(--dashboard-card-hover-shadow) !important;
 }
 
+/* ---------------------------------------------------------
+   Overview
+   --------------------------------------------------------- */
+
 .mli-dashboard {
+    display: flex;
+    flex-direction: column;
     gap: 18px;
     width: 100%;
     color: var(--dashboard-ink);
@@ -2131,15 +1081,20 @@
 }
 
 .mli-dashboard__intro {
-    padding: 2px 2px 14px;
-    border-bottom: 1px solid var(--dashboard-border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 20px 20px 14px;
+    border-bottom: 1px solid var(--dashboard-card-divider);
 }
 
 .mli-dashboard__eyebrow {
+    display: block;
     margin-bottom: 7px;
     color: var(--dashboard-gold);
-    font-size: 0.62rem;
-    font-weight: 750;
+    font-size: 0.64rem;
+    font-weight: 800;
     letter-spacing: 0.13em;
     line-height: 1;
 }
@@ -2156,6 +1111,7 @@
 .mli-dashboard__intro p {
     margin: 5px 0 0;
     color: var(--dashboard-muted);
+    font-family: inherit;
     font-size: 0.8rem;
     line-height: 1.5;
 }
@@ -2164,16 +1120,17 @@
     color: rgba(23, 59, 115, 0.055);
     font-family: inherit;
     font-weight: 900;
+    user-select: none;
 }
 
 .mli-dashboard__status {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     overflow: hidden;
-    border: 1px solid var(--dashboard-border);
-    border-radius: var(--dashboard-radius);
-    background: #fff;
-    box-shadow: var(--dashboard-shadow);
+    margin-inline: 18px;
+    background: var(--dashboard-card-bg);
+    border: 1px solid var(--dashboard-card-border);
+    border-radius: var(--dashboard-card-radius);
 }
 
 .mli-dashboard__status-item {
@@ -2182,7 +1139,7 @@
 }
 
 .mli-dashboard__status-item + .mli-dashboard__status-item {
-    border-inline-start: 1px solid var(--dashboard-border-light);
+    border-inline-start: 1px solid var(--dashboard-card-divider);
 }
 
 .mli-dashboard__status-item--live {
@@ -2191,17 +1148,22 @@
 
 .mli-dashboard__label {
     color: var(--dashboard-ink);
+    font-family: inherit;
     font-size: 0.76rem;
     font-weight: 700;
 }
 
 .mli-dashboard__status-item small {
+    display: block;
+    margin-top: 4px;
     color: var(--dashboard-muted);
+    font-family: inherit;
     font-size: 0.66rem;
 }
 
 .mli-dashboard__status-item strong {
     color: var(--dashboard-ink);
+    font-family: inherit;
     font-size: 1.8rem;
     font-weight: 750;
     letter-spacing: -0.04em;
@@ -2209,26 +1171,27 @@
 
 .mli-dashboard__content {
     display: grid;
-    grid-template-columns: minmax(250px, 0.9fr) minmax(0, 1.35fr) minmax(
-            0,
-            1.15fr
-        );
+    grid-template-columns: minmax(250px, 0.9fr) minmax(0, 1.35fr) minmax(0, 1.15fr);
     gap: 14px;
+    padding: 0 18px 18px;
 }
 
 .mli-dashboard__panel {
     min-width: 0;
     overflow: hidden;
-    border: 1px solid var(--dashboard-border);
-    border-radius: var(--dashboard-radius);
-    background: #fff;
-    box-shadow: var(--dashboard-shadow);
+    background: var(--dashboard-card-bg);
+    border: 1px solid var(--dashboard-card-border);
+    border-radius: var(--dashboard-card-radius);
 }
 
 .mli-dashboard__panel-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
     min-height: 68px;
     padding: 16px 18px;
-    border-bottom: 1px solid var(--dashboard-border-light);
+    border-bottom: 1px solid var(--dashboard-card-divider);
 }
 
 .mli-dashboard__panel-head h3 {
@@ -2239,6 +1202,13 @@
     font-weight: 700;
 }
 
+.mli-dashboard__accent-line {
+    width: 28px;
+    height: 2px;
+    margin-top: 8px;
+    background: var(--dashboard-gold);
+}
+
 .mli-dashboard__content-list,
 .mli-dashboard__activity-list,
 .mli-dashboard__upcoming-list {
@@ -2246,8 +1216,15 @@
 }
 
 .mli-dashboard__content-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     min-height: 48px;
-    border-bottom: 1px solid var(--dashboard-border-light);
+    border-bottom: 1px solid var(--dashboard-card-divider);
+}
+
+.mli-dashboard__content-row:last-child {
+    border-bottom: 0;
 }
 
 .mli-dashboard__content-row span,
@@ -2258,6 +1235,11 @@
 .mli-dashboard__upcoming time,
 .mli-dashboard__empty {
     color: var(--dashboard-muted);
+    font-family: inherit;
+}
+
+.mli-dashboard__content-row span {
+    font-size: 0.72rem;
 }
 
 .mli-dashboard__content-row strong,
@@ -2268,17 +1250,37 @@
     font-family: inherit;
 }
 
+.mli-dashboard__content-row strong {
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
 .mli-dashboard__week {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin: 14px 18px 18px;
     padding: 11px 13px;
     border-inline-start: 2px solid var(--dashboard-gold);
     background: rgba(196, 164, 112, 0.06);
 }
 
+.mli-dashboard__week strong {
+    font-size: 0.88rem;
+}
+
 .mli-dashboard__activity,
 .mli-dashboard__upcoming {
+    display: flex;
+    align-items: center;
+    gap: 11px;
     min-height: 54px;
-    border-bottom: 1px solid var(--dashboard-border-light);
+    border-bottom: 1px solid var(--dashboard-card-divider);
+}
+
+.mli-dashboard__activity:last-child,
+.mli-dashboard__upcoming:last-child {
+    border-bottom: 0;
 }
 
 .mli-dashboard__activity-dot {
@@ -2289,44 +1291,125 @@
     background: var(--dashboard-gold);
 }
 
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-wi,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-wi {
-    min-height: 100%;
+.mli-dashboard__activity-main,
+.mli-dashboard__upcoming > div {
+    min-width: 0;
+    flex: 1;
+}
+
+.mli-dashboard__activity-main strong,
+.mli-dashboard__upcoming strong {
+    display: block;
+    overflow: hidden;
+    font-size: 0.7rem;
+    font-weight: 650;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mli-dashboard__activity-main small,
+.mli-dashboard__upcoming small {
+    display: block;
+    margin-top: 3px;
+    font-size: 0.61rem;
+}
+
+.mli-dashboard__activity time,
+.mli-dashboard__upcoming time {
+    flex: 0 0 auto;
+    font-size: 0.6rem;
+    text-align: right;
+}
+
+.mli-dashboard__upcoming time {
+    color: var(--dashboard-ink);
+    line-height: 1.35;
+}
+
+.mli-dashboard__upcoming time span {
+    color: var(--dashboard-muted);
+    font-size: 0.58rem;
+}
+
+.mli-dashboard__empty {
+    margin: 0;
+    padding: 25px 0;
+    font-size: 0.7rem;
+}
+
+/* ---------------------------------------------------------
+   Shows + News tables
+   --------------------------------------------------------- */
+
+.mli-admin-dashboard-widgets > :nth-child(2),
+.mli-admin-dashboard-widgets > :nth-child(3) {
+    display: flex;
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2) > .fi-wi-widget,
+.mli-admin-dashboard-widgets > :nth-child(3) > .fi-wi-widget {
+    height: 100% !important;
 }
 
 .mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-ctn,
 .mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-ctn {
+    width: 100% !important;
+    max-width: none !important;
     border: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
-    background: #fff !important;
+    background: transparent !important;
+    overflow: visible !important;
 }
 
 .mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header-ctn,
 .mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header-ctn {
     min-height: 68px;
     padding-inline: 18px;
-    border-bottom: 1px solid var(--dashboard-border) !important;
-    background: #fff !important;
+    background: var(--dashboard-card-bg) !important;
+    border-bottom: 1px solid var(--dashboard-card-divider) !important;
 }
 
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header-cell,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header-cell {
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header {
+    color: var(--dashboard-ink);
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header-heading,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header-heading {
+    margin: 0;
     color: var(--dashboard-ink) !important;
-    font-family: inherit;
-    font-size: 0.72rem !important;
+    font-family: inherit !important;
+    font-size: 0.9rem !important;
     font-weight: 700 !important;
 }
 
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header-description,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header-description {
+    color: var(--dashboard-muted) !important;
+    font-family: inherit !important;
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header-cell,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header-cell,
 .mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-cell,
 .mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-cell {
     padding-inline: 18px !important;
 }
 
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header-cell,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header-cell {
+    color: var(--dashboard-ink) !important;
+    font-family: inherit !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+}
+
 .mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-row,
 .mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-row {
     min-height: 56px;
-    border-color: var(--dashboard-border-light) !important;
+    border-color: var(--dashboard-card-divider) !important;
+    background: var(--dashboard-card-bg) !important;
 }
 
 .mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-row:hover,
@@ -2337,24 +1420,27 @@
 .mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-text-item-label,
 .mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-text-item-label {
     color: var(--dashboard-ink) !important;
-    font-family: inherit;
+    font-family: inherit !important;
     font-size: 0.73rem !important;
     font-weight: 600 !important;
 }
 
 .mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-text,
 .mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-text {
-    color: var(--dashboard-muted);
-    font-family: inherit;
+    color: var(--dashboard-muted) !important;
+    font-family: inherit !important;
 }
 
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-badge,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-badge {
+.mli-admin-dashboard-widgets .fi-badge {
     border-radius: 999px !important;
-    font-family: inherit;
+    font-family: inherit !important;
     font-size: 0.61rem !important;
     font-weight: 700 !important;
 }
+
+/* ---------------------------------------------------------
+   Responsive
+   --------------------------------------------------------- */
 
 @media (max-width: 1050px) {
     .mli-dashboard__content {
@@ -2363,6 +1449,16 @@
 
     .mli-dashboard__panel--content {
         grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 1024px) {
+    .mli-admin-dashboard-widgets {
+        grid-template-columns: 1fr !important;
+    }
+
+    .mli-admin-dashboard-widgets > :first-child {
+        grid-column: auto !important;
     }
 }
 
@@ -2380,6 +1476,10 @@
         grid-template-columns: 1fr;
     }
 
+    .mli-dashboard__status {
+        margin-inline: 14px;
+    }
+
     .mli-dashboard__status-item {
         min-height: 82px;
         padding-inline: 16px;
@@ -2387,255 +1487,14 @@
 
     .mli-dashboard__status-item + .mli-dashboard__status-item {
         border-inline-start: 0;
-        border-top: 1px solid var(--dashboard-border-light);
+        border-top: 1px solid var(--dashboard-card-divider);
+    }
+
+    .mli-dashboard__content {
+        padding-inline: 14px;
     }
 
     .mli-dashboard__panel--content {
         grid-column: auto;
     }
-}
-
-/* ---------------------------------------------------------
-   Dashboard widget width fix
-   --------------------------------------------------------- */
-
-.mli-admin-dashboard-widgets {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
-    gap: 18px !important;
-    width: 100% !important;
-    max-width: none !important;
-    align-items: stretch !important;
-    justify-items: stretch !important;
-}
-
-.mli-admin-dashboard-widgets > * {
-    width: 100% !important;
-    max-width: none !important;
-    min-width: 0 !important;
-    justify-self: stretch !important;
-    align-self: stretch !important;
-}
-
-.mli-admin-dashboard-widgets > :first-child {
-    grid-column: 1 / -1 !important;
-    width: 100% !important;
-    max-width: none !important;
-}
-
-.mli-admin-dashboard-widgets > :nth-child(2),
-.mli-admin-dashboard-widgets > :nth-child(3) {
-    width: 100% !important;
-    max-width: none !important;
-    min-width: 0 !important;
-}
-
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-wi,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-wi,
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta,
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-ctn,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-ctn {
-    width: 100% !important;
-    max-width: none !important;
-    min-width: 0 !important;
-}
-
-@media (min-width: 1025px) {
-    .mli-admin-dashboard-widgets > :nth-child(2),
-    .mli-admin-dashboard-widgets > :nth-child(3),
-    .mli-admin-dashboard-widgets > :nth-child(2) .fi-wi,
-    .mli-admin-dashboard-widgets > :nth-child(3) .fi-wi {
-        height: 100% !important;
-    }
-}
-
-@media (max-width: 1024px) {
-    .mli-admin-dashboard-widgets {
-        grid-template-columns: minmax(0, 1fr) !important;
-    }
-
-    .mli-admin-dashboard-widgets > :first-child {
-        grid-column: auto !important;
-    }
-}
-
-/* =========================================================
-   MLI DASHBOARD — ONE CARD STYLE FOR EVERYTHING
-   ========================================================= */
-
-.mli-admin-dashboard-widgets {
-    --card-bg: #ffffff;
-    --card-border: rgba(23, 59, 115, 0.1);
-    --card-shadow: 0 8px 24px rgba(23, 59, 115, 0.045);
-    --card-radius: 14px;
-
-    --card-heading: #173b73;
-    --card-text: #66758a;
-    --card-accent: #c4a470;
-}
-
-/* All dashboard cards share the same base */
-.mli-admin-dashboard-widgets .fi-wi,
-.mli-admin-dashboard-widgets .mli-dashboard__status,
-.mli-admin-dashboard-widgets .mli-dashboard__panel {
-    font-family: inherit !important;
-    color: var(--card-heading) !important;
-    background: var(--card-bg) !important;
-    border: 1px solid var(--card-border) !important;
-    border-radius: var(--card-radius) !important;
-    box-shadow: var(--card-shadow) !important;
-}
-
-/* Same hover treatment for every card */
-.mli-admin-dashboard-widgets .fi-wi:hover,
-.mli-admin-dashboard-widgets .mli-dashboard__status:hover,
-.mli-admin-dashboard-widgets .mli-dashboard__panel:hover {
-    border-color: rgba(196, 164, 112, 0.3) !important;
-    box-shadow: 0 10px 28px rgba(23, 59, 115, 0.06) !important;
-}
-
-/* ---------------------------------------------------------
-   Overview card
-   --------------------------------------------------------- */
-
-/* Remove the extra visual card around the overview content */
-.mli-admin-dashboard-widgets > :first-child .fi-wi {
-    border: 1px solid var(--card-border) !important;
-    border-radius: var(--card-radius) !important;
-    background: var(--card-bg) !important;
-    box-shadow: var(--card-shadow) !important;
-}
-
-/* Overview internal cards use exactly the same treatment */
-.mli-admin-dashboard-widgets .mli-dashboard__status,
-.mli-admin-dashboard-widgets .mli-dashboard__panel {
-    background: var(--card-bg) !important;
-    border-color: var(--card-border) !important;
-    box-shadow: var(--card-shadow) !important;
-}
-
-/* ---------------------------------------------------------
-   Shared typography
-   --------------------------------------------------------- */
-
-.mli-admin-dashboard-widgets h2,
-.mli-admin-dashboard-widgets h3,
-.mli-admin-dashboard-widgets strong,
-.mli-admin-dashboard-widgets .fi-wi-header-heading,
-.mli-admin-dashboard-widgets .fi-ta-header-cell,
-.mli-admin-dashboard-widgets .fi-ta-text-item-label {
-    color: var(--card-heading) !important;
-    font-family: inherit !important;
-}
-
-.mli-admin-dashboard-widgets p,
-.mli-admin-dashboard-widgets small,
-.mli-admin-dashboard-widgets time,
-.mli-admin-dashboard-widgets .fi-ta-text {
-    color: var(--card-text) !important;
-    font-family: inherit !important;
-}
-
-/* Same heading scale */
-.mli-admin-dashboard-widgets .mli-dashboard__panel-head h3,
-.mli-admin-dashboard-widgets .fi-wi-header-heading {
-    font-size: 0.9rem !important;
-    font-weight: 700 !important;
-}
-
-/* ---------------------------------------------------------
-   Overview labels / accents
-   --------------------------------------------------------- */
-
-.mli-admin-dashboard-widgets .mli-dashboard__eyebrow {
-    color: var(--card-accent) !important;
-    font-family: inherit !important;
-}
-
-.mli-admin-dashboard-widgets .mli-dashboard__status-item--live {
-    border-top-color: var(--card-accent) !important;
-}
-
-.mli-admin-dashboard-widgets .mli-dashboard__activity-dot {
-    background: var(--card-accent) !important;
-}
-
-.mli-admin-dashboard-widgets .mli-dashboard__week {
-    border-inline-start-color: var(--card-accent) !important;
-    background: rgba(196, 164, 112, 0.06) !important;
-}
-
-/* ---------------------------------------------------------
-   Shows + News tables — same card language
-   --------------------------------------------------------- */
-
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-wi,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-wi {
-    background: var(--card-bg) !important;
-    border: 1px solid var(--card-border) !important;
-    border-radius: var(--card-radius) !important;
-    box-shadow: var(--card-shadow) !important;
-    font-family: inherit !important;
-}
-
-/* Table itself is NOT another card */
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-ctn,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-ctn {
-    border: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    background: transparent !important;
-}
-
-/* Table header */
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header-ctn,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header-ctn {
-    background: var(--card-bg) !important;
-    border-bottom: 1px solid var(--card-border) !important;
-}
-
-/* Table rows */
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-row,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-row {
-    background: var(--card-bg) !important;
-    border-color: var(--card-border) !important;
-}
-
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-row:hover,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-row:hover {
-    background: rgba(196, 164, 112, 0.055) !important;
-}
-
-/* Table title / text */
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header-cell,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header-cell,
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-text-item-label,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-text-item-label {
-    color: var(--card-heading) !important;
-    font-family: inherit !important;
-}
-
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-text,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-text {
-    color: var(--card-text) !important;
-    font-family: inherit !important;
-}
-
-/* Same status badge typography */
-.mli-admin-dashboard-widgets .fi-badge {
-    font-family: inherit !important;
-    font-size: 0.61rem !important;
-    font-weight: 700 !important;
-    border-radius: 999px !important;
-}
-
-/* ---------------------------------------------------------
-   Same spacing / shape on the three top-level cards
-   --------------------------------------------------------- */
-
-.mli-admin-dashboard-widgets > :nth-child(2) .fi-wi-header,
-.mli-admin-dashboard-widgets > :nth-child(3) .fi-wi-header {
-    background: var(--card-bg) !important;
-    border-bottom: 1px solid var(--card-border) !important;
 }
