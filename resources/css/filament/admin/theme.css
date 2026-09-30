@@ -4,8 +4,8 @@
     --mli-navy: #173b73;
     --mli-blue: #2f6fbd;
     --mli-light-blue: #dceafa;
-    --mli-gold: #d6b52f;
-    --mli-light-gold: #f5e8a8;
+    --mli-gold: #c4a470;
+    --mli-light-gold: #efe5d4;
 
     --mli-sidebar-bg: #f8fafc;
     --mli-sidebar-text: #173b73;
@@ -13,7 +13,7 @@
     --mli-sidebar-hover: rgba(47, 111, 189, 0.08);
     --mli-sidebar-group: #2f6fbd;
     --mli-sidebar-border: rgba(23, 59, 115, 0.1);
-    --mli-sidebar-active: #f5e8a8;
+    --mli-sidebar-active: rgba(196, 164, 112, 0.12);
 
     --mli-surface: #ffffff;
     --mli-page-bg: #f4f6f8;
@@ -413,46 +413,6 @@
     .fi-page .fi-section {
         width: 100%;
     }
-}
-
-/* ---------------------------------------------------------
-   Dashboard / widget cards
-   --------------------------------------------------------- */
-
-.fi-page .fi-wi {
-    min-width: 0;
-    border: 1px solid var(--mli-border) !important;
-    border-radius: 16px !important;
-    background: var(--mli-surface) !important;
-    box-shadow: 0 10px 30px rgba(23, 59, 115, 0.05) !important;
-}
-
-.fi-page .fi-wi .fi-ta-ctn {
-    border: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-}
-
-.fi-page .fi-wi .fi-ta-header-ctn {
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-}
-
-.fi-page .fi-wi .fi-ta-content-ctn {
-    border-bottom-left-radius: 16px;
-    border-bottom-right-radius: 16px;
-}
-
-.fi-page .fi-stats-overview {
-    gap: 14px !important;
-}
-
-.fi-page .fi-stats-overview-stat {
-    min-width: 0;
-    border: 1px solid var(--mli-border) !important;
-    border-radius: 14px !important;
-    background: var(--mli-surface) !important;
-    box-shadow: 0 8px 24px rgba(23, 59, 115, 0.04) !important;
 }
 
 /* ---------------------------------------------------------
