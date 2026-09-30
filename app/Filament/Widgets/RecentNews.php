@@ -20,6 +20,7 @@ class RecentNews extends BaseWidget
     {
         return $table
             ->query(News::query()->latest()->limit(5))
+            ->paginated(false)
             ->columns([
                 TextColumn::make('title_en')->label('Title'),
                 TextColumn::make('status')

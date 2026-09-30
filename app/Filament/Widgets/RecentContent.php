@@ -22,6 +22,7 @@ class RecentContent extends BaseWidget
             ->query(
                 Show::query()->latest()->limit(5)
             )
+            ->paginated(false)
             ->columns([
                 TextColumn::make('title_en')->label('Title'),
                 TextColumn::make('status')

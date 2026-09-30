@@ -1008,7 +1008,6 @@
     line-height: 1.55;
 }
 
-
 /* ---------------------------------------------------------
    MLI dashboard — editorial / content-studio treatment
    --------------------------------------------------------- */
@@ -1063,7 +1062,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border: 1px solid rgba(23, 59, 115, 0.10) !important;
+    border: 1px solid rgba(23, 59, 115, 0.1) !important;
     border-radius: 16px !important;
     background: #fff !important;
     box-shadow: 0 8px 28px rgba(23, 59, 115, 0.055) !important;
@@ -1085,29 +1084,55 @@
 .fi-page:has(.fi-stats-overview) .fi-stats-overview-stat:hover {
     transform: translateY(-3px);
     border-color: rgba(196, 164, 112, 0.38) !important;
-    box-shadow: 0 14px 34px rgba(23, 59, 115, 0.10) !important;
+    box-shadow: 0 14px 34px rgba(23, 59, 115, 0.1) !important;
 }
 
-.fi-page:has(.fi-stats-overview) .fi-stats-overview > *:nth-child(1) .fi-stats-overview-stat {
-    background: linear-gradient(135deg, #fff 0%, rgba(220, 234, 250, 0.62) 100%) !important;
+.fi-page:has(.fi-stats-overview)
+    .fi-stats-overview
+    > *:nth-child(1)
+    .fi-stats-overview-stat {
+    background: linear-gradient(
+        135deg,
+        #fff 0%,
+        rgba(220, 234, 250, 0.62) 100%
+    ) !important;
 }
 
-.fi-page:has(.fi-stats-overview) .fi-stats-overview > *:nth-child(2) .fi-stats-overview-stat {
-    background: linear-gradient(135deg, #fff 0%, rgba(196, 164, 112, 0.09) 100%) !important;
+.fi-page:has(.fi-stats-overview)
+    .fi-stats-overview
+    > *:nth-child(2)
+    .fi-stats-overview-stat {
+    background: linear-gradient(
+        135deg,
+        #fff 0%,
+        rgba(196, 164, 112, 0.09) 100%
+    ) !important;
 }
 
-.fi-page:has(.fi-stats-overview) .fi-stats-overview > *:nth-child(3) .fi-stats-overview-stat {
-    background: linear-gradient(135deg, #fff 0%, rgba(47, 111, 189, 0.055) 100%) !important;
+.fi-page:has(.fi-stats-overview)
+    .fi-stats-overview
+    > *:nth-child(3)
+    .fi-stats-overview-stat {
+    background: linear-gradient(
+        135deg,
+        #fff 0%,
+        rgba(47, 111, 189, 0.055) 100%
+    ) !important;
 }
 
-.fi-page:has(.fi-stats-overview) .fi-stats-overview-stat .fi-stats-overview-stat-value {
+.fi-page:has(.fi-stats-overview)
+    .fi-stats-overview-stat
+    .fi-stats-overview-stat-value {
     color: var(--mli-dashboard-ink) !important;
     font-size: clamp(1.8rem, 3vw, 2.45rem) !important;
     font-weight: 750 !important;
     letter-spacing: -0.045em;
 }
 
-.fi-page:has(.fi-stats-overview) .fi-stats-overview > *:nth-child(n + 4) .fi-stats-overview-stat-value {
+.fi-page:has(.fi-stats-overview)
+    .fi-stats-overview
+    > *:nth-child(n + 4)
+    .fi-stats-overview-stat-value {
     font-size: 1.65rem !important;
 }
 
@@ -1179,7 +1204,6 @@
         min-height: 132px;
     }
 }
-
 
 /* ---------------------------------------------------------
    MLI dashboard — custom overview
@@ -1256,7 +1280,9 @@
     border-radius: 17px;
     background: #fff;
     box-shadow: 0 10px 30px rgba(23, 59, 115, 0.055);
-    transition: transform 180ms ease, box-shadow 180ms ease;
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease;
 }
 
 .mli-dashboard-card::after {
@@ -1286,7 +1312,11 @@
 }
 
 .mli-dashboard-card--attention {
-    background: linear-gradient(135deg, #fff 0%, rgba(196, 164, 112, 0.11) 100%);
+    background: linear-gradient(
+        135deg,
+        #fff 0%,
+        rgba(196, 164, 112, 0.11) 100%
+    );
 }
 
 .mli-dashboard-card--schedule {
@@ -1430,7 +1460,6 @@
     }
 }
 
-
 /* ---------------------------------------------------------
    MLI dashboard — editorial workspace
    --------------------------------------------------------- */
@@ -1534,7 +1563,10 @@
 
 .mli-dashboard__content {
     display: grid;
-    grid-template-columns: minmax(250px, 0.9fr) minmax(0, 1.35fr) minmax(0, 1.15fr);
+    grid-template-columns: minmax(250px, 0.9fr) minmax(0, 1.35fr) minmax(
+            0,
+            1.15fr
+        );
     gap: 16px;
 }
 
@@ -1739,7 +1771,6 @@
     }
 }
 
-
 /* ---------------------------------------------------------
    MLI dashboard — explicit widget layout
    --------------------------------------------------------- */
@@ -1775,14 +1806,13 @@
     }
 }
 
-
 /* ---------------------------------------------------------
    MLI dashboard — unified visual system
    --------------------------------------------------------- */
 
 .mli-admin-dashboard-widgets {
     --mli-dashboard-card-radius: 14px;
-    --mli-dashboard-card-border: rgba(23, 59, 115, 0.10);
+    --mli-dashboard-card-border: rgba(23, 59, 115, 0.1);
     --mli-dashboard-card-shadow: 0 8px 24px rgba(23, 59, 115, 0.045);
     --mli-dashboard-card-hover-shadow: 0 12px 30px rgba(23, 59, 115, 0.07);
     --mli-dashboard-ink: #173b73;
@@ -2060,7 +2090,6 @@
     }
 }
 
-
 /* ---------------------------------------------------------
    MLI Dashboard — final unified visual system
    --------------------------------------------------------- */
@@ -2069,7 +2098,7 @@
     --dashboard-ink: #173b73;
     --dashboard-gold: #c4a470;
     --dashboard-muted: #66758a;
-    --dashboard-border: rgba(23, 59, 115, 0.10);
+    --dashboard-border: rgba(23, 59, 115, 0.1);
     --dashboard-border-light: rgba(23, 59, 115, 0.07);
     --dashboard-radius: 14px;
     --dashboard-shadow: 0 8px 24px rgba(23, 59, 115, 0.045);
@@ -2084,7 +2113,9 @@
     background: #fff !important;
     box-shadow: var(--dashboard-shadow) !important;
     overflow: hidden;
-    transition: border-color 160ms ease, box-shadow 160ms ease;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease;
 }
 
 .mli-admin-dashboard-widgets .fi-wi:hover {
@@ -2178,7 +2209,10 @@
 
 .mli-dashboard__content {
     display: grid;
-    grid-template-columns: minmax(250px, 0.9fr) minmax(0, 1.35fr) minmax(0, 1.15fr);
+    grid-template-columns: minmax(250px, 0.9fr) minmax(0, 1.35fr) minmax(
+            0,
+            1.15fr
+        );
     gap: 14px;
 }
 
@@ -2359,4 +2393,249 @@
     .mli-dashboard__panel--content {
         grid-column: auto;
     }
+}
+
+/* ---------------------------------------------------------
+   Dashboard widget width fix
+   --------------------------------------------------------- */
+
+.mli-admin-dashboard-widgets {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 18px !important;
+    width: 100% !important;
+    max-width: none !important;
+    align-items: stretch !important;
+    justify-items: stretch !important;
+}
+
+.mli-admin-dashboard-widgets > * {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    justify-self: stretch !important;
+    align-self: stretch !important;
+}
+
+.mli-admin-dashboard-widgets > :first-child {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    max-width: none !important;
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2),
+.mli-admin-dashboard-widgets > :nth-child(3) {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-wi,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-wi,
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta,
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-ctn,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-ctn {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+}
+
+@media (min-width: 1025px) {
+    .mli-admin-dashboard-widgets > :nth-child(2),
+    .mli-admin-dashboard-widgets > :nth-child(3),
+    .mli-admin-dashboard-widgets > :nth-child(2) .fi-wi,
+    .mli-admin-dashboard-widgets > :nth-child(3) .fi-wi {
+        height: 100% !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    .mli-admin-dashboard-widgets {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .mli-admin-dashboard-widgets > :first-child {
+        grid-column: auto !important;
+    }
+}
+
+/* =========================================================
+   MLI DASHBOARD — ONE CARD STYLE FOR EVERYTHING
+   ========================================================= */
+
+.mli-admin-dashboard-widgets {
+    --card-bg: #ffffff;
+    --card-border: rgba(23, 59, 115, 0.1);
+    --card-shadow: 0 8px 24px rgba(23, 59, 115, 0.045);
+    --card-radius: 14px;
+
+    --card-heading: #173b73;
+    --card-text: #66758a;
+    --card-accent: #c4a470;
+}
+
+/* All dashboard cards share the same base */
+.mli-admin-dashboard-widgets .fi-wi,
+.mli-admin-dashboard-widgets .mli-dashboard__status,
+.mli-admin-dashboard-widgets .mli-dashboard__panel {
+    font-family: inherit !important;
+    color: var(--card-heading) !important;
+    background: var(--card-bg) !important;
+    border: 1px solid var(--card-border) !important;
+    border-radius: var(--card-radius) !important;
+    box-shadow: var(--card-shadow) !important;
+}
+
+/* Same hover treatment for every card */
+.mli-admin-dashboard-widgets .fi-wi:hover,
+.mli-admin-dashboard-widgets .mli-dashboard__status:hover,
+.mli-admin-dashboard-widgets .mli-dashboard__panel:hover {
+    border-color: rgba(196, 164, 112, 0.3) !important;
+    box-shadow: 0 10px 28px rgba(23, 59, 115, 0.06) !important;
+}
+
+/* ---------------------------------------------------------
+   Overview card
+   --------------------------------------------------------- */
+
+/* Remove the extra visual card around the overview content */
+.mli-admin-dashboard-widgets > :first-child .fi-wi {
+    border: 1px solid var(--card-border) !important;
+    border-radius: var(--card-radius) !important;
+    background: var(--card-bg) !important;
+    box-shadow: var(--card-shadow) !important;
+}
+
+/* Overview internal cards use exactly the same treatment */
+.mli-admin-dashboard-widgets .mli-dashboard__status,
+.mli-admin-dashboard-widgets .mli-dashboard__panel {
+    background: var(--card-bg) !important;
+    border-color: var(--card-border) !important;
+    box-shadow: var(--card-shadow) !important;
+}
+
+/* ---------------------------------------------------------
+   Shared typography
+   --------------------------------------------------------- */
+
+.mli-admin-dashboard-widgets h2,
+.mli-admin-dashboard-widgets h3,
+.mli-admin-dashboard-widgets strong,
+.mli-admin-dashboard-widgets .fi-wi-header-heading,
+.mli-admin-dashboard-widgets .fi-ta-header-cell,
+.mli-admin-dashboard-widgets .fi-ta-text-item-label {
+    color: var(--card-heading) !important;
+    font-family: inherit !important;
+}
+
+.mli-admin-dashboard-widgets p,
+.mli-admin-dashboard-widgets small,
+.mli-admin-dashboard-widgets time,
+.mli-admin-dashboard-widgets .fi-ta-text {
+    color: var(--card-text) !important;
+    font-family: inherit !important;
+}
+
+/* Same heading scale */
+.mli-admin-dashboard-widgets .mli-dashboard__panel-head h3,
+.mli-admin-dashboard-widgets .fi-wi-header-heading {
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+}
+
+/* ---------------------------------------------------------
+   Overview labels / accents
+   --------------------------------------------------------- */
+
+.mli-admin-dashboard-widgets .mli-dashboard__eyebrow {
+    color: var(--card-accent) !important;
+    font-family: inherit !important;
+}
+
+.mli-admin-dashboard-widgets .mli-dashboard__status-item--live {
+    border-top-color: var(--card-accent) !important;
+}
+
+.mli-admin-dashboard-widgets .mli-dashboard__activity-dot {
+    background: var(--card-accent) !important;
+}
+
+.mli-admin-dashboard-widgets .mli-dashboard__week {
+    border-inline-start-color: var(--card-accent) !important;
+    background: rgba(196, 164, 112, 0.06) !important;
+}
+
+/* ---------------------------------------------------------
+   Shows + News tables — same card language
+   --------------------------------------------------------- */
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-wi,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-wi {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--card-border) !important;
+    border-radius: var(--card-radius) !important;
+    box-shadow: var(--card-shadow) !important;
+    font-family: inherit !important;
+}
+
+/* Table itself is NOT another card */
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-ctn,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-ctn {
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+/* Table header */
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header-ctn,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header-ctn {
+    background: var(--card-bg) !important;
+    border-bottom: 1px solid var(--card-border) !important;
+}
+
+/* Table rows */
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-row,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-row {
+    background: var(--card-bg) !important;
+    border-color: var(--card-border) !important;
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-row:hover,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-row:hover {
+    background: rgba(196, 164, 112, 0.055) !important;
+}
+
+/* Table title / text */
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-header-cell,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-header-cell,
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-text-item-label,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-text-item-label {
+    color: var(--card-heading) !important;
+    font-family: inherit !important;
+}
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-ta-text,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-ta-text {
+    color: var(--card-text) !important;
+    font-family: inherit !important;
+}
+
+/* Same status badge typography */
+.mli-admin-dashboard-widgets .fi-badge {
+    font-family: inherit !important;
+    font-size: 0.61rem !important;
+    font-weight: 700 !important;
+    border-radius: 999px !important;
+}
+
+/* ---------------------------------------------------------
+   Same spacing / shape on the three top-level cards
+   --------------------------------------------------------- */
+
+.mli-admin-dashboard-widgets > :nth-child(2) .fi-wi-header,
+.mli-admin-dashboard-widgets > :nth-child(3) .fi-wi-header {
+    background: var(--card-bg) !important;
+    border-bottom: 1px solid var(--card-border) !important;
 }
