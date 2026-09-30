@@ -33,7 +33,7 @@ class AdminPanelProvider extends PanelProvider
             ->maxContentWidth(Width::Full)
             ->favicon(asset('images/mli-logo.png'))
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => '#1E3A8A',
             ])
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
