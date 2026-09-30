@@ -1,4 +1,6 @@
 @php
+    use Illuminate\\Support\\Carbon;
+
     $data = $this->getDashboardData();
 @endphp
 
@@ -89,8 +91,8 @@
                             <strong>{{ $item['title'] }}</strong>
                             <small>{{ $item['type'] }} · {{ ucfirst($item['status']) }}</small>
                         </div>
-                        <time datetime="{{ $item['created_at']->toIso8601String() }}">
-                            {{ $item['created_at']->diffForHumans() }}
+                        <time datetime="{{ Carbon::parse($item['created_at'])->toIso8601String() }}">
+                            {{ Carbon::parse($item['created_at'])->diffForHumans() }}
                         </time>
                     </div>
                 @empty
@@ -114,9 +116,9 @@
                             <strong>{{ $item['title'] }}</strong>
                             <small>{{ $item['type'] }}</small>
                         </div>
-                        <time datetime="{{ $item['published_at']->toIso8601String() }}">
-                            {{ $item['published_at']->format('M j') }}<br>
-                            <span>{{ $item['published_at']->format('g:i A') }}</span>
+                        <time datetime="{{ Carbon::parse($item['published_at'])->toIso8601String() }}">
+                            {{ Carbon::parse($item['published_at'])->format('M j') }}<br>
+                            <span>{{ Carbon::parse($item['published_at'])->format('g:i A') }}</span>
                         </time>
                     </div>
                 @empty
