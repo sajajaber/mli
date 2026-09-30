@@ -76,6 +76,14 @@
     border-bottom: 1px solid var(--mli-sidebar-border) !important;
 }
 
+/* MLI wordmark in the admin corner. */
+.fi-sidebar-header .fi-logo,
+.fi-topbar .fi-logo {
+    color: var(--mli-navy) !important;
+    font-weight: 750 !important;
+    letter-spacing: -0.015em;
+}
+
 .fi-sidebar-group {
     margin-bottom: 0.55rem;
 }
@@ -242,26 +250,75 @@
 }
 
 .fi-btn {
-    border-radius: 10px !important;
+    min-height: 2.5rem;
+    border-radius: 9px !important;
     font-weight: 650 !important;
+    letter-spacing: -0.005em;
     transition:
         transform 140ms ease,
         box-shadow 140ms ease,
         background-color 140ms ease,
-        border-color 140ms ease;
+        border-color 140ms ease,
+        color 140ms ease;
 }
 
 .fi-btn:hover {
     transform: translateY(-1px);
 }
 
+.fi-btn:active {
+    transform: translateY(0);
+    box-shadow: none !important;
+}
+
+.fi-btn:focus-visible {
+    outline: 0 !important;
+    box-shadow: 0 0 0 3px rgba(196, 164, 112, 0.26) !important;
+}
+
+/* Primary actions: clear, stable, and unmistakably MLI. */
 .fi-btn-primary {
-    background-color: var(--mli-blue) !important;
+    border-color: var(--mli-navy) !important;
+    background: var(--mli-navy) !important;
+    color: #fff !important;
+    box-shadow: 0 5px 14px rgba(23, 59, 115, 0.12);
 }
 
 .fi-btn-primary:hover {
-    background-color: var(--mli-navy) !important;
-    box-shadow: 0 8px 18px rgba(23, 59, 115, 0.16);
+    border-color: #102d58 !important;
+    background: #102d58 !important;
+    color: #fff !important;
+    box-shadow: 0 8px 18px rgba(23, 59, 115, 0.18);
+}
+
+/* Neutral actions: secondary, quieter, and easy to scan beside primary actions. */
+.fi-btn-color-gray {
+    border: 1px solid rgba(23, 59, 115, 0.14) !important;
+    background: #fff !important;
+    color: var(--mli-navy) !important;
+    box-shadow: 0 2px 7px rgba(23, 59, 115, 0.04);
+}
+
+.fi-btn-color-gray:hover {
+    border-color: rgba(47, 111, 189, 0.28) !important;
+    background: #f8fafc !important;
+    color: var(--mli-navy) !important;
+    box-shadow: 0 5px 12px rgba(23, 59, 115, 0.07);
+}
+
+/* Preserve semantic colors for destructive and status actions. */
+.fi-btn-color-danger,
+.fi-btn-color-success,
+.fi-btn-color-warning,
+.fi-btn-color-info {
+    box-shadow: 0 3px 9px rgba(23, 59, 115, 0.06);
+}
+
+.fi-btn-color-danger:hover,
+.fi-btn-color-success:hover,
+.fi-btn-color-warning:hover,
+.fi-btn-color-info:hover {
+    box-shadow: 0 6px 14px rgba(23, 59, 115, 0.09);
 }
 
 .fi-input:focus,
