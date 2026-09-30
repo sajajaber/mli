@@ -81,7 +81,7 @@ class MliStatsOverview extends Widget
                     ->map(fn (Show $item) => [
                         'type' => 'Show',
                         'title' => $item->title_en,
-                        'published_at' => $item->published_at,
+                        'published_at' => $item->published_at?->toIso8601String(),
                     ])
                     ->concat($upcomingNews->map(fn (News $item) => [
                         'type' => 'News',
@@ -107,7 +107,7 @@ class MliStatsOverview extends Widget
                         'type' => 'Show',
                         'title' => $item->title_en,
                         'status' => $item->status,
-                        'created_at' => $item->created_at,
+                        'created_at' => $item->created_at?->toIso8601String(),
                     ])
                     ->concat($recentNews->map(fn (News $item) => [
                         'type' => 'News',
