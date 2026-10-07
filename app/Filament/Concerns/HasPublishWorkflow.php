@@ -7,6 +7,8 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Validation\ValidationException;
 
 trait HasPublishWorkflow
 {
@@ -86,12 +88,20 @@ trait HasPublishWorkflow
                     ->seconds(false)
                     ->timezone('Asia/Beirut')
                     ->required()
-                    ->minDate(now()),
+                    ->minDate(now('Asia/Beirut')),
             ])
             ->action(function (Model $record, array $data): void {
+                $scheduledAt = static::normalizeScheduledAt($data['published_at'] ?? null);
+
+                if (! $scheduledAt || $scheduledAt->lessThanOrEqualTo(now('UTC'))) {
+                    throw ValidationException::withMessages([
+                        'published_at' => 'Choose a future publication time in Beirut time.',
+                    ]);
+                }
+
                 $record->update([
                     'status' => 'scheduled',
-                    'published_at' => $data['published_at'],
+                    'published_at' => $scheduledAt,
                 ]);
 
                 Notification::make()
@@ -100,6 +110,19 @@ trait HasPublishWorkflow
                     ->body(static::scheduleNotificationBody($record))
                     ->send();
             });
+    }
+
+    public static function normalizeScheduledAt(mixed $value): ?Carbon
+    {
+        if (blank($value)) {
+            return null;
+        }
+
+        if ($value instanceof \DateTimeInterface) {
+            $value = $value->format('Y-m-d H:i');
+        }
+
+        return Carbon::parse((string) $value, 'Asia/Beirut')->utc();
     }
 
     protected static function beforePublish(Model $record): void
