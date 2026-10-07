@@ -51,14 +51,15 @@ class HomeController extends Controller
             ->get();
 
         $mediaServices = SiteContent::published()
-            ->whereIn('key', [
-                'media_service_1',
-                'media_service_2',
-                'media_service_3',
-                'media_service_4',
-            ])
             ->get()
-            ->sortBy(fn ($item) => intval((string) str($item->key)->afterLast('_')))
+            ->filter(
+                fn (SiteContent $item): bool =>
+                    preg_match('/^media_service_\\d+$/', (string) $item->key) === 1,
+            )
+            ->sortBy(
+                fn (SiteContent $item): int =>
+                    (int) str($item->key)->afterLast('_'),
+            )
             ->values();
 
         $mediaNews = News::published()
