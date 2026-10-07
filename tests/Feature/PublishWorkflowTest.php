@@ -16,6 +16,40 @@ class PublishWorkflowTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_creating_a_show_with_a_taken_slug_uses_a_numeric_suffix(): void
+    {
+        Show::factory()->create([
+            'title_en' => 'Alpha Story',
+            'slug' => 'alpha-story',
+        ]);
+
+        $duplicate = Show::factory()->create([
+            'title_en' => 'Alpha Story',
+            'slug' => null,
+        ]);
+
+        $this->assertSame('alpha-story-2', $duplicate->fresh()->slug);
+    }
+
+    public function test_updating_a_show_title_regenerates_a_colliding_slug(): void
+    {
+        $existing = Show::factory()->create([
+            'title_en' => 'Alpha Story',
+            'slug' => 'alpha-story',
+        ]);
+
+        $duplicate = Show::factory()->create([
+            'title_en' => 'Beta Story',
+            'slug' => 'beta-story',
+        ]);
+
+        $duplicate->title_en = 'Alpha Story';
+        $duplicate->save();
+
+        $this->assertSame('alpha-story-2', $duplicate->fresh()->slug);
+        $this->assertSame('alpha-story', $existing->fresh()->slug);
+    }
+
     public function test_publish_action_publishes_a_show_and_sets_published_at(): void
     {
         $this->actingAs(UserFactory::new()->create());
@@ -93,6 +127,18 @@ class PublishWorkflowTest extends TestCase
         $this->assertSame('draft', $show->status);
         $this->assertNull($show->published_at);
         $this->get(route('shows.show', $show->slug))->assertNotFound();
+    }
+
+    public function test_due_scheduled_items_are_auto_published_when_the_public_query_runs(): void
+    {
+        $show = Show::factory()->scheduled(now()->subMinute())->create();
+        $news = News::factory()->scheduled(now()->subMinute())->create();
+
+        $this->assertNotNull(Show::query()->published()->whereKey($show->getKey())->first());
+        $this->assertNotNull(News::query()->published()->whereKey($news->getKey())->first());
+
+        $this->assertSame('published', $show->fresh()->status);
+        $this->assertSame('published', $news->fresh()->status);
     }
 
     public function test_scheduler_publishes_only_due_items_and_is_idempotent(): void

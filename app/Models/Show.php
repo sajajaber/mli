@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\PublishesScheduledContent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Show extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, PublishesScheduledContent, SoftDeletes;
 
     protected $fillable = [
         'category_id',
@@ -55,6 +56,8 @@ class Show extends Model
      */
     public function scopePublished(Builder $query): Builder
     {
+        static::publishDueScheduledItems();
+
         return $query->where('status', 'published');
     }
 
@@ -94,17 +97,23 @@ class Show extends Model
     protected static function booted(): void
     {
         static::creating(function (Show $show) {
-            if (empty($show->slug)) {
-                $show->slug = static::generateUniqueSlug($show->title_en);
-            }
-
+            $show->slug = static::generateUniqueSlug($show->title_en, $show->slug);
             $show->applyAutoMeta();
         });
 
         static::updating(function (Show $show) {
-            if (empty($show->slug)) {
-                $show->slug = static::generateUniqueSlug($show->title_en);
-            }
+            $shouldRegenerateFromTitle = $show->isDirty('title_en')
+                || blank($show->slug)
+                || static::withTrashed()
+                    ->whereKeyNot($show->getKey())
+                    ->whereRaw('LOWER(slug) = ?', [mb_strtolower((string) $show->slug)])
+                    ->exists();
+
+            $show->slug = static::generateUniqueSlug(
+                $show->title_en,
+                $shouldRegenerateFromTitle ? $show->title_en : $show->slug,
+                $show->getKey(),
+            );
 
             $show->applyAutoMeta();
         });
@@ -128,13 +137,20 @@ class Show extends Model
             : null;
     }
 
-    protected static function generateUniqueSlug(string $titleEn): string
+    protected static function generateUniqueSlug(string $titleEn, ?string $preferredSlug = null, ?int $ignoreId = null): string
     {
-        $base = Str::slug($titleEn);
+        $base = filled($preferredSlug)
+            ? Str::slug($preferredSlug)
+            : Str::slug($titleEn);
+
+        $base = $base ?: 'show';
         $slug = $base;
         $counter = 2;
 
-        while (static::withTrashed()->where('slug', $slug)->exists()) {
+        while (static::withTrashed()
+            ->when($ignoreId !== null, fn ($query) => $query->whereKeyNot($ignoreId))
+            ->whereRaw('LOWER(slug) = ?', [mb_strtolower($slug)])
+            ->exists()) {
             $slug = "{$base}-{$counter}";
             $counter++;
         }

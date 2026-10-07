@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\PublishesScheduledContent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Support\Str;
 
 class SiteContent extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, PublishesScheduledContent, SoftDeletes;
 
     protected $fillable = [
         'key',
@@ -33,6 +34,8 @@ class SiteContent extends Model
 
     public function scopePublished(Builder $query): Builder
     {
+        static::publishDueScheduledItems();
+
         return $query
             ->where('status', 'published')
             ->orderByDesc('version');

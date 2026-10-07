@@ -17,6 +17,14 @@ class CreateClient extends CreateRecord
         return $data;
     }
 
+    protected function getFormActions(): array
+    {
+        return [
+            $this->getCreateFormAction(),
+            $this->getCancelFormAction(),
+        ];
+    }
+
     protected function getRedirectUrl(): string
     {
         return ClientResource::getUrl('index');

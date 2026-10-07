@@ -67,7 +67,7 @@ class ShowResource extends Resource
                                         ->validationMessages([
                                             'unique' => 'A show with this English title already exists.',
                                         ])
-                                        ->live()
+                                        ->live(onBlur: true)
                                         ->afterStateUpdated(static::fillSlugFromTitle()),
 
                                     TextInput::make('title_ar')
@@ -121,6 +121,7 @@ class ShowResource extends Resource
                                         ->required()
                                         ->maxLength(255)
                                         ->unique(ignoreRecord: true)
+                                        ->live(onBlur: true)
                                         ->helperText('Auto-filled from the English title.'),
 
                                     TextInput::make('vimeo_url')

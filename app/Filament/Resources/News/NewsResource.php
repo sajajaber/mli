@@ -57,13 +57,27 @@ class NewsResource extends Resource
                                         ->label('Title (English)')
                                         ->required()
                                         ->maxLength(255)
-                                        ->live()
+                                        ->unique(
+                                            ignoreRecord: true,
+                                            modifyRuleUsing: fn(\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
+                                        )
+                                        ->validationMessages([
+                                            'unique' => 'A news article with this English title already exists.',
+                                        ])
+                                        ->live(onBlur: true)
                                         ->afterStateUpdated(static::fillSlugFromTitle()),
 
                                     TextInput::make('title_ar')
                                         ->label('Title (Arabic)')
                                         ->required()
                                         ->maxLength(255)
+                                        ->unique(
+                                            ignoreRecord: true,
+                                            modifyRuleUsing: fn(\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
+                                        )
+                                        ->validationMessages([
+                                            'unique' => 'A news article with this Arabic title already exists.',
+                                        ])
                                         ->extraInputAttributes(['dir' => 'rtl'])
                                         ->live(onBlur: true),
 
@@ -116,6 +130,10 @@ class NewsResource extends Resource
                                         ->required()
                                         ->maxLength(255)
                                         ->unique(ignoreRecord: true)
+                                        ->live(onBlur: true)
+                                        ->validationMessages([
+                                            'unique' => 'The slug has already been taken.',
+                                        ])
                                         ->helperText('Auto-filled from English title.'),
 
                                     FileUpload::make('featured_image_path')
