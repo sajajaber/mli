@@ -41,7 +41,7 @@
         <template x-for="item in items" :key="item.id">
             <div x-show="openModal === item.id" class="p-8">
                 {{-- Vimeo trailer (Shows) --}}
-                <div x-show="item.vimeo_url" class="mb-6 aspect-video overflow-hidden rounded-xl bg-navy-950">
+                <div x-show="item.vimeo_embed_url" class="mb-6 aspect-video overflow-hidden rounded-xl bg-navy-950">
                     <iframe
                         :src="openModal === item.id && item.vimeo_url ? item.vimeo_url : ''"
                         class="h-full w-full"
@@ -57,7 +57,7 @@
                     class="mb-6 w-full rounded-xl object-cover">
 
                 <h3 class="text-2xl font-medium text-navy-950" x-text="item.title"></h3>
-                <div class="prose prose-navy mt-4 max-w-none" x-html="item.body"></div>
+                <div class="prose prose-navy mt-4 max-w-none" x-text="item.body"></div>
             </div>
         </template>
     </div>
