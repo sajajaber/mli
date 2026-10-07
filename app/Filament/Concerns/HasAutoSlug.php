@@ -12,16 +12,16 @@ trait HasAutoSlug
         string $slugField = 'slug',
     ): Closure {
         return function (
-            string $state,
+            ?string $state,
             callable $get,
             callable $set,
-            string $operation
+            ?string $operation = null
         ) use ($titleField, $slugField): void {
-            if ($operation !== 'create' || blank($get($slugField))) {
+            if ($operation !== 'create' || filled($get($slugField))) {
                 return;
             }
 
-            $set($slugField, Str::slug($state));
+            $set($slugField, Str::slug($state ?? ''));
         };
     }
 }
