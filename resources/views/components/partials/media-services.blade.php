@@ -17,7 +17,7 @@
                     <div>
                         <h3>{{ app()->getLocale() === 'ar' ? $service->title_ar : $service->title_en }}</h3>
                         <div class="mli-service-card__content">
-                            {!! app()->getLocale() === 'ar' ? $service->content_ar : $service->content_en !!}
+                            {!! \App\Support\SafeHtml::clean(app()->getLocale() === 'ar' ? $service->content_ar : $service->content_en) !!}
                         </div>
                     </div>
                     <span class="mli-service-card__arrow">↗</span>
