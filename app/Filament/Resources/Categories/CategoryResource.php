@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Categories;
 
+use App\Filament\Concerns\ValidatesOnBlur;
 use App\Filament\Resources\Categories\Pages\CreateCategory;
 use App\Filament\Resources\Categories\Pages\EditCategory;
 use App\Filament\Resources\Categories\Pages\ListCategories;
@@ -46,6 +47,7 @@ class CategoryResource extends Resource
                             'unique' => 'A category with this English name already exists.',
                         ])
                         ->live(onBlur: true)
+                        ->afterStateUpdated(static::validateOnBlur())
                         ->afterStateUpdated(function (string $state, callable $set, string $operation) {
                             if ($operation === 'create') {
                                 $set('slug', Str::slug($state));
@@ -61,7 +63,8 @@ class CategoryResource extends Resource
                             'unique' => 'A category with this Arabic name already exists.',
                         ])
                         ->extraInputAttributes(['dir' => 'rtl'])
-                        ->live(onBlur: true),
+                        ->live(onBlur: true)
+                        ->afterStateUpdated(static::validateOnBlur()),
 
                     TextInput::make('slug')
                         ->label('Slug')
@@ -69,6 +72,7 @@ class CategoryResource extends Resource
                         ->maxLength(255)
                         ->unique(ignoreRecord: true)
                         ->live(onBlur: true)
+                        ->afterStateUpdated(static::validateOnBlur())
                         ->helperText('Auto-filled from the English name — edit if you want a custom URL segment.')
                         ->columnSpanFull(),
                 ]),
