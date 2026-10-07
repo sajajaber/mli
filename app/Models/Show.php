@@ -33,6 +33,8 @@ class Show extends Model
         'sort_order',
     ];
 
+    protected $appends = ['vimeo_embed_url'];
+
     protected $casts = [
         'published_at' => 'datetime',
         'is_new_release' => 'boolean',
@@ -56,6 +58,21 @@ class Show extends Model
     }
 
     // --- Accessors ---
+
+    public function getVimeoEmbedUrlAttribute(): ?string
+    {
+        if (blank($this->vimeo_url)) {
+            return null;
+        }
+
+        $path = parse_url($this->vimeo_url, PHP_URL_PATH);
+
+        if (! is_string($path) || ! preg_match('~/([0-9]+)(?:/)?$~', $path, $matches)) {
+            return null;
+        }
+
+        return 'https://player.vimeo.com/video/' . $matches[1];
+    }
 
     public function getCoverImageUrlAttribute(): ?string
     {
