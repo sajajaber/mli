@@ -92,7 +92,7 @@ trait HasPublishWorkflow
             ->action(function (Model $record, array $data): void {
                 $scheduledAt = static::normalizeScheduledAt($data['published_at'] ?? null);
 
-                if (! $scheduledAt || $scheduledAt->lessThanOrEqualTo(now('UTC'))) {
+                if (! $scheduledAt || $scheduledAt->lessThanOrEqualTo(now())) {
                     throw ValidationException::withMessages([
                         'published_at' => 'Choose a future publication time in Beirut time.',
                     ]);
@@ -118,11 +118,11 @@ trait HasPublishWorkflow
         }
 
         if ($value instanceof \DateTimeInterface) {
-            return Carbon::instance($value)->utc();
+            return Carbon::instance($value);
         }
 
         // Filament's picker already converted Beirut input to the app timezone.
-        return Carbon::parse((string) $value, config('app.timezone'))->utc();
+        return Carbon::parse((string) $value, config('app.timezone'));
     }
 
     protected static function beforePublish(Model $record): void
