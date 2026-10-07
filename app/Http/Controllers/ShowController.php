@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Show;
 use App\Models\Category;
+use App\Models\Show;
 use Illuminate\Http\Request;
 
 class ShowController extends Controller
@@ -25,7 +25,10 @@ class ShowController extends Controller
         }
 
         $shows = $query->paginate(12)->withQueryString();
+
         $categories = Category::query()
+            ->select(['id', 'name_en', 'name_ar', 'slug'])
+            ->whereHas('shows', fn ($query) => $query->published())
             ->orderBy('name_en')
             ->get();
 
