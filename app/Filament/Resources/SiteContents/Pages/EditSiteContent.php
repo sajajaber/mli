@@ -44,7 +44,7 @@ class EditSiteContent extends EditRecord
             $data['published_at'] = $scheduledAt;
         }
 
-        if (($data['status'] ?? null) === 'published')
+        if (($data['status'] ?? null) === 'published') {
             SiteContent::query()
                 ->where('key', $record->key)
                 ->where('status', 'published')
