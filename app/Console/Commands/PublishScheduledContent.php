@@ -17,7 +17,7 @@ class PublishScheduledContent extends Command
 
     public function handle(): int
     {
-        $now = Carbon::now('UTC');
+        $now = now();
         $debug = (bool) $this->option('debug');
         $totalChecked = 0;
         $totalPublished = 0;
@@ -37,20 +37,20 @@ class PublishScheduledContent extends Command
                     continue;
                 }
 
-                $publishedAtUtc = $publishedAt->copy()->utc();
+                $publishedAtBeirut = $publishedAt->copy()->timezone(config('app.timezone'));
 
                 if ($debug) {
                     $this->line(sprintf(
-                        '%s #%s — scheduled UTC: %s | current UTC: %s | due: %s',
+                        '%s #%s — scheduled Beirut: %s | current Beirut: %s | due: %s',
                         class_basename($modelClass),
                         $item->getKey(),
-                        $publishedAtUtc->toDateTimeString(),
+                        $publishedAtBeirut->toDateTimeString(),
                         $now->toDateTimeString(),
-                        $publishedAtUtc->lessThanOrEqualTo($now) ? 'yes' : 'no',
+                        $publishedAtBeirut->lessThanOrEqualTo($now) ? 'yes' : 'no',
                     ));
                 }
 
-                if ($publishedAtUtc->greaterThan($now)) {
+                if ($publishedAtBeirut->greaterThan($now)) {
                     continue;
                 }
 
@@ -77,8 +77,8 @@ class PublishScheduledContent extends Command
                     'model' => $modelClass,
                     'id' => $item->getKey(),
                     'title_en' => $item->title_en ?? null,
-                    'scheduled_for_utc' => $publishedAtUtc->toDateTimeString(),
-                    'checked_at_utc' => $now->toDateTimeString(),
+                    'scheduled_for_beirut' => $publishedAtBeirut->toDateTimeString(),
+                    'checked_at_beirut' => $now->toDateTimeString(),
                 ]);
             }
         }
