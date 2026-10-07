@@ -18,6 +18,15 @@ class SecurityAndMediaTest extends TestCase
             'https://player.vimeo.com/video/123456789',
             $show->vimeo_embed_url,
         );
+
+        $showWithPrivacyHash = new Show([
+            'vimeo_url' => 'https://vimeo.com/355320399/1b05615f96',
+        ]);
+
+        $this->assertSame(
+            'https://player.vimeo.com/video/355320399',
+            $showWithPrivacyHash->vimeo_embed_url,
+        );
     }
 
     public function test_invalid_vimeo_urls_do_not_produce_an_embed(): void
