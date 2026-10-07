@@ -58,7 +58,7 @@ class HomeController extends Controller
             )
             ->sortBy(
                 fn (SiteContent $item): int =>
-                    (int) str($item->key)->afterLast('_'),
+                    (int) str($item->key)->afterLast('_')->value(),
             )
             ->values();
 
