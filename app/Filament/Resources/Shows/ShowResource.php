@@ -122,6 +122,8 @@ class ShowResource extends Resource
                                     TextInput::make('vimeo_url')
                                         ->label('Vimeo Trailer URL')
                                         ->url()
+                                        ->rule('regex:/^https:\/\/(?:www\.)?vimeo\.com\/(?:.*\/)?[0-9]+(?:\?.*)?$/i')
+                                        ->helperText('Use a Vimeo video URL such as https://vimeo.com/123456789.')
                                         ->maxLength(255)
                                         ->placeholder('https://vimeo.com/123456789')
                                         ->columnSpanFull(),
