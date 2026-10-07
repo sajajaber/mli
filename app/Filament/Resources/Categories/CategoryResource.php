@@ -73,7 +73,7 @@ class CategoryResource extends Resource
                         ->maxLength(255)
                         ->unique(ignoreRecord: true)
                         ->live(onBlur: true)
-                        ->extraInputAttributes(static::validateOnBlurInputAttributes())
+                        ->afterStateUpdated(static::validateOnBlur())
                         ->helperText('Auto-filled from the English name — edit if you want a custom URL segment.')
                         ->columnSpanFull(),
                 ]),
