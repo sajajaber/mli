@@ -57,7 +57,7 @@ class NewsResource extends Resource
                                         ->label('Title (English)')
                                         ->required()
                                         ->maxLength(255)
-                                        ->live(onBlur: true)
+                                        ->live()
                                         ->afterStateUpdated(static::fillSlugFromTitle()),
 
                                     TextInput::make('title_ar')
@@ -156,6 +156,7 @@ class NewsResource extends Resource
                                 ->label('Publish At')
                                 ->native(false)
                                 ->timezone('Asia/Beirut')
+                                ->minDate(now('Asia/Beirut'))
                                 ->visible(fn (callable $get) => $get('status') === 'scheduled')
                                 ->required(fn (callable $get) => $get('status') === 'scheduled'),
                         ]),
