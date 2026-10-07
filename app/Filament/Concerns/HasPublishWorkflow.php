@@ -119,7 +119,7 @@ trait HasPublishWorkflow
         }
 
         if ($value instanceof \DateTimeInterface) {
-            $value = $value->format('Y-m-d H:i');
+            return Carbon::instance($value)->utc();
         }
 
         return Carbon::parse((string) $value, 'Asia/Beirut')->utc();
