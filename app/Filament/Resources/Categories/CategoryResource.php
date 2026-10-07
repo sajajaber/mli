@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
 
 class CategoryResource extends Resource
 {
+    use ValidatesOnBlur;
     protected static ?string $model = Category::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTag;
