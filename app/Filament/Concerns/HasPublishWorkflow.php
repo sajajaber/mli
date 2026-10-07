@@ -52,6 +52,27 @@ trait HasPublishWorkflow
             });
     }
 
+    public static function unpublishAction(): Action
+    {
+        return Action::make('unpublish')
+            ->label('Unpublish')
+            ->color('danger')
+            ->requiresConfirmation()
+            ->visible(fn (Model $record) => $record->getAttribute('status') === 'published')
+            ->action(function (Model $record): void {
+                $record->update([
+                    'status' => 'draft',
+                    'published_at' => null,
+                ]);
+
+                Notification::make()
+                    ->success()
+                    ->title('Unpublished')
+                    ->body('The content has been removed from the public website and saved as a draft.')
+                    ->send();
+            });
+    }
+
     public static function scheduleAction(): Action
     {
         return Action::make('schedule')
