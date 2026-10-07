@@ -121,16 +121,8 @@ trait HasPublishWorkflow
             return Carbon::instance($value)->utc();
         }
 
-        $value = trim((string) $value);
-
-        // Filament's DateTimePicker stores timezone-aware form state in the app timezone.
-        // With this app configured for UTC, a timezone-less value from the form is already UTC.
-        // Preserve explicit offsets when they are present so direct callers remain unambiguous.
-        if (preg_match('/(?:Z|[+-]\\d{2}:?\\d{2})$/', $value) === 1) {
-            return Carbon::parse($value)->utc();
-        }
-
-        return Carbon::parse($value, config('app.timezone'))->utc();
+        // Filament's picker already converted Beirut input to the app timezone.
+        return Carbon::parse((string) $value, config('app.timezone'))->utc();
     }
 
     protected static function beforePublish(Model $record): void
