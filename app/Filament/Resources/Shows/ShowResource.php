@@ -7,6 +7,7 @@ use App\Filament\Concerns\HasPublishWorkflow;
 use App\Filament\Resources\Shows\Pages\CreateShow;
 use App\Filament\Resources\Shows\Pages\EditShow;
 use App\Filament\Resources\Shows\Pages\ListShows;
+use App\Models\Category;
 use App\Models\Show;
 use BackedEnum;
 use UnitEnum;
@@ -107,8 +108,12 @@ class ShowResource extends Resource
                                 ->components([
                                     Select::make('category_id')
                                         ->label('Category')
-                                        ->relationship('category', 'name_en')
-                                        ->searchable()
+                                        ->options(
+                                            fn (): array => Category::query()
+                                                ->orderBy('name_en')
+                                                ->pluck('name_en', 'id')
+                                                ->all()
+                                        )
                                         ->nullable(),
 
                                     TextInput::make('slug')
