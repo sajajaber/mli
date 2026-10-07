@@ -32,7 +32,19 @@ class EditSiteContent extends EditRecord
             return $draft;
         }
 
-        if (($data['status'] ?? null) === 'published') {
+        if (($data['status'] ?? null) === 'scheduled') {
+            $scheduledAt = SiteContentResource::normalizeScheduledAt($data['published_at'] ?? null);
+
+            if (! $scheduledAt || $scheduledAt->lessThanOrEqualTo(now('UTC'))) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'published_at' => 'Choose a future publication time in Beirut time.',
+                ]);
+            }
+
+            $data['published_at'] = $scheduledAt;
+        }
+
+        if (($data['status'] ?? null) === 'published')
             SiteContent::query()
                 ->where('key', $record->key)
                 ->where('status', 'published')
