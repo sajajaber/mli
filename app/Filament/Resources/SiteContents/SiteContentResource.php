@@ -98,7 +98,7 @@ class SiteContentResource extends Resource
                                 ->label('Publish At')
                                 ->native(false)
                                 ->timezone('Asia/Beirut')
-                                ->minDate(now('Asia/Beirut'))
+                                ->minDate(today('Asia/Beirut'))
                                 ->visible(fn (callable $get) => $get('status') === 'scheduled')
                                 ->required(fn (callable $get) => $get('status') === 'scheduled'),
                         ]),
