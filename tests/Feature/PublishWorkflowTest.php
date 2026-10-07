@@ -66,7 +66,7 @@ class PublishWorkflowTest extends TestCase
             ->assertTableActionVisible('schedule', $show)
             ->mountTableAction('schedule', $show)
             ->setTableActionData([
-                'published_at' => $beirut->format('Y-m-d H:i:s'),
+                'published_at' => $beirut->format('Y-m-d H:i'),
             ])
             ->callMountedTableAction()
             ->assertHasNoTableActionErrors();
