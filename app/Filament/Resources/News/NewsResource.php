@@ -30,6 +30,7 @@ class NewsResource extends Resource
 {
     use HasAutoSlug;
     use HasPublishWorkflow;
+    use ValidatesOnBlur;
 
     protected static ?string $model = News::class;
 
