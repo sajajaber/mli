@@ -283,6 +283,7 @@ class ShowResource extends Resource
             ->recordActions([
                 static::publishAction(),
                 static::scheduleAction(),
+                static::unpublishAction(),
                 \Filament\Actions\EditAction::make(),
                 \Filament\Actions\DeleteAction::make(),
             ])
