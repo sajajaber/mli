@@ -128,7 +128,7 @@
                             <h4>{{ app()->getLocale() === 'ar' ? $service->title_ar : $service->title_en }}</h4>
                             @if(app()->getLocale() === 'ar' ? $service->content_ar : $service->content_en)
                                 <div class="mli-about-service__description">
-                                    {!! app()->getLocale() === 'ar' ? $service->content_ar : $service->content_en !!}
+                                    {!! \App\Support\SafeHtml::clean(app()->getLocale() === 'ar' ? $service->content_ar : $service->content_en) !!}
                                 </div>
                             @endif
                         </div>
