@@ -63,9 +63,12 @@ class PublishWorkflowTest extends TestCase
         $beirut = now('Asia/Beirut')->addHour()->startOfMinute();
 
         Livewire::test(ListShows::class)
-            ->callTableAction('schedule', $show, data: [
+            ->assertTableActionVisible('schedule', $show)
+            ->mountTableAction('schedule', $show)
+            ->setTableActionData([
                 'published_at' => $beirut->format('Y-m-d H:i:s'),
             ])
+            ->callMountedTableAction()
             ->assertHasNoTableActionErrors();
 
         $show->refresh();
