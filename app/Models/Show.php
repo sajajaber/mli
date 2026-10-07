@@ -75,7 +75,7 @@ class Show extends Model
 
         $path = $parts['path'] ?? null;
 
-        if (! is_string($path) || ! preg_match('~/([0-9]+)(?:/)?$~', $path, $matches)) {
+        if (! is_string($path) || ! preg_match('~^/([0-9]+)(?:/[^/]+)?/?$~', $path, $matches)) {
             return null;
         }
 
