@@ -60,13 +60,15 @@ class CategoryResource extends Resource
                         ->validationMessages([
                             'unique' => 'A category with this Arabic name already exists.',
                         ])
-                        ->extraInputAttributes(['dir' => 'rtl']),
+                        ->extraInputAttributes(['dir' => 'rtl'])
+                        ->live(onBlur: true),
 
                     TextInput::make('slug')
                         ->label('Slug')
                         ->required()
                         ->maxLength(255)
                         ->unique(ignoreRecord: true)
+                        ->live(onBlur: true)
                         ->helperText('Auto-filled from the English name — edit if you want a custom URL segment.')
                         ->columnSpanFull(),
                 ]),
