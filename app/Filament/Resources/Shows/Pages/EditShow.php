@@ -18,7 +18,7 @@ class EditShow extends EditRecord
         if (($data['status'] ?? null) === 'scheduled') {
             $scheduledAt = ShowResource::normalizeScheduledAt($data['published_at'] ?? null);
 
-            if (! $scheduledAt || $scheduledAt->lessThanOrEqualTo(now('UTC'))) {
+            if (! $scheduledAt || $scheduledAt->lessThanOrEqualTo(now())) {
                 throw ValidationException::withMessages([
                     'published_at' => 'Choose a future publication time in Beirut time.',
                 ]);
