@@ -126,7 +126,7 @@ class ShowResource extends Resource
                                         ->maxLength(255)
                                         ->unique(ignoreRecord: true)
                                         ->live(onBlur: true)
-                                        ->extraInputAttributes(static::validateOnBlurInputAttributes())
+                                        ->afterStateUpdated(static::validateOnBlur())
                                         ->helperText('Auto-filled from the English title.'),
 
                                     TextInput::make('vimeo_url')
