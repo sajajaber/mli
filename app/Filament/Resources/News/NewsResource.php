@@ -135,7 +135,7 @@ class NewsResource extends Resource
                                         ->maxLength(255)
                                         ->unique(ignoreRecord: true)
                                         ->live(onBlur: true)
-                                        ->extraInputAttributes(static::validateOnBlurInputAttributes())
+                                        ->afterStateUpdated(static::validateOnBlur())
                                         ->validationMessages([
                                             'unique' => 'The slug has already been taken.',
                                         ])
