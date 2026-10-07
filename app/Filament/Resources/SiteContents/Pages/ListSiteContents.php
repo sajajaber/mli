@@ -17,7 +17,7 @@ class ListSiteContents extends ListRecords
         ];
     }
 
-    public function getFooterWidgetsColumns(): int|array
+    public function getFooterWidgetsColumns(): int|string|array
     {
         return 1;
     }
