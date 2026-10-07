@@ -125,6 +125,6 @@ $libraryShows = $shows->take(12)->values();
 
     <div class="container mli-catalogue__bottom">
         <span>{{ str_pad($libraryShows->count(), 2, '0', STR_PAD_LEFT) }} / {{ app()->getLocale() === 'ar' ? 'برامج مختارة' : 'SELECTED TITLES' }}</span>
-        <a href="{{ route('shows.show', ['slug' => $show->slug]) }}">{{ app()->getLocale() === 'ar' ? 'شاهد المكتبة كاملة' : 'View the complete library' }} ↗</a>
+        <a href="{{ route('shows.index') }}">{{ app()->getLocale() === 'ar' ? 'شاهد المكتبة كاملة' : 'View the complete library' }} ↗</a>
     </div>
 </section>
