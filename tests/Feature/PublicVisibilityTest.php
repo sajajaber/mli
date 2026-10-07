@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\News;
 use App\Models\Show;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -84,6 +85,72 @@ class PublicVisibilityTest extends TestCase
             ->assertSee($publishedNewRelease->title_en)
             ->assertDontSee($publishedRegular->title_en)
             ->assertDontSee($draftNewRelease->title_en);
+    }
+
+    public function test_homepage_library_marquee_stays_animated_for_small_featured_sets(): void
+    {
+        $shows = [
+            $showOne = $this->makeShow('Featured Show One', 'published'),
+            $showTwo = $this->makeShow('Featured Show Two', 'published'),
+            $showThree = $this->makeShow('Featured Show Three', 'published'),
+            $showFour = $this->makeShow('Featured Show Four', 'published'),
+            $showFive = $this->makeShow('Featured Show Five', 'published'),
+        ];
+
+        foreach ($shows as $show) {
+            $show->update(['is_new_release' => true]);
+        }
+
+        $response = $this->get('/');
+
+        $response->assertOk();
+        $response->assertDontSee('mli-library-marquee mli-library-marquee--static');
+        $response->assertSee('mli-library-marquee');
+        $response->assertSee('mli-library-marquee__track');
+
+        foreach ($shows as $show) {
+            $response->assertSee($show->title_en);
+        }
+    }
+
+    public function test_guest_users_are_redirected_from_the_admin_panel(): void
+    {
+        $this->get('/admin')->assertRedirect('/admin/login');
+    }
+
+    public function test_non_admin_users_are_blocked_from_the_admin_panel(): void
+    {
+        $this->actingAs(UserFactory::new()->create())
+            ->get('/admin')
+            ->assertForbidden();
+    }
+
+    public function test_admin_users_can_access_the_panel_in_production_environment(): void
+    {
+        app()->detectEnvironment(fn () => 'production');
+
+        $this->actingAs(UserFactory::new()->admin()->create())
+            ->get('/admin')
+            ->assertOk();
+    }
+
+    public function test_published_news_renders_sanitized_html_for_untrusted_content(): void
+    {
+        $news = $this->makeNews('Unsafe News', 'published');
+        $news->update([
+            'body_en' => '<p>Safe <strong>copy</strong></p><script>alert(1)</script><img src=x onerror="alert(2)"><a href="javascript:alert(3)" onclick="alert(4)">link</a>',
+        ]);
+
+        $response = $this->get(route('news.show', $news->slug));
+
+        $response->assertOk();
+
+        $content = $response->getContent();
+        $this->assertStringContainsString('Safe', $content);
+        $this->assertStringNotContainsString('<script>alert(1)</script>', $content);
+        $this->assertStringNotContainsString('onerror=', $content);
+        $this->assertStringNotContainsString('onclick=', $content);
+        $this->assertStringNotContainsString('javascript:alert(3)', $content);
     }
 
     public function test_public_pages_render_rtl_when_arabic_locale_is_selected(): void

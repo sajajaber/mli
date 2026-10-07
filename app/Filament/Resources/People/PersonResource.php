@@ -43,6 +43,7 @@ class PersonResource extends Resource
                     FileUpload::make('photo_path')
                         ->label('Photo')
                         ->image()
+                        ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                         ->disk('public')
                         ->directory('people')
                         ->imageEditor()

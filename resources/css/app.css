@@ -4646,21 +4646,6 @@ html.mli-public-home .mli-catalogue__bottom a:hover {
     animation-play-state: paused;
 }
 
-.mli-library-marquee--static .mli-library-marquee__track {
-    animation: none;
-    width: 100%;
-    justify-content: center;
-    flex-wrap: nowrap;
-}
-
-.mli-library-marquee--static .mli-library-marquee__item:nth-child(n + 6) {
-    display: none;
-}
-
-.mli-library-marquee--static .mli-library-marquee__divider {
-    display: none;
-}
-
 .mli-clients__marquee--static .mli-clients__track {
     animation: none;
     width: 100%;

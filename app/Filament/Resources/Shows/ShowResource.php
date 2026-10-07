@@ -141,6 +141,7 @@ class ShowResource extends Resource
                                     FileUpload::make('cover_image_path')
                                         ->label('Cover Image')
                                         ->image()
+                                        ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                                         ->disk('public')
                                         ->directory('shows')
                                         ->imageEditor()

@@ -14,7 +14,7 @@ $libraryShows = $shows->take(12)->values();
     </div>
 
     @if($libraryShows->isNotEmpty())
-    <div class="mli-library-marquee {{ $libraryShows->count() <= 5 ? 'mli-library-marquee--static' : '' }}" aria-label="{{ app()->getLocale() === 'ar' ? 'مكتبة البرامج' : 'Show library' }}">
+    <div class="mli-library-marquee" aria-label="{{ app()->getLocale() === 'ar' ? 'مكتبة البرامج' : 'Show library' }}">
         <div class="mli-library-marquee__viewport">
             <div class="mli-library-marquee__track">
                 @foreach($libraryShows as $index => $show)

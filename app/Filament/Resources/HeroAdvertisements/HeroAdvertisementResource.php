@@ -50,6 +50,7 @@ class HeroAdvertisementResource extends Resource
                     FileUpload::make('image_path')
                         ->label('Hero Image')
                         ->image()
+                        ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                         ->disk('public')
                         ->directory('hero')
                         ->imageEditor()

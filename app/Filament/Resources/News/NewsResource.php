@@ -144,6 +144,7 @@ class NewsResource extends Resource
                                     FileUpload::make('featured_image_path')
                                         ->label('Featured Image')
                                         ->image()
+                                        ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                                         ->disk('public')
                                         ->directory('news')
                                         ->imageEditor()

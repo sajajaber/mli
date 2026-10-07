@@ -42,6 +42,7 @@ class ClientResource extends Resource
                     FileUpload::make('logo_path')
                         ->label('Logo')
                         ->image()
+                        ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                         ->disk('public')
                         ->directory('clients')
                         ->maxSize(8192)
