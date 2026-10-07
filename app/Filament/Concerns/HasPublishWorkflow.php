@@ -87,8 +87,7 @@ trait HasPublishWorkflow
                     ->native(false)
                     ->seconds(false)
                     ->timezone('Asia/Beirut')
-                    ->required()
-                    ->minDate(now('Asia/Beirut')),
+                    ->required(),
             ])
             ->action(function (Model $record, array $data): void {
                 $scheduledAt = static::normalizeScheduledAt($data['published_at'] ?? null);
