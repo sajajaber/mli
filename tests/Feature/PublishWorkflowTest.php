@@ -63,9 +63,11 @@ class PublishWorkflowTest extends TestCase
         $scheduledAt = now('Asia/Beirut')->addHour()->second(0);
         $expectedUtcTimestamp = $scheduledAt->copy()->utc()->timestamp;
 
+        $scheduledAtInput = $scheduledAt->format('Y-m-d H:i');
+
         Livewire::test(ListShows::class)
             ->callTableAction('schedule', $show, [
-                'published_at' => $scheduledAt,
+                'published_at' => $scheduledAtInput,
             ]);
 
         $show->refresh();
