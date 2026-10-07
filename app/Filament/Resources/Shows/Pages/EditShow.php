@@ -12,6 +12,19 @@ class EditShow extends EditRecord
 {
     protected static string $resource = ShowResource::class;
 
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        if (($data['status'] ?? null) === 'published' && blank($data['published_at'] ?? null)) {
+            $data['published_at'] = now();
+        }
+
+        if (($data['status'] ?? null) === 'draft') {
+            $data['published_at'] = null;
+        }
+
+        return $data;
+    }
+
     protected function getHeaderActions(): array
     {
         return [
