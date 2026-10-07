@@ -14,4 +14,15 @@ trait ValidatesOnBlur
             $livewire->validateOnly($component->getStatePath());
         };
     }
+
+    protected static function validateOnBlurInputAttributes(): Closure
+    {
+        return static function (Component $component): array {
+            $statePath = $component->getStatePath();
+
+            return [
+                'x-on:blur' => "\$wire.validateOnly(" . json_encode($statePath) . ").catch(() => {})",
+            ];
+        };
+    }
 }
