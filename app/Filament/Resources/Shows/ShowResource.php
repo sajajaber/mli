@@ -66,7 +66,7 @@ class ShowResource extends Resource
                                         ->validationMessages([
                                             'unique' => 'A show with this English title already exists.',
                                         ])
-                                        ->live(onBlur: true)
+                                        ->live()
                                         ->afterStateUpdated(static::fillSlugFromTitle()),
 
                                     TextInput::make('title_ar')
@@ -109,7 +109,6 @@ class ShowResource extends Resource
                                         ->label('Category')
                                         ->relationship('category', 'name_en')
                                         ->searchable()
-                                        ->preload()
                                         ->nullable(),
 
                                     TextInput::make('slug')
@@ -180,6 +179,7 @@ class ShowResource extends Resource
                                 ->label('Publish At')
                                 ->native(false)
                                 ->timezone('Asia/Beirut')
+                                ->minDate(now('Asia/Beirut'))
                                 ->visible(
                                     fn(callable $get) =>
                                     $get('status') === 'scheduled'
