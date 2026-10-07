@@ -4,6 +4,7 @@ namespace App\Filament\Resources\SiteContents\Pages;
 
 use App\Filament\Resources\SiteContents\SiteContentResource;
 use App\Models\SiteContent;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,7 +21,15 @@ class EditSiteContent extends EditRecord
             $data['status'] = 'draft';
             $data['published_at'] = null;
 
-            return SiteContent::create($data);
+            $draft = SiteContent::create($data);
+
+            Notification::make()
+                ->success()
+                ->title('Draft version created')
+                ->body('Your changes were saved as a new draft. Publish it to replace the live version.')
+                ->send();
+
+            return $draft;
         }
 
         if (($data['status'] ?? null) === 'published') {
