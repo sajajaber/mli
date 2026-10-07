@@ -54,7 +54,7 @@
 
                         <div class="mli-news-article__content">
                             @if($body)
-                                {!! $body !!}
+                                {!! \App\Support\SafeHtml::clean($body) !!}
                             @else
                                 <p>{{ $isArabic ? 'لا يوجد محتوى متاح لهذا الخبر.' : 'No article content is available.' }}</p>
                             @endif
