@@ -65,7 +65,14 @@ class Show extends Model
             return null;
         }
 
-        $path = parse_url($this->vimeo_url, PHP_URL_PATH);
+        $parts = parse_url(trim((string) $this->vimeo_url));
+        $host = strtolower($parts['host'] ?? '');
+
+        if (! in_array($host, ['vimeo.com', 'www.vimeo.com', 'player.vimeo.com'], true)) {
+            return null;
+        }
+
+        $path = $parts['path'] ?? null;
 
         if (! is_string($path) || ! preg_match('~/([0-9]+)(?:/)?$~', $path, $matches)) {
             return null;
