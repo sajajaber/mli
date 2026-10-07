@@ -35,7 +35,7 @@ class EditSiteContent extends EditRecord
         if (($data['status'] ?? null) === 'scheduled') {
             $scheduledAt = SiteContentResource::normalizeScheduledAt($data['published_at'] ?? null);
 
-            if (! $scheduledAt || $scheduledAt->lessThanOrEqualTo(now('UTC'))) {
+            if (! $scheduledAt || $scheduledAt->lessThanOrEqualTo(now())) {
                 throw \Illuminate\Validation\ValidationException::withMessages([
                     'published_at' => 'Choose a future publication time in Beirut time.',
                 ]);
