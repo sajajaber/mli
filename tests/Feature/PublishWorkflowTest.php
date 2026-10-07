@@ -60,20 +60,18 @@ class PublishWorkflowTest extends TestCase
     {
         $this->actingAs(UserFactory::new()->create());
         $show = Show::factory()->create(['status' => 'draft', 'published_at' => null]);
-        $scheduledAt = now('Asia/Beirut')->addHour()->second(0);
-        $expectedUtcTimestamp = $scheduledAt->copy()->utc()->timestamp;
-
-        $scheduledAtInput = $scheduledAt->format('Y-m-d H:i');
+        $beirut = now('Asia/Beirut')->addHour()->startOfMinute();
 
         Livewire::test(ListShows::class)
-            ->callTableAction('schedule', $show, [
-                'published_at' => $scheduledAtInput,
-            ]);
+            ->callTableAction('schedule', $show, data: [
+                'published_at' => $beirut->format('Y-m-d H:i:s'),
+            ])
+            ->assertHasNoTableActionErrors();
 
         $show->refresh();
 
         $this->assertSame('scheduled', $show->status);
-        $this->assertEquals($expectedUtcTimestamp, $show->published_at->timestamp);
+        $this->assertEquals($beirut->timestamp, $show->published_at->timestamp);
         $this->get(route('shows.show', $show->slug))->assertNotFound();
     }
 
