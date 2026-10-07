@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Shows;
 
 use App\Filament\Concerns\HasAutoSlug;
 use App\Filament\Concerns\HasPublishWorkflow;
+use App\Filament\Concerns\ValidatesOnBlur;
 use App\Filament\Resources\Shows\Pages\CreateShow;
 use App\Filament\Resources\Shows\Pages\EditShow;
 use App\Filament\Resources\Shows\Pages\ListShows;
@@ -68,7 +69,8 @@ class ShowResource extends Resource
                                             'unique' => 'A show with this English title already exists.',
                                         ])
                                         ->live(onBlur: true)
-                                        ->afterStateUpdated(static::fillSlugFromTitle()),
+                                        ->afterStateUpdated(static::fillSlugFromTitle())
+                                        ->afterStateUpdated(static::validateOnBlur()),
 
                                     TextInput::make('title_ar')
                                         ->label('Title (Arabic)')
@@ -84,7 +86,8 @@ class ShowResource extends Resource
                                         ->extraInputAttributes([
                                             'dir' => 'rtl',
                                         ])
-                                        ->live(onBlur: true),
+                                        ->live(onBlur: true)
+                                        ->afterStateUpdated(static::validateOnBlur()),
 
                                     Textarea::make('description_en')
                                         ->label('Description (English)')
@@ -122,6 +125,7 @@ class ShowResource extends Resource
                                         ->maxLength(255)
                                         ->unique(ignoreRecord: true)
                                         ->live(onBlur: true)
+                                        ->afterStateUpdated(static::validateOnBlur())
                                         ->helperText('Auto-filled from the English title.'),
 
                                     TextInput::make('vimeo_url')
