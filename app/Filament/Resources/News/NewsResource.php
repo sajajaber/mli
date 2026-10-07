@@ -4,6 +4,7 @@ namespace App\Filament\Resources\News;
 
 use App\Filament\Concerns\HasAutoSlug;
 use App\Filament\Concerns\HasPublishWorkflow;
+use App\Filament\Concerns\ValidatesOnBlur;
 use App\Filament\Resources\News\Pages\CreateNews;
 use App\Filament\Resources\News\Pages\EditNews;
 use App\Filament\Resources\News\Pages\ListNews;
@@ -65,7 +66,8 @@ class NewsResource extends Resource
                                             'unique' => 'A news article with this English title already exists.',
                                         ])
                                         ->live(onBlur: true)
-                                        ->afterStateUpdated(static::fillSlugFromTitle()),
+                                        ->afterStateUpdated(static::fillSlugFromTitle())
+                                        ->afterStateUpdated(static::validateOnBlur()),
 
                                     TextInput::make('title_ar')
                                         ->label('Title (Arabic)')
@@ -79,7 +81,8 @@ class NewsResource extends Resource
                                             'unique' => 'A news article with this Arabic title already exists.',
                                         ])
                                         ->extraInputAttributes(['dir' => 'rtl'])
-                                        ->live(onBlur: true),
+                                        ->live(onBlur: true)
+                                        ->afterStateUpdated(static::validateOnBlur()),
 
                                     RichEditor::make('body_en')
                                         ->label('Body (English)')
@@ -131,6 +134,7 @@ class NewsResource extends Resource
                                         ->maxLength(255)
                                         ->unique(ignoreRecord: true)
                                         ->live(onBlur: true)
+                                        ->afterStateUpdated(static::validateOnBlur())
                                         ->validationMessages([
                                             'unique' => 'The slug has already been taken.',
                                         ])
