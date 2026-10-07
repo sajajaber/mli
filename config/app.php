@@ -61,11 +61,11 @@ return [
     |
     | Here you may specify the default timezone for your application, which
     | will be used by the PHP date and time functions. The timezone
-    | is set to UTC by default.
+    | is set to Asia/Beirut for MLI.
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Beirut',
 
     /*
     |--------------------------------------------------------------------------
