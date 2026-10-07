@@ -33,6 +33,7 @@ class ShowResource extends Resource
 {
     use HasAutoSlug;
     use HasPublishWorkflow;
+    use ValidatesOnBlur;
 
     protected static ?string $model = Show::class;
 
