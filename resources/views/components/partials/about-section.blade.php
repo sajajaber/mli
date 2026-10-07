@@ -18,7 +18,7 @@
 
             <div class="mli-about__description">
                 @if($content)
-                    <div>{!! app()->getLocale() === 'ar' ? $content->content_ar : $content->content_en !!}</div>
+                    <div>{!! \App\Support\SafeHtml::clean(app()->getLocale() === 'ar' ? $content->content_ar : $content->content_en) !!}</div>
                 @else
                     <p>{{ app()->getLocale() === 'ar' ? 'لا يوجد محتوى منشور حاليًا.' : 'No published About Us content yet.' }}</p>
                 @endif
