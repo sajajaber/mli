@@ -138,8 +138,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Shows content was not found.');
             }
 
+            const scrollPosition = window.scrollY;
+
             page.replaceWith(nextPage);
             page = nextPage;
+
+            requestAnimationFrame(() => {
+                window.scrollTo(0, scrollPosition);
+            });
 
             if (push) {
                 window.history.pushState({ mliShows: true }, '', nextUrl.href);
@@ -149,10 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.title = parsed.title;
             }
 
-            window.scrollTo({
-                top: document.querySelector('.mli-shows-library')?.offsetTop ?? 0,
-                behavior: 'smooth',
-            });
         } catch (error) {
             if (error.name !== 'AbortError') {
                 window.location.assign(nextUrl.href);
