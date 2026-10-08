@@ -82,7 +82,7 @@ class SiteContentResource extends Resource
 
                     Section::make('Publishing')
                         ->columnSpan(['default' => 1, 'xl' => 3])
-                        ->description('Published content stays live while you prepare a new draft. Publishing a draft replaces the current live version.')
+                        ->description('Published content stays live when you edit it. Use the status controls only when you want to change its visibility or schedule it.')
                         ->columns(1)
                         ->components([
                             Select::make('status')
@@ -104,16 +104,6 @@ class SiteContentResource extends Resource
                         ]),
                 ]),
         ]);
-    }
-
-    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
-    {
-        return parent::getEloquentQuery()
-            ->whereIn('id', function ($query) {
-                $query->selectRaw('MAX(id)')
-                    ->from('site_contents')
-                    ->groupBy('key');
-            });
     }
 
     protected static function beforePublish(Model $record): void
