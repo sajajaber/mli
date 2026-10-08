@@ -96,7 +96,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const page = document.querySelector('.mli-shows-page');
+    let page = document.querySelector('.mli-shows-page');
 
     if (!page) {
         return;
@@ -139,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             page.replaceWith(nextPage);
+            page = nextPage;
 
             if (push) {
                 window.history.pushState({ mliShows: true }, '', nextUrl.href);
