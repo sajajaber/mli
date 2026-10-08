@@ -190,32 +190,35 @@ class PublishWorkflowTest extends TestCase
         $this->assertSame('scheduled', $futureShow->fresh()->status);
     }
 
-    public function test_site_content_versions_increment_and_only_the_new_version_is_live_after_scheduling(): void
+    public function test_editing_published_site_content_updates_the_live_record_without_creating_a_draft(): void
     {
-        $live = SiteContent::factory()->published()->create([
-            'key' => 'versioned-content',
-            'version' => 1,
+        $this->actingAs(UserFactory::new()->create());
+
+        $content = SiteContent::factory()->published()->create([
+            'key' => 'editable-content',
+            'title_en' => 'Original title',
+            'title_ar' => 'العنوان الأصلي',
         ]);
 
-        $next = SiteContent::factory()->scheduled(now()->subMinute())->create([
-            'key' => $live->key,
-        ]);
+        $recordId = $content->getKey();
 
-        $this->assertSame(2, $next->version);
+        Livewire::test(\App\Filament\Resources\SiteContents\Pages\EditSiteContent::class, [
+            'record' => $recordId,
+        ])
+            ->fillForm([
+                'title_en' => 'Updated title',
+                'title_ar' => 'العنوان المحدّث',
+                'status' => 'published',
+            ])
+            ->call('save');
 
-        $this->artisan('content:publish-scheduled')
-            ->assertSuccessful();
+        $content->refresh();
 
-        $this->assertSame('draft', $live->fresh()->status);
-        $this->assertSame('published', $next->fresh()->status);
-
-        $this->assertSame(
-            1,
-            SiteContent::query()
-                ->where('key', $live->key)
-                ->where('status', 'published')
-                ->count()
-        );
+        $this->assertSame($recordId, $content->getKey());
+        $this->assertSame('Updated title', $content->title_en);
+        $this->assertSame('published', $content->status);
+        $this->assertNotNull($content->published_at);
+        $this->assertSame(1, SiteContent::query()->where('key', $content->key)->count());
     }
 
     public function test_publishing_through_the_show_edit_form_sets_published_at(): void
