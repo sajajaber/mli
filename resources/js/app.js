@@ -1,4 +1,5 @@
 import Alpine from "alpinejs";
+import "./library-marquee.js";
 
 window.Alpine = Alpine;
 
