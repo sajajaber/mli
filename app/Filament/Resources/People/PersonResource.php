@@ -73,11 +73,6 @@ class PersonResource extends Resource
                         ->maxLength(255)
                         ->extraInputAttributes(['dir' => 'rtl']),
 
-                    TextInput::make('sort_order')
-                        ->label('Sort Order')
-                        ->numeric()
-                        ->default(0)
-                        ->helperText('Lower numbers appear first where ordering is used.'),
 
                     Toggle::make('is_active')
                         ->label('Active (visible on site)')
@@ -102,9 +97,6 @@ class PersonResource extends Resource
                     ->label('Active')
                     ->boolean(),
 
-                TextColumn::make('sort_order')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('sort_order')
             ->reorderable('sort_order')
