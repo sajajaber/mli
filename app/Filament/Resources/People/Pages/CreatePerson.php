@@ -16,4 +16,9 @@ class CreatePerson extends CreateRecord
             $this->getCancelFormAction(),
         ];
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return PersonResource::getUrl('index');
+    }
 }
