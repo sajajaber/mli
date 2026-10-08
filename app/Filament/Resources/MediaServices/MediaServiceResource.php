@@ -25,7 +25,7 @@ class MediaServiceResource extends Resource
 {
     protected static ?string $model = MediaService::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedWrenchScrewdriver;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBriefcase;
 
     protected static ?string $navigationLabel = 'Media Services';
 
