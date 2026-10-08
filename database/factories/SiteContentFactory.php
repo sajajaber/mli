@@ -16,7 +16,6 @@ class SiteContentFactory extends Factory
     {
         return [
             'key' => null,
-            'version' => null,
             'title_en' => ucwords(fake()->unique()->words(3, true)),
             'title_ar' => 'محتوى تجريبي',
             'content_en' => fake()->sentence(),
