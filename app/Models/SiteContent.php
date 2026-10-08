@@ -15,7 +15,6 @@ class SiteContent extends Model
 
     protected $fillable = [
         'key',
-        'version',
         'title_en',
         'title_ar',
         'content_en',
@@ -37,18 +36,12 @@ class SiteContent extends Model
         static::publishDueScheduledItems();
 
         return $query
-            ->where('status', 'published')
-            ->orderByDesc('version');
+            ->where('status', 'published');
     }
 
     public function scopeForKey(Builder $query, string $key): Builder
     {
         return $query->where('key', $key);
-    }
-
-    public function nextVersion(): int
-    {
-        return ((int) static::withTrashed()->where('key', $this->key)->max('version')) + 1;
     }
 
     protected static function booted(): void
@@ -57,11 +50,6 @@ class SiteContent extends Model
             if (blank($content->key)) {
                 $content->key = static::generateKey($content->title_en);
             }
-
-            if (blank($content->version)) {
-                $content->version = $content->nextVersion();
-            }
-
             $content->applyAutoMeta();
         });
 
