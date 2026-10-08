@@ -239,6 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+document.addEventListener("DOMContentLoaded", () => {
     if (document.body.classList.contains("shows-page-body")) {
         let showsRequestController = null;
 
@@ -367,5 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+});
+
 
 Alpine.start();
