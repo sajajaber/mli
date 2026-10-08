@@ -112,6 +112,7 @@
                 <span>{{ app()->getLocale() === 'ar' ? 'من بيروت إلى العالم' : 'FROM BEIRUT / TO THE WORLD' }}</span>
                 <i aria-hidden="true"></i>
             </div>
+        </div>
 
         <div class="mli-about-services" data-reveal="up">
             <div class="mli-about-services__heading">
@@ -136,8 +137,6 @@
                     <p class="mli-content-empty">{{ app()->getLocale() === 'ar' ? 'لا توجد خدمات منشورة حاليًا.' : 'No media services available yet.' }}</p>
                 @endforelse
             </div>
-        </div>
-
         </div>
     </div>
 </section>
