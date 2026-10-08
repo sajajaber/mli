@@ -3,10 +3,11 @@
 namespace Tests\Feature;
 
 use App\Filament\Resources\News\Pages\ListNews;
-use App\Filament\Resources\SiteContents\Pages\ListSiteContents;
+use App\Filament\Resources\MediaServices\Pages\ListMediaServices;
 use App\Filament\Resources\Shows\Pages\ListShows;
 use App\Models\News;
 use App\Models\Show;
+use App\Models\MediaService;
 use App\Models\SiteContent;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -260,41 +261,36 @@ class PublishWorkflowTest extends TestCase
         $this->assertNotNull($news->published_at);
     }
 
-    public function test_media_service_can_be_recreated_for_a_homepage_slot_and_deleted_from_the_admin(): void
+    public function test_media_service_can_be_created_for_the_homepage_and_deleted_from_the_admin(): void
     {
         $this->actingAs(UserFactory::new()->create());
 
-        $slot = SiteContent::query()->where('key', 'media_service_2')->firstOrFail();
-        $slot->delete();
-
-        $result = Livewire::test(\App\Filament\Resources\SiteContents\Pages\CreateSiteContent::class)
+        $result = Livewire::test(\App\Filament\Resources\MediaServices\Pages\CreateMediaService::class)
             ->fillForm([
-                'key' => 'media_service_2',
                 'title_en' => 'Social Media Production',
                 'title_ar' => 'إنتاج الوسائط الاجتماعية',
-                'content_en' => '<p>Campaign production and platform management.</p>',
-                'content_ar' => '<p>إنتاج الحملات والإدارة المنصات.</p>',
-                'status' => 'published',
+                'content_en' => 'Campaign production and platform management.',
+                'content_ar' => 'إنتاج الحملات وإدارة المنصات.',
+                'is_active' => true,
             ])
             ->call('create');
 
         $result->assertHasNoErrors();
 
-        $service = SiteContent::query()
-            ->where('key', 'media_service_2')
-            ->withTrashed()
-            ->latest('id')
+        $service = MediaService::query()
+            ->where('title_en', 'Social Media Production')
             ->firstOrFail();
 
-        $this->assertSame('media_service_2', $service->key);
-
         $services = app(\App\Http\Controllers\HomeController::class)->index()->getData()['mediaServices'];
-        $this->assertTrue($services->pluck('key')->contains('media_service_2'));
 
-        Livewire::test(ListSiteContents::class)
+        $this->assertTrue($services->contains(
+            fn (MediaService $item) => $item->is($service)
+        ));
+
+        Livewire::test(ListMediaServices::class)
             ->callTableAction('delete', $service);
 
-        $this->assertSoftDeleted('site_contents', [
+        $this->assertSoftDeleted('media_services', [
             'id' => $service->getKey(),
         ]);
     }
