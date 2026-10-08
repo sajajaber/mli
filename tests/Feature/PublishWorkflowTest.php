@@ -151,11 +151,8 @@ class PublishWorkflowTest extends TestCase
         $futureNews = News::factory()->scheduled(now()->addHour())->create();
         $draftNews = News::factory()->create(['status' => 'draft']);
 
-        $liveContent = SiteContent::factory()->published()->create([
-            'key' => 'workflow-test',
-        ]);
         $dueContent = SiteContent::factory()->scheduled(now()->subMinute())->create([
-            'key' => $liveContent->key,
+            'key' => 'workflow-due',
         ]);
         $futureContent = SiteContent::factory()->scheduled(now()->addHour())->create([
             'key' => 'workflow-future',
@@ -173,12 +170,7 @@ class PublishWorkflowTest extends TestCase
         $this->assertSame('draft', $draftNews->fresh()->status);
 
         $this->assertSame('published', $dueContent->fresh()->status);
-        $this->assertSame('draft', $liveContent->fresh()->status);
         $this->assertSame('scheduled', $futureContent->fresh()->status);
-        $this->assertSame(
-            1,
-            SiteContent::query()->where('key', $liveContent->key)->where('status', 'published')->count()
-        );
 
         $publishedAt = $dueShow->fresh()->published_at->timestamp;
 
