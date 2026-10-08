@@ -1157,7 +1157,7 @@
 }
 
 /* =========================================================
-   RESPONSIVE — TABLET
+   RESPONSIVE: TABLET
    ========================================================= */
 
 @media (max-width: 900px) {
@@ -1243,7 +1243,7 @@
 }
 
 /* =========================================================
-   RESPONSIVE — MOBILE
+   RESPONSIVE:  MOBILE
    ========================================================= */
 
 @media (max-width: 640px) {
@@ -3921,7 +3921,7 @@ html.mli-public-home .mli-catalogue__bottom a:hover {
 }
 
 /* =========================================================
-   WHAT WE DO — CARD GRID
+   WHAT WE DO CARD GRID
    ========================================================= */
 
 .mli-about-services__list {
@@ -12363,4 +12363,79 @@ html[dir="rtl"] .mli-news-page .mli-shows-header h1 {
 html[dir="rtl"] .mli-catalogue h2 {
     font-style: normal; 
     margin-right: 6px;
+}
+/* =========================================================
+   THE LIBRARY MARQUEE: fit check (resources/js/library-marquee.js)
+   data-marquee="static"  every show fits on screen: no motion, centred
+   data-marquee="loop"    shows overflow: seamless infinite loop
+   no attribute           (no JS / before JS runs) one static set, nothing moves
+   ========================================================= */
+
+/* Keep the track mechanics identical in English and Arabic; the text inside
+   each card still follows the page direction. */
+.mli-library-marquee,
+.mli-library-marquee__track {
+    direction: ltr;
+}
+
+html[dir="rtl"] .mli-library-marquee__item {
+    direction: rtl;
+}
+
+.mli-library-marquee .mli-library-marquee__track {
+    animation: none;
+}
+
+.mli-library-marquee__item[data-marquee-clone] {
+    display: none;
+}
+
+.mli-library-marquee[data-marquee="static"] .mli-library-marquee__track {
+    width: 100%;
+    justify-content: center;
+}
+
+.mli-library-marquee[data-marquee="static"]::before,
+.mli-library-marquee[data-marquee="static"]::after {
+    display: none;
+}
+
+.mli-library-marquee[data-marquee="loop"] .mli-library-marquee__track {
+    animation: mli-library-loop var(--marquee-duration, 42s) linear infinite;
+}
+
+.mli-library-marquee[data-marquee="loop"]:hover .mli-library-marquee__track {
+    animation-play-state: paused;
+}
+
+.mli-library-marquee[data-marquee="loop"]
+    .mli-library-marquee__item[data-marquee-clone] {
+    display: flex;
+}
+
+@keyframes mli-library-loop {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        /* exactly one set width, measured in JS (falls back to half the track) */
+        transform: translateX(calc(var(--marquee-shift, 50%) * -1));
+    }
+}
+
+/* Reduced motion: no animation, and the overflowing list becomes swipe/scrollable. */
+@media (prefers-reduced-motion: reduce) {
+    .mli-library-marquee[data-marquee="loop"] .mli-library-marquee__track {
+        animation: none;
+    }
+
+    .mli-library-marquee[data-marquee="loop"] .mli-library-marquee__viewport {
+        overflow-x: auto;
+    }
+
+    .mli-library-marquee[data-marquee="loop"]
+        .mli-library-marquee__item[data-marquee-clone] {
+        display: none;
+    }
 }

@@ -14,7 +14,7 @@ class News extends Model
 {
     use HasFactory, PublishesScheduledContent, SoftDeletes;
 
-    protected $table = 'news'; // explicit — avoids Eloquent guessing wrong on pluralization
+    protected $table = 'news'; // explicit to avoids Eloquent guessing wrong on pluralization
 
     protected $fillable = [
         'title_en',

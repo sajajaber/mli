@@ -1,4 +1,4 @@
-<x-layouts.public :title="'Shows — Media Link International'">
+<x-layouts.public :title="'Shows - Media Link International'">
 
     <main class="mli-shows-page">
         <section class="mli-shows-header">

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\SiteContents;
 
 use App\Filament\Concerns\HasPublishWorkflow;
+use App\Filament\Resources\SiteContents\Pages\CreateSiteContent;
 use App\Filament\Resources\SiteContents\Pages\EditSiteContent;
 use App\Filament\Resources\SiteContents\Pages\ListSiteContents;
 use App\Models\SiteContent;
@@ -51,6 +52,19 @@ class SiteContentResource extends Resource
                         ->columnSpan(['default' => 1, 'xl' => 9])
                         ->columns(2)
                         ->components([
+                            TextInput::make('key')
+                                ->label('Media service slot')
+                                ->placeholder('media_service_1')
+                                ->required()
+                                ->maxLength(255)
+                                ->unique(
+                                    ignoreRecord: true,
+                                    modifyRuleUsing: fn (\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
+                                )
+                                ->validationMessages([
+                                    'unique' => 'This media service slot is already in use.',
+                                ]),
+
                             TextInput::make('title_en')
                                 ->label('Title (English)')
                                 ->required()
@@ -147,6 +161,12 @@ class SiteContentResource extends Resource
                 static::publishAction(),
                 static::scheduleAction(),
                 \Filament\Actions\EditAction::make(),
+                \Filament\Actions\DeleteAction::make(),
+            ])
+            ->toolbarActions([
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
 
@@ -154,6 +174,7 @@ class SiteContentResource extends Resource
     {
         return [
             'index' => ListSiteContents::route('/'),
+            'create' => CreateSiteContent::route('/create'),
             'edit' => EditSiteContent::route('/{record}/edit'),
         ];
     }

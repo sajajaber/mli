@@ -1,4 +1,4 @@
-<x-layouts.public :title="'News — Media Link International'">
+<x-layouts.public :title="'News - Media Link International'">
     @php
         $isArabic = app()->getLocale() === 'ar';
 

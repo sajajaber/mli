@@ -168,7 +168,7 @@ class ShowResource extends Resource
 
                     Section::make('Publishing')
                         ->columnSpan(['default' => 1, 'xl' => 3])
-                        ->description('Control visibility, release status, scheduling, and homepage ordering.')
+                        ->description('Control visibility and release timing for this title.')
                         ->columns(1)
                         ->components([
                             Select::make('status')
@@ -199,17 +199,6 @@ class ShowResource extends Resource
                                 ->required(
                                     fn(callable $get) =>
                                     $get('status') === 'scheduled'
-                                ),
-
-                            TextInput::make('sort_order')
-                                ->label('Homepage Order')
-                                ->numeric()
-                                ->default(0)
-                                ->helperText('Used only for published New Releases on the homepage.')
-                                ->visible(
-                                    fn (callable $get): bool =>
-                                        (bool) $get('is_new_release')
-                                        && $get('status') === 'published',
                                 ),
 
                         ]),

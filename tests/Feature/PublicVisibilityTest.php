@@ -87,7 +87,7 @@ class PublicVisibilityTest extends TestCase
             ->assertDontSee($draftNewRelease->title_en);
     }
 
-    public function test_homepage_library_marquee_stays_animated_for_small_featured_sets(): void
+    public function test_homepage_library_marquee_renders_a_loop_copy_for_the_client_side_fit_check(): void
     {
         $shows = [
             $showOne = $this->makeShow('Featured Show One', 'published'),
@@ -104,9 +104,9 @@ class PublicVisibilityTest extends TestCase
         $response = $this->get('/');
 
         $response->assertOk();
-        $response->assertDontSee('mli-library-marquee mli-library-marquee--static');
-        $response->assertSee('mli-library-marquee');
+        $response->assertSee('data-library-marquee', false);
         $response->assertSee('mli-library-marquee__track');
+        $this->assertSame(count($shows), substr_count($response->getContent(), 'data-marquee-clone'));
 
         foreach ($shows as $show) {
             $response->assertSee($show->title_en);

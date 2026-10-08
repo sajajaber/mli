@@ -31,7 +31,7 @@ class ImageProcessingService
     ): string {
         $image = $this->manager->decode($file->getRealPath());
 
-        // Never upscale — only shrink if the original is wider than allowed.
+        // Never upscale, only shrink if the original is wider than allowed.
         if ($image->width() > $maxWidth) {
             $image->scale(width: $maxWidth);
         }

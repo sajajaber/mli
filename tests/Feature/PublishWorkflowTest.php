@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Filament\Resources\News\Pages\ListNews;
+use App\Filament\Resources\SiteContents\Pages\ListSiteContents;
 use App\Filament\Resources\Shows\Pages\ListShows;
 use App\Models\News;
 use App\Models\Show;
@@ -257,5 +258,44 @@ class PublishWorkflowTest extends TestCase
 
         $this->assertSame('published', $news->status);
         $this->assertNotNull($news->published_at);
+    }
+
+    public function test_media_service_can_be_recreated_for_a_homepage_slot_and_deleted_from_the_admin(): void
+    {
+        $this->actingAs(UserFactory::new()->create());
+
+        $slot = SiteContent::query()->where('key', 'media_service_2')->firstOrFail();
+        $slot->delete();
+
+        $result = Livewire::test(\App\Filament\Resources\SiteContents\Pages\CreateSiteContent::class)
+            ->fillForm([
+                'key' => 'media_service_2',
+                'title_en' => 'Social Media Production',
+                'title_ar' => 'إنتاج الوسائط الاجتماعية',
+                'content_en' => '<p>Campaign production and platform management.</p>',
+                'content_ar' => '<p>إنتاج الحملات والإدارة المنصات.</p>',
+                'status' => 'published',
+            ])
+            ->call('create');
+
+        $result->assertHasNoErrors();
+
+        $service = SiteContent::query()
+            ->where('key', 'media_service_2')
+            ->withTrashed()
+            ->latest('id')
+            ->firstOrFail();
+
+        $this->assertSame('media_service_2', $service->key);
+
+        $services = app(\App\Http\Controllers\HomeController::class)->index()->getData()['mediaServices'];
+        $this->assertTrue($services->pluck('key')->contains('media_service_2'));
+
+        Livewire::test(ListSiteContents::class)
+            ->callTableAction('delete', $service);
+
+        $this->assertSoftDeleted('site_contents', [
+            'id' => $service->getKey(),
+        ]);
     }
 }
