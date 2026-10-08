@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Client;
+use App\Models\MediaService;
 use App\Models\News;
 use App\Models\HeroAdvertisement;
 use App\Models\Person;
@@ -50,6 +51,10 @@ class HomeController extends Controller
             ->orderBy('name')
             ->get();
 
+        $mediaServices = MediaService::active()
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get();
 
         $mediaNews = News::published()
             ->mediaNews()
@@ -78,6 +83,7 @@ class HomeController extends Controller
             'categories' => $categories,
             'people' => $people,
             'clients' => $clients,
+            'mediaServices' => $mediaServices,
             'mediaNews' => $mediaNews,
             'mliNews' => $mliNews,
             'aboutPage' => $aboutPage,
