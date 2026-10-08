@@ -238,4 +238,134 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+
+    if (document.body.classList.contains("shows-page-body")) {
+        let showsRequestController = null;
+
+        const loadShowsPage = async (url, { push = true, scroll = false } = {}) => {
+            const targetUrl = new URL(url, window.location.href);
+
+            if (
+                targetUrl.origin !== window.location.origin ||
+                targetUrl.pathname !== "/shows"
+            ) {
+                return;
+            }
+
+            const currentMain = document.querySelector("main.mli-shows-page");
+
+            if (!currentMain) {
+                window.location.href = targetUrl.href;
+                return;
+            }
+
+            showsRequestController?.abort();
+            showsRequestController = new AbortController();
+
+            currentMain.setAttribute("aria-busy", "true");
+
+            try {
+                const response = await fetch(targetUrl.href, {
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                        Accept: "text/html",
+                    },
+                    signal: showsRequestController.signal,
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Shows request failed: ${response.status}`);
+                }
+
+                const html = await response.text();
+                const documentFragment = new DOMParser().parseFromString(
+                    html,
+                    "text/html"
+                );
+                const nextMain = documentFragment.querySelector(
+                    "main.mli-shows-page"
+                );
+
+                if (!nextMain) {
+                    throw new Error("Shows page content was not found.");
+                }
+
+                currentMain.innerHTML = nextMain.innerHTML;
+
+                if (push) {
+                    window.history.pushState(
+                        { mliShows: true },
+                        "",
+                        targetUrl.href
+                    );
+                }
+
+                if (documentFragment.title) {
+                    document.title = documentFragment.title;
+                }
+
+                if (scroll) {
+                    const library = currentMain.querySelector(
+                        ".mli-shows-library"
+                    );
+
+                    library?.scrollIntoView({
+                        behavior: reduceMotion ? "auto" : "smooth",
+                        block: "start",
+                    });
+                }
+            } catch (error) {
+                if (error?.name !== "AbortError") {
+                    window.location.href = targetUrl.href;
+                }
+            } finally {
+                currentMain.removeAttribute("aria-busy");
+            }
+        };
+
+        document.addEventListener("click", (event) => {
+            if (
+                event.defaultPrevented ||
+                event.button !== 0 ||
+                event.metaKey ||
+                event.ctrlKey ||
+                event.shiftKey ||
+                event.altKey
+            ) {
+                return;
+            }
+
+            const link = event.target.closest(
+                ".mli-shows-filters__links a, .mli-shows-pagination a"
+            );
+
+            if (!link) {
+                return;
+            }
+
+            const targetUrl = new URL(link.href, window.location.href);
+
+            if (
+                targetUrl.origin !== window.location.origin ||
+                targetUrl.pathname !== "/shows"
+            ) {
+                return;
+            }
+
+            event.preventDefault();
+
+            void loadShowsPage(targetUrl.href, {
+                push: true,
+                scroll: link.closest(".mli-shows-filters__links") !== null,
+            });
+        });
+
+        window.addEventListener("popstate", () => {
+            void loadShowsPage(window.location.href, {
+                push: false,
+                scroll: false,
+            });
+        });
+    }
+
 Alpine.start();
