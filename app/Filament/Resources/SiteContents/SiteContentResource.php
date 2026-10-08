@@ -133,7 +133,6 @@ class SiteContentResource extends Resource
             ->columns([
                 TextColumn::make('title_en')->label('Content')->searchable()->sortable(),
                 TextColumn::make('key')->label('Section')->searchable(),
-                TextColumn::make('version')->label('Version'),
                 static::statusColumn(),
                 TextColumn::make('published_at')->dateTime()->sortable()->toggleable(),
             ])
