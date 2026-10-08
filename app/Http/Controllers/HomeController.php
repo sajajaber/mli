@@ -50,17 +50,6 @@ class HomeController extends Controller
             ->orderBy('name')
             ->get();
 
-        $mediaServices = SiteContent::published()
-            ->get()
-            ->filter(
-                fn (SiteContent $item): bool =>
-                    preg_match('/^media_service_\\d+$/', (string) $item->key) === 1,
-            )
-            ->sortBy(
-                fn (SiteContent $item): int =>
-                    (int) str($item->key)->afterLast('_')->value(),
-            )
-            ->values();
 
         $mediaNews = News::published()
             ->mediaNews()
@@ -89,7 +78,6 @@ class HomeController extends Controller
             'categories' => $categories,
             'people' => $people,
             'clients' => $clients,
-            'mediaServices' => $mediaServices,
             'mediaNews' => $mediaNews,
             'mliNews' => $mliNews,
             'aboutPage' => $aboutPage,
