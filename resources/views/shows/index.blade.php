@@ -94,4 +94,113 @@
         </section>
     </main>
 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const page = document.querySelector('.mli-shows-page');
+
+    if (!page) {
+        return;
+    }
+
+    let requestController = null;
+
+    const loadShows = async (url, push = true) => {
+        const nextUrl = new URL(url, window.location.href);
+
+        if (nextUrl.origin !== window.location.origin || nextUrl.pathname !== '/shows') {
+            return;
+        }
+
+        requestController?.abort();
+        requestController = new AbortController();
+
+        page.setAttribute('aria-busy', 'true');
+
+        try {
+            const response = await fetch(nextUrl.href, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'text/html',
+                },
+                signal: requestController.signal,
+            });
+
+            if (!response.ok) {
+                throw new Error('Unable to load shows.');
+            }
+
+            const html = await response.text();
+            const parsed = new DOMParser().parseFromString(html, 'text/html');
+            const nextPage = parsed.querySelector('.mli-shows-page');
+
+            if (!nextPage) {
+                throw new Error('Shows content was not found.');
+            }
+
+            page.replaceWith(nextPage);
+
+            if (push) {
+                window.history.pushState({ mliShows: true }, '', nextUrl.href);
+            }
+
+            if (parsed.title) {
+                document.title = parsed.title;
+            }
+
+            window.scrollTo({
+                top: document.querySelector('.mli-shows-library')?.offsetTop ?? 0,
+                behavior: 'smooth',
+            });
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                window.location.assign(nextUrl.href);
+            }
+        } finally {
+            const currentPage = document.querySelector('.mli-shows-page');
+            currentPage?.removeAttribute('aria-busy');
+        }
+    };
+
+    document.addEventListener('click', (event) => {
+        const link = event.target.closest(
+            '.mli-shows-filters__links a, .mli-shows-pagination a'
+        );
+
+        if (!link || link.target === '_blank') {
+            return;
+        }
+
+        if (
+            event.button !== 0 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+        ) {
+            return;
+        }
+
+        const linkUrl = new URL(link.href, window.location.href);
+
+        if (
+            linkUrl.origin !== window.location.origin ||
+            linkUrl.pathname !== '/shows'
+        ) {
+            return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        void loadShows(linkUrl.href);
+    });
+
+    window.addEventListener('popstate', () => {
+        void loadShows(window.location.href, false);
+    });
+});
+</script>
+
+
 </x-layouts.public>
