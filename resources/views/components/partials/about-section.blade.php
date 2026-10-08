@@ -113,7 +113,5 @@
                 <i aria-hidden="true"></i>
             </div>
         </div>
-
-        </div>
     </div>
 </section>
