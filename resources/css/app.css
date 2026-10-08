@@ -1424,8 +1424,11 @@ body {
 .mli-nav__brand {
     display: flex;
     align-items: center;
+    flex-direction: row;
     gap: 12px;
     width: max-content;
+    direction: ltr;
+    text-align: left;
 }
 .mli-nav__brand > span {
     font-size: 20px;
