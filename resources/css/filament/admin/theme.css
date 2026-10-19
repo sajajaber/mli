@@ -2875,3 +2875,10 @@
 .fi-ta-row.mli-parent-category-row:hover > td {
     background-color: rgba(196, 164, 112, 0.27) !important;
 }
+
+
+/* Expand / collapse category subtrees from the Categories admin table. */
+.fi-ta-record.mli-subcategory-collapsed,
+.fi-ta-row.mli-subcategory-collapsed {
+    display: none !important;
+}
