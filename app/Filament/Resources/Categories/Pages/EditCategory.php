@@ -19,7 +19,7 @@ class EditCategory extends EditRecord
     {
         return [
             DeleteAction::make()
-                ->modalDescription('Deleting a category also deletes its genres and removes them, and this category, from every show.'),
+                ->modalDescription('Deleting a category also deletes its sub-categories and removes them from shows.'),
         ];
     }
 }
