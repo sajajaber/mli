@@ -66,6 +66,104 @@
                             </div>
                             @endif
 
+                            @if($show->content_type)
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'نوع المحتوى' : 'Content Type' }}</span>
+                                <strong>{{ $show->content_type === 'series'
+                                    ? (app()->getLocale() === 'ar' ? 'مسلسل' : 'Series')
+                                    : (app()->getLocale() === 'ar' ? 'وثائقي' : 'Documentary') }}</strong>
+                            </div>
+                            @endif
+
+                            @if($show->content_type === 'documentary' && $show->origin)
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'مصدر المحتوى / الحقوق' : 'Content / Rights Origin' }}</span>
+                                <strong>{{ $show->origin }}</strong>
+                            </div>
+                            @endif
+
+                            @if($show->content_type === 'documentary' && $show->country_of_origin)
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'بلد المنشأ' : 'Country of Origin' }}</span>
+                                <strong>{{ $show->country_of_origin }}</strong>
+                            </div>
+                            @endif
+
+                            @if($show->content_type === 'documentary' && $show->broadcast_format)
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'صيغة البث' : 'Broadcast Format' }}</span>
+                                <strong>{{ $show->broadcast_format }}</strong>
+                            </div>
+                            @endif
+
+                            @if($show->production_year)
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'سنة الإنتاج' : 'Year of Production' }}</span>
+                                <strong>{{ $show->production_year }}</strong>
+                            </div>
+                            @endif
+
+                            @if($show->season_number)
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'الموسم' : 'Season' }}</span>
+                                <strong>{{ $show->season_number }}</strong>
+                            </div>
+                            @endif
+
+                            @if($show->episode_count)
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'عدد الحلقات' : 'Number of Episodes' }}</span>
+                                <strong>{{ $show->episode_count }}</strong>
+                            </div>
+                            @endif
+
+                            @if(is_array($show->languages) && count($show->languages))
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'اللغات' : 'Languages' }}</span>
+                                <strong>{{ implode(' · ', $show->languages) }}</strong>
+                            </div>
+                            @endif
+
+                            @if(is_array($show->subtitles) && count($show->subtitles))
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'الترجمة' : 'Subtitles' }}</span>
+                                <strong>{{ implode(' · ', $show->subtitles) }}</strong>
+                            </div>
+                            @endif
+
+                            @if(is_array($show->availability) && count($show->availability))
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'التوفّر' : 'Availability' }}</span>
+                                <strong>{{ implode(' · ', $show->availability) }}</strong>
+                            </div>
+                            @endif
+
+                            @if($show->content_type === 'series' && is_array($show->service_types) && count($show->service_types))
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'دور MLI' : 'MLI Involvement' }}</span>
+                                <strong>{{ collect($show->service_types)->map(fn ($type) => match ($type) {
+                                    'production' => app()->getLocale() === 'ar' ? 'إنتاج' : 'Production',
+                                    'distribution' => app()->getLocale() === 'ar' ? 'توزيع' : 'Distribution',
+                                    'collaboration' => app()->getLocale() === 'ar' ? 'تعاون' : 'Collaboration',
+                                    default => $type,
+                                })->implode(' · ') }}</strong>
+                            </div>
+                            @endif
+
+                            @if($show->content_type === 'series' && is_array($show->cast) && count($show->cast))
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'طاقم التمثيل' : 'Cast' }}</span>
+                                <strong>{{ implode(' · ', $show->cast) }}</strong>
+                            </div>
+                            @endif
+
+                            @if($show->content_type === 'series' && is_array($show->directors) && count($show->directors))
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'المخرجون' : 'Director(s)' }}</span>
+                                <strong>{{ implode(' · ', $show->directors) }}</strong>
+                            </div>
+                            @endif
+
                             @if($show->is_new_release)
                             <div class="mli-show-detail__meta-item">
                                 <span>{{ app()->getLocale() === 'ar' ? 'الحالة' : 'Status' }}</span>
@@ -73,13 +171,20 @@
                             </div>
                             @endif
 
-                            @if($show->published_at)
-                            <div class="mli-show-detail__meta-item">
-                                <span>{{ app()->getLocale() === 'ar' ? 'تاريخ النشر' : 'Published' }}</span>
-                                <strong>{{ $show->published_at->locale(app()->getLocale())->translatedFormat('F Y') }}</strong>
-                            </div>
-                            @endif
                         </div>
+
+                        @if($show->watch_url)
+                        <a
+                            href="{{ $show->watch_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="mli-show-detail__watch">
+                            <span>
+                                {{ app()->getLocale() === 'ar' ? 'شاهد هنا' : 'Watch here' }}
+                            </span>
+                            <b aria-hidden="true">↗</b>
+                        </a>
+                        @endif
 
                         @if($show->vimeo_url)
                         <a
@@ -88,13 +193,20 @@
                             rel="noopener noreferrer"
                             class="mli-show-detail__watch">
                             <span>
-                                {{ app()->getLocale() === 'ar'
-                                        ? 'مشاهدة العرض'
-                                        : 'Watch trailer' }}
+                                {{ app()->getLocale() === 'ar' ? 'مشاهدة العرض الدعائي' : 'Watch trailer' }}
                             </span>
                             <b aria-hidden="true">↗</b>
                         </a>
                         @endif
+
+                        <a
+                            href="{{ route('home') }}#contact"
+                            class="mli-show-detail__watch">
+                            <span>
+                                {{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Contact MLI' }}
+                            </span>
+                            <b aria-hidden="true">↗</b>
+                        </a>
 
                     </div>
 
