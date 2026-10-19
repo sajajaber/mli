@@ -8,6 +8,7 @@ use App\Filament\Resources\Categories\Pages\EditCategory;
 use App\Filament\Resources\Categories\Pages\ListCategories;
 use App\Models\Category;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
@@ -37,6 +38,7 @@ class CategoryResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
+            ->withCount('children')
             ->orderByRaw('COALESCE((SELECT parent_categories.name_en FROM categories AS parent_categories WHERE parent_categories.id = categories.parent_id), categories.name_en)')
             ->orderByRaw('CASE WHEN categories.parent_id IS NULL THEN 0 ELSE 1 END')
             ->orderBy('categories.name_en');
@@ -142,13 +144,30 @@ class CategoryResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->recordClasses(
-                fn (Category $record): ?string => $record->parent_id === null
-                    ? 'mli-parent-category-row'
-                    : null,
+                function (Category $record, $livewire): array {
+                    return [
+                        'mli-parent-category-row' => $record->parent_id === null,
+                        'mli-subcategory-collapsed' => $record->parent_id !== null
+                            && isset($livewire->collapsedCategoryIds[(string) $record->parent_id]),
+                    ];
+                },
             )
             ->paginated(false)
             ->filters([])
             ->recordActions([
+                Action::make('toggleSubcategories')
+                    ->label(fn (Category $record, $livewire): string => isset($livewire->collapsedCategoryIds[(string) $record->getKey()])
+                        ? 'Expand subcategories'
+                        : 'Collapse subcategories')
+                    ->icon(fn (Category $record, $livewire) => isset($livewire->collapsedCategoryIds[(string) $record->getKey()])
+                        ? Heroicon::OutlinedChevronRight
+                        : Heroicon::OutlinedChevronDown)
+                    ->hiddenLabel()
+                    ->tooltip(fn (Category $record, $livewire): string => isset($livewire->collapsedCategoryIds[(string) $record->getKey()])
+                        ? 'Expand subcategories'
+                        : 'Collapse subcategories')
+                    ->visible(fn (Category $record): bool => $record->parent_id === null && $record->children_count > 0)
+                    ->action(fn (Category $record, $livewire) => $livewire->toggleSubcategories($record->getKey())),
                 \Filament\Actions\EditAction::make(),
                 \Filament\Actions\DeleteAction::make()
                     ->modalDescription('Deleting a category also deletes its sub-categories and removes them from shows.'),
