@@ -190,93 +190,6 @@ class ShowResource extends Resource
                                         ])
                                         ->helperText('Choose categories first — only their genres are listed.'),
 
-                                    TextInput::make('origin')
-                                        ->label('Rights / Content Origin')
-                                        ->maxLength(255)
-                                        ->visible(fn (Get $get): bool => $get('content_type') === 'documentary')
-                                        ->helperText('Optional: describe the source or rights origin, not the country where it was produced.'),
-
-                                    TextInput::make('country_of_origin')
-                                        ->label('Country of Origin')
-                                        ->maxLength(255)
-                                        ->visible(fn (Get $get): bool => $get('content_type') === 'documentary'),
-
-                                    Select::make('broadcast_format')
-                                        ->label('Broadcast Format')
-                                        ->options([
-                                            '4K' => '4K',
-                                            'HD' => 'HD',
-                                        ])
-                                        ->placeholder('Choose format')
-                                        ->visible(fn (Get $get): bool => $get('content_type') === 'documentary'),
-
-                                    TextInput::make('production_year')
-                                        ->label('Year of Production')
-                                        ->numeric()
-                                        ->minValue(1800)
-                                        ->maxValue((int) date('Y') + 2)
-                                        ->step(1),
-
-                                    TextInput::make('season_number')
-                                        ->label('Season')
-                                        ->numeric()
-                                        ->minValue(1)
-                                        ->maxValue(100)
-                                        ->step(1)
-                                        ->helperText('Optional. Use one show record per season.'),
-
-                                    TextInput::make('episode_count')
-                                        ->label('Number of Episodes')
-                                        ->numeric()
-                                        ->minValue(1)
-                                        ->maxValue(9999)
-                                        ->step(1),
-
-                                    TagsInput::make('languages')
-                                        ->label('Languages')
-                                        ->placeholder('Add a language and press Enter')
-                                        ->helperText('Add every available language.'),
-
-                                    TagsInput::make('subtitles')
-                                        ->label('Subtitles')
-                                        ->placeholder('Add a subtitle language and press Enter')
-                                        ->helperText('Leave empty if subtitles are unavailable.'),
-
-                                    TagsInput::make('availability')
-                                        ->label('Availability')
-                                        ->placeholder('e.g. Worldwide, MENA')
-                                        ->helperText('Add one or more territories, such as Worldwide or MENA.'),
-
-                                    TextInput::make('watch_url')
-                                        ->label('Watch Here URL')
-                                        ->url()
-                                        ->maxLength(255)
-                                        ->placeholder('https://...')
-                                        ->helperText('Direct viewing link. The Vimeo URL below can remain the trailer link.')
-                                        ->columnSpanFull(),
-
-                                    Select::make('service_types')
-                                        ->label('MLI Involvement')
-                                        ->options([
-                                            'production' => 'Production',
-                                            'distribution' => 'Distribution',
-                                            'collaboration' => 'Collaboration',
-                                        ])
-                                        ->multiple()
-                                        ->searchable()
-                                        ->visible(fn (Get $get): bool => $get('content_type') === 'series')
-                                        ->helperText('Select how MLI is involved. These are separate from creative genres.'),
-
-                                    TagsInput::make('cast')
-                                        ->label('Cast')
-                                        ->placeholder('Add a cast member and press Enter')
-                                        ->visible(fn (Get $get): bool => $get('content_type') === 'series'),
-
-                                    TagsInput::make('directors')
-                                        ->label('Director(s)')
-                                        ->placeholder('Add a director and press Enter')
-                                        ->visible(fn (Get $get): bool => $get('content_type') === 'series'),
-
                                     TextInput::make('slug')
                                         ->label('Slug')
                                         ->required()
@@ -320,6 +233,105 @@ class ShowResource extends Resource
                                         ->maxLength(255)
                                         ->helperText('Describe the image for accessibility & SEO.')
                                         ->columnSpanFull(),
+                                ]),
+                                ]),
+
+                            Section::make('Catalogue Attributes')
+                                ->description('Shared production and availability information.')
+                                ->columns(2)
+                                ->components([
+                                    TextInput::make('production_year')
+                                        ->label('Year of Production')
+                                        ->numeric()
+                                        ->minValue(1800)
+                                        ->maxValue((int) date('Y') + 2)
+                                        ->step(1),
+
+                                    TextInput::make('season_number')
+                                        ->label('Season')
+                                        ->numeric()
+                                        ->minValue(1)
+                                        ->maxValue(100)
+                                        ->step(1)
+                                        ->helperText('Optional. Use one show record per season.'),
+
+                                    TextInput::make('episode_count')
+                                        ->label('Number of Episodes')
+                                        ->numeric()
+                                        ->minValue(1)
+                                        ->maxValue(9999)
+                                        ->step(1),
+
+                                    TagsInput::make('languages')
+                                        ->label('Languages')
+                                        ->placeholder('Add a language and press Enter')
+                                        ->helperText('Add every available language.'),
+
+                                    TagsInput::make('subtitles')
+                                        ->label('Subtitles')
+                                        ->placeholder('Add a subtitle language and press Enter')
+                                        ->helperText('Leave empty if subtitles are unavailable.'),
+
+                                    TagsInput::make('availability')
+                                        ->label('Availability')
+                                        ->placeholder('e.g. Worldwide, MENA')
+                                        ->helperText('Add one or more territories, such as Worldwide or MENA.'),
+
+                                    TextInput::make('watch_url')
+                                        ->label('Watch Here URL')
+                                        ->url()
+                                        ->maxLength(255)
+                                        ->placeholder('https://...')
+                                        ->helperText('Direct viewing link. The Vimeo URL remains available for a trailer.')
+                                        ->columnSpanFull(),
+                                ]),
+
+                            Section::make('Documentary Details')
+                                ->description('Rights origin, country of origin, and broadcast format.')
+                                ->columns(2)
+                                ->visible(fn (Get $get): bool => $get('content_type') === 'documentary')
+                                ->components([
+                                    TextInput::make('origin')
+                                        ->label('Rights / Content Origin')
+                                        ->maxLength(255)
+                                        ->helperText('Describe the source or rights origin, not the country where it was produced.'),
+
+                                    TextInput::make('country_of_origin')
+                                        ->label('Country of Origin')
+                                        ->maxLength(255),
+
+                                    Select::make('broadcast_format')
+                                        ->label('Broadcast Format')
+                                        ->options([
+                                            '4K' => '4K',
+                                            'HD' => 'HD',
+                                        ])
+                                        ->placeholder('Choose format'),
+                                ]),
+
+                            Section::make('Series Details')
+                                ->description('Record MLI’s involvement separately from the creative genres.')
+                                ->columns(2)
+                                ->visible(fn (Get $get): bool => $get('content_type') === 'series')
+                                ->components([
+                                    Select::make('service_types')
+                                        ->label('MLI Involvement')
+                                        ->options([
+                                            'production' => 'Production',
+                                            'distribution' => 'Distribution',
+                                            'collaboration' => 'Collaboration',
+                                        ])
+                                        ->multiple()
+                                        ->searchable()
+                                        ->helperText('Choose Production, Distribution, Collaboration, or a combination.'),
+
+                                    TagsInput::make('cast')
+                                        ->label('Cast')
+                                        ->placeholder('Add a cast member and press Enter'),
+
+                                    TagsInput::make('directors')
+                                        ->label('Director(s)')
+                                        ->placeholder('Add a director and press Enter'),
                                 ]),
                         ]),
 
