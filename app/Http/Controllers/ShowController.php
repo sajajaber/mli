@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Genre;
 use App\Models\Show;
 use Illuminate\Http\Request;
 
@@ -10,17 +11,24 @@ class ShowController extends Controller
 {
     public function index(Request $request)
     {
-        $categorySlug = $request->query('category');
+        $categorySlug = $this->slugFromQuery($request, 'category');
+        $genreSlug = $this->slugFromQuery($request, 'genre');
 
         $query = Show::published()
-            ->with('category')
+            ->with(['categories', 'genres'])
             ->orderByDesc('published_at')
             ->orderBy('title_en')
             ->orderByDesc('id');
 
         if ($categorySlug) {
-            $query->whereHas('category', function ($categoryQuery) use ($categorySlug) {
+            $query->whereHas('categories', function ($categoryQuery) use ($categorySlug) {
                 $categoryQuery->where('slug', $categorySlug);
+            });
+        }
+
+        if ($genreSlug) {
+            $query->whereHas('genres', function ($genreQuery) use ($genreSlug) {
+                $genreQuery->where('slug', $genreSlug);
             });
         }
 
@@ -32,21 +40,39 @@ class ShowController extends Controller
             ->orderBy('name_en')
             ->get();
 
-        return view('shows.index', compact('shows', 'categories', 'categorySlug'));
+        // Genre filters are shown only once a category is chosen, and only for that category.
+        $genres = collect();
+
+        if ($categorySlug) {
+            $selectedCategory = Category::query()->where('slug', $categorySlug)->first();
+
+            if ($selectedCategory) {
+                $genres = Genre::query()
+                    ->select(['id', 'category_id', 'name_en', 'name_ar', 'slug'])
+                    ->where('category_id', $selectedCategory->id)
+                    ->whereHas('shows', fn ($query) => $query->published())
+                    ->orderBy('name_en')
+                    ->get();
+            }
+        }
+
+        return view('shows.index', compact('shows', 'categories', 'genres', 'categorySlug', 'genreSlug'));
     }
 
     public function show(string $slug)
     {
         $show = Show::published()
-            ->with('category')
+            ->with(['categories', 'genres'])
             ->where('slug', $slug)
             ->firstOrFail();
 
+        $categoryIds = $show->categories->pluck('id');
+
         $relatedShows = Show::published()
-            ->with('category')
+            ->with('categories')
             ->where('id', '!=', $show->id)
-            ->when($show->category_id, function ($query) use ($show) {
-                $query->where('category_id', $show->category_id);
+            ->when($categoryIds->isNotEmpty(), function ($query) use ($categoryIds) {
+                $query->whereHas('categories', fn ($categoryQuery) => $categoryQuery->whereIn('categories.id', $categoryIds));
             })
             ->orderByDesc('published_at')
             ->orderBy('title_en')
@@ -55,5 +81,12 @@ class ShowController extends Controller
             ->get();
 
         return view('shows.show', compact('show', 'relatedShows'));
+    }
+
+    private function slugFromQuery(Request $request, string $key): ?string
+    {
+        $value = $request->query($key);
+
+        return is_string($value) && $value !== '' ? $value : null;
     }
 }

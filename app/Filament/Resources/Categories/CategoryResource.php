@@ -96,6 +96,11 @@ class CategoryResource extends Resource
                 TextColumn::make('slug')
                     ->searchable(),
 
+                TextColumn::make('genres_count')
+                    ->label('Genres')
+                    ->counts('genres')
+                    ->sortable(),
+
                 TextColumn::make('shows_count')
                     ->label('Shows')
                     ->counts('shows')
@@ -110,7 +115,8 @@ class CategoryResource extends Resource
             ->filters([])
             ->recordActions([
                 \Filament\Actions\EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
+                \Filament\Actions\DeleteAction::make()
+                    ->modalDescription('Deleting a category also deletes its genres and removes them, and this category, from every show.'),
             ])
             ->toolbarActions([
                 \Filament\Actions\BulkActionGroup::make([

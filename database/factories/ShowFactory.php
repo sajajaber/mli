@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
 use App\Models\Show;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -19,7 +18,6 @@ class ShowFactory extends Factory
         $title = fake()->unique()->words(3, true);
 
         return [
-            'category_id' => Category::factory(),
             'title_en' => ucwords($title),
             'title_ar' => 'برنامج ' . fake()->numberBetween(1, 99999),
             'slug' => Str::slug($title),

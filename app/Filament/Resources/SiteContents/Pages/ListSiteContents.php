@@ -9,6 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 class ListSiteContents extends ListRecords
 {
     protected static string $resource = SiteContentResource::class;
+
     protected function getFooterWidgets(): array
     {
         return [

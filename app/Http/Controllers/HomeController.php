@@ -20,7 +20,7 @@ class HomeController extends Controller
         // after code/dependency changes.
         $shows = Show::published()
             ->where('is_new_release', true)
-            ->with('category')
+            ->with('categories')
             ->orderBy('sort_order')
             ->orderByDesc('published_at')
             ->orderByDesc('id')

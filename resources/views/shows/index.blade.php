@@ -50,6 +50,30 @@
                     </div>
                 </div>
 
+                @if($genres->isNotEmpty())
+                <div class="mli-shows-filters">
+                    <span class="mli-shows-filters__label">
+                        {{ app()->getLocale() === 'ar' ? 'تصفية حسب النوع الفرعي' : 'Filter by genre' }}
+                    </span>
+
+                    <div class="mli-shows-filters__links">
+                        <a
+                            href="{{ route('shows.index', ['category' => $categorySlug]) }}"
+                            class="{{ !$genreSlug ? 'is-active' : '' }}">
+                            {{ app()->getLocale() === 'ar' ? 'الكل' : 'All' }}
+                        </a>
+
+                        @foreach($genres as $genre)
+                        <a
+                            href="{{ route('shows.index', ['category' => $categorySlug, 'genre' => $genre->slug]) }}"
+                            class="{{ $genreSlug === $genre->slug ? 'is-active' : '' }}">
+                            {{ $genre->name }}
+                        </a>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
                 <div class="mli-shows-library__bar">
                     <span>{{ app()->getLocale() === 'ar' ? 'جميع البرامج' : 'All shows' }}</span>
                     <span>{{ $shows->count() }} / {{ $shows->total() }}</span>
@@ -74,8 +98,8 @@
                             <span class="mli-show__copy">
                                 <strong>{{ app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en }}</strong>
 
-                                @if($show->category)
-                                <small>{{ app()->getLocale() === 'ar' ? $show->category->name_ar : $show->category->name_en }}</small>
+                @if($show->categories->isNotEmpty())
+                                <small>{{ $show->categories->pluck('name')->implode(' · ') }}</small>
                                 @endif
                             </span>
 

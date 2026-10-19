@@ -5,7 +5,7 @@
         <div class="section-heading" data-reveal="up">
             <div>
                 <p class="eyebrow eyebrow--dark">{{ app()->getLocale() === 'ar' ? 'آخر المستجدات' : 'Latest' }}</p>
-                <h2>{{ app()->getLocale() === 'ar' ? 'من عالم MLI.' : 'From the world of MLI.' }}</h2>
+                <h2>{{ app()->getLocale() === 'ar' ? 'من عالم MLI' : 'From the world of MLI.' }}</h2>
             </div>
         </div>
 

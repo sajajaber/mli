@@ -29,11 +29,9 @@
 
                     <div class="mli-show-detail__content">
 
-                        @if($show->category)
+                        @if($show->categories->isNotEmpty())
                         <span class="mli-show-detail__category">
-                            {{ app()->getLocale() === 'ar'
-                                    ? $show->category->name_ar
-                                    : $show->category->name_en }}
+                            {{ $show->categories->pluck('name')->implode(' · ') }}
                         </span>
                         @endif
 
@@ -54,10 +52,17 @@
                         @endif
 
                         <div class="mli-show-detail__meta">
-                            @if($show->category)
+                            @if($show->categories->isNotEmpty())
                             <div class="mli-show-detail__meta-item">
-                                <span>{{ app()->getLocale() === 'ar' ? 'الفئة' : 'Category' }}</span>
-                                <strong>{{ app()->getLocale() === 'ar' ? $show->category->name_ar : $show->category->name_en }}</strong>
+                                <span>{{ app()->getLocale() === 'ar' ? 'الفئات' : 'Categories' }}</span>
+                                <strong>{{ $show->categories->pluck('name')->implode(' · ') }}</strong>
+                            </div>
+                            @endif
+
+                            @if($show->genres->isNotEmpty())
+                            <div class="mli-show-detail__meta-item">
+                                <span>{{ app()->getLocale() === 'ar' ? 'الأنواع' : 'Genres' }}</span>
+                                <strong>{{ $show->genres->pluck('name')->implode(' · ') }}</strong>
                             </div>
                             @endif
 
@@ -136,11 +141,9 @@
                                             : $related->title_en }}
                             </strong>
 
-                            @if($related->category)
+                            @if($related->categories->isNotEmpty())
                             <small>
-                                {{ app()->getLocale() === 'ar'
-                                                ? $related->category->name_ar
-                                                : $related->category->name_en }}
+                                {{ $related->categories->pluck('name')->implode(' · ') }}
                             </small>
                             @endif
                         </div>

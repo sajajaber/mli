@@ -18,7 +18,8 @@ class EditCategory extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            DeleteAction::make()
+                ->modalDescription('Deleting a category also deletes its genres and removes them, and this category, from every show.'),
         ];
     }
 }

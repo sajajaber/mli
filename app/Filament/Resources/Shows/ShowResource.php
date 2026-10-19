@@ -8,9 +8,13 @@ use App\Filament\Concerns\ValidatesOnBlur;
 use App\Filament\Resources\Shows\Pages\CreateShow;
 use App\Filament\Resources\Shows\Pages\EditShow;
 use App\Filament\Resources\Shows\Pages\ListShows;
-use App\Models\Category;
+use App\Models\Genre;
 use App\Models\Show;
 use BackedEnum;
+use Closure;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
+use Illuminate\Database\Eloquent\Builder;
 use UnitEnum;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
@@ -107,18 +111,72 @@ class ShowResource extends Resource
                                 ]),
 
                             Section::make('Classification & Media')
-                                ->description('Set the category, URL, cover image, and accessibility information.')
+                                ->description('Set the categories, genres, URL, cover image, and accessibility information.')
                                 ->columns(2)
                                 ->components([
-                                    Select::make('category_id')
-                                        ->label('Category')
-                                        ->options(
-                                            fn (): array => Category::query()
-                                                ->orderBy('name_en')
-                                                ->pluck('name_en', 'id')
-                                                ->all()
+                                    Select::make('categories')
+                                        ->label('Categories')
+                                        ->relationship('categories', 'name_en')
+                                        ->multiple()
+                                        ->searchable()
+                                        ->preload()
+                                        ->live()
+                                        ->afterStateUpdated(function (Get $get, Set $set, $state): void {
+                                            // Drop any selected genre whose category was just unselected.
+                                            $genreIds = $get('genres') ?? [];
+
+                                            if (blank($genreIds)) {
+                                                return;
+                                            }
+
+                                            $set('genres', Genre::query()
+                                                ->whereIn('id', $genreIds)
+                                                ->whereIn('category_id', $state ?? [])
+                                                ->pluck('id')
+                                                ->all());
+                                        })
+                                        ->helperText('A show can have any number of categories, or none.'),
+
+                                    Select::make('genres')
+                                        ->label('Genres')
+                                        ->relationship(
+                                            name: 'genres',
+                                            titleAttribute: 'name_en',
+                                            modifyQueryUsing: fn (Builder $query, Get $get) => $query
+                                                ->with('category')
+                                                ->whereIn('category_id', $get('categories') ?? [])
+                                                ->orderBy('category_id')
+                                                ->orderBy('name_en'),
                                         )
-                                        ->nullable(),
+                                        ->getOptionLabelFromRecordUsing(
+                                            fn (Genre $record): string => $record->category
+                                                ? "{$record->category->name_en} — {$record->name_en}"
+                                                : $record->name_en
+                                        )
+                                        ->multiple()
+                                        ->searchable()
+                                        ->preload()
+                                        ->rules([
+                                            fn (Get $get): Closure => function (string $attribute, $value, Closure $fail) use ($get): void {
+                                                $genreIds = array_filter((array) $value);
+
+                                                if ($genreIds === []) {
+                                                    return;
+                                                }
+
+                                                $categoryIds = array_filter((array) ($get('categories') ?? []));
+
+                                                $invalid = Genre::query()
+                                                    ->whereIn('id', $genreIds)
+                                                    ->whereNotIn('category_id', $categoryIds)
+                                                    ->exists();
+
+                                                if ($invalid || Genre::query()->whereIn('id', $genreIds)->count() !== count(array_unique($genreIds))) {
+                                                    $fail('Every selected genre must belong to one of the selected categories.');
+                                                }
+                                            },
+                                        ])
+                                        ->helperText('Choose categories first — only their genres are listed.'),
 
                                     TextInput::make('slug')
                                         ->label('Slug')
@@ -220,9 +278,18 @@ class ShowResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('category.name_en')
-                    ->label('Category')
-                    ->sortable(),
+                TextColumn::make('categories.name_en')
+                    ->label('Categories')
+                    ->badge()
+                    ->listWithLineBreaks()
+                    ->toggleable(),
+
+                TextColumn::make('genres.name_en')
+                    ->label('Genres')
+                    ->badge()
+                    ->color('gray')
+                    ->listWithLineBreaks()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 IconColumn::make('is_new_release')
                     ->label('New Release')
@@ -274,12 +341,17 @@ class ShowResource extends Resource
                         'published' => 'Published',
                     ]),
 
-                SelectFilter::make('category_id')
-                    ->relationship(
-                        'category',
-                        'name_en'
-                    )
+                SelectFilter::make('categories')
+                    ->relationship('categories', 'name_en')
+                    ->multiple()
+                    ->preload()
                     ->label('Category'),
+
+                SelectFilter::make('genres')
+                    ->relationship('genres', 'name_en')
+                    ->multiple()
+                    ->preload()
+                    ->label('Genre'),
             ])
             ->recordActions([
                 static::publishAction(),
