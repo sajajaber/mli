@@ -49,6 +49,11 @@ class Show extends Model
         return $this->belongsToMany(Category::class);
     }
 
+    public function genres(): BelongsToMany
+    {
+        return $this->belongsToMany(Genre::class);
+    }
+
     // --- Scopes ---
 
     /**
