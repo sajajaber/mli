@@ -2861,3 +2861,17 @@
     font-size: 0.9rem !important;
     font-weight: 700 !important;
 }
+
+
+/* ---------------------------------------------------------
+   Category hierarchy: make parent rows visibly distinct.
+   The class is applied to the table row; coloring its cells
+   ensures the background remains visible in Filament tables.
+   --------------------------------------------------------- */
+.fi-ta-row.mli-parent-category-row > td {
+    background-color: rgba(196, 164, 112, 0.18) !important;
+}
+
+.fi-ta-row.mli-parent-category-row:hover > td {
+    background-color: rgba(196, 164, 112, 0.27) !important;
+}
