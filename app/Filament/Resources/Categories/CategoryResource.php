@@ -117,41 +117,31 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name_en')
-                    ->label('Category / Subcategory (English)')
-                    ->formatStateUsing(
-                        fn (string $state, Category $record): string => $record->parent_id
-                            ? '↳ ' . $state
-                            : $state,
+                    ->label('Category (English)')
+                    ->extraCellAttributes(
+                        fn (Category $record): array => $record->parent_id
+                            ? ['style' => 'padding-inline-start: 2.5rem;']
+                            : [],
                     )
+                    ->weight(fn (Category $record): string => $record->parent_id ? 'normal' : 'semibold')
                     ->searchable(),
 
                 TextColumn::make('name_ar')
                     ->label('Name (Arabic)')
                     ->searchable(),
 
-                TextColumn::make('parent.name_en')
-                    ->label('Parent')
-                    ->placeholder('—'),
-
-                TextColumn::make('parent_id')
-                    ->label('Level')
-                    ->state(fn (Category $record): string => $record->parent_id ? 'Subcategory' : 'Parent category')
-                    ->badge()
-                    ->color(fn (string $state): string => $state === 'Parent category' ? 'primary' : 'gray'),
-
                 TextColumn::make('slug')
                     ->searchable(),
 
                 TextColumn::make('shows_count')
                     ->label('Shows')
-                    ->counts('shows')
-                    ->sortable(),
+                    ->counts('shows'),
 
                 TextColumn::make('created_at')
                     ->dateTime()
-                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->paginated(false)
             ->filters([])
             ->recordActions([
                 \Filament\Actions\EditAction::make(),
