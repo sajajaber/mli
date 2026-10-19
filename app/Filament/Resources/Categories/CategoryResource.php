@@ -142,9 +142,9 @@ class CategoryResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->recordClasses(
-                fn (Category $record): string => $record->parent_id
-                    ? ''
-                    : 'bg-primary-50 dark:bg-primary-400/10',
+                fn (Category $record): ?string => $record->parent_id === null
+                    ? 'mli-parent-category-row'
+                    : null,
             )
             ->paginated(false)
             ->filters([])
