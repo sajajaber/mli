@@ -7,9 +7,8 @@ use App\Filament\Resources\Categories\Pages\CreateCategory;
 use App\Filament\Resources\Categories\Pages\EditCategory;
 use App\Filament\Resources\Categories\Pages\ListCategories;
 use App\Models\Category;
-use Filament\Forms\Components\Select;
 use BackedEnum;
-use UnitEnum;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
@@ -19,10 +18,12 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use UnitEnum;
 
 class CategoryResource extends Resource
 {
     use ValidatesOnBlur;
+
     protected static ?string $model = Category::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTag;
@@ -37,7 +38,7 @@ class CategoryResource extends Resource
     {
         return $schema->components([
             Section::make('Category Information')
-                ->description('Set the bilingual category name and the URL segment used by the library.')
+                ->description('Create a parent category or place a subcategory under an existing parent.')
                 ->columnSpan(['default' => 1, 'xl' => 11])
                 ->columns(2)
                 ->components([
@@ -70,7 +71,8 @@ class CategoryResource extends Resource
                         ->afterStateUpdated(static::validateOnBlur()),
 
                     Select::make('parent_id')
-                        ->label('Parent category')
+                        ->label('Parent category (optional)')
+                        ->helperText('Leave this empty to create a parent category. Choose a parent only if this is a subcategory.')
                         ->relationship(
                             'parent',
                             'name_en',
@@ -82,8 +84,12 @@ class CategoryResource extends Resource
                                 }
                             },
                         )
+                        ->getOptionLabelFromRecordUsing(
+                            fn (Category $record): string => "{$record->name_en} / {$record->name_ar}",
+                        )
                         ->searchable()
-                        ->preload(),
+                        ->preload()
+                        ->placeholder('No parent — top-level category'),
 
                     TextInput::make('slug')
                         ->label('Slug')
@@ -111,13 +117,19 @@ class CategoryResource extends Resource
                     ->label('Name (Arabic)')
                     ->searchable(),
 
-                TextColumn::make('slug')
-                    ->searchable(),
-
                 TextColumn::make('parent.name_en')
                     ->label('Parent')
                     ->placeholder('—')
                     ->sortable(),
+
+                TextColumn::make('parent_id')
+                    ->label('Level')
+                    ->state(fn (Category $record): string => $record->parent_id ? 'Subcategory' : 'Parent category')
+                    ->badge()
+                    ->color(fn (string $state): string => $state === 'Parent category' ? 'primary' : 'gray'),
+
+                TextColumn::make('slug')
+                    ->searchable(),
 
                 TextColumn::make('shows_count')
                     ->label('Shows')
