@@ -7,6 +7,7 @@ use App\Filament\Resources\Categories\Pages\CreateCategory;
 use App\Filament\Resources\Categories\Pages\EditCategory;
 use App\Filament\Resources\Categories\Pages\ListCategories;
 use App\Models\Category;
+use Filament\Forms\Components\Select;
 use BackedEnum;
 use UnitEnum;
 use Filament\Forms\Components\TextInput;
@@ -16,6 +17,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class CategoryResource extends Resource
@@ -67,6 +69,22 @@ class CategoryResource extends Resource
                         ->live(onBlur: true)
                         ->afterStateUpdated(static::validateOnBlur()),
 
+                    Select::make('parent_id')
+                        ->label('Parent category')
+                        ->relationship(
+                            'parent',
+                            'name_en',
+                            function (Builder $query, ?Category $record): void {
+                                $query->whereNull('parent_id');
+
+                                if ($record) {
+                                    $query->whereKeyNot($record->getKey());
+                                }
+                            },
+                        )
+                        ->searchable()
+                        ->preload(),
+
                     TextInput::make('slug')
                         ->label('Slug')
                         ->required()
@@ -96,9 +114,9 @@ class CategoryResource extends Resource
                 TextColumn::make('slug')
                     ->searchable(),
 
-                TextColumn::make('genres_count')
-                    ->label('Genres')
-                    ->counts('genres')
+                TextColumn::make('parent.name_en')
+                    ->label('Parent')
+                    ->placeholder('—')
                     ->sortable(),
 
                 TextColumn::make('shows_count')
@@ -116,7 +134,7 @@ class CategoryResource extends Resource
             ->recordActions([
                 \Filament\Actions\EditAction::make(),
                 \Filament\Actions\DeleteAction::make()
-                    ->modalDescription('Deleting a category also deletes its genres and removes them, and this category, from every show.'),
+                    ->modalDescription('Deleting a category also deletes its sub-categories and removes them from shows.'),
             ])
             ->toolbarActions([
                 \Filament\Actions\BulkActionGroup::make([
