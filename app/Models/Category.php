@@ -23,6 +23,11 @@ class Category extends Model
         return $this->belongsToMany(Show::class);
     }
 
+    public function genres(): HasMany
+    {
+        return $this->hasMany(Genre::class);
+    }
+
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'parent_id');
