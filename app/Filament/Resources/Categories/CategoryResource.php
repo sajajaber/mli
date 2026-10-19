@@ -123,8 +123,7 @@ class CategoryResource extends Resource
                             ? '↳ ' . $state
                             : $state,
                     )
-                    ->searchable()
-                    ->sortable(),
+                    ->searchable(),
 
                 TextColumn::make('name_ar')
                     ->label('Name (Arabic)')
@@ -132,8 +131,7 @@ class CategoryResource extends Resource
 
                 TextColumn::make('parent.name_en')
                     ->label('Parent')
-                    ->placeholder('—')
-                    ->sortable(),
+                    ->placeholder('—'),
 
                 TextColumn::make('parent_id')
                     ->label('Level')
