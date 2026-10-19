@@ -141,6 +141,11 @@ class CategoryResource extends Resource
                     ->dateTime()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->recordClasses(
+                fn (Category $record): string => $record->parent_id
+                    ? ''
+                    : 'bg-primary-50 dark:bg-primary-400/10',
+            )
             ->paginated(false)
             ->filters([])
             ->recordActions([
