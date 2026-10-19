@@ -34,6 +34,14 @@ class CategoryResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->orderByRaw('COALESCE((SELECT parent_categories.name_en FROM categories AS parent_categories WHERE parent_categories.id = categories.parent_id), categories.name_en)')
+            ->orderByRaw('CASE WHEN categories.parent_id IS NULL THEN 0 ELSE 1 END')
+            ->orderBy('categories.name_en');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
@@ -109,7 +117,12 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name_en')
-                    ->label('Name (English)')
+                    ->label('Category / Subcategory (English)')
+                    ->formatStateUsing(
+                        fn (string $state, Category $record): string => $record->parent_id
+                            ? '↳ ' . $state
+                            : $state,
+                    )
                     ->searchable()
                     ->sortable(),
 
@@ -141,7 +154,6 @@ class CategoryResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->defaultSort('name_en')
             ->filters([])
             ->recordActions([
                 \Filament\Actions\EditAction::make(),
