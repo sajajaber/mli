@@ -234,7 +234,6 @@ class ShowResource extends Resource
                                         ->helperText('Describe the image for accessibility & SEO.')
                                         ->columnSpanFull(),
                                 ]),
-                                ]),
 
                             Section::make('Catalogue Attributes')
                                 ->description('Shared production and availability information.')
