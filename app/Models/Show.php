@@ -17,6 +17,20 @@ class Show extends Model
 
     protected $fillable = [
         'category_id',
+        'content_type',
+        'origin',
+        'country_of_origin',
+        'production_year',
+        'season_number',
+        'episode_count',
+        'broadcast_format',
+        'watch_url',
+        'languages',
+        'subtitles',
+        'availability',
+        'service_types',
+        'cast',
+        'directors',
         'title_en',
         'title_ar',
         'slug',
@@ -40,6 +54,15 @@ class Show extends Model
     protected $casts = [
         'published_at' => 'datetime',
         'is_new_release' => 'boolean',
+        'production_year' => 'integer',
+        'season_number' => 'integer',
+        'episode_count' => 'integer',
+        'languages' => 'array',
+        'subtitles' => 'array',
+        'availability' => 'array',
+        'service_types' => 'array',
+        'cast' => 'array',
+        'directors' => 'array',
     ];
 
     // --- Relationships ---
