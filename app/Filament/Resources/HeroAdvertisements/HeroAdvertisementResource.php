@@ -1,11 +1,10 @@
 <?php
-
 namespace App\Filament\Resources\HeroAdvertisements;
-
 use App\Filament\Resources\HeroAdvertisements\Pages\CreateHeroAdvertisement;
 use App\Filament\Resources\HeroAdvertisements\Pages\EditHeroAdvertisement;
 use App\Filament\Resources\HeroAdvertisements\Pages\ListHeroAdvertisements;
 use App\Models\HeroAdvertisement;
+use App\Services\ImageProcessingService;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
@@ -18,9 +17,11 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
+use RuntimeException;
 use UnitEnum;
 
 class HeroAdvertisementResource extends Resource
@@ -43,41 +44,53 @@ class HeroAdvertisementResource extends Resource
     {
         return $schema->components([
             Section::make('Hero Advertisement')
-                ->description('Upload the artwork used in the homepage hero. The order is managed visually from the Hero Advertisements page.')
+                ->description(
+                    'Upload the artwork used in the homepage hero. The order is managed visually from the Hero Advertisements page.'
+                )
                 ->columnSpanFull()
                 ->columns(2)
                 ->components([
                     FileUpload::make('image_path')
                         ->label('Hero Image')
                         ->image()
-                        ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                        ->acceptedFileTypes([
+                            'image/jpeg',
+                            'image/png',
+                            'image/webp',
+                        ])
                         ->disk('public')
                         ->directory('hero')
                         ->imageEditor()
                         ->maxSize(12288)
+                        ->deletable()
                         ->saveUploadedFileUsing(
-                            fn ($file) => app(\App\Services\ImageProcessingService::class)
+                            fn($file) => app(ImageProcessingService::class)
                                 ->processAndStore(
                                     $file,
                                     'hero',
                                     maxWidth: 2400,
-                                    quality: 88
+                                    quality: 88,
                                 )
                         )
-                        ->helperText('Use a wide, high-resolution image composed specifically for the homepage hero.')
-                        ->required()
+                        ->helperText(
+                            'Upload a wide, high-resolution image for the homepage hero. You can remove the current image without deleting this record.'
+                        )
                         ->columnSpanFull(),
 
                     TextInput::make('image_alt')
                         ->label('Image Alt Text')
                         ->maxLength(255)
-                        ->helperText('Describe the hero artwork for accessibility.')
+                        ->helperText(
+                            'Describe the hero artwork for accessibility.'
+                        )
                         ->columnSpanFull(),
 
                     Toggle::make('is_active')
                         ->label('Active in Hero')
                         ->default(true)
-                        ->helperText('Only active hero advertisements are displayed on the homepage.')
+                        ->helperText(
+                            'Only active hero advertisements are displayed on the homepage.'
+                        )
                         ->columnSpanFull(),
                 ]),
         ]);
@@ -105,9 +118,17 @@ class HeroAdvertisementResource extends Resource
 
                     TextColumn::make('is_active')
                         ->label('Status')
-                        ->formatStateUsing(fn (bool $state): string => $state ? 'Active' : 'Inactive')
+                        ->formatStateUsing(
+                            fn(bool $state): string => $state
+                                ? 'Active'
+                                : 'Inactive'
+                        )
                         ->badge()
-                        ->color(fn (bool $state): string => $state ? 'success' : 'gray'),
+                        ->color(
+                            fn(bool $state): string => $state
+                                ? 'success'
+                                : 'gray'
+                        ),
                 ]),
             ])
             ->contentGrid([
@@ -118,25 +139,76 @@ class HeroAdvertisementResource extends Resource
             ->defaultSort('sort_order')
             ->reorderable('sort_order')
             ->reorderRecordsTriggerAction(
-                fn (Action $action) => $action
+                fn(Action $action) => $action
                     ->label('Reorder Hero Advertisements')
                     ->icon('heroicon-o-arrows-up-down')
             )
             ->recordActions([
                 Action::make('toggleActive')
-                    ->label(fn (HeroAdvertisement $record): string => $record->is_active ? 'Deactivate' : 'Activate')
-                    ->icon(fn (HeroAdvertisement $record): string => $record->is_active
-                        ? 'heroicon-o-eye-slash'
-                        : 'heroicon-o-eye')
-                    ->color(fn (HeroAdvertisement $record): string => $record->is_active ? 'warning' : 'success')
+                    ->label(
+                        fn(HeroAdvertisement $record): string => $record->is_active
+                            ? 'Deactivate'
+                            : 'Activate'
+                    )
+                    ->icon(
+                        fn(HeroAdvertisement $record): string => $record->is_active
+                            ? 'heroicon-o-eye-slash'
+                            : 'heroicon-o-eye'
+                    )
+                    ->color(
+                        fn(HeroAdvertisement $record): string => $record->is_active
+                            ? 'warning'
+                            : 'success'
+                    )
                     ->action(function (HeroAdvertisement $record): void {
                         $record->update([
                             'is_active' => ! $record->is_active,
                         ]);
                     })
-                    ->successNotificationTitle('Hero visibility updated'),
+                    ->successNotificationTitle(
+                        'Hero visibility updated'
+                    ),
+
+                Action::make('removeImage')
+                    ->label('Remove Image')
+                    ->icon('heroicon-o-trash')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->modalHeading('Remove Hero Image')
+                    ->modalDescription(
+                        'This will remove the image file but keep the Hero Advertisement record and its other settings.'
+                    )
+                    ->visible(
+                        fn(HeroAdvertisement $record): bool => filled(
+                            $record->image_path
+                        )
+                    )
+                    ->action(function (HeroAdvertisement $record): void {
+                        $imagePath = $record->image_path;
+
+                        if (blank($imagePath)) {
+                            return;
+                        }
+
+                        $disk = Storage::disk('public');
+
+                        if (
+                            $disk->exists($imagePath)
+                            && ! $disk->delete($imagePath)
+                        ) {
+                            throw new RuntimeException(
+                                'The hero image could not be deleted. The record was not changed.'
+                            );
+                        }
+
+                        $record->update([
+                            'image_path' => null,
+                        ]);
+                    })
+                    ->successNotificationTitle('Hero image removed'),
 
                 EditAction::make(),
+
                 DeleteAction::make(),
             ]);
     }
