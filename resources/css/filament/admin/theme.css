@@ -2869,11 +2869,11 @@
    ensures the background remains visible in Filament tables.
    --------------------------------------------------------- */
 .fi-ta-row.mli-parent-category-row > td {
-    background-color: rgba(196, 164, 112, 0.18) !important;
+    background-color: #efe2d048 !important;
 }
 
 .fi-ta-row.mli-parent-category-row:hover > td {
-    background-color: rgba(196, 164, 112, 0.27) !important;
+    background-color: #efe2d075 !important;
 }
 
 
