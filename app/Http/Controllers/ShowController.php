@@ -36,7 +36,7 @@ class ShowController extends Controller
 
         $categories = Category::query()
             ->select(['id', 'name_en', 'name_ar', 'slug'])
-            ->whereHas('shows', fn ($query) => $query->published())
+            ->whereHas('shows', fn($query) => $query->published())
             ->orderBy('name_en')
             ->get();
 
@@ -50,13 +50,26 @@ class ShowController extends Controller
                 $genres = Genre::query()
                     ->select(['id', 'category_id', 'name_en', 'name_ar', 'slug'])
                     ->where('category_id', $selectedCategory->id)
-                    ->whereHas('shows', fn ($query) => $query->published())
+                    ->whereHas('shows', fn($query) => $query->published())
                     ->orderBy('name_en')
                     ->get();
             }
         }
 
         return view('shows.index', compact('shows', 'categories', 'genres', 'categorySlug', 'genreSlug'));
+    }
+
+    public function category(Request $request, string $slug)
+    {
+        // Find the requested category or return a 404 page.
+        $category = Category::query()
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        // Reuse the existing filtering logic for this category.
+        $request->query->set('category', $slug);
+
+        return $this->index($request);
     }
 
     public function show(string $slug)
@@ -72,7 +85,7 @@ class ShowController extends Controller
             ->with('categories')
             ->where('id', '!=', $show->id)
             ->when($categoryIds->isNotEmpty(), function ($query) use ($categoryIds) {
-                $query->whereHas('categories', fn ($categoryQuery) => $categoryQuery->whereIn('categories.id', $categoryIds));
+                $query->whereHas('categories', fn($categoryQuery) => $categoryQuery->whereIn('categories.id', $categoryIds));
             })
             ->orderByDesc('published_at')
             ->orderBy('title_en')
