@@ -20,7 +20,7 @@ class HomeController extends Controller
         // after code/dependency changes.
         $shows = Show::published()
             ->where('is_new_release', true)
-            ->with('categories')
+            ->with(['categories.parent'])
             ->orderBy('sort_order')
             ->orderByDesc('published_at')
             ->orderByDesc('id')
@@ -33,13 +33,23 @@ class HomeController extends Controller
             ->get();
 
         $categories = Category::query()
+            ->whereNull('parent_id')
             ->withCount([
-                'shows as published_shows_count' => fn ($query) => $query->published(),
+                'shows as direct_published_shows_count' => fn ($query) => $query->published(),
+            ])
+            ->with([
+                'children' => fn ($query) => $query
+                    ->select(['id', 'parent_id'])
+                    ->withCount([
+                        'shows as published_shows_count' => fn ($showsQuery) => $showsQuery->published(),
+                    ]),
             ])
             ->orderBy('name_en')
             ->get()
-            ->filter(fn ($category) => $category->published_shows_count > 0)
-            ->values();
+            ->each(function (Category $category): void {
+                $category->published_shows_count = (int) $category->direct_published_shows_count
+                    + (int) $category->children->sum('published_shows_count');
+            });
 
         $people = Person::active()
             ->orderBy('sort_order')
