@@ -209,6 +209,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         window.clearTimeout(timeout);
                         currentSubcategoryRow.removeEventListener('animationend', finish);
                         controller.signal.removeEventListener('abort', finish);
+
+                        if (controller.signal.aborted) {
+                            currentSubcategoryRow.classList.remove('is-leaving');
+                        }
+
                         resolve();
                     };
 
