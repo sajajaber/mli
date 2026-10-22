@@ -61,12 +61,6 @@
                     @if($activeParentCategory && $activeParentCategory->children->isNotEmpty())
                     <div class="mli-shows-filters mli-shows-subcategory-filter-row">
                         <div class="mli-shows-filters__links mli-shows-category-bar mli-shows-subcategory-bar">
-                            <a
-                                href="{{ route('shows.index', ['category' => $activeParentCategory->slug]) }}"
-                                class="mli-shows-category-all mli-shows-subcategory-all {{ $categorySlug === $activeParentCategory->slug ? 'is-active' : '' }}">
-                                {{ app()->getLocale() === 'ar' ? 'الكل' : 'All ' . $activeParentCategory->name_en }}
-                            </a>
-
                             @foreach($activeParentCategory->children as $subcategory)
                             <a
                                 href="{{ route('shows.index', ['category' => $subcategory->slug]) }}"
