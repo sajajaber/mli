@@ -14,46 +14,69 @@ class ShowController extends Controller
         $categorySlug = $this->slugFromQuery($request, 'category');
         $genreSlug = $this->slugFromQuery($request, 'genre');
 
+        $selectedCategory = $categorySlug
+            ? Category::query()
+                ->with('children:id,parent_id')
+                ->where('slug', $categorySlug)
+                ->first()
+            : null;
+
+        // A parent category includes shows directly assigned to it and to any child.
+        $categoryIds = $selectedCategory
+            ? collect([$selectedCategory->id])
+                ->merge($selectedCategory->children->pluck('id'))
+                ->unique()
+                ->values()
+            : collect();
+
         $query = Show::published()
-            ->with(['categories', 'genres'])
+            ->with(['categories.parent', 'genres'])
             ->orderByDesc('published_at')
             ->orderBy('title_en')
             ->orderByDesc('id');
 
         if ($categorySlug) {
-            $query->whereHas('categories', function ($categoryQuery) use ($categorySlug) {
-                $categoryQuery->where('slug', $categorySlug);
-            });
+            $query->whereHas('categories', fn ($categoryQuery) => $categoryQuery
+                ->whereIn('categories.id', $categoryIds));
         }
 
         if ($genreSlug) {
-            $query->whereHas('genres', function ($genreQuery) use ($genreSlug) {
-                $genreQuery->where('slug', $genreSlug);
-            });
+            $query->whereHas('genres', fn ($genreQuery) => $genreQuery->where('slug', $genreSlug));
         }
 
         $shows = $query->paginate(12)->withQueryString();
 
+        // Parents and children remain visible even with no assigned/published shows.
         $categories = Category::query()
-            ->select(['id', 'name_en', 'name_ar', 'slug'])
-            ->whereHas('shows', fn($query) => $query->published())
+            ->whereNull('parent_id')
+            ->with([
+                'children' => fn ($query) => $query
+                    ->select(['id', 'parent_id', 'name_en', 'name_ar', 'slug'])
+                    ->orderBy('name_en'),
+            ])
             ->orderBy('name_en')
             ->get();
 
-        // Genre filters are shown only once a category is chosen, and only for that category.
+        // Genres still belong to parent categories. Selecting a child offers its parent's genres.
         $genres = collect();
 
-        if ($categorySlug) {
-            $selectedCategory = Category::query()->where('slug', $categorySlug)->first();
+        if ($selectedCategory) {
+            $genreCategoryIds = collect([$selectedCategory->id, $selectedCategory->parent_id])
+                ->filter()
+                ->unique()
+                ->values();
 
-            if ($selectedCategory) {
-                $genres = Genre::query()
-                    ->select(['id', 'category_id', 'name_en', 'name_ar', 'slug'])
-                    ->where('category_id', $selectedCategory->id)
-                    ->whereHas('shows', fn($query) => $query->published())
-                    ->orderBy('name_en')
-                    ->get();
-            }
+            $genres = Genre::query()
+                ->select(['id', 'category_id', 'name_en', 'name_ar', 'slug'])
+                ->whereIn('category_id', $genreCategoryIds)
+                ->whereHas('shows', function ($showQuery) use ($categoryIds) {
+                    $showQuery
+                        ->published()
+                        ->whereHas('categories', fn ($categoryQuery) => $categoryQuery
+                            ->whereIn('categories.id', $categoryIds));
+                })
+                ->orderBy('name_en')
+                ->get();
         }
 
         return view('shows.index', compact('shows', 'categories', 'genres', 'categorySlug', 'genreSlug'));
@@ -75,17 +98,19 @@ class ShowController extends Controller
     public function show(string $slug)
     {
         $show = Show::published()
-            ->with(['categories', 'genres'])
+            ->with(['categories.parent', 'genres'])
             ->where('slug', $slug)
             ->firstOrFail();
 
-        $categoryIds = $show->categories->pluck('id');
+        $categoryIds = $show->effective_categories->pluck('id');
 
         $relatedShows = Show::published()
-            ->with('categories')
+            ->with(['categories.parent'])
             ->where('id', '!=', $show->id)
             ->when($categoryIds->isNotEmpty(), function ($query) use ($categoryIds) {
-                $query->whereHas('categories', fn($categoryQuery) => $categoryQuery->whereIn('categories.id', $categoryIds));
+                $query->whereHas('categories', fn ($categoryQuery) => $categoryQuery
+                    ->whereIn('categories.id', $categoryIds)
+                    ->orWhereIn('categories.parent_id', $categoryIds));
             })
             ->orderByDesc('published_at')
             ->orderBy('title_en')
