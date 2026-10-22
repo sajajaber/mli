@@ -32,7 +32,7 @@ class CategoryHierarchyTest extends TestCase
             ->assertDontSee('Nature');
     }
 
-    public function test_shows_page_lists_subcategories_under_their_parent_even_when_empty(): void
+    public function test_shows_page_only_displays_subcategories_for_the_selected_parent(): void
     {
         $parent = Category::query()->create([
             'name_en' => 'Documentary',
@@ -47,9 +47,35 @@ class CategoryHierarchyTest extends TestCase
             'slug' => 'nature',
         ]);
 
+        Category::query()->create([
+            'name_en' => 'Drama',
+            'name_ar' => 'دراما',
+            'slug' => 'drama',
+        ]);
+
         $this->get('/shows')
             ->assertOk()
-            ->assertSeeInOrder(['Documentary', 'Nature']);
+            ->assertSee('Documentary')
+            ->assertDontSee('Nature')
+            ->assertDontSee('mli-shows-subcategory-filter-row');
+
+        $this->get('/shows?category=documentary')
+            ->assertOk()
+            ->assertSee('mli-shows-subcategory-filter-row')
+            ->assertSee('Nature')
+            ->assertSee('All Documentary');
+
+        // The second row remains visible when one of the parent's children is selected.
+        $this->get('/shows?category=nature')
+            ->assertOk()
+            ->assertSee('mli-shows-subcategory-filter-row')
+            ->assertSee('Nature')
+            ->assertSee('All Documentary');
+
+        // A selected parent without children must not show an empty second row.
+        $this->get('/shows?category=drama')
+            ->assertOk()
+            ->assertDontSee('mli-shows-subcategory-filter-row');
     }
 
     public function test_parent_filter_includes_shows_assigned_to_a_child_category(): void
