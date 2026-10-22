@@ -27,8 +27,8 @@
                         <div class="mli-release-card__body">
                             <div>
                                 <h3>{{ app()->getLocale() === 'ar' ? $release->title_ar : $release->title_en }}</h3>
-                                @if($release->categories->isNotEmpty())
-                                    <small>{{ $release->categories->pluck('name')->implode(' · ') }}</small>
+                                @if($release->parent_categories->isNotEmpty())
+                                    <small>{{ $release->parent_categories->pluck('name')->implode(' · ') }}</small>
                                 @endif
                             </div>
                             <b>↗</b>
