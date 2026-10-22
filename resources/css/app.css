@@ -12462,10 +12462,11 @@ html[dir="rtl"] .mli-library-marquee__item {
     align-items: center;
     width: calc(100% - 138px);
     margin-inline-start: 138px;
-    padding-inline-start: 14px !important;
-    border-inline-start: 1px solid rgba(197, 164, 109, 0.55) !important;
-    border-top: 1px solid rgba(47, 65, 86, 0.12) !important;
-    padding-block: 8px !important;
+    padding: 3px 10px 3px 14px !important;
+    border-inline-start: 2px solid rgba(197, 164, 109, 0.72) !important;
+    border-top: 1px solid rgba(47, 65, 86, 0.10) !important;
+    background: rgba(197, 164, 109, 0.07);
+    min-height: 0;
 }
 
 .mli-shows-category-filters .mli-shows-filters__label {
@@ -12544,22 +12545,13 @@ html[dir="rtl"] .mli-library-marquee__item {
     letter-spacing: 0.07em;
 }
 
-.mli-shows-subcategory-bar > .mli-shows-subcategory-all {
-    margin-inline-end: 2px;
-    padding-inline: 4px 17px;
-    border-inline-end: 1px solid rgba(47, 65, 86, 0.14);
-    color: rgba(47, 65, 86, 0.72);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.035em;
-}
-
 .mli-shows-subcategory-bar > .mli-shows-subcategory {
-    padding-inline: 13px;
-    color: rgba(47, 65, 86, 0.68);
-    font-size: 10px;
+    padding: 2px 12px !important;
+    color: rgba(47, 65, 86, 0.72);
+    font-size: 9px;
     font-weight: 500;
     letter-spacing: 0.035em;
+    line-height: 1.35;
 }
 
 .mli-shows-subcategory-bar > .mli-shows-subcategory::before {
@@ -12611,7 +12603,7 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
     }
 
     .mli-shows-subcategory-bar > .mli-shows-subcategory {
-        padding-inline: 10px;
+        padding-inline: 9px !important;
     }
 }
 
@@ -12624,7 +12616,7 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
     .mli-shows-subcategory-filter-row {
         width: calc(100% - 86px);
         margin-inline-start: 86px;
-        padding-inline-start: 8px !important;
+        padding: 2px 6px 2px 8px !important;
     }
 
     .mli-shows-category-filters .mli-shows-filters__label {
@@ -12642,11 +12634,7 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
         padding-inline: 10px;
     }
 
-    .mli-shows-subcategory-bar > .mli-shows-subcategory-all {
-        padding-inline-end: 12px;
-    }
-
     .mli-shows-subcategory-bar > .mli-shows-subcategory {
-        padding-inline: 8px;
+        padding-inline: 7px !important;
     }
 }
