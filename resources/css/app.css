@@ -12819,3 +12819,49 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
         transition: none !important;
     }
 }
+
+/* SHOWS PAGE — centered hover title without moving the card or image. */
+.mli-shows-page .mli-show,
+.mli-shows-page .mli-show:hover,
+.mli-shows-page .mli-show:focus-visible {
+    transform: none !important;
+    filter: none !important;
+}
+
+.mli-shows-page .mli-show__image img,
+.mli-shows-page .mli-show:hover .mli-show__image img,
+.mli-shows-page .mli-show:focus-visible .mli-show__image img {
+    transform: scale(1) !important;
+}
+
+.mli-shows-page .mli-show__copy {
+    top: 50%;
+    bottom: auto;
+    left: 18px;
+    right: 18px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transform: translateY(calc(-50% + 10px));
+}
+
+.mli-shows-page .mli-show:hover .mli-show__copy,
+.mli-shows-page .mli-show:focus-visible .mli-show__copy,
+.mli-shows-page .mli-show:focus-within .mli-show__copy {
+    transform: translateY(-50%) !important;
+}
+
+.mli-shows-page .mli-show__copy strong,
+.mli-shows-page .mli-show__copy small,
+.mli-shows-page .mli-show:hover .mli-show__copy strong,
+.mli-shows-page .mli-show:hover .mli-show__copy small {
+    text-align: center;
+    transform: none !important;
+}
+
+@media (max-width: 760px) {
+    .mli-shows-page .mli-show__copy {
+        left: 12px;
+        right: 12px;
+    }
+}
