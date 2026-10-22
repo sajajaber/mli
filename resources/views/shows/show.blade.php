@@ -29,9 +29,9 @@
 
                     <div class="mli-show-detail__content">
 
-                        @if($show->categories->isNotEmpty())
+                        @if($show->effective_categories->isNotEmpty())
                         <span class="mli-show-detail__category">
-                            {{ $show->categories->pluck('name')->implode(' · ') }}
+                            {{ $show->effective_categories->pluck('name')->implode(' · ') }}
                         </span>
                         @endif
 
@@ -80,10 +80,10 @@
                         @endif
 
                         <div class="mli-show-detail__meta">
-                            @if($show->categories->isNotEmpty())
+                            @if($show->effective_categories->isNotEmpty())
                             <div class="mli-show-detail__meta-item">
                                 <span>{{ app()->getLocale() === 'ar' ? 'الفئات' : 'Categories' }}</span>
-                                <strong>{{ $show->categories->pluck('name')->implode(' · ') }}</strong>
+                                <strong>{{ $show->effective_categories->pluck('name')->implode(' · ') }}</strong>
                             </div>
                             @endif
 
