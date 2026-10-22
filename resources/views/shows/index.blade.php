@@ -33,7 +33,7 @@
                         {{ app()->getLocale() === 'ar' ? 'تصفية حسب النوع' : 'Filter by category' }}
                     </span>
 
-                    <div class="mli-shows-filters__links mli-shows-category-tree">
+                    <div class="mli-shows-filters__links mli-shows-category-bar">
                         <a
                             href="{{ route('shows.index') }}"
                             class="mli-shows-category-all {{ !$categorySlug ? 'is-active' : '' }}">
