@@ -12734,3 +12734,40 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
     padding-block: 0 !important;
     line-height: 22px !important;
 }
+
+/* SHOWS CATALOGUE — five compact cards per row on desktop. */
+.mli-shows-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    column-gap: 16px;
+    row-gap: 42px;
+}
+
+@media (max-width: 1100px) {
+    .mli-shows-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        column-gap: 16px;
+        row-gap: 38px;
+    }
+}
+
+@media (max-width: 900px) {
+    .mli-shows-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        column-gap: 16px;
+        row-gap: 36px;
+    }
+}
+
+@media (max-width: 760px) {
+    .mli-shows-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 12px;
+        row-gap: 34px;
+    }
+}
+
+@media (max-width: 360px) {
+    .mli-shows-grid {
+        grid-template-columns: 1fr;
+    }
+}
