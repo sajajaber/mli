@@ -9,10 +9,12 @@ return [
     |
     | This file is for storing the credentials for third party services such
     | as Resend, Postmark, AWS, and more. This file provides the de facto
-    | location for this type of information, allowing packages to have
-    | a conventional file to locate the various service credentials.
+    | location for this type of information, allowing packages to have a
+    | conventional file to locate the various service credentials.
     |
     */
+
+    'contact_to' => env('CONTACT_MAIL_TO'),
 
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
