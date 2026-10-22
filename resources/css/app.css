@@ -12638,3 +12638,30 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
         padding-inline: 7px !important;
     }
 }
+
+/* Keep filter row geometry unchanged on hover, focus, and active states. */
+.mli-shows-category-bar a,
+.mli-shows-category-bar a:hover,
+.mli-shows-category-bar a:focus,
+.mli-shows-category-bar a:focus-visible,
+.mli-shows-category-bar a.is-active {
+    box-sizing: border-box;
+    height: 28px !important;
+    min-height: 28px !important;
+    max-height: 28px !important;
+    padding-block: 0 !important;
+    line-height: 28px !important;
+    transform: none !important;
+}
+
+.mli-shows-subcategory-bar > .mli-shows-subcategory,
+.mli-shows-subcategory-bar > .mli-shows-subcategory:hover,
+.mli-shows-subcategory-bar > .mli-shows-subcategory:focus,
+.mli-shows-subcategory-bar > .mli-shows-subcategory:focus-visible,
+.mli-shows-subcategory-bar > .mli-shows-subcategory.is-active {
+    height: 22px !important;
+    min-height: 22px !important;
+    max-height: 22px !important;
+    padding-block: 0 !important;
+    line-height: 22px !important;
+}
