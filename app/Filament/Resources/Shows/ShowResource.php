@@ -8,6 +8,7 @@ use App\Filament\Concerns\ValidatesOnBlur;
 use App\Filament\Resources\Shows\Pages\CreateShow;
 use App\Filament\Resources\Shows\Pages\EditShow;
 use App\Filament\Resources\Shows\Pages\ListShows;
+use App\Models\Category;
 use App\Models\Genre;
 use App\Models\Show;
 use BackedEnum;
@@ -128,7 +129,18 @@ class ShowResource extends Resource
                                 ->components([
                                     Select::make('categories')
                                         ->label('Categories')
-                                        ->relationship('categories', 'name_en')
+                                        ->relationship(
+                                            name: 'categories',
+                                            titleAttribute: 'name_en',
+                                            modifyQueryUsing: fn (Builder $query) => $query
+                                                ->with('parent')
+                                                ->orderByRaw('COALESCE((SELECT parent_categories.name_en FROM categories AS parent_categories WHERE parent_categories.id = categories.parent_id), categories.name_en)')
+                                                ->orderByRaw('CASE WHEN categories.parent_id IS NULL THEN 0 ELSE 1 END')
+                                                ->orderBy('categories.name_en'),
+                                        )
+                                        ->getOptionLabelFromRecordUsing(fn (Category $record): string => $record->parent
+                                            ? "{$record->parent->name_en} — {$record->name_en}"
+                                            : $record->name_en)
                                         ->multiple()
                                         ->searchable()
                                         ->preload()
@@ -141,9 +153,19 @@ class ShowResource extends Resource
                                                 return;
                                             }
 
+                                            $selectedCategoryIds = collect($state ?? [])->filter();
+                                            $parentCategoryIds = Category::query()
+                                                ->whereIn('id', $selectedCategoryIds)
+                                                ->whereNotNull('parent_id')
+                                                ->pluck('parent_id');
+                                            $allowedGenreCategoryIds = $selectedCategoryIds
+                                                ->merge($parentCategoryIds)
+                                                ->unique()
+                                                ->values();
+
                                             $set('genres', Genre::query()
                                                 ->whereIn('id', $genreIds)
-                                                ->whereIn('category_id', $state ?? [])
+                                                ->whereIn('category_id', $allowedGenreCategoryIds)
                                                 ->pluck('id')
                                                 ->all());
                                         })
@@ -154,11 +176,19 @@ class ShowResource extends Resource
                                         ->relationship(
                                             name: 'genres',
                                             titleAttribute: 'name_en',
-                                            modifyQueryUsing: fn (Builder $query, Get $get) => $query
-                                                ->with('category')
-                                                ->whereIn('category_id', $get('categories') ?? [])
-                                                ->orderBy('category_id')
-                                                ->orderBy('name_en'),
+                                            modifyQueryUsing: function (Builder $query, Get $get): Builder {
+                                                $categoryIds = collect($get('categories') ?? [])->filter();
+                                                $parentIds = Category::query()
+                                                    ->whereIn('id', $categoryIds)
+                                                    ->whereNotNull('parent_id')
+                                                    ->pluck('parent_id');
+
+                                                return $query
+                                                    ->with('category')
+                                                    ->whereIn('category_id', $categoryIds->merge($parentIds)->unique()->values())
+                                                    ->orderBy('category_id')
+                                                    ->orderBy('name_en');
+                                            },
                                         )
                                         ->getOptionLabelFromRecordUsing(
                                             fn (Genre $record): string => $record->category
@@ -176,11 +206,21 @@ class ShowResource extends Resource
                                                     return;
                                                 }
 
-                                                $categoryIds = array_filter((array) ($get('categories') ?? []));
+                                                $categoryIds = collect((array) ($get('categories') ?? []))->filter();
+                                                $parentIds = Category::query()
+                                                    ->whereIn('id', $categoryIds)
+                                                    ->whereNotNull('parent_id')
+                                                    ->pluck('parent_id');
+                                                $allowedCategoryIds = $categoryIds->merge($parentIds)->unique()->values();
+
+                                                if ($allowedCategoryIds->isEmpty()) {
+                                                    $fail('Every selected genre must belong to one of the selected categories.');
+                                                    return;
+                                                }
 
                                                 $invalid = Genre::query()
                                                     ->whereIn('id', $genreIds)
-                                                    ->whereNotIn('category_id', $categoryIds)
+                                                    ->whereNotIn('category_id', $allowedCategoryIds)
                                                     ->exists();
 
                                                 if ($invalid || Genre::query()->whereIn('id', $genreIds)->count() !== count(array_unique($genreIds))) {
