@@ -18,6 +18,7 @@ class ShowFactory extends Factory
         $title = fake()->unique()->words(3, true);
 
         return [
+            'content_type' => 'documentary',
             'title_en' => ucwords($title),
             'title_ar' => 'برنامج ' . fake()->numberBetween(1, 99999),
             'slug' => Str::slug($title),
