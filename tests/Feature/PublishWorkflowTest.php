@@ -230,7 +230,8 @@ class PublishWorkflowTest extends TestCase
                 'status' => 'published',
                 'published_at' => null,
             ])
-            ->call('save');
+            ->call('save')
+            ->assertHasNoFormErrors();
 
         $show->refresh();
 
