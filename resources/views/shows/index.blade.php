@@ -28,40 +28,59 @@
 
         <section class="mli-shows-library">
             <div class="container">
-                <div class="mli-shows-filters">
-                    <span class="mli-shows-filters__label">
-                        {{ app()->getLocale() === 'ar' ? 'تصفية حسب النوع' : 'Filter by category' }}
-                    </span>
+                @php
+                    $activeParentCategory = $categories->first(
+                        fn ($category) => $category->slug === $categorySlug
+                            || $category->children->contains(fn ($child) => $child->slug === $categorySlug)
+                    );
+                @endphp
 
-                    <div class="mli-shows-filters__links mli-shows-category-bar">
-                        <a
-                            href="{{ route('shows.index') }}"
-                            class="mli-shows-category-all {{ !$categorySlug ? 'is-active' : '' }}">
-                            {{ app()->getLocale() === 'ar' ? 'الكل' : 'All' }}
-                        </a>
+                <div class="mli-shows-category-filters">
+                    <div class="mli-shows-filters mli-shows-parent-filter-row">
+                        <span class="mli-shows-filters__label">
+                            {{ app()->getLocale() === 'ar' ? 'تصفية حسب النوع' : 'Filter by category' }}
+                        </span>
 
-                        @foreach($categories as $category)
-                        <div class="mli-shows-category-group">
+                        <div class="mli-shows-filters__links mli-shows-category-bar mli-shows-parent-category-bar">
                             <a
-                                href="{{ route('shows.index', ['category' => $category->slug]) }}"
-                                class="mli-shows-category-group__parent {{ $categorySlug === $category->slug ? 'is-active' : '' }}">
-                                {{ app()->getLocale() === 'ar' ? $category->name_ar : $category->name_en }}
+                                href="{{ route('shows.index') }}"
+                                class="mli-shows-category-all {{ !$categorySlug ? 'is-active' : '' }}">
+                                {{ app()->getLocale() === 'ar' ? 'الكل' : 'All' }}
                             </a>
 
-                            @if($category->children->isNotEmpty())
-                            <div class="mli-shows-category-children">
-                                @foreach($category->children as $subcategory)
-                                <a
-                                    href="{{ route('shows.index', ['category' => $subcategory->slug]) }}"
-                                    class="{{ $categorySlug === $subcategory->slug ? 'is-active' : '' }}">
-                                    {{ app()->getLocale() === 'ar' ? $subcategory->name_ar : $subcategory->name_en }}
-                                </a>
-                                @endforeach
-                            </div>
-                            @endif
+                            @foreach($categories as $category)
+                            <a
+                                href="{{ route('shows.index', ['category' => $category->slug]) }}"
+                                class="mli-shows-parent-category {{ $activeParentCategory?->id === $category->id ? 'is-active' : '' }}">
+                                {{ app()->getLocale() === 'ar' ? $category->name_ar : $category->name_en }}
+                            </a>
+                            @endforeach
                         </div>
-                        @endforeach
                     </div>
+
+                    @if($activeParentCategory && $activeParentCategory->children->isNotEmpty())
+                    <div class="mli-shows-filters mli-shows-subcategory-filter-row">
+                        <span class="mli-shows-filters__label">
+                            {{ app()->getLocale() === 'ar' ? 'التصنيفات الفرعية' : 'Subcategories' }}
+                        </span>
+
+                        <div class="mli-shows-filters__links mli-shows-category-bar mli-shows-subcategory-bar">
+                            <a
+                                href="{{ route('shows.index', ['category' => $activeParentCategory->slug]) }}"
+                                class="mli-shows-category-all mli-shows-subcategory-all {{ $categorySlug === $activeParentCategory->slug ? 'is-active' : '' }}">
+                                {{ app()->getLocale() === 'ar' ? 'الكل' : 'All ' . $activeParentCategory->name_en }}
+                            </a>
+
+                            @foreach($activeParentCategory->children as $subcategory)
+                            <a
+                                href="{{ route('shows.index', ['category' => $subcategory->slug]) }}"
+                                class="mli-shows-subcategory {{ $categorySlug === $subcategory->slug ? 'is-active' : '' }}">
+                                {{ app()->getLocale() === 'ar' ? $subcategory->name_ar : $subcategory->name_en }}
+                            </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
                 </div>
 
                 @if($genres->isNotEmpty())
