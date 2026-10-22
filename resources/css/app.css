@@ -12439,3 +12439,69 @@ html[dir="rtl"] .mli-library-marquee__item {
         display: none;
     }
 }
+
+/* Parent/child category filters on the public shows page. */
+.mli-shows-category-tree {
+    display: flex;
+    flex: 1 1 auto;
+    width: min(100%, 880px);
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 18px;
+}
+
+.mli-shows-category-tree > .mli-shows-category-all {
+    align-self: flex-start;
+}
+
+.mli-shows-category-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 9px;
+    max-width: 100%;
+}
+
+.mli-shows-category-group > .mli-shows-category-group__parent {
+    color: #2f4156;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+}
+
+.mli-shows-category-children {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 22px;
+    margin-inline-start: 14px;
+    padding-inline-start: 16px;
+    border-inline-start: 1px solid rgba(47, 65, 86, 0.2);
+}
+
+.mli-shows-category-children a {
+    font-size: 9px !important;
+}
+
+@media (max-width: 800px) {
+    .mli-shows-category-tree {
+        width: 100%;
+    }
+}
+
+@media (max-width: 640px) {
+    .mli-shows-category-tree {
+        gap: 16px;
+    }
+
+    .mli-shows-category-group {
+        width: 100%;
+    }
+
+    .mli-shows-category-children {
+        gap: 8px 16px;
+        margin-inline-start: 10px;
+        padding-inline-start: 12px;
+    }
+}
