@@ -12440,21 +12440,20 @@ html[dir="rtl"] .mli-library-marquee__item {
     }
 }
 
-/* Parent and subcategory links stay on one organized horizontal line. */
+/* Shows page category navigation: one consistent, horizontally scrollable row. */
 .mli-shows-category-bar {
     display: flex;
     flex: 1 1 auto;
     min-width: 0;
     width: 100%;
     max-width: none;
-    flex-direction: row;
+    flex-flow: row nowrap;
     align-items: center;
     justify-content: flex-start;
-    flex-wrap: nowrap;
     gap: 0;
     overflow-x: auto;
     overflow-y: hidden;
-    padding: 8px 0 10px;
+    padding: 7px 0 9px;
     white-space: nowrap;
     overscroll-behavior-inline: contain;
     scrollbar-width: none;
@@ -12465,37 +12464,61 @@ html[dir="rtl"] .mli-library-marquee__item {
     display: none;
 }
 
-.mli-shows-category-bar > .mli-shows-category-all {
+/* Reset the generic filter-link underline so this row has one visual language. */
+.mli-shows-category-bar a,
+.mli-shows-category-bar a:hover,
+.mli-shows-category-bar a:focus {
+    position: static;
+    display: inline-flex;
     flex: 0 0 auto;
-    margin-inline-end: 4px;
+    align-items: center;
+    padding: 4px 0;
+    border: 0;
+    background: transparent;
+    line-height: 1.4;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.mli-shows-category-bar a::after {
+    content: none !important;
+    display: none !important;
+}
+
+.mli-shows-category-bar > .mli-shows-category-all {
+    margin-inline-end: 2px;
     padding-inline: 4px 20px;
     border-inline-end: 1px solid rgba(47, 65, 86, 0.18);
+    color: rgba(47, 65, 86, 0.72);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
 }
 
 .mli-shows-category-group {
     display: flex;
     flex: 0 0 auto;
-    flex-direction: row;
+    flex-flow: row nowrap;
     align-items: center;
-    gap: 14px;
+    gap: 13px;
     max-width: none;
-    padding: 0 18px;
+    padding: 0 17px;
     border-inline-end: 1px solid rgba(47, 65, 86, 0.14);
 }
 
 .mli-shows-category-group > .mli-shows-category-group__parent {
-    flex: 0 0 auto;
     color: #2f4156;
-    font-size: 10px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.1em !important;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
 }
 
 .mli-shows-category-children {
     display: flex;
     flex: 0 0 auto;
-    flex-direction: row;
-    flex-wrap: nowrap;
+    flex-flow: row nowrap;
     align-items: center;
     gap: 12px;
     margin: 0;
@@ -12505,11 +12528,10 @@ html[dir="rtl"] .mli-library-marquee__item {
 }
 
 .mli-shows-category-children a {
-    flex: 0 0 auto;
-    color: rgba(47, 65, 86, 0.64);
-    font-size: 9px !important;
-    font-weight: 500 !important;
-    letter-spacing: 0.05em !important;
+    color: rgba(47, 65, 86, 0.68);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.035em;
 }
 
 .mli-shows-category-children a::before {
@@ -12518,17 +12540,28 @@ html[dir="rtl"] .mli-library-marquee__item {
     margin-inline-end: 7px;
     color: #c5a46d;
     font-size: 12px;
+    font-weight: 700;
 }
 
-.mli-shows-category-children a:hover,
-.mli-shows-category-children a.is-active {
-    color: #c5a46d;
+.mli-shows-category-bar a:hover,
+.mli-shows-category-bar a:focus-visible,
+.mli-shows-category-bar a.is-active {
+    color: #b29158;
 }
 
-.mli-shows-category-bar > a,
-.mli-shows-category-group > a,
-.mli-shows-category-children a {
-    white-space: nowrap;
+.mli-shows-category-bar a:focus-visible {
+    outline: 1px solid #c5a46d;
+    outline-offset: 3px;
+}
+
+html[dir="rtl"] .mli-shows-category-bar a {
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+html[dir="rtl"] .mli-shows-category-group > .mli-shows-category-group__parent,
+html[dir="rtl"] .mli-shows-category-children a {
+    letter-spacing: 0;
 }
 
 @media (max-width: 800px) {
@@ -12537,7 +12570,7 @@ html[dir="rtl"] .mli-library-marquee__item {
     }
 
     .mli-shows-category-group {
-        gap: 12px;
+        gap: 11px;
         padding-inline: 14px;
     }
 
@@ -12548,14 +12581,18 @@ html[dir="rtl"] .mli-library-marquee__item {
 
 @media (max-width: 640px) {
     .mli-shows-category-bar {
-        padding-block: 6px 10px;
+        padding-block: 6px 8px;
     }
 
     .mli-shows-category-bar > .mli-shows-category-all {
-        padding-inline-end: 16px;
+        padding-inline-end: 15px;
     }
 
     .mli-shows-category-group {
         padding-inline: 12px;
+    }
+
+    .mli-shows-category-children {
+        gap: 9px;
     }
 }
