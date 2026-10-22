@@ -36,8 +36,8 @@ $libraryShows = $shows->take(12)->values();
 
                         <span class="mli-library-marquee__copy">
                             <strong>{{ app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en }}</strong>
-                            @if($show->categories->isNotEmpty())
-                            <small>{{ $show->categories->pluck('name')->implode(' · ') }}</small>
+                            @if($show->parent_categories->isNotEmpty())
+                            <small>{{ $show->parent_categories->pluck('name')->implode(' · ') }}</small>
                             @endif
                         </span>
 
