@@ -1451,7 +1451,7 @@ body {
 .mli-nav__language,
 .mli-nav__contact,
 .mli-nav__status {
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -1477,7 +1477,7 @@ body {
 .mli-nav__status {
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: 10px;
     opacity: 0.72;
 }
 .mli-nav__status i {
