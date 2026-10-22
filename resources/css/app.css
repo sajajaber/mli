@@ -12865,3 +12865,17 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
         right: 12px;
     }
 }
+
+/* SHOWS PAGE — keep the image tint consistent and reveal only the title. */
+.mli-shows-page .mli-show__wash,
+.mli-shows-page .mli-show:hover .mli-show__wash,
+.mli-shows-page .mli-show:focus-visible .mli-show__wash,
+.mli-shows-page .mli-show:focus-within .mli-show__wash {
+    opacity: 1 !important;
+    transition: none !important;
+}
+
+/* Categories stay hidden on show cards; only the title appears on hover. */
+.mli-shows-page .mli-show__copy small {
+    display: none !important;
+}
