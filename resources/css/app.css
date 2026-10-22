@@ -12639,10 +12639,10 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
     }
 }
 
-/* Smoothly reveal the conditional subcategory row without changing link heights. */
+/* Animate the subcategory row with max-height so collapse is visually reliable. */
 .mli-shows-subcategory-reveal {
-    display: grid;
-    grid-template-rows: 0fr;
+    display: block;
+    max-height: 64px;
     overflow: hidden;
     opacity: 0;
     animation: mli-subcategory-row-reveal 340ms cubic-bezier(0.22, 0.72, 0.24, 1) both;
@@ -12655,31 +12655,22 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
 
 @keyframes mli-subcategory-row-reveal {
     from {
-        grid-template-rows: 0fr;
+        max-height: 0;
         opacity: 0;
         transform: translateY(-4px);
     }
 
     to {
-        grid-template-rows: 1fr;
+        max-height: 64px;
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .mli-shows-subcategory-reveal {
-        animation: none;
-        grid-template-rows: 1fr;
-        opacity: 1;
-        transform: none;
-    }
-}
-
-/* A row that stays open during filtering remains fully visible without replaying entrance. */
+/* Keep the row already on screen stable when the user changes its filter. */
 .mli-shows-subcategory-reveal.is-visible {
     animation: none !important;
-    grid-template-rows: 1fr;
+    max-height: none;
     opacity: 1;
     transform: none;
 }
@@ -12692,19 +12683,26 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
 
 @keyframes mli-subcategory-row-hide {
     from {
-        grid-template-rows: 1fr;
+        max-height: 64px;
         opacity: 1;
         transform: translateY(0);
     }
 
     to {
-        grid-template-rows: 0fr;
+        max-height: 0;
         opacity: 0;
         transform: translateY(-4px);
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .mli-shows-subcategory-reveal {
+        animation: none;
+        max-height: none;
+        opacity: 1;
+        transform: none;
+    }
+
     .mli-shows-subcategory-reveal.is-leaving {
         animation: none;
     }
