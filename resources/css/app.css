@@ -12780,3 +12780,42 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
         grid-template-columns: 1fr;
     }
 }
+
+/* SHOWS PAGE — reveal title and category only when a card is hovered or focused. */
+.mli-shows-page .mli-show__copy {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition:
+        opacity 0.28s ease,
+        transform 0.32s cubic-bezier(0.2, 0.75, 0.25, 1),
+        visibility 0s linear 0.32s;
+}
+
+.mli-shows-page .mli-show__wash {
+    opacity: 0.35;
+    transition: opacity 0.32s ease;
+}
+
+.mli-shows-page .mli-show:hover .mli-show__copy,
+.mli-shows-page .mli-show:focus-visible .mli-show__copy,
+.mli-shows-page .mli-show:focus-within .mli-show__copy {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition-delay: 0s;
+}
+
+.mli-shows-page .mli-show:hover .mli-show__wash,
+.mli-shows-page .mli-show:focus-visible .mli-show__wash,
+.mli-shows-page .mli-show:focus-within .mli-show__wash {
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mli-shows-page .mli-show__copy,
+    .mli-shows-page .mli-show__wash {
+        transition: none !important;
+    }
+}
