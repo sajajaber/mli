@@ -12676,6 +12676,14 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
     }
 }
 
+/* A row that stays open during filtering remains fully visible without replaying entrance. */
+.mli-shows-subcategory-reveal.is-visible {
+    animation: none !important;
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transform: none;
+}
+
 /* Collapse and fade the same row when changing to a category without children. */
 .mli-shows-subcategory-reveal.is-leaving {
     animation: mli-subcategory-row-hide 280ms cubic-bezier(0.4, 0, 0.2, 1) both;
