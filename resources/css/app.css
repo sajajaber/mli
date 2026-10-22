@@ -12460,8 +12460,12 @@ html[dir="rtl"] .mli-library-marquee__item {
 
 .mli-shows-subcategory-filter-row {
     align-items: center;
+    width: calc(100% - 138px);
+    margin-inline-start: 138px;
+    padding-inline-start: 14px !important;
+    border-inline-start: 1px solid rgba(197, 164, 109, 0.55) !important;
     border-top: 1px solid rgba(47, 65, 86, 0.12) !important;
-    padding-block: 10px !important;
+    padding-block: 8px !important;
 }
 
 .mli-shows-category-filters .mli-shows-filters__label {
@@ -12591,6 +12595,12 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
         gap: 14px;
     }
 
+    .mli-shows-subcategory-filter-row {
+        width: calc(100% - 108px);
+        margin-inline-start: 108px;
+        padding-inline-start: 10px !important;
+    }
+
     .mli-shows-category-filters .mli-shows-filters__label {
         min-width: 94px;
         white-space: normal;
@@ -12609,6 +12619,12 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
     .mli-shows-category-filters .mli-shows-filters {
         gap: 10px;
         padding-block: 10px;
+    }
+
+    .mli-shows-subcategory-filter-row {
+        width: calc(100% - 86px);
+        margin-inline-start: 86px;
+        padding-inline-start: 8px !important;
     }
 
     .mli-shows-category-filters .mli-shows-filters__label {
