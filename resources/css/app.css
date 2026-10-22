@@ -12735,11 +12735,10 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
     line-height: 22px !important;
 }
 
-/* SHOWS CATALOGUE — four landscape cards per row on desktop. */
+/* SHOWS CATALOGUE — four landscape cards per row with 10px spacing. */
 .mli-shows-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    column-gap: 18px;
-    row-gap: 42px;
+    gap: 10px;
 }
 
 .mli-shows-page .mli-show__image {
@@ -12759,16 +12758,14 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
 @media (max-width: 900px) {
     .mli-shows-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        column-gap: 16px;
-        row-gap: 36px;
+        gap: 10px;
     }
 }
 
 @media (max-width: 760px) {
     .mli-shows-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        column-gap: 12px;
-        row-gap: 34px;
+        gap: 10px;
     }
 
     .mli-shows-page .mli-show__copy {
