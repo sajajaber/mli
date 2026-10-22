@@ -77,6 +77,36 @@ class Show extends Model
         return $this->belongsToMany(Genre::class);
     }
 
+    /**
+     * Direct categories plus their ancestors. A show assigned to "Nature" is
+     * also considered a member of its parent category, "Documentary".
+     */
+    public function getEffectiveCategoriesAttribute()
+    {
+        $directCategories = $this->categories;
+        $inheritedParents = $directCategories->pluck('parent')->filter();
+
+        return $inheritedParents
+            ->concat($directCategories)
+            ->unique('id')
+            ->values();
+    }
+
+    /**
+     * Top-level categories only, for homepage areas where subcategories are hidden.
+     */
+    public function getParentCategoriesAttribute()
+    {
+        $directCategories = $this->categories;
+        $directParents = $directCategories->filter(fn ($category) => blank($category->parent_id));
+        $inheritedParents = $directCategories->pluck('parent')->filter();
+
+        return $directParents
+            ->concat($inheritedParents)
+            ->unique('id')
+            ->values();
+    }
+
     // --- Scopes ---
 
     /**
