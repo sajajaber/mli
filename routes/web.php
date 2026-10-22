@@ -1,16 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ShowController;
-use App\Http\Controllers\NewsController;
+use Illuminate\\Support\\Facades\\Route;
+use App\\Http\\Controllers\\HomeController;
+use App\\Http\\Controllers\\ShowController;
+use App\\Http\\Controllers\\NewsController;
+use App\\Http\\Controllers\\ContactController;
+
+Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
+Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:5,1')->name('contact.store');
 
 Route::get('/shows', [ShowController::class, 'index'])->name('shows.index');
 Route::get('/shows/category/{slug}', [ShowController::class, 'category'])->name('shows.category');
 Route::get('/shows/{slug}', [ShowController::class, 'show'])->name('shows.show');
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
-
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
