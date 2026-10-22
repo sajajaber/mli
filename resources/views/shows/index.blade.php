@@ -33,19 +33,33 @@
                         {{ app()->getLocale() === 'ar' ? 'تصفية حسب النوع' : 'Filter by category' }}
                     </span>
 
-                    <div class="mli-shows-filters__links">
+                    <div class="mli-shows-filters__links mli-shows-category-tree">
                         <a
                             href="{{ route('shows.index') }}"
-                            class="{{ !$categorySlug ? 'is-active' : '' }}">
+                            class="mli-shows-category-all {{ !$categorySlug ? 'is-active' : '' }}">
                             {{ app()->getLocale() === 'ar' ? 'الكل' : 'All' }}
                         </a>
 
                         @foreach($categories as $category)
-                        <a
-                            href="{{ route('shows.index', ['category' => $category->slug]) }}"
-                            class="{{ $categorySlug === $category->slug ? 'is-active' : '' }}">
-                            {{ app()->getLocale() === 'ar' ? $category->name_ar : $category->name_en }}
-                        </a>
+                        <div class="mli-shows-category-group">
+                            <a
+                                href="{{ route('shows.index', ['category' => $category->slug]) }}"
+                                class="mli-shows-category-group__parent {{ $categorySlug === $category->slug ? 'is-active' : '' }}">
+                                {{ app()->getLocale() === 'ar' ? $category->name_ar : $category->name_en }}
+                            </a>
+
+                            @if($category->children->isNotEmpty())
+                            <div class="mli-shows-category-children">
+                                @foreach($category->children as $subcategory)
+                                <a
+                                    href="{{ route('shows.index', ['category' => $subcategory->slug]) }}"
+                                    class="{{ $categorySlug === $subcategory->slug ? 'is-active' : '' }}">
+                                    {{ app()->getLocale() === 'ar' ? $subcategory->name_ar : $subcategory->name_en }}
+                                </a>
+                                @endforeach
+                            </div>
+                            @endif
+                        </div>
                         @endforeach
                     </div>
                 </div>
@@ -98,8 +112,8 @@
                             <span class="mli-show__copy">
                                 <strong>{{ app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en }}</strong>
 
-                @if($show->categories->isNotEmpty())
-                                <small>{{ $show->categories->pluck('name')->implode(' · ') }}</small>
+                @if($show->effective_categories->isNotEmpty())
+                                <small>{{ $show->effective_categories->pluck('name')->implode(' · ') }}</small>
                                 @endif
                             </span>
 
