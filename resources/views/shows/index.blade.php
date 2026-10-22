@@ -60,10 +60,6 @@
 
                     @if($activeParentCategory && $activeParentCategory->children->isNotEmpty())
                     <div class="mli-shows-filters mli-shows-subcategory-filter-row">
-                        <span class="mli-shows-filters__label">
-                            {{ app()->getLocale() === 'ar' ? 'التصنيفات الفرعية' : 'Subcategories' }}
-                        </span>
-
                         <div class="mli-shows-filters__links mli-shows-category-bar mli-shows-subcategory-bar">
                             <a
                                 href="{{ route('shows.index', ['category' => $activeParentCategory->slug]) }}"
