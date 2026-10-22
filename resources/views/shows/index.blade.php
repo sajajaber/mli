@@ -160,6 +160,21 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // A repeated click on the exact same filter state should not refetch the page.
+        if (push) {
+            const normalizeUrl = (url) => {
+                const normalized = new URL(url.href);
+                normalized.hash = '';
+                normalized.searchParams.sort();
+
+                return normalized.href;
+            };
+
+            if (normalizeUrl(nextUrl) === normalizeUrl(new URL(window.location.href))) {
+                return;
+            }
+        }
+
         requestController?.abort();
         const controller = new AbortController();
         requestController = controller;
@@ -191,7 +206,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentSubcategoryRow = page.querySelector('.mli-shows-subcategory-reveal');
             const nextSubcategoryRow = nextPage.querySelector('.mli-shows-subcategory-reveal');
 
-            // Let the row collapse before replacing the current page when the next filter has no children.
+            // The row remains open across parent/child filter changes; don't replay its entrance.
+            if (currentSubcategoryRow && nextSubcategoryRow) {
+                nextSubcategoryRow.classList.add('is-visible');
+            }
+
+            // Wait for this row's own exit animation before removing it from the document.
             if (
                 currentSubcategoryRow &&
                 !nextSubcategoryRow &&
@@ -200,6 +220,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 const waitForExit = new Promise((resolve) => {
                     let finished = false;
 
+                    const onAnimationEnd = (event) => {
+                        // Descendant animations bubble; only the row's own hide animation counts.
+                        if (
+                            event.target !== currentSubcategoryRow ||
+                            event.animationName !== 'mli-subcategory-row-hide'
+                        ) {
+                            return;
+                        }
+
+                        finish();
+                    };
+
                     const finish = () => {
                         if (finished) {
                             return;
@@ -207,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         finished = true;
                         window.clearTimeout(timeout);
-                        currentSubcategoryRow.removeEventListener('animationend', finish);
+                        currentSubcategoryRow.removeEventListener('animationend', onAnimationEnd);
                         controller.signal.removeEventListener('abort', finish);
 
                         if (controller.signal.aborted) {
@@ -217,8 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         resolve();
                     };
 
-                    const timeout = window.setTimeout(finish, 300);
-                    currentSubcategoryRow.addEventListener('animationend', finish, { once: true });
+                    const timeout = window.setTimeout(finish, 360);
+                    currentSubcategoryRow.addEventListener('animationend', onAnimationEnd);
                     controller.signal.addEventListener('abort', finish, { once: true });
                     currentSubcategoryRow.classList.add('is-leaving');
                 });
