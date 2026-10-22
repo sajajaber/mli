@@ -63,14 +63,14 @@ class CategoryHierarchyTest extends TestCase
             ->assertOk()
             ->assertSee('mli-shows-subcategory-filter-row')
             ->assertSee('Nature')
-            ->assertSee('All Documentary');
+            ->assertDontSee('All Documentary');
 
         // The second row remains visible when one of the parent's children is selected.
         $this->get('/shows?category=nature')
             ->assertOk()
             ->assertSee('mli-shows-subcategory-filter-row')
             ->assertSee('Nature')
-            ->assertSee('All Documentary');
+            ->assertDontSee('All Documentary');
 
         // A selected parent without children must not show an empty second row.
         $this->get('/shows?category=drama')
