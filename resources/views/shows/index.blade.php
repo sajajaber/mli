@@ -161,7 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         requestController?.abort();
-        requestController = new AbortController();
+        const controller = new AbortController();
+        requestController = controller;
 
         page.setAttribute('aria-busy', 'true');
 
@@ -172,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     'X-Requested-With': 'XMLHttpRequest',
                     'Accept': 'text/html',
                 },
-                signal: requestController.signal,
+                signal: controller.signal,
             });
 
             if (!response.ok) {
@@ -185,6 +186,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!nextPage) {
                 throw new Error('Shows content was not found.');
+            }
+
+            const currentSubcategoryRow = page.querySelector('.mli-shows-subcategory-reveal');
+            const nextSubcategoryRow = nextPage.querySelector('.mli-shows-subcategory-reveal');
+
+            // Let the row collapse before replacing the current page when the next filter has no children.
+            if (
+                currentSubcategoryRow &&
+                !nextSubcategoryRow &&
+                !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            ) {
+                const waitForExit = new Promise((resolve) => {
+                    let finished = false;
+
+                    const finish = () => {
+                        if (finished) {
+                            return;
+                        }
+
+                        finished = true;
+                        window.clearTimeout(timeout);
+                        currentSubcategoryRow.removeEventListener('animationend', finish);
+                        controller.signal.removeEventListener('abort', finish);
+                        resolve();
+                    };
+
+                    const timeout = window.setTimeout(finish, 300);
+                    currentSubcategoryRow.addEventListener('animationend', finish, { once: true });
+                    controller.signal.addEventListener('abort', finish, { once: true });
+                    currentSubcategoryRow.classList.add('is-leaving');
+                });
+
+                await waitForExit;
+
+                if (controller.signal.aborted) {
+                    return;
+                }
             }
 
             const scrollPosition = window.scrollY;
@@ -209,8 +247,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.assign(nextUrl.href);
             }
         } finally {
-            const currentPage = document.querySelector('.mli-shows-page');
-            currentPage?.removeAttribute('aria-busy');
+            if (requestController === controller) {
+                const currentPage = document.querySelector('.mli-shows-page');
+                currentPage?.removeAttribute('aria-busy');
+            }
         }
     };
 
