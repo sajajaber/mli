@@ -378,7 +378,7 @@ class ShowResource extends Resource
                                                 ->directory('cast')
                                                 ->imageEditor()
                                                 ->maxSize(8192)
-                                                ->saveUploadedFileUsing(fn ($file) => app(\\App\\Services\\ImageProcessingService::class)
+                                                ->saveUploadedFileUsing(fn ($file) => app(\App\Services\ImageProcessingService::class)
                                                     ->processAndStore($file, 'cast', maxWidth: 900, quality: 85))
                                                 ->helperText('Upload the actor’s real portrait. It will be displayed in a consistent portrait crop.')
                                                 ->columnSpanFull(),
