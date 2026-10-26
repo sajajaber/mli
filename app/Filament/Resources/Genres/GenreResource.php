@@ -60,7 +60,7 @@ class GenreResource extends Resource
                             ->value('id'))
                         ->searchable()
                         ->required()
-                        ->helperText('Genres are available to Series only.');
+                        ->helperText('Genres are available to Series only.'),
 
                     TextInput::make('name_en')
                         ->label('Name (English)')
