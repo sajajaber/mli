@@ -74,6 +74,11 @@ class ShowResource extends Resource
                                         ->default('documentary')
                                         ->required()
                                         ->live()
+                                        ->afterStateUpdated(function (Set $set, ?string $state): void {
+                                            if ($state !== 'series') {
+                                                $set('genres', []);
+                                            }
+                                        })
                                         ->columnSpanFull(),
 
                                     TextInput::make('title_en')
@@ -134,102 +139,56 @@ class ShowResource extends Resource
                                             name: 'categories',
                                             titleAttribute: 'name_en',
                                             modifyQueryUsing: fn (Builder $query) => $query
-                                                ->with('parent')
-                                                ->orderByRaw('COALESCE((SELECT parent_categories.name_en FROM categories AS parent_categories WHERE parent_categories.id = categories.parent_id), categories.name_en)')
-                                                ->orderByRaw('CASE WHEN categories.parent_id IS NULL THEN 0 ELSE 1 END')
-                                                ->orderBy('categories.name_en'),
+                                                ->with('parent:id,name_en,parent_id')
+                                                ->orderBy('parent_id')
+                                                ->orderBy('name_en'),
                                         )
                                         ->getOptionLabelFromRecordUsing(fn (Category $record): string => $record->parent
                                             ? "{$record->parent->name_en} — {$record->name_en}"
                                             : $record->name_en)
                                         ->multiple()
-                                        ->searchable()
-                                        ->preload()
-                                        ->live()
-                                        ->afterStateUpdated(function (Get $get, Set $set, $state): void {
-                                            // Drop any selected genre whose category was just unselected.
-                                            $genreIds = $get('genres') ?? [];
-
-                                            if (blank($genreIds)) {
-                                                return;
-                                            }
-
-                                            $selectedCategoryIds = collect($state ?? [])->filter();
-                                            $parentCategoryIds = Category::query()
-                                                ->whereIn('id', $selectedCategoryIds)
-                                                ->whereNotNull('parent_id')
-                                                ->pluck('parent_id');
-                                            $allowedGenreCategoryIds = $selectedCategoryIds
-                                                ->merge($parentCategoryIds)
-                                                ->unique()
-                                                ->values();
-
-                                            $set('genres', Genre::query()
-                                                ->whereIn('id', $genreIds)
-                                                ->whereIn('category_id', $allowedGenreCategoryIds)
-                                                ->pluck('id')
-                                                ->all());
-                                        })
-                                        ->helperText('A show can have any number of categories, or none.'),
+                                        ->searchable(['name_en', 'name_ar'])
+                                        ->optionsLimit(50)
+                                        ->helperText('Type to search. A show can have any number of categories, or none.'),
 
                                     Select::make('genres')
                                         ->label('Genres')
                                         ->relationship(
                                             name: 'genres',
                                             titleAttribute: 'name_en',
-                                            modifyQueryUsing: function (Builder $query, Get $get): Builder {
-                                                $categoryIds = collect($get('categories') ?? [])->filter();
-                                                $parentIds = Category::query()
-                                                    ->whereIn('id', $categoryIds)
-                                                    ->whereNotNull('parent_id')
-                                                    ->pluck('parent_id');
-
-                                                return $query
-                                                    ->with('category')
-                                                    ->whereIn('category_id', $categoryIds->merge($parentIds)->unique()->values())
-                                                    ->orderBy('category_id')
-                                                    ->orderBy('name_en');
-                                            },
+                                            modifyQueryUsing: fn (Builder $query) => $query
+                                                ->whereHas('category', fn (Builder $categoryQuery) => $categoryQuery
+                                                    ->whereNull('parent_id')
+                                                    ->where('slug', 'series'))
+                                                ->orderBy('name_en'),
                                         )
-                                        ->getOptionLabelFromRecordUsing(
-                                            fn (Genre $record): string => $record->category
-                                                ? "{$record->category->name_en} — {$record->name_en}"
-                                                : $record->name_en
-                                        )
+                                        ->getOptionLabelFromRecordUsing(fn (Genre $record): string => $record->name_en)
                                         ->multiple()
-                                        ->searchable()
-                                        ->preload()
+                                        ->searchable(['name_en', 'name_ar'])
+                                        ->optionsLimit(50)
+                                        ->visible(fn (Get $get): bool => $get('content_type') === 'series')
                                         ->rules([
-                                            fn (Get $get): Closure => function (string $attribute, $value, Closure $fail) use ($get): void {
-                                                $genreIds = array_filter((array) $value);
+                                            fn (): Closure => function (string $attribute, $value, Closure $fail): void {
+                                                $genreIds = array_values(array_unique(array_filter((array) $value)));
 
                                                 if ($genreIds === []) {
                                                     return;
                                                 }
 
-                                                $categoryIds = collect((array) ($get('categories') ?? []))->filter();
-                                                $parentIds = Category::query()
-                                                    ->whereIn('id', $categoryIds)
-                                                    ->whereNotNull('parent_id')
-                                                    ->pluck('parent_id');
-                                                $allowedCategoryIds = $categoryIds->merge($parentIds)->unique()->values();
+                                                $seriesCategoryId = Category::query()
+                                                    ->whereNull('parent_id')
+                                                    ->where('slug', 'series')
+                                                    ->value('id');
 
-                                                if ($allowedCategoryIds->isEmpty()) {
-                                                    $fail('Every selected genre must belong to one of the selected categories.');
-                                                    return;
-                                                }
-
-                                                $invalid = Genre::query()
+                                                if (! $seriesCategoryId || Genre::query()
                                                     ->whereIn('id', $genreIds)
-                                                    ->whereNotIn('category_id', $allowedCategoryIds)
-                                                    ->exists();
-
-                                                if ($invalid || Genre::query()->whereIn('id', $genreIds)->count() !== count(array_unique($genreIds))) {
-                                                    $fail('Every selected genre must belong to one of the selected categories.');
+                                                    ->where('category_id', $seriesCategoryId)
+                                                    ->count() !== count($genreIds)) {
+                                                    $fail('Only genres belonging to the top-level Series category can be selected.');
                                                 }
                                             },
                                         ])
-                                        ->helperText('Choose categories first — only their genres are listed.'),
+                                        ->helperText('Series only — choose genres such as Action, Drama, or Comedy. Type to search.');
 
                                     TextInput::make('slug')
                                         ->label('Slug')
@@ -513,13 +472,20 @@ class ShowResource extends Resource
                 SelectFilter::make('categories')
                     ->relationship('categories', 'name_en')
                     ->multiple()
-                    ->preload()
+                    ->searchable()
                     ->label('Category'),
 
                 SelectFilter::make('genres')
-                    ->relationship('genres', 'name_en')
+                    ->relationship(
+                        'genres',
+                        'name_en',
+                        modifyQueryUsing: fn (Builder $query) => $query
+                            ->whereHas('category', fn (Builder $categoryQuery) => $categoryQuery
+                                ->whereNull('parent_id')
+                                ->where('slug', 'series')),
+                    )
                     ->multiple()
-                    ->preload()
+                    ->searchable()
                     ->label('Genre'),
             ])
             ->recordActions([
