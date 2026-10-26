@@ -87,7 +87,7 @@
                             </div>
                             @endif
 
-                            @if($show->genres->isNotEmpty())
+                            @if($show->content_type === 'series' && $show->genres->isNotEmpty())
                             <div class="mli-show-detail__meta-item">
                                 <span>{{ app()->getLocale() === 'ar' ? 'الأنواع' : 'Genres' }}</span>
                                 <strong>{{ $show->genres->pluck('name')->implode(' · ') }}</strong>
