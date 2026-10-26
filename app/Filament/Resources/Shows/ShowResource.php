@@ -188,7 +188,7 @@ class ShowResource extends Resource
                                                 }
                                             },
                                         ])
-                                        ->helperText('Series only — choose genres such as Action, Drama, or Comedy. Type to search.');
+                                        ->helperText('Series only — choose genres such as Action, Drama, or Comedy. Type to search.'),
 
                                     TextInput::make('slug')
                                         ->label('Slug')
