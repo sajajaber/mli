@@ -97,9 +97,12 @@
                             @if($show->content_type)
                             <div class="mli-show-detail__meta-item">
                                 <span>{{ app()->getLocale() === 'ar' ? 'نوع المحتوى' : 'Content Type' }}</span>
-                                <strong>{{ $show->content_type === 'series'
-                                    ? (app()->getLocale() === 'ar' ? 'مسلسل' : 'Series')
-                                    : (app()->getLocale() === 'ar' ? 'وثائقي' : 'Documentary') }}</strong>
+                                <strong>{{ match ($show->content_type) {
+                                    'series' => app()->getLocale() === 'ar' ? 'مسلسل' : 'Series',
+                                    'documentary' => app()->getLocale() === 'ar' ? 'وثائقي' : 'Documentary',
+                                    'general' => app()->getLocale() === 'ar' ? 'عام' : 'General',
+                                    default => app()->getLocale() === 'ar' ? 'غير محدد' : 'Not specified',
+                                } }}</strong>
                             </div>
                             @endif
 
