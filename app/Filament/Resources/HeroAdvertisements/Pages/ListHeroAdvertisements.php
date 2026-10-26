@@ -27,17 +27,24 @@ class ListHeroAdvertisements extends ListRecords
 
     public function saveHeroOrder(array $ids): void
     {
-        $currentIds = HeroAdvertisement::query()
+        // The visual reorder list contains active hero images only.
+        $currentIds = HeroAdvertisement::active()
             ->orderBy('sort_order')
             ->orderBy('id')
             ->pluck('id')
-            ->map(fn($id) => (int) $id)
+            ->map(fn ($id) => (int) $id)
             ->values()
             ->all();
 
         $submittedIds = array_map('intval', $ids);
+        $uniqueSubmittedIds = array_values(array_unique($submittedIds));
 
-        if ($currentIds !== array_values(array_unique($submittedIds))) {
+        // Validate the submitted set, not its order: changing the order is the purpose of this action.
+        $sameItems = count($submittedIds) === count($uniqueSubmittedIds)
+            && empty(array_diff($currentIds, $uniqueSubmittedIds))
+            && empty(array_diff($uniqueSubmittedIds, $currentIds));
+
+        if (! $sameItems) {
             Notification::make()
                 ->title('The hero order could not be saved.')
                 ->danger()
@@ -50,6 +57,7 @@ class ListHeroAdvertisements extends ListRecords
             foreach ($submittedIds as $index => $id) {
                 HeroAdvertisement::query()
                     ->whereKey($id)
+                    ->where('is_active', true)
                     ->update([
                         'sort_order' => $index + 1,
                     ]);
@@ -75,9 +83,17 @@ class ListHeroAdvertisements extends ListRecords
     {
         $hero = HeroAdvertisement::findOrFail($id);
 
-        $hero->update([
-            'is_active' => ! $hero->is_active,
-        ]);
+        if ($hero->is_active) {
+            $hero->update(['is_active' => false]);
+        } else {
+            // Newly activated images join the end of the visible hero sequence.
+            $nextOrder = (int) (HeroAdvertisement::active()->max('sort_order') ?? 0) + 1;
+
+            $hero->update([
+                'is_active' => true,
+                'sort_order' => $nextOrder,
+            ]);
+        }
 
         Notification::make()
             ->title('Hero visibility updated')
