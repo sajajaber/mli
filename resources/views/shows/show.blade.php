@@ -109,6 +109,7 @@
                             </a>
                         </div>
 
+                        @if($show->origin || $show->country_of_origin || $show->broadcast_format || $show->production_year || $show->season_number || $show->episode_count || !empty($show->languages) || !empty($show->subtitles) || !empty($show->availability) || !empty($show->service_types) || !empty($show->cast) || !empty($show->directors))
                         <section class="mli-show-detail__specs" aria-label="{{ $isArabic ? 'تفاصيل البرنامج' : 'Programme details' }}">
                             <div class="mli-show-detail__specs-heading">
                                 <span>{{ $isArabic ? 'التفاصيل' : 'AT A GLANCE' }}</span>
@@ -205,6 +206,7 @@
                                 @endif
                             </div>
                         </section>
+                        @endif
                     </div>
                 </div>
             </div>
