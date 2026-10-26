@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
@@ -75,6 +76,16 @@ class Show extends Model
     public function genres(): BelongsToMany
     {
         return $this->belongsToMany(Genre::class);
+    }
+
+    /**
+     * Cast members belong to a single series and follow their display order.
+     */
+    public function castMembers(): HasMany
+    {
+        return $this->hasMany(CastMember::class)
+            ->orderBy('sort_order')
+            ->orderBy('id');
     }
 
     /**

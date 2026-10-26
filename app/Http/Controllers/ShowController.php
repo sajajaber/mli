@@ -106,7 +106,7 @@ class ShowController extends Controller
     public function show(string $slug)
     {
         $show = Show::published()
-            ->with(['categories.parent', 'genres'])
+            ->with(['categories.parent', 'genres', 'castMembers'])
             ->where('slug', $slug)
             ->firstOrFail();
 

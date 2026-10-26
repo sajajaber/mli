@@ -21,6 +21,7 @@ use Illuminate\Validation\ValidationException;
 use UnitEnum;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TagsInput;
@@ -365,9 +366,49 @@ class ShowResource extends Resource
                                         ->searchable()
                                         ->helperText('Choose Production, Distribution, Collaboration, or a combination.'),
 
-                                    TagsInput::make('cast')
-                                        ->label('Cast')
-                                        ->placeholder('Add a cast member and press Enter'),
+                                    Repeater::make('castMembers')
+                                        ->label('Cast Members')
+                                        ->relationship()
+                                        ->schema([
+                                            FileUpload::make('photo_path')
+                                                ->label('Actor Photo')
+                                                ->image()
+                                                ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                                                ->disk('public')
+                                                ->directory('cast')
+                                                ->imageEditor()
+                                                ->maxSize(8192)
+                                                ->saveUploadedFileUsing(fn ($file) => app(\\App\\Services\\ImageProcessingService::class)
+                                                    ->processAndStore($file, 'cast', maxWidth: 900, quality: 85))
+                                                ->helperText('Upload the actor’s real portrait. It will be displayed in a consistent portrait crop.')
+                                                ->columnSpanFull(),
+
+                                            TextInput::make('actor_name_en')
+                                                ->label('Actor Name (English)')
+                                                ->required()
+                                                ->maxLength(255),
+
+                                            TextInput::make('actor_name_ar')
+                                                ->label('Actor Name (Arabic)')
+                                                ->maxLength(255)
+                                                ->extraInputAttributes(['dir' => 'rtl']),
+
+                                            TextInput::make('character_name_en')
+                                                ->label('Character Name (English)')
+                                                ->maxLength(255),
+
+                                            TextInput::make('character_name_ar')
+                                                ->label('Character Name (Arabic)')
+                                                ->maxLength(255)
+                                                ->extraInputAttributes(['dir' => 'rtl']),
+                                        ])
+                                        ->columns(2)
+                                        ->orderColumn('sort_order')
+                                        ->itemLabel(fn (array $state): ?string => $state['actor_name_en'] ?? 'New Cast Member')
+                                        ->addActionLabel('Add Cast Member')
+                                        ->collapsible()
+                                        ->columnSpanFull()
+                                        ->helperText('Add one entry per actor, upload their real photo, and drag entries to set the public display order.'),
 
                                     TagsInput::make('directors')
                                         ->label('Director(s)')

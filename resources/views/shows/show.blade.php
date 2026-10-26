@@ -181,7 +181,7 @@
                             </div>
                             @endif
 
-                            @if($show->content_type === 'series' && is_array($show->cast) && count($show->cast))
+                            @if($show->content_type === 'series' && $show->castMembers->isEmpty() && is_array($show->cast) && count($show->cast))
                             <div class="mli-show-detail__meta-item">
                                 <span>{{ app()->getLocale() === 'ar' ? 'طاقم التمثيل' : 'Cast' }}</span>
                                 <strong>{{ implode(' · ', $show->cast) }}</strong>
@@ -235,6 +235,55 @@
                 </div>
             </div>
         </section>
+
+
+        @if($show->content_type === 'series' && $show->castMembers->isNotEmpty())
+        @php $isArabic = app()->getLocale() === 'ar'; @endphp
+        <section class="mli-show-cast" aria-labelledby="mli-show-cast-title">
+            <div class="container">
+                <div class="mli-show-cast__heading">
+                    <span>{{ $isArabic ? 'تعرّفوا إلى الممثلين' : 'MEET THE CAST' }}</span>
+                    <h2 id="mli-show-cast-title">{{ $isArabic ? 'طاقم التمثيل' : 'The Cast' }}</h2>
+                </div>
+
+                <div class="mli-show-cast__grid">
+                    @foreach($show->castMembers as $castMember)
+                    @php
+                        $actorName = $isArabic
+                            ? ($castMember->actor_name_ar ?: $castMember->actor_name_en)
+                            : $castMember->actor_name_en;
+                        $characterName = $isArabic
+                            ? ($castMember->character_name_ar ?: $castMember->character_name_en)
+                            : ($castMember->character_name_en ?: $castMember->character_name_ar);
+                    @endphp
+                    <article class="mli-show-cast__card">
+                        <div class="mli-show-cast__portrait">
+                            @if($castMember->photo_url)
+                            <img
+                                src="{{ $castMember->photo_url }}"
+                                alt="{{ $actorName }}"
+                                loading="lazy">
+                            @else
+                            <div class="mli-show-cast__placeholder" role="img" aria-label="{{ $isArabic ? 'صورة الممثل غير متوفرة' : 'Actor photo unavailable' }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                                    <circle cx="32" cy="22" r="11" />
+                                    <path d="M10 56c1.6-12.5 9.7-19 22-19s20.4 6.5 22 19" />
+                                </svg>
+                            </div>
+                            @endif
+                        </div>
+                        <div class="mli-show-cast__copy">
+                            <h3>{{ $actorName }}</h3>
+                            @if(filled($characterName))
+                            <p>{{ $characterName }}</p>
+                            @endif
+                        </div>
+                    </article>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+        @endif
 
         @if($relatedShows->isNotEmpty())
         <section class="mli-show-related">
