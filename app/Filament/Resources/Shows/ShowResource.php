@@ -16,6 +16,8 @@ use Closure;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use UnitEnum;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
@@ -148,8 +150,8 @@ class ShowResource extends Resource
                                             : $record->name_en)
                                         ->multiple()
                                         ->searchable(['name_en', 'name_ar'])
-                                        ->optionsLimit(50)
-                                        ->helperText('Type to search. A show can have any number of categories, or none.'),
+                                        ->preload()
+                                        ->helperText('Choose from the listed categories or type to narrow the list. A show can have any number of categories, or none.'),
 
                                     Select::make('genres')
                                         ->label('Genres')
@@ -165,7 +167,46 @@ class ShowResource extends Resource
                                         ->getOptionLabelFromRecordUsing(fn (Genre $record): string => $record->name_en)
                                         ->multiple()
                                         ->searchable(['name_en', 'name_ar'])
-                                        ->optionsLimit(50)
+                                        ->preload()
+                                        ->createOptionForm([
+                                            TextInput::make('name_en')
+                                                ->label('Genre Name (English)')
+                                                ->required()
+                                                ->maxLength(255),
+                                            TextInput::make('name_ar')
+                                                ->label('Genre Name (Arabic)')
+                                                ->required()
+                                                ->maxLength(255)
+                                                ->extraInputAttributes(['dir' => 'rtl']),
+                                        ])
+                                        ->createOptionUsing(function (array $data): int {
+                                            $seriesCategoryId = Category::query()
+                                                ->whereNull('parent_id')
+                                                ->where('slug', 'series')
+                                                ->value('id');
+
+                                            if (! $seriesCategoryId) {
+                                                throw ValidationException::withMessages([
+                                                    'name_en' => 'Create the top-level Series category before adding genres.',
+                                                ]);
+                                            }
+
+                                            $baseSlug = Str::slug(trim($data['name_en'])) ?: 'genre';
+                                            $slug = $baseSlug;
+                                            $suffix = 2;
+
+                                            while (Genre::query()->where('slug', $slug)->exists()) {
+                                                $slug = "{$baseSlug}-{$suffix}";
+                                                $suffix++;
+                                            }
+
+                                            return Genre::query()->create([
+                                                'category_id' => $seriesCategoryId,
+                                                'name_en' => trim($data['name_en']),
+                                                'name_ar' => trim($data['name_ar']),
+                                                'slug' => $slug,
+                                            ])->getKey();
+                                        })
                                         ->visible(fn (Get $get): bool => $get('content_type') === 'series')
                                         ->rules([
                                             fn (): Closure => function (string $attribute, $value, Closure $fail): void {
@@ -473,6 +514,7 @@ class ShowResource extends Resource
                     ->relationship('categories', 'name_en')
                     ->multiple()
                     ->searchable()
+                    ->preload()
                     ->label('Category'),
 
                 SelectFilter::make('genres')
@@ -486,6 +528,7 @@ class ShowResource extends Resource
                     )
                     ->multiple()
                     ->searchable()
+                    ->preload()
                     ->label('Genre'),
             ])
             ->recordActions([
