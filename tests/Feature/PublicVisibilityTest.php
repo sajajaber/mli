@@ -60,7 +60,7 @@ class PublicVisibilityTest extends TestCase
 
         $response = $this->get(route('shows.show', $show->slug))
             ->assertOk()
-            ->assertSee('General');
+            ->assertSee('<strong>General</strong>', false);
 
         $response->assertDontSee('GENERAL_ORIGIN_MARKER');
         $response->assertDontSee('GENERAL_COUNTRY_MARKER');
