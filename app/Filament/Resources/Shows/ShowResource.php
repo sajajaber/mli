@@ -69,6 +69,7 @@ class ShowResource extends Resource
                                         ->options([
                                             'documentary' => 'Documentary',
                                             'series' => 'Series',
+                                            'general' => 'General',
                                         ])
                                         ->default('documentary')
                                         ->required()
@@ -434,6 +435,7 @@ class ShowResource extends Resource
                     ->formatStateUsing(fn (?string $state): string => match ($state) {
                         'documentary' => 'Documentary',
                         'series' => 'Series',
+                        'general' => 'General',
                         default => 'Not set',
                     }),
 
@@ -491,6 +493,7 @@ class ShowResource extends Resource
                     ->options([
                         'documentary' => 'Documentary',
                         'series' => 'Series',
+                        'general' => 'General',
                     ]),
 
                 SelectFilter::make('is_new_release')
