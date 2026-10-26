@@ -37,7 +37,7 @@ class GenreResource extends Resource
     {
         return $schema->components([
             Section::make('Genre Information')
-                ->description('Create a genre and assign it to a top-level category such as Documentary or Series.')
+                ->description('Create genres for Series content, such as Action, Drama, or Comedy.')
                 ->columnSpan(['default' => 1, 'xl' => 11])
                 ->columns(2)
                 ->components([
@@ -46,15 +46,21 @@ class GenreResource extends Resource
                         ->relationship(
                             'category',
                             'name_en',
-                            modifyQueryUsing: fn (Builder $query) => $query->whereNull('parent_id')->orderBy('name_en'),
+                            modifyQueryUsing: fn (Builder $query) => $query
+                                ->whereNull('parent_id')
+                                ->where('slug', 'series')
+                                ->orderBy('name_en'),
                         )
                         ->getOptionLabelFromRecordUsing(
                             fn (Category $record): string => "{$record->name_en} / {$record->name_ar}",
                         )
+                        ->default(fn (): ?int => Category::query()
+                            ->whereNull('parent_id')
+                            ->where('slug', 'series')
+                            ->value('id'))
                         ->searchable()
-                        ->preload()
                         ->required()
-                        ->live(),
+                        ->helperText('Genres are available to Series only.');
 
                     TextInput::make('name_en')
                         ->label('Name (English)')
