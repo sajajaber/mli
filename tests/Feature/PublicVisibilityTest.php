@@ -44,6 +44,32 @@ class PublicVisibilityTest extends TestCase
         $index->assertDontSee($deleted->title_en);
     }
 
+    public function test_general_content_type_is_shown_without_documentary_or_series_details(): void
+    {
+        $show = $this->makeShow('General Content', 'published');
+
+        $show->update([
+            'content_type' => 'general',
+            'origin' => 'GENERAL_ORIGIN_MARKER',
+            'country_of_origin' => 'GENERAL_COUNTRY_MARKER',
+            'broadcast_format' => 'GENERAL_FORMAT_MARKER',
+            'service_types' => ['distribution'],
+            'cast' => ['GENERAL_CAST_MARKER'],
+            'directors' => ['GENERAL_DIRECTOR_MARKER'],
+        ]);
+
+        $response = $this->get(route('shows.show', $show->slug))
+            ->assertOk()
+            ->assertSee('<strong>General</strong>', false);
+
+        $response->assertDontSee('GENERAL_ORIGIN_MARKER');
+        $response->assertDontSee('GENERAL_COUNTRY_MARKER');
+        $response->assertDontSee('GENERAL_FORMAT_MARKER');
+        $response->assertDontSee('GENERAL_CAST_MARKER');
+        $response->assertDontSee('GENERAL_DIRECTOR_MARKER');
+        $response->assertDontSee('Distribution');
+    }
+
     public function test_published_news_is_public_but_draft_scheduled_and_deleted_news_are_hidden(): void
     {
         $published = $this->makeNews('Published News', 'published');
