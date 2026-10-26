@@ -12888,3 +12888,31 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
 .mli-shows-page .mli-show__copy small {
     display: none !important;
 }
+
+/* NAVIGATION — frosted-glass treatment on hover/focus. */
+.mli-nav:not(.mli-nav--scrolled):is(:hover, :focus-within) {
+    background: rgba(20, 31, 43, 0.38);
+    border-bottom-color: rgba(255, 255, 255, 0.22);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+}
+
+.mli-nav.mli-nav--scrolled:is(:hover, :focus-within) {
+    background: rgba(248, 250, 249, 0.72);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+}
+
+/* The Shows catalogue uses navy navigation text, so keep its glass light. */
+.shows-page-body .mli-nav:not(.mli-nav--scrolled):is(:hover, :focus-within) {
+    background: rgba(248, 250, 249, 0.72);
+    border-bottom-color: rgba(47, 65, 86, 0.14);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+}
+
+.shows-page-body .mli-nav--scrolled:is(:hover, :focus-within) {
+    background: rgba(248, 250, 249, 0.72) !important;
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+}
