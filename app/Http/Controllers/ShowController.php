@@ -16,7 +16,10 @@ class ShowController extends Controller
 
         $selectedCategory = $categorySlug
             ? Category::query()
-                ->with('children:id,parent_id')
+                ->with([
+                    'children:id,parent_id',
+                    'parent:id,parent_id,slug',
+                ])
                 ->where('slug', $categorySlug)
                 ->first()
             : null;
@@ -41,7 +44,9 @@ class ShowController extends Controller
         }
 
         if ($genreSlug) {
-            $query->whereHas('genres', fn ($genreQuery) => $genreQuery->where('slug', $genreSlug));
+            $query
+                ->where('content_type', 'series')
+                ->whereHas('genres', fn ($genreQuery) => $genreQuery->where('slug', $genreSlug));
         }
 
         $shows = $query->paginate(12)->withQueryString();
@@ -57,21 +62,24 @@ class ShowController extends Controller
             ->orderBy('name_en')
             ->get();
 
-        // Genres still belong to parent categories. Selecting a child offers its parent's genres.
+        // Genres are reserved for Series content and are maintained under the top-level Series category.
         $genres = collect();
 
-        if ($selectedCategory) {
-            $genreCategoryIds = collect([$selectedCategory->id, $selectedCategory->parent_id])
-                ->filter()
-                ->unique()
-                ->values();
+        $selectedCategoryIsSeries = $selectedCategory && (
+            $selectedCategory->slug === 'series'
+            || $selectedCategory->parent?->slug === 'series'
+        );
 
+        if ($selectedCategoryIsSeries) {
             $genres = Genre::query()
                 ->select(['id', 'category_id', 'name_en', 'name_ar', 'slug'])
-                ->whereIn('category_id', $genreCategoryIds)
+                ->whereHas('category', fn ($categoryQuery) => $categoryQuery
+                    ->whereNull('parent_id')
+                    ->where('slug', 'series'))
                 ->whereHas('shows', function ($showQuery) use ($categoryIds) {
                     $showQuery
                         ->published()
+                        ->where('content_type', 'series')
                         ->whereHas('categories', fn ($categoryQuery) => $categoryQuery
                             ->whereIn('categories.id', $categoryIds));
                 })
