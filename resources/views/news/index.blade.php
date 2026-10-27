@@ -44,7 +44,8 @@
                     url.searchParams.delete('type');
                 }
 
-                window.history.replaceState({}, '', url);
+                url.searchParams.delete('page');
+                window.location.href = url.toString();
             },
             syncFromUrl() {
                 const type = new URL(window.location.href).searchParams.get('type');
@@ -57,7 +58,7 @@
             <div class="container">
                 <div class="mli-shows-header__meta">
                     <span>{{ $isArabic ? 'غرفة أخبار MLI' : 'MLI / NEWSROOM' }}</span>
-                    <span x-text="news.length + ' {{ $isArabic ? 'خبراً' : 'STORIES' }}'"></span>
+                    <span>{{ number_format($news->total()) }} {{ $isArabic ? 'خبراً' : 'STORIES' }}</span>
                 </div>
 
                 <div class="mli-shows-header__main">
@@ -128,7 +129,7 @@
                             : '{{ $isArabic ? 'جميع الأخبار' : 'All stories' }}'">
                     </span>
 
-                    <span x-text="filteredNews.length + ' / ' + news.length"></span>
+                    <span>{{ $news->firstItem() ?? 0 }}–{{ $news->lastItem() ?? 0 }} / {{ $news->total() }}</span>
                 </div>
 
                 <div class="mli-shows-grid mli-news-grid--shows-style">
@@ -184,6 +185,10 @@
                     <div x-show="filteredNews.length === 0" x-cloak class="mli-news-empty">
                         <p>{{ $isArabic ? 'لا توجد أخبار منشورة حالياً.' : 'There are no published stories in this category.' }}</p>
                     </div>
+                </div>
+
+                <div class="mli-news-pagination mli-shows-pagination">
+                    {{ $news->links() }}
                 </div>
             </div>
         </section>
