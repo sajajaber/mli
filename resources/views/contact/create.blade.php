@@ -2,7 +2,7 @@
     :title="(app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Contact MLI') . ' — Media Link International'"
     :meta-description="app()->getLocale() === 'ar' ? 'تواصل مع Media Link International للاستفسار عن المحتوى والتوزيع والإنتاج.' : 'Contact Media Link International about content, licensing, distribution, and production.'">
 
-    <section class="min-h-[70vh] bg-white px-4 pb-20 pt-32 text-[#2f4156] sm:px-6">
+    <section class="min-h-[70vh] bg-[#f5f2eb] px-4 pb-20 pt-32 text-[#2f4156] sm:px-6">
         <div class="mx-auto w-full max-w-3xl">
             <a href="{{ $show ? route('shows.show', ['slug' => $show->slug]) : route('shows.index') }}"
                 class="mb-8 inline-flex items-center gap-2 text-sm text-[#567c8d] transition hover:text-[#2f4156]">

@@ -17,6 +17,9 @@ class PublicVisibilityTest extends TestCase
         $this->get('/')->assertOk();
         $this->get(route('shows.index'))->assertOk();
         $this->get(route('news.index'))->assertOk();
+
+        $contact = $this->get(route('contact.create'))->assertOk();
+        $contact->assertSee('contact-page-body');
     }
 
     public function test_published_show_is_public_but_draft_scheduled_and_deleted_shows_are_hidden(): void
