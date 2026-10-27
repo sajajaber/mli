@@ -47,11 +47,6 @@
             <div class="mli-news-article__body">
                 <div class="container">
                     <div class="mli-news-article__body-inner">
-                        <div class="mli-news-article__share">
-                            <span>{{ $isArabic ? 'قصة' : 'Story' }}</span>
-                            <span class="mli-news-article__line"></span>
-                        </div>
-
                         <div class="mli-news-article__content">
                             @if($body)
                                 {!! \App\Support\SafeHtml::clean($body) !!}
