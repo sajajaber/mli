@@ -16,9 +16,11 @@ class NewsController extends Controller
         }
 
         $news = News::published()
+            ->when($type, fn ($query) => $query->where('news_type', $type))
             ->latest('published_at')
             ->latest('created_at')
-            ->get();
+            ->paginate(12)
+            ->withQueryString();
 
         return view('news.index', compact('news', 'type'));
     }
