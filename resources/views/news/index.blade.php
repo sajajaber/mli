@@ -175,7 +175,12 @@
                                         <span class="mli-news-show-card__separator" aria-hidden="true"> · </span>
                                         <span x-text="item.date || ''"></span>
                                     </p>
-                                    <span class="mli-news-show-card__excerpt" x-text="item.excerpt"></span>
+                                    <span
+                                        class="mli-news-show-card__excerpt"
+                                        x-show="item.excerpt"
+                                        x-cloak
+                                        x-text="item.excerpt"
+                                    ></span>
                                 </span>
                                 <span class="mli-show__dash" aria-hidden="true"></span>
                             </span>
