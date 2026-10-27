@@ -13957,3 +13957,52 @@ html[dir="rtl"] .mli-program-legacy-cast__names {
         height: 16px;
     }
 }
+
+/* NEWS CARDS — compact grid with consistent landscape artwork. */
+.mli-news-grid--shows-style {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 18px;
+    row-gap: 38px;
+}
+
+.mli-news-show-card .mli-show__image,
+.mli-news-card__image {
+    aspect-ratio: 4 / 3;
+}
+
+.mli-news-article__image {
+    aspect-ratio: 4 / 3;
+    max-width: 1000px;
+    margin-inline: auto;
+}
+
+.news-item__image {
+    height: auto;
+    aspect-ratio: 4 / 3;
+}
+
+.news-item__image img {
+    display: block;
+}
+
+@media (max-width: 1050px) {
+    .mli-news-grid--shows-style {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        column-gap: 16px;
+        row-gap: 32px;
+    }
+}
+
+@media (max-width: 760px) {
+    .mli-news-grid--shows-style {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 12px;
+        row-gap: 30px;
+    }
+}
+
+@media (max-width: 360px) {
+    .mli-news-grid--shows-style {
+        grid-template-columns: 1fr;
+    }
+}

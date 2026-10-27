@@ -19,9 +19,13 @@ class DatabaseSeeder extends Seeder
             return;
         }
 
-        User::factory()->admin()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        if (! User::query()->where('email', 'test@example.com')->exists()) {
+            User::factory()->admin()->create([
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+            ]);
+        }
+
+        $this->call(DemoContentSeeder::class);
     }
 }
