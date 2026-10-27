@@ -25,7 +25,8 @@ class SeriesCastMembersTest extends TestCase
 
         $this->get(route('shows.show', $show->slug))
             ->assertOk()
-            ->assertSee('The Cast')
+            ->assertSee('The cast')
+            ->assertSee('mli-program-poster', false)
             ->assertSee('Maya Haddad')
             ->assertSee('Lina Mansour')
             ->assertSee('/storage/cast/maya-haddad.jpg')
