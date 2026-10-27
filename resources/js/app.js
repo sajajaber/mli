@@ -26,6 +26,68 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const revealItems = document.querySelectorAll("[data-reveal]");
 
+    const pageRevealSelector = "[data-page-reveal]";
+    const pageRevealObserver = !reduceMotion && "IntersectionObserver" in window
+        ? new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
+                });
+            },
+            {
+                threshold: 0.12,
+                rootMargin: "0px 0px -6% 0px",
+            }
+        )
+        : null;
+
+    const observePageReveals = (container) => {
+        if (!container || typeof container.querySelectorAll !== "function") return;
+
+        const items = [];
+
+        if (container instanceof Element && container.matches(pageRevealSelector)) {
+            items.push(container);
+        }
+
+        items.push(...container.querySelectorAll(pageRevealSelector));
+
+        items.forEach((item) => {
+            if (item.dataset.pageRevealObserved === "true") return;
+
+            item.dataset.pageRevealObserved = "true";
+
+            if (pageRevealObserver) {
+                pageRevealObserver.observe(item);
+            } else {
+                item.classList.add("is-visible");
+            }
+        });
+    };
+
+    // Also handles cards recreated by News filters and Shows pagination/filter navigation.
+    observePageReveals(document);
+
+    if (pageRevealObserver && "MutationObserver" in window && document.body) {
+        const pageRevealMutationObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node instanceof Element) {
+                        observePageReveals(node);
+                    }
+                });
+            });
+        });
+
+        pageRevealMutationObserver.observe(document.body, {
+            childList: true,
+            subtree: true,
+        });
+    }
+
     const counters = document.querySelectorAll("[data-counter]");
 
     const animateCounter = (counter) => {

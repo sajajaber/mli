@@ -136,6 +136,7 @@
                         <a
                             :href="item.url"
                             class="mli-show mli-news-show-card"
+                            data-page-reveal="up"
                             :style="'--reveal-delay: ' + (Math.min(index % 6, 5) * 70) + 'ms'"
                             x-transition:enter="mli-news-filter-enter"
                             x-transition:enter-start="mli-news-filter-enter-start"

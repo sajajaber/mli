@@ -14235,3 +14235,38 @@ html[dir="rtl"] .mli-program-legacy-cast__names {
     border-color: #c5a46d;
     color: #2f4156;
 }
+
+
+/* NEWS GRID - two article cards per row. */
+.mli-news-page .mli-shows-grid.mli-news-grid--shows-style {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(16px, 2.4vw, 28px);
+    row-gap: clamp(30px, 4vw, 46px);
+}
+
+@media (max-width: 360px) {
+    .mli-news-page .mli-shows-grid.mli-news-grid--shows-style {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* On-scroll card reveals are limited to the News and Shows library grids. */
+html.mli-motion-ready [data-page-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+    transition:
+        opacity 650ms ease,
+        transform 650ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+}
+
+html.mli-motion-ready [data-page-reveal].is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+html.mli-reduced-motion [data-page-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+}

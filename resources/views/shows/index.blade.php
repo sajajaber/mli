@@ -109,6 +109,8 @@
                     <a
                         href="{{ route('shows.show', ['slug' => $show->slug]) }}"
                         class="mli-show"
+                        data-page-reveal="up"
+                        style="--reveal-delay: {{ min($index % 8, 7) * 60 }}ms"
                         aria-label="{{ app()->getLocale() === 'ar' ? 'عرض ' : 'View ' }}{{ app()->getLocale() === 'ar' ? $show->title_ar : $show->title_en }}">
                         <span class="mli-show__image">
                             @if($show->cover_image_url)
