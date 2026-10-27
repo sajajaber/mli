@@ -14587,3 +14587,22 @@ html.mli-reduced-motion [data-page-reveal] {
         aspect-ratio: 16 / 9;
     }
 }
+
+
+/* Keep the article image aligned with the article's approximately 1200px content width. */
+.mli-news-article__hero .container {
+    width: min(1200px, calc(100% - 48px));
+    max-width: 1200px;
+}
+
+.mli-news-article__image {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+}
+
+@media (max-width: 760px) {
+    .mli-news-article__hero .container {
+        width: calc(100% - 32px);
+    }
+}
