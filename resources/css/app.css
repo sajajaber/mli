@@ -8835,7 +8835,7 @@ html[dir="rtl"] .mli-news-article__content blockquote {
 }
 
 .mli-news-grid--shows-style {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 22px;
     row-gap: 56px;
     padding-top: 34px;
