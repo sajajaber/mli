@@ -23,14 +23,23 @@ class SeriesCastMembersTest extends TestCase
             'sort_order' => 0,
         ]);
 
-        $this->get(route('shows.show', $show->slug))
+        $response = $this->get(route('shows.show', $show->slug))
             ->assertOk()
             ->assertSee('The cast')
             ->assertSee('mli-program-poster', false)
+            ->assertSee('mli-program-top-contact', false)
             ->assertSee('Maya Haddad')
             ->assertSee('Lina Mansour')
             ->assertSee('/storage/cast/maya-haddad.jpg')
             ->assertSee('alt="Maya Haddad"', false);
+
+        $content = $response->getContent();
+        $contactPosition = strpos($content, 'mli-program-top-contact');
+        $overviewPosition = strpos($content, 'mli-program-overview');
+
+        $this->assertNotFalse($contactPosition);
+        $this->assertNotFalse($overviewPosition);
+        $this->assertLessThan($overviewPosition, $contactPosition, 'Show-specific Contact Us should appear above the overview content.');
     }
 
     public function test_cast_profiles_are_not_rendered_for_non_series_content(): void

@@ -25,10 +25,20 @@
 
     <div class="mli-program-page">
         <div class="mli-program-container container">
-            <a href="{{ route('shows.index') }}" class="mli-program-back">
-                <span class="mli-program-back__arrow" aria-hidden="true">{{ $isArabic ? '→' : '←' }}</span>
-                <span>{{ $isArabic ? 'العودة إلى مكتبة البرامج' : 'Back to the library' }}</span>
-            </a>
+            <div class="mli-program-page-topbar">
+                <a href="{{ route('shows.index') }}" class="mli-program-back">
+                    <span class="mli-program-back__arrow" aria-hidden="true">{{ $isArabic ? '→' : '←' }}</span>
+                    <span>{{ $isArabic ? 'العودة إلى مكتبة البرامج' : 'Back to the library' }}</span>
+                </a>
+
+                <a href="{{ route('contact.create', ['show' => $show->slug]) }}" class="mli-program-action mli-program-action--contact mli-program-top-contact">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="5" width="18" height="14" rx="1.5"></rect>
+                        <path d="m3.5 6.5 8.5 7 8.5-7"></path>
+                    </svg>
+                    <span>{{ $isArabic ? 'تواصل معنا' : 'Contact us' }}</span>
+                </a>
+            </div>
 
             <section class="mli-program-overview" aria-labelledby="mli-program-title">
                 <div class="mli-program-poster-column">
@@ -128,13 +138,6 @@
                                 <span aria-hidden="true">↗</span>
                             </a>
                         @endif
-                        <a href="{{ route('contact.create', ['show' => $show->slug]) }}" class="mli-program-action mli-program-action--contact">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <rect x="3" y="5" width="18" height="14" rx="1.5"></rect>
-                                <path d="m3.5 6.5 8.5 7 8.5-7"></path>
-                            </svg>
-                            <span>{{ $isArabic ? 'تواصل معنا' : 'Contact us' }}</span>
-                        </a>
                     </div>
                 </div>
             </section>

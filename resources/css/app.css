@@ -13893,3 +13893,67 @@ html[dir="rtl"] .mli-program-legacy-cast__names {
         transition: none !important;
     }
 }
+
+/* SHOW DETAIL TOPBAR — keep the back link and show-specific contact above the content. */
+.mli-program-page {
+    padding-top: 100px;
+}
+
+.mli-program-page-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 25px;
+}
+
+.mli-program-page-topbar .mli-program-back {
+    margin-bottom: 0;
+}
+
+.mli-program-top-contact {
+    flex: 0 0 auto;
+    min-height: 42px;
+    gap: 9px;
+    padding: 10px 15px;
+    white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+    .mli-program-page {
+        padding-top: 84px;
+    }
+
+    .mli-program-page-topbar {
+        margin-bottom: 22px;
+    }
+}
+
+@media (max-width: 420px) {
+    .mli-program-page-topbar {
+        gap: 8px;
+    }
+
+    .mli-program-page-topbar .mli-program-back {
+        gap: 6px;
+        font-size: 11px;
+    }
+
+    .mli-program-page-topbar .mli-program-back__arrow {
+        width: 28px;
+        height: 28px;
+        flex: 0 0 28px;
+    }
+
+    .mli-program-top-contact {
+        min-height: 38px;
+        gap: 6px;
+        padding: 8px 10px;
+        font-size: 10px;
+    }
+
+    .mli-program-top-contact svg {
+        width: 16px;
+        height: 16px;
+    }
+}
