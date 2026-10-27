@@ -131,40 +131,8 @@
                     <span x-text="filteredNews.length + ' / ' + news.length"></span>
                 </div>
 
-                <div class="mli-news-featured" x-show="filteredNews.length > 0" x-cloak>
-                    <template x-for="item in filteredNews.slice(0, 1)" :key="'featured-' + item.id">
-                        <a :href="item.url" class="mli-news-featured-card" :aria-label="'{{ $isArabic ? 'قراءة ' : 'Read ' }}' + item.title">
-                            <span class="mli-news-featured-card__media">
-                                <template x-if="item.image">
-                                    <img :src="item.image" :alt="item.alt" loading="lazy">
-                                </template>
-                                <template x-if="!item.image">
-                                    <span class="mli-news-artwork" :class="item.type === 'media_news' ? 'mli-news-artwork--media' : 'mli-news-artwork--mli'" aria-hidden="true">
-                                        <span class="mli-news-artwork__top">{{ $isArabic ? 'غرفة أخبار MLI' : 'MLI / NEWSROOM' }}</span>
-                                        <span class="mli-news-artwork__mark" x-text="item.type === 'media_news' ? 'MEDIA' : 'MLI'"></span>
-                                        <span class="mli-news-artwork__bottom" x-text="item.date || 'NEWS'"></span>
-                                    </span>
-                                </template>
-                            </span>
-
-                            <span class="mli-news-featured-card__content">
-                                <span class="mli-news-featured-card__meta">
-                                    <span class="mli-news-show-card__category" :class="item.type === 'mli_news' ? 'mli-news-show-card__category--mli' : 'mli-news-show-card__category--media'" x-text="item.category"></span>
-                                    <span x-text="item.date || ''"></span>
-                                </span>
-                                <h2 x-text="item.title"></h2>
-                                <p x-text="item.excerpt || '{{ $isArabic ? 'تفاصيل الخبر غير متاحة حالياً.' : 'More details will be available soon.' }}'"></p>
-                                <span class="mli-news-featured-card__read">
-                                    {{ $isArabic ? 'اقرأ القصة' : 'Read the story' }}
-                                    <span aria-hidden="true">↗</span>
-                                </span>
-                            </span>
-                        </a>
-                    </template>
-                </div>
-
-                <div class="mli-shows-grid mli-news-grid--shows-style" x-show="filteredNews.length > 1 || filteredNews.length === 0">
-                    <template x-for="(item, index) in filteredNews.slice(1)" :key="item.id">
+                <div class="mli-shows-grid mli-news-grid--shows-style">
+                    <template x-for="(item, index) in filteredNews" :key="item.id">
                         <a
                             :href="item.url"
                             class="mli-show mli-news-show-card"
