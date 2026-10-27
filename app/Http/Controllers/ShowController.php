@@ -49,7 +49,7 @@ class ShowController extends Controller
                 ->whereHas('genres', fn ($genreQuery) => $genreQuery->where('slug', $genreSlug));
         }
 
-        $shows = $query->paginate(12)->withQueryString();
+        $shows = $query->paginate(24)->withQueryString();
 
         // Parents and children remain visible even with no assigned/published shows.
         $categories = Category::query()
