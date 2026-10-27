@@ -7,10 +7,6 @@
             'slug' => $item->slug,
             'type' => $item->news_type,
             'title' => $isArabic ? $item->title_ar : $item->title_en,
-            'excerpt' => \Illuminate\Support\Str::limit(
-                trim(preg_replace('/\s+/', ' ', strip_tags($isArabic ? ($item->body_ar ?? '') : ($item->body_en ?? '')))),
-                175,
-            ),
             'category' => $item->news_type === 'media_news'
                 ? ($isArabic ? 'أخبار الإعلام' : 'Media News')
                 : ($isArabic ? 'أخبار MLI' : 'MLI News'),
@@ -175,12 +171,6 @@
                                         <span class="mli-news-show-card__separator" aria-hidden="true"> · </span>
                                         <span x-text="item.date || ''"></span>
                                     </p>
-                                    <span
-                                        class="mli-news-show-card__excerpt"
-                                        x-show="item.excerpt"
-                                        x-cloak
-                                        x-text="item.excerpt"
-                                    ></span>
                                 </span>
                                 <span class="mli-show__dash" aria-hidden="true"></span>
                             </span>
