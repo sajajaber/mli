@@ -12,6 +12,53 @@ class PublicVisibilityTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_shows_and_news_indexes_paginate_24_records_and_news_filter_on_the_server(): void
+    {
+        for ($index = 1; $index <= 25; $index++) {
+            $this->makeShow(
+                sprintf('Paginated Show %02d', $index),
+                'published',
+                now()->subMinutes($index),
+            );
+
+            $mediaArticle = $this->makeNews(
+                sprintf('Paginated Media News %02d', $index),
+                'published',
+                now()->subMinutes($index),
+            );
+            $mediaArticle->update(['news_type' => 'media_news']);
+
+            $this->makeNews(
+                sprintf('Paginated MLI News %02d', $index),
+                'published',
+                now()->subMinutes($index + 30),
+            );
+        }
+
+        $this->get(route('shows.index'))
+            ->assertOk()
+            ->assertSee('Paginated Show 01')
+            ->assertSee('Paginated Show 24')
+            ->assertDontSee('Paginated Show 25');
+
+        $this->get(route('shows.index', ['page' => 2]))
+            ->assertOk()
+            ->assertSee('Paginated Show 25')
+            ->assertDontSee('Paginated Show 01');
+
+        $this->get(route('news.index', ['type' => 'media_news']))
+            ->assertOk()
+            ->assertSee('Paginated Media News 01')
+            ->assertSee('Paginated Media News 24')
+            ->assertDontSee('Paginated Media News 25')
+            ->assertDontSee('Paginated MLI News 01');
+
+        $this->get(route('news.index', ['type' => 'media_news', 'page' => 2]))
+            ->assertOk()
+            ->assertSee('Paginated Media News 25')
+            ->assertDontSee('Paginated MLI News 01');
+    }
+
     public function test_empty_public_pages_are_successful(): void
     {
         $this->get('/')->assertOk();
