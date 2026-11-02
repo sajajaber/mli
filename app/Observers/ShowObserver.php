@@ -7,6 +7,14 @@ use Illuminate\Support\Facades\Storage;
 
 class ShowObserver
 {
+    public function deleted(Show $show): void
+    {
+        if (! $show->isForceDeleting()) {
+            $show->slug = null;
+            $show->saveQuietly();
+        }
+    }
+
     public function updating(Show $show): void
     {
         // Homepage ordering only applies to published New Releases.

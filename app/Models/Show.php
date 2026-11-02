@@ -3,18 +3,41 @@
 namespace App\Models;
 
 use App\Models\Concerns\PublishesScheduledContent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Show extends Model
 {
     use HasFactory, PublishesScheduledContent, SoftDeletes;
+
+    public const LANGUAGE_TRANSLATIONS = [
+        'Arabic' => 'العربية',
+        'Bengali' => 'البنغالية',
+        'Chinese' => 'الصينية',
+        'Dutch' => 'الهولندية',
+        'English' => 'الإنجليزية',
+        'French' => 'الفرنسية',
+        'German' => 'الألمانية',
+        'Greek' => 'اليونانية',
+        'Hindi' => 'الهندية',
+        'Italian' => 'الإيطالية',
+        'Japanese' => 'اليابانية',
+        'Korean' => 'الكورية',
+        'Kurdish' => 'الكردية',
+        'Persian' => 'الفارسية',
+        'Portuguese' => 'البرتغالية',
+        'Russian' => 'الروسية',
+        'Spanish' => 'الإسبانية',
+        'Swahili' => 'السواحيلية',
+        'Turkish' => 'التركية',
+        'Urdu' => 'الأردية',
+    ];
 
     protected $fillable = [
         'category_id',
@@ -24,8 +47,8 @@ class Show extends Model
         'production_year',
         'season_number',
         'episode_count',
+        'episode_duration',
         'broadcast_format',
-        'watch_url',
         'languages',
         'subtitles',
         'availability',
@@ -58,6 +81,7 @@ class Show extends Model
         'production_year' => 'integer',
         'season_number' => 'integer',
         'episode_count' => 'integer',
+        'episode_duration' => 'integer',
         'languages' => 'array',
         'subtitles' => 'array',
         'availability' => 'array',
@@ -151,7 +175,7 @@ class Show extends Model
             return null;
         }
 
-        return 'https://player.vimeo.com/video/' . $matches[1];
+        return 'https://player.vimeo.com/video/'.$matches[1];
     }
 
     public function getCoverImageUrlAttribute(): ?string
@@ -159,6 +183,23 @@ class Show extends Model
         return $this->cover_image_path
             ? Storage::url($this->cover_image_path)
             : null;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public function languagesForLocale(string $locale): array
+    {
+        $languages = $this->languages ?? [];
+
+        if ($locale !== 'ar') {
+            return $languages;
+        }
+
+        return array_map(
+            fn (string $language): string => self::LANGUAGE_TRANSLATIONS[$language] ?? $language,
+            $languages,
+        );
     }
 
     // --- Slug auto-generation ---

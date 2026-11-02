@@ -102,7 +102,7 @@
                         </div>
                     @endif
 
-                    @if($show->production_year || $show->season_number || $show->episode_count)
+                    @if($show->production_year || $show->season_number || $show->episode_count || $show->episode_duration)
                         <div class="mli-program-facts">
                             @if($show->production_year)
                                 <div class="mli-program-fact">
@@ -122,19 +122,19 @@
                                     <strong>{{ $show->episode_count }}</strong>
                                 </div>
                             @endif
+                            @if($show->episode_duration)
+                                <div class="mli-program-fact">
+                                    <span>{{ $isArabic ? 'مدة الحلقة' : 'EPISODE DURATION' }}</span>
+                                    <strong>{{ $show->episode_duration }} {{ $isArabic ? 'دقيقة' : 'min' }}</strong>
+                                </div>
+                            @endif
                         </div>
                     @endif
 
                     <div class="mli-program-actions">
-                        @if($show->watch_url)
-                            <a href="{{ $show->watch_url }}" target="_blank" rel="noopener noreferrer" class="mli-program-action mli-program-action--primary">
-                                <span>{{ $isArabic ? 'شاهد الآن' : 'Watch here' }}</span>
-                                <span aria-hidden="true">↗</span>
-                            </a>
-                        @endif
                         @if($show->vimeo_url)
-                            <a href="{{ $show->vimeo_url }}" target="_blank" rel="noopener noreferrer" class="mli-program-action mli-program-action--secondary">
-                                <span>{{ $isArabic ? 'مشاهدة العرض الدعائي' : 'Watch trailer' }}</span>
+                            <a href="{{ $show->vimeo_url }}" target="_blank" rel="noopener noreferrer" class="mli-program-action mli-program-action--primary">
+                                <span>{{ $isArabic ? 'شاهد هنا' : 'Watch here' }}</span>
                                 <span aria-hidden="true">↗</span>
                             </a>
                         @endif
@@ -174,7 +174,7 @@
                         @if($hasLanguages)
                             <div class="mli-program-detail">
                                 <dt>{{ $isArabic ? 'اللغات' : 'Languages' }}</dt>
-                                <dd>{{ implode(' · ', $show->languages) }}</dd>
+                                <dd>{{ implode(' · ', $show->languagesForLocale(app()->getLocale())) }}</dd>
                             </div>
                         @endif
                         @if($hasSubtitles)

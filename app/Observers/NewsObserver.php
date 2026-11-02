@@ -7,6 +7,14 @@ use Illuminate\Support\Facades\Storage;
 
 class NewsObserver
 {
+    public function deleted(News $news): void
+    {
+        if (! $news->isForceDeleting()) {
+            $news->slug = null;
+            $news->saveQuietly();
+        }
+    }
+
     public function updating(News $news): void
     {
         if ($news->isDirty('featured_image_path')) {

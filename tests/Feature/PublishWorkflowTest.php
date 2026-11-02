@@ -57,6 +57,60 @@ class PublishWorkflowTest extends TestCase
         $this->actingAs(UserFactory::new()->create());
         $show = Show::factory()->create(['status' => 'draft', 'published_at' => null]);
 
+    public function test_soft_deleting_a_show_releases_its_slug_and_restore_generates_a_unique_slug(): void
+    {
+        $this->actingAs(UserFactory::new()->admin()->create());
+        $show = Show::factory()->create([
+            'title_en' => 'Reusable Show Slug',
+            'slug' => 'reusable-show-slug',
+        ]);
+
+        Livewire::test(ListShows::class)
+            ->callTableAction('delete', $show);
+
+        $this->assertSoftDeleted('shows', ['id' => $show->getKey()]);
+        $this->assertDatabaseHas('shows', [
+            'id' => $show->getKey(),
+            'slug' => null,
+        ]);
+
+        $replacement = Show::factory()->create([
+            'title_en' => 'Replacement Show',
+            'slug' => 'reusable-show-slug',
+        ]);
+        $show->restore();
+
+        $this->assertSame('reusable-show-slug', $replacement->fresh()->slug);
+        $this->assertSame('reusable-show-slug-2', $show->fresh()->slug);
+    }
+
+    public function test_soft_deleting_news_releases_its_slug_and_restore_generates_a_unique_slug(): void
+    {
+        $this->actingAs(UserFactory::new()->admin()->create());
+        $news = News::factory()->create([
+            'title_en' => 'Reusable News Slug',
+            'slug' => 'reusable-news-slug',
+        ]);
+
+        Livewire::test(ListNews::class)
+            ->callTableAction('delete', $news);
+
+        $this->assertSoftDeleted('news', ['id' => $news->getKey()]);
+        $this->assertDatabaseHas('news', [
+            'id' => $news->getKey(),
+            'slug' => null,
+        ]);
+
+        $replacement = News::factory()->create([
+            'title_en' => 'Replacement News',
+            'slug' => 'reusable-news-slug',
+        ]);
+        $news->restore();
+
+        $this->assertSame('reusable-news-slug', $replacement->fresh()->slug);
+        $this->assertSame('reusable-news-slug-2', $news->fresh()->slug);
+    }
+
         Livewire::test(ListShows::class)
             ->callTableAction('publish', $show);
 

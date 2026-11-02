@@ -4,44 +4,57 @@ namespace App\Filament\Resources\Shows;
 
 use App\Filament\Concerns\HasAutoSlug;
 use App\Filament\Concerns\HasPublishWorkflow;
+use App\Filament\Concerns\HasRecordPreviewActions;
 use App\Filament\Concerns\ValidatesOnBlur;
 use App\Filament\Resources\Shows\Pages\CreateShow;
 use App\Filament\Resources\Shows\Pages\EditShow;
 use App\Filament\Resources\Shows\Pages\ListShows;
+use App\Models\CastMember;
 use App\Models\Category;
 use App\Models\Genre;
 use App\Models\Show;
+use App\Services\ImageProcessingService;
 use BackedEnum;
 use Closure;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\Components\Utilities\Set;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
-use UnitEnum;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TagsInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Infolists\Components\ImageEntry;
+use Filament\Infolists\Components\RepeatableEntry;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Unique;
+use Illuminate\Validation\ValidationException;
+use UnitEnum;
 
 class ShowResource extends Resource
 {
     use HasAutoSlug;
     use HasPublishWorkflow;
+    use HasRecordPreviewActions;
     use ValidatesOnBlur;
 
     protected static ?string $model = Show::class;
@@ -90,7 +103,7 @@ class ShowResource extends Resource
                                         ->maxLength(255)
                                         ->unique(
                                             ignoreRecord: true,
-                                            modifyRuleUsing: fn(\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
+                                            modifyRuleUsing: fn (Unique $rule) => $rule->withoutTrashed(),
                                         )
                                         ->validationMessages([
                                             'unique' => 'A show with this English title already exists.',
@@ -105,7 +118,7 @@ class ShowResource extends Resource
                                         ->maxLength(255)
                                         ->unique(
                                             ignoreRecord: true,
-                                            modifyRuleUsing: fn(\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
+                                            modifyRuleUsing: fn (Unique $rule) => $rule->withoutTrashed(),
                                         )
                                         ->validationMessages([
                                             'unique' => 'A show with this Arabic title already exists.',
@@ -242,10 +255,10 @@ class ShowResource extends Resource
                                         ->helperText('Auto-filled from the English title.'),
 
                                     TextInput::make('vimeo_url')
-                                        ->label('Vimeo Trailer URL')
+                                        ->label('Vimeo URL')
                                         ->url()
                                         ->rule('regex:/^https:\/\/(?:www\.)?vimeo\.com\/(?:.*\/)?[0-9]+(?:\/[A-Za-z0-9_-]+)?(?:\?.*)?$/i')
-                                        ->helperText('Use a Vimeo video URL such as https://vimeo.com/123456789.')
+                                        ->helperText('This appears on the public page as the Watch here link.')
                                         ->maxLength(255)
                                         ->placeholder('https://vimeo.com/123456789')
                                         ->columnSpanFull(),
@@ -259,8 +272,8 @@ class ShowResource extends Resource
                                         ->imageEditor()
                                         ->maxSize(8192)
                                         ->saveUploadedFileUsing(
-                                            fn($file) => app(
-                                                \App\Services\ImageProcessingService::class
+                                            fn ($file) => app(
+                                                ImageProcessingService::class
                                             )->processAndStore(
                                                 $file,
                                                 'shows',
@@ -303,9 +316,29 @@ class ShowResource extends Resource
                                         ->maxValue(9999)
                                         ->step(1),
 
-                                    TagsInput::make('languages')
+                                    TextInput::make('episode_duration')
+                                        ->label('Episode Duration')
+                                        ->numeric()
+                                        ->integer()
+                                        ->minValue(1)
+                                        ->maxValue(1440)
+                                        ->suffix('minutes'),
+
+                                    Select::make('languages')
                                         ->label('Languages')
-                                        ->placeholder('Add a language and press Enter')
+                                        ->options(array_combine(
+                                            array_keys(Show::LANGUAGE_TRANSLATIONS),
+                                            array_keys(Show::LANGUAGE_TRANSLATIONS),
+                                        ))
+                                        ->multiple()
+                                        ->searchable()
+                                        ->preload()
+                                        ->createOptionForm([
+                                            TextInput::make('value')
+                                                ->label('Language')
+                                                ->required(),
+                                        ])
+                                        ->createOptionUsing(fn (array $data): string => trim($data['value']))
                                         ->helperText('Add every available language.'),
 
                                     TagsInput::make('subtitles')
@@ -313,18 +346,23 @@ class ShowResource extends Resource
                                         ->placeholder('Add a subtitle language and press Enter')
                                         ->helperText('Leave empty if subtitles are unavailable.'),
 
-                                    TagsInput::make('availability')
+                                    Select::make('availability')
                                         ->label('Availability')
-                                        ->placeholder('e.g. Worldwide, MENA')
+                                        ->options([
+                                            'Worldwide' => 'Worldwide',
+                                            'MENA' => 'MENA',
+                                        ])
+                                        ->multiple()
+                                        ->searchable()
+                                        ->preload()
+                                        ->createOptionForm([
+                                            TextInput::make('value')
+                                                ->label('Availability region')
+                                                ->required(),
+                                        ])
+                                        ->createOptionUsing(fn (array $data): string => trim($data['value']))
                                         ->helperText('Add one or more territories, such as Worldwide or MENA.'),
 
-                                    TextInput::make('watch_url')
-                                        ->label('Watch Here URL')
-                                        ->url()
-                                        ->maxLength(255)
-                                        ->placeholder('https://...')
-                                        ->helperText('Direct viewing link. The Vimeo URL remains available for a trailer.')
-                                        ->columnSpanFull(),
                                 ]),
 
                             Section::make('Documentary Details')
@@ -378,7 +416,7 @@ class ShowResource extends Resource
                                                 ->directory('cast')
                                                 ->imageEditor()
                                                 ->maxSize(8192)
-                                                ->saveUploadedFileUsing(fn ($file) => app(\App\Services\ImageProcessingService::class)
+                                                ->saveUploadedFileUsing(fn ($file) => app(ImageProcessingService::class)
                                                     ->processAndStore($file, 'cast', maxWidth: 900, quality: 85))
                                                 ->helperText('Upload the actor’s real portrait. It will be displayed in a consistent portrait crop.')
                                                 ->columnSpanFull(),
@@ -443,12 +481,10 @@ class ShowResource extends Resource
                                 ->timezone('Asia/Beirut')
                                 ->minDate(today('Asia/Beirut'))
                                 ->visible(
-                                    fn(callable $get) =>
-                                    $get('status') === 'scheduled'
+                                    fn (callable $get) => $get('status') === 'scheduled'
                                 )
                                 ->required(
-                                    fn(callable $get) =>
-                                    $get('status') === 'scheduled'
+                                    fn (callable $get) => $get('status') === 'scheduled'
                                 ),
 
                         ]),
@@ -456,9 +492,188 @@ class ShowResource extends Resource
         ]);
     }
 
+    /**
+     * @return array<Component>
+     */
+    protected static function recordPreviewSchema(): array
+    {
+        return [
+            Section::make('Show Overview')
+                ->columns(2)
+                ->components([
+                    ImageEntry::make('cover_image_path')
+                        ->label('Cover Image')
+                        ->disk('public')
+                        ->imageHeight(220)
+                        ->columnSpanFull(),
+
+                    TextEntry::make('title_en')
+                        ->label('Title (English)')
+                        ->weight('bold'),
+                    TextEntry::make('title_ar')
+                        ->label('Title (Arabic)'),
+                    TextEntry::make('content_type')
+                        ->label('Content Type')
+                        ->formatStateUsing(fn (?string $state): string => match ($state) {
+                            'documentary' => 'Documentary',
+                            'series' => 'Series',
+                            'general' => 'General',
+                            default => 'Not set',
+                        })
+                        ->badge(),
+                    TextEntry::make('status')
+                        ->formatStateUsing(fn (string $state): string => ucfirst($state))
+                        ->badge()
+                        ->color(fn (string $state): string => static::statusColor($state)),
+                    TextEntry::make('description_en')
+                        ->label('Description (English)')
+                        ->prose()
+                        ->columnSpanFull(),
+                    TextEntry::make('description_ar')
+                        ->label('Description (Arabic)')
+                        ->prose()
+                        ->columnSpanFull(),
+                ]),
+            Section::make('Classification & Availability')
+                ->columns(2)
+                ->components([
+                    TextEntry::make('categories')
+                        ->getStateUsing(fn (Show $record): string => $record->categories
+                            ->map(fn (Category $category): string => "{$category->name_en} / {$category->name_ar}")
+                            ->implode(', '))
+                        ->placeholder('None'),
+                    TextEntry::make('genres')
+                        ->getStateUsing(fn (Show $record): string => $record->genres
+                            ->map(fn (Genre $genre): string => "{$genre->name_en} / {$genre->name_ar}")
+                            ->implode(', '))
+                        ->placeholder('None'),
+                    TextEntry::make('languages')
+                        ->listWithLineBreaks()
+                        ->placeholder('None'),
+                    TextEntry::make('subtitles')
+                        ->listWithLineBreaks()
+                        ->placeholder('None'),
+                    TextEntry::make('availability')
+                        ->listWithLineBreaks()
+                        ->placeholder('None'),
+                    TextEntry::make('vimeo_url')
+                        ->label('Watch Here (Vimeo)')
+                        ->placeholder('Not set')
+                        ->columnSpanFull(),
+                ]),
+            Section::make('Catalogue Details')
+                ->columns(2)
+                ->components([
+                    TextEntry::make('origin')
+                        ->label('Rights / Content Origin')
+                        ->placeholder('Not set'),
+                    TextEntry::make('country_of_origin')
+                        ->placeholder('Not set'),
+                    TextEntry::make('production_year')
+                        ->label('Year of Production')
+                        ->placeholder('Not set'),
+                    TextEntry::make('broadcast_format')
+                        ->placeholder('Not set'),
+                    TextEntry::make('season_number')
+                        ->label('Season')
+                        ->placeholder('Not set'),
+                    TextEntry::make('episode_count')
+                        ->label('Number of Episodes')
+                        ->placeholder('Not set'),
+                    TextEntry::make('episode_duration')
+                        ->label('Episode Duration (minutes)')
+                        ->placeholder('Not set'),
+                    TextEntry::make('service_types')
+                        ->label('MLI Involvement')
+                        ->listWithLineBreaks()
+                        ->placeholder('Not set'),
+                    TextEntry::make('directors')
+                        ->listWithLineBreaks()
+                        ->placeholder('Not set'),
+                    RepeatableEntry::make('castMembers')
+                        ->label('Cast Members')
+                        ->getStateUsing(fn (Show $record): array => $record->castMembers
+                            ->map(fn (CastMember $castMember): array => [
+                                'photo_path' => $castMember->photo_path,
+                                'actor_name_en' => $castMember->actor_name_en,
+                                'actor_name_ar' => $castMember->actor_name_ar,
+                                'character_name_en' => $castMember->character_name_en,
+                                'character_name_ar' => $castMember->character_name_ar,
+                            ])
+                            ->all())
+                        ->schema([
+                            ImageEntry::make('photo_path')
+                                ->label('Photo')
+                                ->disk('public')
+                                ->imageHeight(80),
+                            TextEntry::make('actor_name_en')
+                                ->label('Actor (English)'),
+                            TextEntry::make('actor_name_ar')
+                                ->label('Actor (Arabic)'),
+                            TextEntry::make('character_name_en')
+                                ->label('Character (English)'),
+                            TextEntry::make('character_name_ar')
+                                ->label('Character (Arabic)'),
+                        ])
+                        ->columns(2)
+                        ->placeholder('None')
+                        ->columnSpanFull(),
+                    TextEntry::make('cover_image_alt')
+                        ->label('Cover Image Alt Text')
+                        ->placeholder('Not set')
+                        ->columnSpanFull(),
+                ]),
+            Section::make('Publishing')
+                ->columns(2)
+                ->components([
+                    TextEntry::make('is_new_release')
+                        ->label('New Release')
+                        ->formatStateUsing(fn (bool $state): string => $state ? 'Yes' : 'No')
+                        ->badge(),
+                    TextEntry::make('published_at')
+                        ->dateTime('M j, Y g:i A', 'Asia/Beirut')
+                        ->placeholder('Not scheduled'),
+                    TextEntry::make('sort_order')
+                        ->label('Homepage Order'),
+                    TextEntry::make('slug'),
+                ]),
+            Section::make('Search & Record Details')
+                ->description('Automatically generated search metadata and record history.')
+                ->columns(2)
+                ->components([
+                    TextEntry::make('meta_title_en')
+                        ->label('SEO Title (English)')
+                        ->placeholder('Not set'),
+                    TextEntry::make('meta_title_ar')
+                        ->label('SEO Title (Arabic)')
+                        ->placeholder('Not set'),
+                    TextEntry::make('meta_description_en')
+                        ->label('SEO Description (English)')
+                        ->prose()
+                        ->placeholder('Not set')
+                        ->columnSpanFull(),
+                    TextEntry::make('meta_description_ar')
+                        ->label('SEO Description (Arabic)')
+                        ->prose()
+                        ->placeholder('Not set')
+                        ->columnSpanFull(),
+                    TextEntry::make('id')
+                        ->label('Record ID'),
+                    TextEntry::make('created_at')
+                        ->label('Created')
+                        ->dateTime('M j, Y g:i A', 'Asia/Beirut'),
+                    TextEntry::make('updated_at')
+                        ->label('Last Updated')
+                        ->dateTime('M j, Y g:i A', 'Asia/Beirut'),
+                ]),
+        ];
+    }
+
     public static function table(Table $table): Table
     {
         return $table
+            ->recordAction('view')
+            ->recordUrl(null)
             ->columns([
                 ImageColumn::make('cover_image_path')
                     ->label('Cover')
@@ -509,8 +724,7 @@ class ShowResource extends Resource
                     ->label('Homepage Order')
                     ->sortable()
                     ->formatStateUsing(
-                        fn ($state, Show $record) =>
-                            $record->is_new_release && $record->status === 'published'
+                        fn ($state, Show $record) => $record->is_new_release && $record->status === 'published'
                                 ? $state
                                 : null
                     )
@@ -522,7 +736,7 @@ class ShowResource extends Resource
             ->defaultSort('sort_order')
             ->reorderable('sort_order')
             ->reorderRecordsTriggerAction(
-                fn (\Filament\Actions\Action $action, bool $isReordering) => $action
+                fn (Action $action, bool $isReordering) => $action
                     ->button()
                     ->label($isReordering ? 'Done reordering' : 'Reorder shows')
                     ->icon($isReordering ? Heroicon::Check : Heroicon::ArrowsUpDown),
@@ -573,15 +787,16 @@ class ShowResource extends Resource
                     ->label('Genre'),
             ])
             ->recordActions([
+                static::recordPreviewAction(static::recordPreviewSchema()),
                 static::publishAction(),
                 static::scheduleAction(),
                 static::unpublishAction(),
-                \Filament\Actions\EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
+                static::recordEditAction(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
-                \Filament\Actions\BulkActionGroup::make([
-                    \Filament\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
