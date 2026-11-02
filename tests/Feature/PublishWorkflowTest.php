@@ -2,12 +2,17 @@
 
 namespace Tests\Feature;
 
-use App\Filament\Resources\News\Pages\ListNews;
+use App\Filament\Resources\MediaServices\Pages\CreateMediaService;
 use App\Filament\Resources\MediaServices\Pages\ListMediaServices;
+use App\Filament\Resources\News\Pages\EditNews;
+use App\Filament\Resources\News\Pages\ListNews;
+use App\Filament\Resources\Shows\Pages\EditShow;
 use App\Filament\Resources\Shows\Pages\ListShows;
+use App\Filament\Resources\SiteContents\Pages\EditSiteContent;
+use App\Http\Controllers\HomeController;
+use App\Models\MediaService;
 use App\Models\News;
 use App\Models\Show;
-use App\Models\MediaService;
 use App\Models\SiteContent;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -51,11 +56,6 @@ class PublishWorkflowTest extends TestCase
         $this->assertSame('alpha-story-2', $duplicate->fresh()->slug);
         $this->assertSame('alpha-story', $existing->fresh()->slug);
     }
-
-    public function test_publish_action_publishes_a_show_and_sets_published_at(): void
-    {
-        $this->actingAs(UserFactory::new()->create());
-        $show = Show::factory()->create(['status' => 'draft', 'published_at' => null]);
 
     public function test_soft_deleting_a_show_releases_its_slug_and_restore_generates_a_unique_slug(): void
     {
@@ -110,6 +110,11 @@ class PublishWorkflowTest extends TestCase
         $this->assertSame('reusable-news-slug', $replacement->fresh()->slug);
         $this->assertSame('reusable-news-slug-2', $news->fresh()->slug);
     }
+
+    public function test_publish_action_publishes_a_show_and_sets_published_at(): void
+    {
+        $this->actingAs(UserFactory::new()->create());
+        $show = Show::factory()->create(['status' => 'draft', 'published_at' => null]);
 
         Livewire::test(ListShows::class)
             ->callTableAction('publish', $show);
@@ -250,7 +255,7 @@ class PublishWorkflowTest extends TestCase
 
         $recordId = $content->getKey();
 
-        Livewire::test(\App\Filament\Resources\SiteContents\Pages\EditSiteContent::class, [
+        Livewire::test(EditSiteContent::class, [
             'record' => $recordId,
         ])
             ->fillForm([
@@ -277,7 +282,7 @@ class PublishWorkflowTest extends TestCase
             'published_at' => null,
         ]);
 
-        Livewire::test(\App\Filament\Resources\Shows\Pages\EditShow::class, [
+        Livewire::test(EditShow::class, [
             'record' => $show->getKey(),
         ])
             ->fillForm([
@@ -301,7 +306,7 @@ class PublishWorkflowTest extends TestCase
             'published_at' => null,
         ]);
 
-        Livewire::test(\App\Filament\Resources\News\Pages\EditNews::class, [
+        Livewire::test(EditNews::class, [
             'record' => $news->getKey(),
         ])
             ->fillForm([
@@ -320,7 +325,7 @@ class PublishWorkflowTest extends TestCase
     {
         $this->actingAs(UserFactory::new()->create());
 
-        $result = Livewire::test(\App\Filament\Resources\MediaServices\Pages\CreateMediaService::class)
+        $result = Livewire::test(CreateMediaService::class)
             ->fillForm([
                 'title_en' => 'Social Media Production',
                 'title_ar' => 'إنتاج الوسائط الاجتماعية',
@@ -336,7 +341,7 @@ class PublishWorkflowTest extends TestCase
             ->where('title_en', 'Social Media Production')
             ->firstOrFail();
 
-        $services = app(\App\Http\Controllers\HomeController::class)->index()->getData()['mediaServices'];
+        $services = app(HomeController::class)->index()->getData()['mediaServices'];
 
         $this->assertTrue($services->contains(
             fn (MediaService $item) => $item->is($service)

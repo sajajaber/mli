@@ -12,7 +12,7 @@ class PublicVisibilityTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_shows_and_news_indexes_paginate_24_records_and_news_filter_on_the_server(): void
+    public function test_shows_and_news_indexes_paginate_and_news_filter_on_the_server(): void
     {
         for ($index = 1; $index <= 25; $index++) {
             $this->makeShow(
@@ -49,13 +49,13 @@ class PublicVisibilityTest extends TestCase
         $this->get(route('news.index', ['type' => 'media_news']))
             ->assertOk()
             ->assertSee('Paginated Media News 01')
-            ->assertSee('Paginated Media News 24')
-            ->assertDontSee('Paginated Media News 25')
+            ->assertSee('Paginated Media News 12')
+            ->assertDontSee('Paginated Media News 13')
             ->assertDontSee('Paginated MLI News 01');
 
         $this->get(route('news.index', ['type' => 'media_news', 'page' => 2]))
             ->assertOk()
-            ->assertSee('Paginated Media News 25')
+            ->assertSee('Paginated Media News 13')
             ->assertDontSee('Paginated MLI News 01');
     }
 
@@ -252,7 +252,7 @@ class PublicVisibilityTest extends TestCase
     ): Show {
         return Show::create([
             'title_en' => $title,
-            'title_ar' => $title . ' AR',
+            'title_ar' => $title.' AR',
             'description_en' => 'A test show.',
             'description_ar' => 'برنامج تجريبي.',
             'slug' => strtolower(str_replace(' ', '-', $title)),
@@ -270,7 +270,7 @@ class PublicVisibilityTest extends TestCase
     ): News {
         return News::create([
             'title_en' => $title,
-            'title_ar' => $title . ' AR',
+            'title_ar' => $title.' AR',
             'body_en' => 'A test news article.',
             'body_ar' => 'خبر تجريبي.',
             'slug' => strtolower(str_replace(' ', '-', $title)),

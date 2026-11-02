@@ -4,13 +4,17 @@ namespace App\Filament\Resources\News;
 
 use App\Filament\Concerns\HasAutoSlug;
 use App\Filament\Concerns\HasPublishWorkflow;
+use App\Filament\Concerns\HasRecordPreviewActions;
 use App\Filament\Concerns\ValidatesOnBlur;
 use App\Filament\Resources\News\Pages\CreateNews;
 use App\Filament\Resources\News\Pages\EditNews;
 use App\Filament\Resources\News\Pages\ListNews;
 use App\Models\News;
+use App\Services\ImageProcessingService;
 use BackedEnum;
-use UnitEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -25,11 +29,14 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Validation\Rules\Unique;
+use UnitEnum;
 
 class NewsResource extends Resource
 {
     use HasAutoSlug;
     use HasPublishWorkflow;
+    use HasRecordPreviewActions;
     use ValidatesOnBlur;
 
     protected static ?string $model = News::class;
@@ -61,7 +68,7 @@ class NewsResource extends Resource
                                         ->maxLength(255)
                                         ->unique(
                                             ignoreRecord: true,
-                                            modifyRuleUsing: fn(\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
+                                            modifyRuleUsing: fn (Unique $rule) => $rule->withoutTrashed(),
                                         )
                                         ->validationMessages([
                                             'unique' => 'A news article with this English title already exists.',
@@ -76,7 +83,7 @@ class NewsResource extends Resource
                                         ->maxLength(255)
                                         ->unique(
                                             ignoreRecord: true,
-                                            modifyRuleUsing: fn(\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
+                                            modifyRuleUsing: fn (Unique $rule) => $rule->withoutTrashed(),
                                         )
                                         ->validationMessages([
                                             'unique' => 'A news article with this Arabic title already exists.',
@@ -149,7 +156,7 @@ class NewsResource extends Resource
                                         ->directory('news')
                                         ->imageEditor()
                                         ->maxSize(8192)
-                                        ->saveUploadedFileUsing(fn ($file) => app(\App\Services\ImageProcessingService::class)
+                                        ->saveUploadedFileUsing(fn ($file) => app(ImageProcessingService::class)
                                             ->processAndStore($file, 'news', maxWidth: 1600, quality: 85))
                                         ->columnSpanFull(),
 
@@ -191,6 +198,9 @@ class NewsResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordAction('view')
+            ->recordUrl(null)
+            ->stackedOnMobile()
             ->columns([
                 ImageColumn::make('featured_image_path')
                     ->label('Image')
@@ -200,7 +210,6 @@ class NewsResource extends Resource
                 TextColumn::make('title_en')
                     ->label('Title (English)')
                     ->searchable()
-            ->stackedOnMobile()
                     ->sortable(),
 
                 TextColumn::make('news_type')
@@ -242,15 +251,16 @@ class NewsResource extends Resource
                     ]),
             ])
             ->recordActions([
+                static::recordPreviewAction(),
                 static::publishAction(),
                 static::scheduleAction(),
                 static::unpublishAction(),
-                \Filament\Actions\EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
+                static::recordEditAction(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
-                \Filament\Actions\BulkActionGroup::make([
-                    \Filament\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

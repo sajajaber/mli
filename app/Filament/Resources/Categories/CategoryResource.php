@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Categories;
 
+use App\Filament\Concerns\HasRecordPreviewActions;
 use App\Filament\Concerns\ValidatesOnBlur;
 use App\Filament\Resources\Categories\Pages\CreateCategory;
 use App\Filament\Resources\Categories\Pages\EditCategory;
@@ -9,6 +10,9 @@ use App\Filament\Resources\Categories\Pages\ListCategories;
 use App\Models\Category;
 use BackedEnum;
 use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
@@ -23,6 +27,7 @@ use UnitEnum;
 
 class CategoryResource extends Resource
 {
+    use HasRecordPreviewActions;
     use ValidatesOnBlur;
 
     protected static ?string $model = Category::class;
@@ -117,15 +122,13 @@ class CategoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordAction('view')
+            ->recordUrl(null)
+            ->stackedOnMobile()
             ->columns([
                 TextColumn::make('name_en')
                     ->label('Category (English)')
-                    ->extraCellAttributes(
-                        fn (Category $record): array => $record->parent_id
-                            ? ['style' => 'padding-inline-start: 2.5rem;']
-                            : [],
-            ->stackedOnMobile()
-                    )
+                    ->extraCellAttributes(fn (Category $record): array => static::categoryColorAttributes($record))
                     ->weight(fn (Category $record): string => $record->parent_id ? 'normal' : 'semibold')
                     ->searchable(),
 
@@ -147,6 +150,7 @@ class CategoryResource extends Resource
             ->recordClasses(
                 function (Category $record, $livewire): array {
                     return [
+                        'mli-category-colored-row' => true,
                         'mli-parent-category-row' => $record->parent_id === null,
                         'mli-subcategory-collapsed' => $record->parent_id !== null
                             && isset($livewire->collapsedCategoryIds[(string) $record->parent_id]),
@@ -156,6 +160,7 @@ class CategoryResource extends Resource
             ->paginated(false)
             ->filters([])
             ->recordActions([
+                static::recordPreviewAction(),
                 Action::make('toggleSubcategories')
                     ->label(fn (Category $record, $livewire): string => isset($livewire->collapsedCategoryIds[(string) $record->getKey()])
                         ? 'Expand subcategories'
@@ -169,15 +174,35 @@ class CategoryResource extends Resource
                         : 'Collapse subcategories')
                     ->visible(fn (Category $record): bool => $record->parent_id === null && $record->children_count > 0)
                     ->action(fn (Category $record, $livewire) => $livewire->toggleSubcategories($record->getKey())),
-                \Filament\Actions\EditAction::make(),
-                \Filament\Actions\DeleteAction::make()
+                static::recordEditAction(),
+                DeleteAction::make()
                     ->modalDescription('Deleting a category also deletes its sub-categories and removes them from shows.'),
             ])
             ->toolbarActions([
-                \Filament\Actions\BulkActionGroup::make([
-                    \Filament\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    /**
+     * @return array{style: string}
+     */
+    protected static function categoryColorAttributes(Category $category): array
+    {
+        $parentId = (int) ($category->parent_id ?? $category->getKey());
+        $hue = fmod($parentId * 137.508, 360);
+        $styles = [
+            '--mli-category-hue: '.number_format($hue, 2, '.', '').'deg',
+        ];
+
+        if ($category->parent_id !== null) {
+            $styles[] = 'padding-inline-start: 2.5rem';
+        }
+
+        return [
+            'style' => implode('; ', $styles),
+        ];
     }
 
     public static function getPages(): array

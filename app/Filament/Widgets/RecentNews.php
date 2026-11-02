@@ -12,6 +12,7 @@ class RecentNews extends BaseWidget
     protected static ?int $sort = 3;
 
     protected static bool $isLazy = false;
+
     protected static ?string $heading = 'Recently Added News';
 
     protected int|string|array $columnSpan = 1;
@@ -21,12 +22,12 @@ class RecentNews extends BaseWidget
         return $table
             ->query(News::query()->latest()->limit(5))
             ->paginated(false)
-            ->columns([
             ->stackedOnMobile()
+            ->columns([
                 TextColumn::make('title_en')->label('Title'),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn(string $state) => match ($state) {
+                    ->color(fn (string $state) => match ($state) {
                         'draft' => 'gray',
                         'scheduled' => 'warning',
                         'published' => 'success',

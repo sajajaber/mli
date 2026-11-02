@@ -2,9 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Filament\Resources\Categories\Pages\ListCategories;
 use App\Models\Category;
 use App\Models\Show;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class CategoryHierarchyTest extends TestCase
@@ -108,5 +111,38 @@ class CategoryHierarchyTest extends TestCase
         $this->get('/shows?category=nature')
             ->assertOk()
             ->assertSee('Wild Nature');
+    }
+
+    public function test_category_admin_rows_share_parent_colors_and_distinguish_each_parent(): void
+    {
+        $firstParent = Category::query()->create([
+            'name_en' => 'A Parent',
+            'name_ar' => 'أ',
+            'slug' => 'a-parent',
+        ]);
+        Category::query()->create([
+            'parent_id' => $firstParent->getKey(),
+            'name_en' => 'A Child',
+            'name_ar' => 'أ-فرعي',
+            'slug' => 'a-child',
+        ]);
+        Category::query()->create([
+            'name_en' => 'B Parent',
+            'name_ar' => 'ب',
+            'slug' => 'b-parent',
+        ]);
+        $this->actingAs(UserFactory::new()->admin()->create());
+
+        $component = Livewire::test(ListCategories::class);
+        preg_match_all(
+            '/style="--mli-category-hue: ([^;]+)deg/',
+            $component->html(),
+            $hues,
+        );
+
+        $this->assertSame(3, count($hues[1]));
+        $this->assertSame($hues[1][0], $hues[1][1]);
+        $this->assertSame(2, count(array_unique($hues[1])));
+        $component->assertSeeHtml('mli-category-colored-row');
     }
 }

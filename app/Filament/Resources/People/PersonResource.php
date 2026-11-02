@@ -2,12 +2,17 @@
 
 namespace App\Filament\Resources\People;
 
+use App\Filament\Concerns\HasRecordPreviewActions;
 use App\Filament\Resources\People\Pages\CreatePerson;
 use App\Filament\Resources\People\Pages\EditPerson;
 use App\Filament\Resources\People\Pages\ListPeople;
 use App\Models\Person;
+use App\Services\ImageProcessingService;
 use BackedEnum;
-use UnitEnum;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -15,13 +20,16 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class PersonResource extends Resource
 {
+    use HasRecordPreviewActions;
+
     protected static ?string $model = Person::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
@@ -48,7 +56,7 @@ class PersonResource extends Resource
                         ->directory('people')
                         ->imageEditor()
                         ->maxSize(8192)
-                        ->saveUploadedFileUsing(fn($file) => app(\App\Services\ImageProcessingService::class)
+                        ->saveUploadedFileUsing(fn ($file) => app(ImageProcessingService::class)
                             ->processAndStore($file, 'people', maxWidth: 800, quality: 85))
                         ->columnSpanFull(),
 
@@ -73,7 +81,6 @@ class PersonResource extends Resource
                         ->maxLength(255)
                         ->extraInputAttributes(['dir' => 'rtl']),
 
-
                     Toggle::make('is_active')
                         ->label('Active (visible on site)')
                         ->default(true),
@@ -84,6 +91,9 @@ class PersonResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordAction('view')
+            ->recordUrl(null)
+            ->stackedOnMobile()
             ->columns([
                 ImageColumn::make('photo_path')
                     ->label('Photo')
@@ -93,7 +103,6 @@ class PersonResource extends Resource
                 TextColumn::make('name')->label('Name (English)')->searchable()->sortable(),
                 TextColumn::make('role_title')->label('Role (English)')->searchable(),
 
-            ->stackedOnMobile()
                 IconColumn::make('is_active')
                     ->label('Active')
                     ->boolean(),
@@ -102,18 +111,19 @@ class PersonResource extends Resource
             ->defaultSort('sort_order')
             ->reorderable('sort_order')
             ->reorderRecordsTriggerAction(
-                fn (\Filament\Actions\Action $action, bool $isReordering) => $action
+                fn (Action $action, bool $isReordering) => $action
                     ->button()
                     ->label($isReordering ? 'Done reordering' : 'Reorder team')
                     ->icon($isReordering ? Heroicon::Check : Heroicon::ArrowsUpDown),
             )
             ->recordActions([
-                \Filament\Actions\EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
+                static::recordPreviewAction(),
+                static::recordEditAction(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
-                \Filament\Actions\BulkActionGroup::make([
-                    \Filament\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

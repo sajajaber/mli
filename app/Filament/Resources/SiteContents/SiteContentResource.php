@@ -3,12 +3,15 @@
 namespace App\Filament\Resources\SiteContents;
 
 use App\Filament\Concerns\HasPublishWorkflow;
+use App\Filament\Concerns\HasRecordPreviewActions;
 use App\Filament\Resources\SiteContents\Pages\CreateSiteContent;
 use App\Filament\Resources\SiteContents\Pages\EditSiteContent;
 use App\Filament\Resources\SiteContents\Pages\ListSiteContents;
 use App\Models\SiteContent;
 use BackedEnum;
-use UnitEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
@@ -22,10 +25,13 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rules\Unique;
+use UnitEnum;
 
 class SiteContentResource extends Resource
 {
     use HasPublishWorkflow;
+    use HasRecordPreviewActions;
 
     protected static ?string $model = SiteContent::class;
 
@@ -59,7 +65,7 @@ class SiteContentResource extends Resource
                                 ->maxLength(255)
                                 ->unique(
                                     ignoreRecord: true,
-                                    modifyRuleUsing: fn (\Illuminate\Validation\Rules\Unique $rule) => $rule->withoutTrashed(),
+                                    modifyRuleUsing: fn (Unique $rule) => $rule->withoutTrashed(),
                                 )
                                 ->validationMessages([
                                     'unique' => 'This media service slot is already in use.',
@@ -142,6 +148,9 @@ class SiteContentResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordAction('view')
+            ->recordUrl(null)
+            ->stackedOnMobile()
             ->paginated(false)
             ->poll('10s')
             ->columns([
@@ -150,7 +159,6 @@ class SiteContentResource extends Resource
                 static::statusColumn(),
                 TextColumn::make('published_at')->dateTime()->sortable()->toggleable(),
             ])
-            ->stackedOnMobile()
             ->filters([
                 SelectFilter::make('status')->options([
                     'draft' => 'Draft',
@@ -159,14 +167,15 @@ class SiteContentResource extends Resource
                 ]),
             ])
             ->recordActions([
+                static::recordPreviewAction(),
                 static::publishAction(),
                 static::scheduleAction(),
-                \Filament\Actions\EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
+                static::recordEditAction(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
-                \Filament\Actions\BulkActionGroup::make([
-                    \Filament\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

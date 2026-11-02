@@ -1,5 +1,8 @@
 <?php
+
 namespace App\Filament\Resources\HeroAdvertisements;
+
+use App\Filament\Concerns\HasRecordPreviewActions;
 use App\Filament\Resources\HeroAdvertisements\Pages\CreateHeroAdvertisement;
 use App\Filament\Resources\HeroAdvertisements\Pages\EditHeroAdvertisement;
 use App\Filament\Resources\HeroAdvertisements\Pages\ListHeroAdvertisements;
@@ -8,7 +11,6 @@ use App\Services\ImageProcessingService;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\EditAction;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -26,6 +28,8 @@ use UnitEnum;
 
 class HeroAdvertisementResource extends Resource
 {
+    use HasRecordPreviewActions;
+
     protected static ?string $model = HeroAdvertisement::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedMegaphone;
@@ -64,7 +68,7 @@ class HeroAdvertisementResource extends Resource
                         ->maxSize(12288)
                         ->deletable()
                         ->saveUploadedFileUsing(
-                            fn($file) => app(ImageProcessingService::class)
+                            fn ($file) => app(ImageProcessingService::class)
                                 ->processAndStore(
                                     $file,
                                     'hero',
@@ -99,13 +103,15 @@ class HeroAdvertisementResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordAction('view')
+            ->recordUrl(null)
+            ->stackedOnMobile()
             ->columns([
                 Stack::make([
                     ImageColumn::make('image_path')
                         ->label('Hero Artwork')
                         ->disk('public')
                         ->height(220)
-            ->stackedOnMobile()
                         ->extraImgAttributes([
                             'class' => 'w-full rounded-xl object-cover',
                         ]),
@@ -120,13 +126,13 @@ class HeroAdvertisementResource extends Resource
                     TextColumn::make('is_active')
                         ->label('Status')
                         ->formatStateUsing(
-                            fn(bool $state): string => $state
+                            fn (bool $state): string => $state
                                 ? 'Active'
                                 : 'Inactive'
                         )
                         ->badge()
                         ->color(
-                            fn(bool $state): string => $state
+                            fn (bool $state): string => $state
                                 ? 'success'
                                 : 'gray'
                         ),
@@ -140,24 +146,24 @@ class HeroAdvertisementResource extends Resource
             ->defaultSort('sort_order')
             ->reorderable('sort_order')
             ->reorderRecordsTriggerAction(
-                fn(Action $action) => $action
+                fn (Action $action) => $action
                     ->label('Reorder Hero Advertisements')
                     ->icon('heroicon-o-arrows-up-down')
             )
             ->recordActions([
                 Action::make('toggleActive')
                     ->label(
-                        fn(HeroAdvertisement $record): string => $record->is_active
+                        fn (HeroAdvertisement $record): string => $record->is_active
                             ? 'Deactivate'
                             : 'Activate'
                     )
                     ->icon(
-                        fn(HeroAdvertisement $record): string => $record->is_active
+                        fn (HeroAdvertisement $record): string => $record->is_active
                             ? 'heroicon-o-eye-slash'
                             : 'heroicon-o-eye'
                     )
                     ->color(
-                        fn(HeroAdvertisement $record): string => $record->is_active
+                        fn (HeroAdvertisement $record): string => $record->is_active
                             ? 'warning'
                             : 'success'
                     )
@@ -180,7 +186,7 @@ class HeroAdvertisementResource extends Resource
                         'This will remove the image file but keep the Hero Advertisement record and its other settings.'
                     )
                     ->visible(
-                        fn(HeroAdvertisement $record): bool => filled(
+                        fn (HeroAdvertisement $record): bool => filled(
                             $record->image_path
                         )
                     )
@@ -208,7 +214,8 @@ class HeroAdvertisementResource extends Resource
                     })
                     ->successNotificationTitle('Hero image removed'),
 
-                EditAction::make(),
+                static::recordPreviewAction(),
+                static::recordEditAction(),
 
                 DeleteAction::make(),
             ]);

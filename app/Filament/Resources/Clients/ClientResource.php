@@ -2,13 +2,17 @@
 
 namespace App\Filament\Resources\Clients;
 
+use App\Filament\Concerns\HasRecordPreviewActions;
 use App\Filament\Resources\Clients\Pages\CreateClient;
 use App\Filament\Resources\Clients\Pages\EditClient;
 use App\Filament\Resources\Clients\Pages\ListClients;
 use App\Models\Client;
+use App\Services\ImageProcessingService;
 use BackedEnum;
-use UnitEnum;
 use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
@@ -18,9 +22,12 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class ClientResource extends Resource
 {
+    use HasRecordPreviewActions;
+
     protected static ?string $model = Client::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBriefcase;
@@ -46,7 +53,7 @@ class ClientResource extends Resource
                         ->disk('public')
                         ->directory('clients')
                         ->maxSize(8192)
-                        ->saveUploadedFileUsing(fn($file) => app(\App\Services\ImageProcessingService::class)
+                        ->saveUploadedFileUsing(fn ($file) => app(ImageProcessingService::class)
                             ->processAndStore($file, 'clients', maxWidth: 500, quality: 90, preserveTransparency: true))
                         ->columnSpanFull(),
 
@@ -62,6 +69,9 @@ class ClientResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordAction('view')
+            ->recordUrl(null)
+            ->stackedOnMobile()
             ->columns([
                 ImageColumn::make('logo_path')
                     ->label('Logo')
@@ -71,7 +81,6 @@ class ClientResource extends Resource
 
                 TextColumn::make('sort_order')
                     ->sortable()
-            ->stackedOnMobile()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('sort_order')
@@ -83,12 +92,13 @@ class ClientResource extends Resource
                     ->icon($isReordering ? Heroicon::Check : Heroicon::ArrowsUpDown),
             )
             ->recordActions([
-                \Filament\Actions\EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
+                static::recordPreviewAction(),
+                static::recordEditAction(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
-                \Filament\Actions\BulkActionGroup::make([
-                    \Filament\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

@@ -2,13 +2,16 @@
 
 namespace App\Filament\Resources\MediaServices;
 
+use App\Filament\Concerns\HasRecordPreviewActions;
 use App\Filament\Resources\MediaServices\Pages\CreateMediaService;
 use App\Filament\Resources\MediaServices\Pages\EditMediaService;
 use App\Filament\Resources\MediaServices\Pages\ListMediaServices;
 use App\Models\MediaService;
 use BackedEnum;
-use UnitEnum;
 use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -20,9 +23,12 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class MediaServiceResource extends Resource
 {
+    use HasRecordPreviewActions;
+
     protected static ?string $model = MediaService::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBriefcase;
@@ -102,6 +108,9 @@ class MediaServiceResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordAction('view')
+            ->recordUrl(null)
+            ->stackedOnMobile()
             ->columns([
                 TextColumn::make('title_en')
                     ->label('Service (English)')
@@ -110,7 +119,6 @@ class MediaServiceResource extends Resource
 
                 TextColumn::make('title_ar')
                     ->label('Service (Arabic)')
-            ->stackedOnMobile()
                     ->searchable(),
 
                 IconColumn::make('is_active')
@@ -126,12 +134,13 @@ class MediaServiceResource extends Resource
                     ->icon($isReordering ? Heroicon::Check : Heroicon::ArrowsUpDown),
             )
             ->recordActions([
-                \Filament\Actions\EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
+                static::recordPreviewAction(),
+                static::recordEditAction(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
-                \Filament\Actions\BulkActionGroup::make([
-                    \Filament\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

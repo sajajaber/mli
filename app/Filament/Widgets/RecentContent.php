@@ -12,6 +12,7 @@ class RecentContent extends BaseWidget
     protected static ?int $sort = 2;
 
     protected static bool $isLazy = false;
+
     protected static ?string $heading = 'Recently Added Shows';
 
     protected int|string|array $columnSpan = 1;
@@ -23,12 +24,12 @@ class RecentContent extends BaseWidget
                 Show::query()->latest()->limit(5)
             )
             ->paginated(false)
-            ->columns([
             ->stackedOnMobile()
+            ->columns([
                 TextColumn::make('title_en')->label('Title'),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn(string $state) => match ($state) {
+                    ->color(fn (string $state) => match ($state) {
                         'draft' => 'gray',
                         'scheduled' => 'warning',
                         'published' => 'success',

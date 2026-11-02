@@ -1422,25 +1422,29 @@ body {
     gap: 24px;
 }
 .mli-nav__brand {
+    position: relative;
     display: flex;
     align-items: center;
-    flex-direction: row;
-    gap: 12px;
-    width: max-content;
-    direction: ltr;
-    text-align: left;
 }
-.mli-nav__brand > span {
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: -0.06em;
+
+.mli-logo {
+    width: 65px;
+    height: auto;
+    object-fit: contain;
+    transition: opacity 0.3s ease;
 }
-.mli-nav__brand small {
-    padding-left: 10px;
-    border-left: 1px solid currentColor;
-    font-size: 7px;
-    line-height: 1.15;
-    letter-spacing: 0.12em;
+
+.mli-logo--scrolled {
+    position: absolute;
+    opacity: 0;
+}
+
+.mli-nav.is-scrolled .mli-logo--top {
+    opacity: 0;
+}
+
+.mli-nav.is-scrolled .mli-logo--scrolled {
+    opacity: 1;
 }
 .mli-nav__center {
     display: flex;
@@ -4794,13 +4798,13 @@ html.mli-public-home .mli-catalogue__bottom a:hover {
 
 .mli-library-marquee__item {
     position: relative;
-    flex-basis: 210px;
-    width: 210px;
+    flex-basis: 300px;
+    width: 300px;
     isolation: isolate;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    min-width: 210px;
+    min-width: 300px;
     padding: 24px 22px 28px;
 }
 
@@ -4852,6 +4856,7 @@ html.mli-public-home .mli-catalogue__bottom a:hover {
     position: absolute;
     right: 22px;
     bottom: 29px;
+    z-index: 2;
     margin-left: 0;
     font-size: 18px;
 }
@@ -4997,7 +5002,7 @@ html.mli-public-home .mli-catalogue__bottom a:hover {
 
 .mli-client-logo {
     flex: 0 0 auto;
-    width: 210px;
+    width: 300px;
     height: 125px;
     display: grid;
     place-items: center;
@@ -12393,7 +12398,7 @@ html[dir="rtl"] .mli-news-page .mli-shows-header h1 {
 }
 
 html[dir="rtl"] .mli-catalogue h2 {
-    font-style: normal; 
+    font-style: normal;
     margin-right: 6px;
 }
 /* =========================================================
@@ -12496,7 +12501,7 @@ html[dir="rtl"] .mli-library-marquee__item {
     margin-inline-start: 138px;
     padding: 3px 10px 3px 14px !important;
     border-inline-start: 2px solid rgba(197, 164, 109, 0.72) !important;
-    border-top: 1px solid rgba(47, 65, 86, 0.10) !important;
+    border-top: 1px solid rgba(47, 65, 86, 0.1) !important;
     background: rgba(197, 164, 109, 0.07);
     min-height: 0;
 }
@@ -12677,7 +12682,8 @@ html[dir="rtl"] .mli-shows-category-filters .mli-shows-filters__label {
     max-height: 64px;
     overflow: hidden;
     opacity: 0;
-    animation: mli-subcategory-row-reveal 340ms cubic-bezier(0.22, 0.72, 0.24, 1) both;
+    animation: mli-subcategory-row-reveal 340ms
+        cubic-bezier(0.22, 0.72, 0.24, 1) both;
 }
 
 .mli-shows-subcategory-reveal > .mli-shows-subcategory-filter-row {
@@ -13113,7 +13119,11 @@ html[dir="rtl"] .mli-show-cast__copy {
     --mli-program-line: rgba(47, 65, 86, 0.15);
     color: var(--mli-program-ink);
     background:
-        radial-gradient(ellipse at 86% 2%, rgba(197, 164, 109, 0.12), transparent 27rem),
+        radial-gradient(
+            ellipse at 86% 2%,
+            rgba(197, 164, 109, 0.12),
+            transparent 27rem
+        ),
         var(--mli-program-paper);
     padding: 36px 0 0;
 }
@@ -13149,7 +13159,10 @@ html[dir="rtl"] .mli-show-cast__copy {
     border-radius: 50%;
     color: var(--mli-program-accent);
     font-size: 16px;
-    transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+    transition:
+        background 180ms ease,
+        color 180ms ease,
+        border-color 180ms ease;
 }
 
 .mli-program-back:hover .mli-program-back__arrow {
@@ -13200,7 +13213,11 @@ html[dir="rtl"] .mli-show-cast__copy {
     justify-content: center;
     gap: 12px;
     background:
-        radial-gradient(ellipse at 50% 35%, rgba(197, 164, 109, 0.26), transparent 40%),
+        radial-gradient(
+            ellipse at 50% 35%,
+            rgba(197, 164, 109, 0.26),
+            transparent 40%
+        ),
         linear-gradient(135deg, #e6e9e5, #d3dcde);
     color: #71818b;
     font-size: 11px;
@@ -13337,7 +13354,10 @@ html[dir="rtl"] .mli-program-poster__corner {
     font-weight: 600;
     line-height: 1.35;
     text-decoration: none;
-    transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+    transition:
+        border-color 160ms ease,
+        color 160ms ease,
+        background 160ms ease;
 }
 
 .mli-program-taxonomy a:hover,
@@ -13428,7 +13448,11 @@ html[dir="rtl"] .mli-program-poster__corner {
     font-weight: 700;
     line-height: 1.3;
     text-decoration: none;
-    transition: background 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease;
+    transition:
+        background 180ms ease,
+        color 180ms ease,
+        border-color 180ms ease,
+        transform 180ms ease;
 }
 
 .mli-program-action:hover {
@@ -13508,11 +13532,19 @@ html[dir="rtl"] .mli-program-poster__corner {
     height: 1px;
     flex: 0 1 auto;
     margin-bottom: 7px;
-    background: linear-gradient(to right, rgba(197, 164, 109, 0.65), rgba(47, 65, 86, 0.05));
+    background: linear-gradient(
+        to right,
+        rgba(197, 164, 109, 0.65),
+        rgba(47, 65, 86, 0.05)
+    );
 }
 
 html[dir="rtl"] .mli-program-section-heading__rule {
-    background: linear-gradient(to left, rgba(197, 164, 109, 0.65), rgba(47, 65, 86, 0.05));
+    background: linear-gradient(
+        to left,
+        rgba(197, 164, 109, 0.65),
+        rgba(47, 65, 86, 0.05)
+    );
 }
 
 .mli-program-details__grid {
@@ -13708,7 +13740,10 @@ html[dir="rtl"] .mli-program-poster-caption {
     transition: transform 360ms ease;
 }
 
-.mli-program-related__image > span:first-child:not(.mli-program-related__wash):not(.mli-program-related__arrow) {
+.mli-program-related__image
+    > span:first-child:not(.mli-program-related__wash):not(
+        .mli-program-related__arrow
+    ) {
     display: flex;
     width: 100%;
     height: 100%;
@@ -13739,7 +13774,9 @@ html[dir="rtl"] .mli-program-poster-caption {
     color: white;
     opacity: 0;
     transform: translateY(4px);
-    transition: opacity 220ms ease, transform 220ms ease;
+    transition:
+        opacity 220ms ease,
+        transform 220ms ease;
 }
 
 html[dir="rtl"] .mli-program-related__arrow {
@@ -14039,7 +14076,6 @@ html[dir="rtl"] .mli-program-legacy-cast__names {
     }
 }
 
-
 /* NEWSROOM REDESIGN — lead story first, then a compact scan-friendly grid. */
 .mli-news-grid--shows-style {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -14105,7 +14141,11 @@ html[dir="rtl"] .mli-program-legacy-cast__names {
     overflow: hidden;
     padding: clamp(14px, 2vw, 27px);
     background:
-        radial-gradient(circle at 90% 12%, rgba(255, 255, 255, 0.58), transparent 32%),
+        radial-gradient(
+            circle at 90% 12%,
+            rgba(255, 255, 255, 0.58),
+            transparent 32%
+        ),
         linear-gradient(135deg, #e3e8e6 0%, #cad8dc 100%);
     color: #2f4156;
 }
@@ -14134,13 +14174,21 @@ html[dir="rtl"] .mli-program-legacy-cast__names {
 
 .mli-news-artwork--media {
     background:
-        radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.48), transparent 34%),
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(255, 255, 255, 0.48),
+            transparent 34%
+        ),
         linear-gradient(135deg, #d3e0e3 0%, #a9c2cb 100%);
 }
 
 .mli-news-artwork--mli {
     background:
-        radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.7), transparent 34%),
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(255, 255, 255, 0.7),
+            transparent 34%
+        ),
         linear-gradient(135deg, #eee6d7 0%, #d8d9d1 100%);
 }
 
@@ -14186,8 +14234,7 @@ html[dir="rtl"] .mli-program-legacy-cast__names {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 34px 18px;
     }
-
-    }
+}
 
 @media (max-width: 640px) {
     .mli-news-grid--shows-style {
@@ -14268,7 +14315,6 @@ html[dir="rtl"] .mli-program-legacy-cast__names {
     color: #2f4156;
 }
 
-
 /* NEWS GRID - two article cards per row. */
 .mli-news-page .mli-shows-grid.mli-news-grid--shows-style {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -14302,7 +14348,6 @@ html.mli-reduced-motion [data-page-reveal] {
     transform: none;
     transition: none;
 }
-
 
 /* NEWSROOM — horizontal story cards: image beside the title and excerpt. */
 .mli-news-page .mli-shows-grid.mli-news-grid--shows-style {
@@ -14448,7 +14493,6 @@ html.mli-reduced-motion [data-page-reveal] {
         display: none;
     }
 }
-
 
 /* NEWS ARTICLE PAGE — cleaner editorial hierarchy and reading flow. */
 .mli-news-article {
@@ -14619,7 +14663,6 @@ html.mli-reduced-motion [data-page-reveal] {
         aspect-ratio: 16 / 9;
     }
 }
-
 
 /* Keep the article image aligned with the article's approximately 1200px content width. */
 .mli-news-article__hero .container {

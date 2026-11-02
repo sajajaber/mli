@@ -301,6 +301,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const nav = document.querySelector('.mli-nav');
+
+    if (!nav) return;
+
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('is-scrolled', window.scrollY > 50);
+    });
+});
+
 
 
 Alpine.start();

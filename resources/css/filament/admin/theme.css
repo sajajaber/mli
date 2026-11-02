@@ -196,6 +196,25 @@
     transition: background-color 140ms ease;
 }
 
+.fi-ta-row .fi-ta-record-checkbox {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 140ms ease;
+}
+
+.fi-ta-row:hover .fi-ta-record-checkbox,
+.fi-ta-row:focus-within .fi-ta-record-checkbox {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+@media (hover: none) {
+    .fi-ta-row .fi-ta-record-checkbox {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
 .fi-ta-row:hover {
     background: rgba(220, 234, 250, 0.28) !important;
 }
@@ -2863,17 +2882,17 @@
 }
 
 
-/* ---------------------------------------------------------
-   Category hierarchy: make parent rows visibly distinct.
-   The class is applied to the table row; coloring its cells
-   ensures the background remains visible in Filament tables.
-   --------------------------------------------------------- */
-.fi-ta-row.mli-parent-category-row > td {
-    background-color: #efe2d048 !important;
+/* Category families share a hue, with one distinct hue per parent. */
+.fi-ta-row.mli-category-colored-row > td:first-child {
+    background-color: hsl(var(--mli-category-hue) 72% 95%) !important;
 }
 
-.fi-ta-row.mli-parent-category-row:hover > td {
-    background-color: #efe2d075 !important;
+.fi-ta-row.mli-category-colored-row > td:first-child .fi-ta-text-item {
+    color: hsl(var(--mli-category-hue) 50% 30%) !important;
+}
+
+.fi-ta-row.mli-category-colored-row:hover > td:first-child {
+    background-color: hsl(var(--mli-category-hue) 72% 88%) !important;
 }
 
 

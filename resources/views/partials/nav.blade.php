@@ -1,8 +1,13 @@
 <nav x-data="{ scrolled: false, menuOpen: false }" x-init="scrolled = window.scrollY > 30; window.addEventListener('scroll', () => scrolled = window.scrollY > 30, { passive: true })" :class="scrolled ? 'mli-nav mli-nav--scrolled' : 'mli-nav'" aria-label="{{ app()->getLocale() === 'ar' ? 'التنقل الرئيسي' : 'Main navigation' }}">
     <div class="mli-nav__inner">
         <a href="{{ route('home') }}" class="mli-nav__brand" aria-label="Media Link International">
-            <span>MLI</span>
-            <small>MEDIA LINK<br>INTERNATIONAL</small>
+            <img class="mli-logo mli-logo--top"
+                src="{{ asset('images/mli_white.png') }}"
+                alt="Media Link International">
+
+            <img class="mli-logo mli-logo--scrolled"
+                src="{{ asset('images/mli_navy.png') }}"
+                alt="">
         </a>
 
         <div class="mli-nav__center">

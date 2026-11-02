@@ -2,17 +2,20 @@
 
 namespace App\Filament\Resources\Genres;
 
+use App\Filament\Concerns\HasRecordPreviewActions;
 use App\Filament\Resources\Genres\Pages\CreateGenre;
 use App\Filament\Resources\Genres\Pages\EditGenre;
 use App\Filament\Resources\Genres\Pages\ListGenres;
 use App\Models\Category;
 use App\Models\Genre;
 use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -23,6 +26,8 @@ use UnitEnum;
 
 class GenreResource extends Resource
 {
+    use HasRecordPreviewActions;
+
     protected static ?string $model = Genre::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTag;
@@ -93,6 +98,9 @@ class GenreResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordAction('view')
+            ->recordUrl(null)
+            ->stackedOnMobile()
             ->modifyQueryUsing(fn (Builder $query) => $query->with('category')->withCount('shows')->orderBy('category_id')->orderBy('name_en'))
             ->columns([
                 TextColumn::make('name_en')
@@ -100,7 +108,6 @@ class GenreResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-            ->stackedOnMobile()
                 TextColumn::make('name_ar')
                     ->label('Name (Arabic)')
                     ->searchable(),
@@ -119,13 +126,14 @@ class GenreResource extends Resource
             ])
             ->filters([])
             ->recordActions([
-                \Filament\Actions\EditAction::make(),
-                \Filament\Actions\DeleteAction::make()
+                static::recordPreviewAction(),
+                static::recordEditAction(),
+                DeleteAction::make()
                     ->modalDescription('Deleting a genre removes that genre from every assigned library item.'),
             ])
             ->toolbarActions([
-                \Filament\Actions\BulkActionGroup::make([
-                    \Filament\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
