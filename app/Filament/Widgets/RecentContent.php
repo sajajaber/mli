@@ -24,6 +24,7 @@ class RecentContent extends BaseWidget
             )
             ->paginated(false)
             ->columns([
+            ->stackedOnMobile()
                 TextColumn::make('title_en')->label('Title'),
                 TextColumn::make('status')
                     ->badge()

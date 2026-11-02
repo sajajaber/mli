@@ -70,7 +70,7 @@ class ShowResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Grid::make(12)
+            Grid::make(['default' => 1, 'xl' => 12])
                 ->columnSpanFull()
                 ->schema([
                     Grid::make(1)
@@ -674,6 +674,7 @@ class ShowResource extends Resource
         return $table
             ->recordAction('view')
             ->recordUrl(null)
+            ->stackedOnMobile()
             ->columns([
                 ImageColumn::make('cover_image_path')
                     ->label('Cover')

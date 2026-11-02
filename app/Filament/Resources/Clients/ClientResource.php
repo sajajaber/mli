@@ -71,6 +71,7 @@ class ClientResource extends Resource
 
                 TextColumn::make('sort_order')
                     ->sortable()
+            ->stackedOnMobile()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('sort_order')

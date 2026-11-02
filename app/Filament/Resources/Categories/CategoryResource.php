@@ -124,6 +124,7 @@ class CategoryResource extends Resource
                         fn (Category $record): array => $record->parent_id
                             ? ['style' => 'padding-inline-start: 2.5rem;']
                             : [],
+            ->stackedOnMobile()
                     )
                     ->weight(fn (Category $record): string => $record->parent_id ? 'normal' : 'semibold')
                     ->searchable(),

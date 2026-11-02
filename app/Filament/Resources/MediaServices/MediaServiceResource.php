@@ -36,7 +36,7 @@ class MediaServiceResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Grid::make(12)
+            Grid::make(['default' => 1, 'xl' => 12])
                 ->columnSpanFull()
                 ->schema([
                     Section::make('Service Information')
@@ -110,6 +110,7 @@ class MediaServiceResource extends Resource
 
                 TextColumn::make('title_ar')
                     ->label('Service (Arabic)')
+            ->stackedOnMobile()
                     ->searchable(),
 
                 IconColumn::make('is_active')

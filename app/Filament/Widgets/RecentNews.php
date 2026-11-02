@@ -22,6 +22,7 @@ class RecentNews extends BaseWidget
             ->query(News::query()->latest()->limit(5))
             ->paginated(false)
             ->columns([
+            ->stackedOnMobile()
                 TextColumn::make('title_en')->label('Title'),
                 TextColumn::make('status')
                     ->badge()

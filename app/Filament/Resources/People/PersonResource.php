@@ -93,6 +93,7 @@ class PersonResource extends Resource
                 TextColumn::make('name')->label('Name (English)')->searchable()->sortable(),
                 TextColumn::make('role_title')->label('Role (English)')->searchable(),
 
+            ->stackedOnMobile()
                 IconColumn::make('is_active')
                     ->label('Active')
                     ->boolean(),

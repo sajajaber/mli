@@ -44,7 +44,7 @@ class SiteContentResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Grid::make(12)
+            Grid::make(['default' => 1, 'xl' => 12])
                 ->columnSpanFull()
                 ->schema([
                     Section::make('Content')
@@ -150,6 +150,7 @@ class SiteContentResource extends Resource
                 static::statusColumn(),
                 TextColumn::make('published_at')->dateTime()->sortable()->toggleable(),
             ])
+            ->stackedOnMobile()
             ->filters([
                 SelectFilter::make('status')->options([
                     'draft' => 'Draft',

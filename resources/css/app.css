@@ -4794,11 +4794,25 @@ html.mli-public-home .mli-catalogue__bottom a:hover {
 
 .mli-library-marquee__item {
     position: relative;
+    flex-basis: 210px;
+    width: 210px;
+    isolation: isolate;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
     min-width: 210px;
     padding: 24px 22px 28px;
+}
+
+.mli-library-marquee__item::after {
+    position: absolute;
+    inset-inline: 22px;
+    bottom: 28px;
+    z-index: 1;
+    height: 45%;
+    background: linear-gradient(transparent, rgba(8, 26, 49, 0.82));
+    content: "";
+    pointer-events: none;
 }
 
 .mli-library-marquee__thumb {
@@ -4808,21 +4822,28 @@ html.mli-public-home .mli-catalogue__bottom a:hover {
 }
 
 .mli-library-marquee__copy {
+    position: absolute;
+    inset-inline: 22px 54px;
+    bottom: 28px;
+    z-index: 2;
     gap: 7px;
-    padding-top: 15px;
-    padding-right: 34px;
+    padding-top: 48px;
+    color: #fff;
 }
 
 .mli-library-marquee__copy strong {
     max-width: 100%;
     overflow: visible;
+    color: #fff;
     font-size: clamp(20px, 2vw, 27px);
     line-height: 0.95;
     white-space: normal;
     text-overflow: clip;
+    text-shadow: 0 1px 5px rgba(8, 26, 49, 0.45);
 }
 
 .mli-library-marquee__copy small {
+    color: rgba(255, 255, 255, 0.86);
     font-size: 7px;
     letter-spacing: 0.13em;
 }
@@ -4850,17 +4871,25 @@ html.mli-public-home .mli-catalogue__bottom a:hover {
 
 @media (max-width: 700px) {
     .mli-library-marquee__item {
+        flex-basis: 170px;
+        width: 170px;
         min-width: 170px;
         padding: 18px 16px 22px;
     }
 
+    .mli-library-marquee__item::after {
+        inset-inline: 16px;
+        bottom: 22px;
+    }
+
     .mli-library-marquee__thumb {
-        height: 165px;
+        height: auto;
     }
 
     .mli-library-marquee__copy {
-        padding-top: 12px;
-        padding-right: 26px;
+        inset-inline: 16px 42px;
+        bottom: 22px;
+        padding-top: 42px;
     }
 
     .mli-library-marquee__copy strong {

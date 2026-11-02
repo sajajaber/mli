@@ -45,7 +45,7 @@ class NewsResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Grid::make(12)
+            Grid::make(['default' => 1, 'xl' => 12])
                 ->columnSpanFull()
                 ->schema([
                     Grid::make(1)
@@ -200,6 +200,7 @@ class NewsResource extends Resource
                 TextColumn::make('title_en')
                     ->label('Title (English)')
                     ->searchable()
+            ->stackedOnMobile()
                     ->sortable(),
 
                 TextColumn::make('news_type')

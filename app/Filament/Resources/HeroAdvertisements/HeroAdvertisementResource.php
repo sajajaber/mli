@@ -105,6 +105,7 @@ class HeroAdvertisementResource extends Resource
                         ->label('Hero Artwork')
                         ->disk('public')
                         ->height(220)
+            ->stackedOnMobile()
                         ->extraImgAttributes([
                             'class' => 'w-full rounded-xl object-cover',
                         ]),

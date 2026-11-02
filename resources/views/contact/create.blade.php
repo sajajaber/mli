@@ -54,7 +54,7 @@
                 @csrf
                 <input type="hidden" name="show_slug" value="{{ old('show_slug', $show?->slug) }}">
 
-                <div aria-hidden="true" class="absolute -left-[10000px] top-auto h-px w-px overflow-hidden">
+                <div aria-hidden="true" class="sr-only">
                     <label for="website">Leave this field empty</label>
                     <input id="website" type="text" name="website" tabindex="-1" autocomplete="off">
                 </div>

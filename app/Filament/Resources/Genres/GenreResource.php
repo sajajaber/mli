@@ -100,6 +100,7 @@ class GenreResource extends Resource
                     ->searchable()
                     ->sortable(),
 
+            ->stackedOnMobile()
                 TextColumn::make('name_ar')
                     ->label('Name (Arabic)')
                     ->searchable(),
